@@ -10,6 +10,31 @@ import DifficultySelector from "@/components/DifficultySelector";
 import ProgressBar from "@/components/ProgressBar";
 import QuizCard from "@/components/QuizCard";
 import ScoreDisplay from "@/components/ScoreDisplay";
+import AdBanner from "@/components/AdBanner";
+
+const FREE_DAILY_LIMIT = 10;
+const QUIZ_LIMIT_KEY = "otaku_daily_quizzes";
+
+const getQuizCountToday = (): number => {
+  try {
+    const stored = localStorage.getItem(QUIZ_LIMIT_KEY);
+    if (!stored) return 0;
+    const { date, count } = JSON.parse(stored);
+    if (date !== new Date().toDateString()) return 0;
+    return count;
+  } catch {
+    return 0;
+  }
+};
+
+const incrementQuizCount = () => {
+  const today = new Date().toDateString();
+  const count = getQuizCountToday() + 1;
+  localStorage.setItem(
+    QUIZ_LIMIT_KEY,
+    JSON.stringify({ date: today, count })
+  );
+};
 
 interface QuizClientProps {
   anime: AnimeSeries;
@@ -36,7 +61,12 @@ const QuizClient = ({ anime }: QuizClientProps) => {
   const [localDifficulty, setLocalDifficulty] = useState<Difficulty>("medium");
   const [timeLeft, setTimeLeft] = useState(30);
   const [copied, setCopied] = useState(false);
+  const [limitReached, setLimitReached] = useState(false);
   const questionStartRef = useRef(Date.now());
+
+  // Auth placeholders — will be connected when auth is implemented
+  const isPro = false;
+  const isJunior = false;
 
   // Timer countdown
   useEffect(() => {
@@ -82,6 +112,11 @@ const QuizClient = ({ anime }: QuizClientProps) => {
   }, [resetQuiz]);
 
   const handleStartQuiz = async () => {
+    if (!isPro && getQuizCountToday() >= FREE_DAILY_LIMIT) {
+      setLimitReached(true);
+      return;
+    }
+    incrementQuizCount();
     await startQuiz(anime.slug, localDifficulty);
   };
 
@@ -116,6 +151,9 @@ const QuizClient = ({ anime }: QuizClientProps) => {
 
   // STATE 1 - Pre-quiz setup
   if (quizStatus === "idle" || quizStatus === "loading") {
+    const quizzesToday = typeof window !== "undefined" ? getQuizCountToday() : 0;
+    const remaining = Math.max(FREE_DAILY_LIMIT - quizzesToday, 0);
+
     return (
       <div className="max-w-2xl mx-auto px-4 py-12">
         <motion.div
@@ -140,13 +178,38 @@ const QuizClient = ({ anime }: QuizClientProps) => {
             />
           </div>
 
-          <button
-            onClick={handleStartQuiz}
-            disabled={quizStatus === "loading"}
-            className="w-full max-w-sm mx-auto block px-6 py-4 text-lg font-bold rounded-xl bg-primary text-white hover:bg-primary/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            {quizStatus === "loading" ? "Loading..." : "Start Quiz"}
-          </button>
+          {/* Daily quiz counter */}
+          {!isPro && (
+            <p className="text-xs text-white/40 mb-4">
+              {remaining} of {FREE_DAILY_LIMIT} free quizzes remaining today
+            </p>
+          )}
+
+          {/* Limit reached */}
+          {limitReached ? (
+            <div className="max-w-sm mx-auto">
+              <div className="p-5 rounded-2xl bg-accent/10 border border-accent/30 mb-4">
+                <p className="font-semibold text-accent mb-1">Daily Limit Reached</p>
+                <p className="text-sm text-white/60">
+                  Free players get {FREE_DAILY_LIMIT} quizzes per day. Upgrade to Pro for unlimited quizzes!
+                </p>
+              </div>
+              <Link
+                href="/stats"
+                className="w-full block px-6 py-4 text-lg font-bold rounded-xl bg-primary text-white hover:bg-primary/90 transition-colors text-center"
+              >
+                Upgrade to Pro
+              </Link>
+            </div>
+          ) : (
+            <button
+              onClick={handleStartQuiz}
+              disabled={quizStatus === "loading"}
+              className="w-full max-w-sm mx-auto block px-6 py-4 text-lg font-bold rounded-xl bg-primary text-white hover:bg-primary/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {quizStatus === "loading" ? "Loading..." : "Start Quiz"}
+            </button>
+          )}
         </motion.div>
       </div>
     );
@@ -203,6 +266,9 @@ const QuizClient = ({ anime }: QuizClientProps) => {
             total={questions.length}
             xpEarned={xpEarned}
           />
+
+          {/* Ad banner — hidden for Pro and junior users */}
+          <AdBanner isPro={isPro} isJunior={isJunior} />
 
           <div className="grid grid-cols-2 gap-3 mt-8 max-w-sm mx-auto">
             <button

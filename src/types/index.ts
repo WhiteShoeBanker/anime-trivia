@@ -2,6 +2,12 @@ export type Difficulty = "easy" | "medium" | "hard";
 
 export type QuestionType = "multiple_choice" | "true_false" | "image_guess";
 
+export type SubscriptionTier = "free" | "pro";
+
+export type CosmeticType = "avatar_frame" | "badge" | "title" | "theme";
+
+export type CosmeticRarity = "common" | "rare" | "epic" | "legendary";
+
 export interface QuestionOption {
   text: string;
   isCorrect: boolean;
@@ -41,6 +47,8 @@ export interface UserProfile {
   current_streak: number;
   longest_streak: number;
   last_played_at: string | null;
+  subscription_tier: SubscriptionTier;
+  is_junior: boolean;
   created_at: string;
 }
 
@@ -64,4 +72,30 @@ export interface UserAnswer {
   selected_option: number | null;
   is_correct: boolean;
   time_taken_ms: number | null;
+}
+
+export interface StarLeagueWaitlist {
+  id: string;
+  email: string;
+  user_id: string | null;
+  signed_up_at: string;
+}
+
+export interface Cosmetic {
+  id: string;
+  name: string;
+  description: string | null;
+  type: CosmeticType;
+  rarity: CosmeticRarity;
+  price_coins: number;
+  image_url: string | null;
+  is_active: boolean;
+  created_at: string;
+}
+
+export interface UserCosmetic {
+  id: string;
+  user_id: string;
+  cosmetic_id: string;
+  purchased_at: string;
 }
