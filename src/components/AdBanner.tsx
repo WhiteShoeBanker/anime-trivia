@@ -3,10 +3,11 @@
 interface AdBannerProps {
   isPro?: boolean;
   isJunior?: boolean;
+  isVisible?: boolean;
 }
 
-const AdBanner = ({ isPro = false, isJunior = false }: AdBannerProps) => {
-  if (isPro || isJunior) return null;
+const AdBanner = ({ isPro = false, isJunior = false, isVisible = true }: AdBannerProps) => {
+  if (isPro || isJunior || !isVisible) return null;
 
   return (
     <div className="w-full max-w-2xl mx-auto mt-6">

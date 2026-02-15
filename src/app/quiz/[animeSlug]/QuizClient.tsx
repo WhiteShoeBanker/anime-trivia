@@ -6,13 +6,13 @@ import Link from "next/link";
 import type { AnimeSeries, Difficulty } from "@/types";
 import { useQuizStore } from "@/stores/quizStore";
 import { calculateMaxScore } from "@/lib/scoring";
+import { trackClientEvent } from "@/app/actions";
 import DifficultySelector from "@/components/DifficultySelector";
 import ProgressBar from "@/components/ProgressBar";
 import QuizCard from "@/components/QuizCard";
 import ScoreDisplay from "@/components/ScoreDisplay";
 import AdBanner from "@/components/AdBanner";
 
-const FREE_DAILY_LIMIT = 10;
 const QUIZ_LIMIT_KEY = "otaku_daily_quizzes";
 
 const getQuizCountToday = (): number => {
@@ -38,9 +38,15 @@ const incrementQuizCount = () => {
 
 interface QuizClientProps {
   anime: AnimeSeries;
+  freeQuizLimit?: number;
+  adVisible?: boolean;
 }
 
-const QuizClient = ({ anime }: QuizClientProps) => {
+const QuizClient = ({
+  anime,
+  freeQuizLimit = 10,
+  adVisible = true,
+}: QuizClientProps) => {
   const {
     quizStatus,
     difficulty,
@@ -112,11 +118,16 @@ const QuizClient = ({ anime }: QuizClientProps) => {
   }, [resetQuiz]);
 
   const handleStartQuiz = async () => {
-    if (!isPro && getQuizCountToday() >= FREE_DAILY_LIMIT) {
+    if (!isPro && getQuizCountToday() >= freeQuizLimit) {
       setLimitReached(true);
+      trackClientEvent("quiz_limit_hit", undefined, { anime: anime.slug });
       return;
     }
     incrementQuizCount();
+    trackClientEvent("quiz_started", undefined, {
+      anime: anime.slug,
+      difficulty: localDifficulty,
+    });
     await startQuiz(anime.slug, localDifficulty);
   };
 
@@ -152,7 +163,7 @@ const QuizClient = ({ anime }: QuizClientProps) => {
   // STATE 1 - Pre-quiz setup
   if (quizStatus === "idle" || quizStatus === "loading") {
     const quizzesToday = typeof window !== "undefined" ? getQuizCountToday() : 0;
-    const remaining = Math.max(FREE_DAILY_LIMIT - quizzesToday, 0);
+    const remaining = Math.max(freeQuizLimit - quizzesToday, 0);
 
     return (
       <div className="max-w-2xl mx-auto px-4 py-12">
@@ -181,7 +192,7 @@ const QuizClient = ({ anime }: QuizClientProps) => {
           {/* Daily quiz counter */}
           {!isPro && (
             <p className="text-xs text-white/40 mb-4">
-              {remaining} of {FREE_DAILY_LIMIT} free quizzes remaining today
+              {remaining} of {freeQuizLimit} free quizzes remaining today
             </p>
           )}
 
@@ -191,7 +202,7 @@ const QuizClient = ({ anime }: QuizClientProps) => {
               <div className="p-5 rounded-2xl bg-accent/10 border border-accent/30 mb-4">
                 <p className="font-semibold text-accent mb-1">Daily Limit Reached</p>
                 <p className="text-sm text-white/60">
-                  Free players get {FREE_DAILY_LIMIT} quizzes per day. Upgrade to Pro for unlimited quizzes!
+                  Free players get {freeQuizLimit} quizzes per day. Upgrade to Pro for unlimited quizzes!
                 </p>
               </div>
               <Link
@@ -243,6 +254,20 @@ const QuizClient = ({ anime }: QuizClientProps) => {
     );
   }
 
+  // Track quiz completion
+  useEffect(() => {
+    if (quizStatus === "completed") {
+      const correctCount = answers.filter((a) => a.isCorrect).length;
+      trackClientEvent("quiz_completed", undefined, {
+        anime: anime.slug,
+        difficulty,
+        correct: correctCount,
+        total: questions.length,
+        xpEarned,
+      });
+    }
+  }, [quizStatus]); // eslint-disable-line react-hooks/exhaustive-deps
+
   // STATE 3 - Completed
   if (quizStatus === "completed") {
     const correctCount = answers.filter((a) => a.isCorrect).length;
@@ -267,8 +292,8 @@ const QuizClient = ({ anime }: QuizClientProps) => {
             xpEarned={xpEarned}
           />
 
-          {/* Ad banner — hidden for Pro and junior users */}
-          <AdBanner isPro={isPro} isJunior={isJunior} />
+          {/* Ad banner — hidden for Pro, junior users, or when admin disables */}
+          <AdBanner isPro={isPro} isJunior={isJunior} isVisible={adVisible} />
 
           <div className="grid grid-cols-2 gap-3 mt-8 max-w-sm mx-auto">
             <button

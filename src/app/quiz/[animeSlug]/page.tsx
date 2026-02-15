@@ -1,4 +1,5 @@
 import { getAnimeBySlug } from "@/lib/queries";
+import { getConfig } from "@/lib/admin-config";
 import type { AnimeSeries } from "@/types";
 import { notFound } from "next/navigation";
 import QuizClient from "./QuizClient";
@@ -20,5 +21,21 @@ export default async function QuizPage({ params }: Props) {
 
   if (!anime) notFound();
 
-  return <QuizClient anime={anime} />;
+  let freeQuizLimit = 10;
+  let adVisible = true;
+
+  try {
+    freeQuizLimit = await getConfig<number>("free_quiz_limit");
+    adVisible = await getConfig<boolean>("ad_visibility");
+  } catch {
+    // Config unavailable — use defaults
+  }
+
+  return (
+    <QuizClient
+      anime={anime}
+      freeQuizLimit={freeQuizLimit}
+      adVisible={adVisible}
+    />
+  );
 }
