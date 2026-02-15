@@ -1,0 +1,362 @@
+[
+  {
+    "question_text": "What is the name of the main character in My Hero Academia?",
+    "question_type": "multiple_choice",
+    "difficulty": "easy",
+    "options": [
+      { "text": "Izuku Midoriya", "isCorrect": true },
+      { "text": "Katsuki Bakugo", "isCorrect": false },
+      { "text": "Shoto Todoroki", "isCorrect": false },
+      { "text": "Tenya Iida", "isCorrect": false }
+    ],
+    "explanation": "Izuku Midoriya, also known by his hero name Deku, is the main protagonist of My Hero Academia."
+  },
+  {
+    "question_text": "What is the superpower system called in My Hero Academia?",
+    "question_type": "multiple_choice",
+    "difficulty": "easy",
+    "options": [
+      { "text": "Stands", "isCorrect": false },
+      { "text": "Quirks", "isCorrect": true },
+      { "text": "Nen", "isCorrect": false },
+      { "text": "Jutsu", "isCorrect": false }
+    ],
+    "explanation": "In the world of My Hero Academia, superpowers are called Quirks. About 80% of the population is born with one."
+  },
+  {
+    "question_text": "Who is the #1 hero and Deku's idol?",
+    "question_type": "multiple_choice",
+    "difficulty": "easy",
+    "options": [
+      { "text": "Endeavor", "isCorrect": false },
+      { "text": "Best Jeanist", "isCorrect": false },
+      { "text": "All Might", "isCorrect": true },
+      { "text": "Hawks", "isCorrect": false }
+    ],
+    "explanation": "All Might is the Symbol of Peace and the #1 ranked hero. He is Deku's greatest inspiration and the reason Deku wants to become a hero."
+  },
+  {
+    "question_text": "What is the name of the prestigious hero school that Deku attends?",
+    "question_type": "multiple_choice",
+    "difficulty": "easy",
+    "options": [
+      { "text": "Shiketsu High School", "isCorrect": false },
+      { "text": "U.A. High School", "isCorrect": true },
+      { "text": "Ketsubutsu Academy", "isCorrect": false },
+      { "text": "Isamu Academy", "isCorrect": false }
+    ],
+    "explanation": "U.A. High School is the top hero academy in Japan and one of the most prestigious hero schools in the world."
+  },
+  {
+    "question_text": "What is All Might's real name?",
+    "question_type": "multiple_choice",
+    "difficulty": "easy",
+    "options": [
+      { "text": "Enji Todoroki", "isCorrect": false },
+      { "text": "Toshinori Yagi", "isCorrect": true },
+      { "text": "Keigo Takami", "isCorrect": false },
+      { "text": "Mirai Sasaki", "isCorrect": false }
+    ],
+    "explanation": "All Might's true identity is Toshinori Yagi. He keeps a frail, skeletal true form hidden from the public after suffering a severe injury."
+  },
+  {
+    "question_text": "What is Bakugo's Quirk?",
+    "question_type": "multiple_choice",
+    "difficulty": "easy",
+    "options": [
+      { "text": "Hellflame", "isCorrect": false },
+      { "text": "Explosion", "isCorrect": true },
+      { "text": "Cremation", "isCorrect": false },
+      { "text": "Impact Recoil", "isCorrect": false }
+    ],
+    "explanation": "Bakugo's Quirk is Explosion, which allows him to secrete nitroglycerin-like sweat from his palms and ignite it at will to create powerful explosions."
+  },
+  {
+    "question_text": "Who is the main villain introduced in the first season of My Hero Academia?",
+    "question_type": "multiple_choice",
+    "difficulty": "easy",
+    "options": [
+      { "text": "Stain", "isCorrect": false },
+      { "text": "Overhaul", "isCorrect": false },
+      { "text": "Tomura Shigaraki", "isCorrect": true },
+      { "text": "Dabi", "isCorrect": false }
+    ],
+    "explanation": "Tomura Shigaraki is the primary antagonist introduced during the USJ attack in Season 1. He leads the League of Villains."
+  },
+  {
+    "question_text": "What is Deku's Quirk called?",
+    "question_type": "multiple_choice",
+    "difficulty": "easy",
+    "options": [
+      { "text": "All For One", "isCorrect": false },
+      { "text": "One For All", "isCorrect": true },
+      { "text": "Full Cowling", "isCorrect": false },
+      { "text": "Super Strength", "isCorrect": false }
+    ],
+    "explanation": "Deku's Quirk is called One For All, a powerful Quirk passed down to him by All Might. Full Cowling is a technique he uses to control it, not the Quirk itself."
+  },
+  {
+    "question_text": "What class is Deku assigned to at U.A. High School?",
+    "question_type": "multiple_choice",
+    "difficulty": "easy",
+    "options": [
+      { "text": "Class 1-B", "isCorrect": false },
+      { "text": "Class 1-A", "isCorrect": true },
+      { "text": "Class 2-A", "isCorrect": false },
+      { "text": "Class 1-C", "isCorrect": false }
+    ],
+    "explanation": "Deku is a student in Class 1-A, the hero course class taught by Shota Aizawa (Eraser Head). Class 1-A is considered one of the top hero classes at U.A."
+  },
+  {
+    "question_text": "What is the name of Deku's childhood friend and rival?",
+    "question_type": "multiple_choice",
+    "difficulty": "easy",
+    "options": [
+      { "text": "Shoto Todoroki", "isCorrect": false },
+      { "text": "Eijiro Kirishima", "isCorrect": false },
+      { "text": "Tenya Iida", "isCorrect": false },
+      { "text": "Katsuki Bakugo", "isCorrect": true }
+    ],
+    "explanation": "Katsuki Bakugo has known Deku since childhood. Their relationship is complex -- Bakugo bullied Deku for being Quirkless but they eventually develop a deep mutual respect."
+  },
+  {
+    "question_text": "What makes One For All unique compared to most other Quirks?",
+    "question_type": "multiple_choice",
+    "difficulty": "medium",
+    "options": [
+      { "text": "It can only be used once per day", "isCorrect": false },
+      { "text": "It can be passed from one person to another, stockpiling power with each generation", "isCorrect": true },
+      { "text": "It only activates during a full moon", "isCorrect": false },
+      { "text": "It requires a special device to activate", "isCorrect": false }
+    ],
+    "explanation": "One For All is a transferable Quirk that stockpiles power. Each successive user adds their own strength to it before passing it on, making it stronger with every generation."
+  },
+  {
+    "question_text": "Who is the homeroom teacher of Class 1-A?",
+    "question_type": "multiple_choice",
+    "difficulty": "medium",
+    "options": [
+      { "text": "Present Mic", "isCorrect": false },
+      { "text": "Midnight", "isCorrect": false },
+      { "text": "Shota Aizawa (Eraser Head)", "isCorrect": true },
+      { "text": "All Might", "isCorrect": false }
+    ],
+    "explanation": "Shota Aizawa, the pro hero known as Eraser Head, is the homeroom teacher of Class 1-A. His Quirk, Erasure, allows him to nullify others' Quirks by looking at them."
+  },
+  {
+    "question_text": "What is Shoto Todoroki's Quirk?",
+    "question_type": "multiple_choice",
+    "difficulty": "medium",
+    "options": [
+      { "text": "Hellflame", "isCorrect": false },
+      { "text": "Half-Cold Half-Hot", "isCorrect": true },
+      { "text": "Cremation", "isCorrect": false },
+      { "text": "Ice Wall", "isCorrect": false }
+    ],
+    "explanation": "Todoroki's Quirk is Half-Cold Half-Hot. He can generate ice from his right side and fire from his left side. He inherited aspects of both his father Endeavor's and his mother's Quirks."
+  },
+  {
+    "question_text": "What is the name of the villain organization led by Tomura Shigaraki?",
+    "question_type": "multiple_choice",
+    "difficulty": "medium",
+    "options": [
+      { "text": "The Paranormal Liberation Front", "isCorrect": false },
+      { "text": "The Shie Hassaikai", "isCorrect": false },
+      { "text": "League of Villains", "isCorrect": true },
+      { "text": "The Meta Liberation Army", "isCorrect": false }
+    ],
+    "explanation": "The League of Villains is the criminal organization originally formed under All For One's influence and later led by Shigaraki. It later merges with the Meta Liberation Army to form the Paranormal Liberation Front."
+  },
+  {
+    "question_text": "What is Tomura Shigaraki's Quirk?",
+    "question_type": "multiple_choice",
+    "difficulty": "medium",
+    "options": [
+      { "text": "Disintegration", "isCorrect": false },
+      { "text": "Decay", "isCorrect": true },
+      { "text": "Erosion", "isCorrect": false },
+      { "text": "Warp Gate", "isCorrect": false }
+    ],
+    "explanation": "Shigaraki's Quirk is called Decay. It allows him to disintegrate anything he touches with all five fingers. As he grows stronger, the Quirk evolves to spread beyond direct contact."
+  },
+  {
+    "question_text": "Who wins the U.A. Sports Festival tournament in Season 2?",
+    "question_type": "multiple_choice",
+    "difficulty": "medium",
+    "options": [
+      { "text": "Izuku Midoriya", "isCorrect": false },
+      { "text": "Shoto Todoroki", "isCorrect": false },
+      { "text": "Katsuki Bakugo", "isCorrect": true },
+      { "text": "Fumikage Tokoyami", "isCorrect": false }
+    ],
+    "explanation": "Bakugo wins the Sports Festival tournament, but he is furious about the victory because Todoroki did not use his fire side in their final match, meaning Bakugo felt he did not earn a true win."
+  },
+  {
+    "question_text": "What is the name of the hero killer who targets heroes he considers unworthy?",
+    "question_type": "multiple_choice",
+    "difficulty": "medium",
+    "options": [
+      { "text": "Gentle Criminal", "isCorrect": false },
+      { "text": "Stain", "isCorrect": true },
+      { "text": "Muscular", "isCorrect": false },
+      { "text": "Moonfish", "isCorrect": false }
+    ],
+    "explanation": "Stain, whose real name is Chizome Akaguro, is the Hero Killer. He believes most pro heroes are fakes motivated by money and fame rather than true justice, and he targets those he deems unworthy."
+  },
+  {
+    "question_text": "What is Ochaco Uraraka's Quirk?",
+    "question_type": "multiple_choice",
+    "difficulty": "medium",
+    "options": [
+      { "text": "Levitation", "isCorrect": false },
+      { "text": "Telekinesis", "isCorrect": false },
+      { "text": "Zero Gravity", "isCorrect": true },
+      { "text": "Float", "isCorrect": false }
+    ],
+    "explanation": "Uraraka's Quirk is Zero Gravity. She can make objects weightless by touching them with the pads on her fingertips. Using it too much on herself causes nausea."
+  },
+  {
+    "question_text": "Who is the principal of U.A. High School?",
+    "question_type": "multiple_choice",
+    "difficulty": "medium",
+    "options": [
+      { "text": "All Might", "isCorrect": false },
+      { "text": "Recovery Girl", "isCorrect": false },
+      { "text": "Nezu", "isCorrect": true },
+      { "text": "Gran Torino", "isCorrect": false }
+    ],
+    "explanation": "Nezu is the principal of U.A. High School. He is a rare case of an animal who developed a Quirk (High Specs), giving him superintelligence far beyond any human."
+  },
+  {
+    "question_text": "What is the name of All Might's nemesis and the most powerful villain in the series?",
+    "question_type": "multiple_choice",
+    "difficulty": "medium",
+    "options": [
+      { "text": "Tomura Shigaraki", "isCorrect": false },
+      { "text": "Stain", "isCorrect": false },
+      { "text": "Overhaul", "isCorrect": false },
+      { "text": "All For One", "isCorrect": true }
+    ],
+    "explanation": "All For One is the most dangerous villain in the series and All Might's arch-nemesis. He can steal and redistribute Quirks, and he is the one who gave All Might the injury that limited his hero form."
+  },
+  {
+    "question_text": "How many users of One For All were there before Deku?",
+    "question_type": "multiple_choice",
+    "difficulty": "hard",
+    "options": [
+      { "text": "Six", "isCorrect": false },
+      { "text": "Seven", "isCorrect": false },
+      { "text": "Eight", "isCorrect": true },
+      { "text": "Nine", "isCorrect": false }
+    ],
+    "explanation": "There were eight users before Deku, making him the ninth holder of One For All. The first user was Yoichi Shigaraki, and the eighth was All Might."
+  },
+  {
+    "question_text": "What is notable about the name of All For One's Quirk?",
+    "question_type": "multiple_choice",
+    "difficulty": "hard",
+    "options": [
+      { "text": "It changes name depending on which Quirk he last stole", "isCorrect": false },
+      { "text": "The Quirk shares the same name as the villain himself -- All For One", "isCorrect": true },
+      { "text": "It has no official name and is simply called 'the nameless Quirk'", "isCorrect": false },
+      { "text": "Its true name is Steal and Transfer", "isCorrect": false }
+    ],
+    "explanation": "The villain All For One is named after his own Quirk, which is also called All For One. This Quirk allows him to steal other people's Quirks and give them to others, the inverse of One For All."
+  },
+  {
+    "question_text": "What is Endeavor's real name?",
+    "question_type": "multiple_choice",
+    "difficulty": "hard",
+    "options": [
+      { "text": "Enji Todoroki", "isCorrect": true },
+      { "text": "Keigo Takami", "isCorrect": false },
+      { "text": "Tsunagu Hakamata", "isCorrect": false },
+      { "text": "Shinya Kamihara", "isCorrect": false }
+    ],
+    "explanation": "Endeavor's real name is Enji Todoroki. He is Shoto Todoroki's father and was the #2 hero for most of his career before becoming #1 after All Might's retirement."
+  },
+  {
+    "question_text": "What are the names of the Big Three at U.A. High School?",
+    "question_type": "multiple_choice",
+    "difficulty": "hard",
+    "options": [
+      { "text": "Mirio Togata, Nejire Hado, and Tamaki Amajiki", "isCorrect": true },
+      { "text": "Mirio Togata, Nejire Hado, and Hitoshi Shinso", "isCorrect": false },
+      { "text": "Tamaki Amajiki, Nejire Hado, and Inasa Yoarashi", "isCorrect": false },
+      { "text": "Mirio Togata, Tamaki Amajiki, and Bibimi Kenranzaki", "isCorrect": false }
+    ],
+    "explanation": "The Big Three are the top three students at U.A.: Mirio Togata (Lemillion), Nejire Hado (Nejire Chan), and Tamaki Amajiki (Suneater). They are third-year students regarded as the strongest in the school."
+  },
+  {
+    "question_text": "What is Mirio Togata's Quirk called?",
+    "question_type": "multiple_choice",
+    "difficulty": "hard",
+    "options": [
+      { "text": "Phasing", "isCorrect": false },
+      { "text": "Permeation", "isCorrect": true },
+      { "text": "Intangibility", "isCorrect": false },
+      { "text": "Ghostwalk", "isCorrect": false }
+    ],
+    "explanation": "Mirio's Quirk is called Permeation. It allows him to phase through solid matter. Despite being extremely difficult to control, Mirio mastered it to the point where he was considered the closest hero to surpassing All Might."
+  },
+  {
+    "question_text": "What is the name of the government organization that oversees hero licensing and regulation?",
+    "question_type": "multiple_choice",
+    "difficulty": "hard",
+    "options": [
+      { "text": "The Hero Association", "isCorrect": false },
+      { "text": "Hero Public Safety Commission", "isCorrect": true },
+      { "text": "The Pro Hero Bureau", "isCorrect": false },
+      { "text": "Quirk Regulatory Authority", "isCorrect": false }
+    ],
+    "explanation": "The Hero Public Safety Commission (HPSC) is the government body responsible for managing and regulating pro heroes, issuing hero licenses, and coordinating hero operations across Japan."
+  },
+  {
+    "question_text": "After his injury from fighting All For One, what was approximately All Might's daily time limit for maintaining his hero form?",
+    "question_type": "multiple_choice",
+    "difficulty": "hard",
+    "options": [
+      { "text": "About 1 hour per day", "isCorrect": false },
+      { "text": "About 3 hours per day", "isCorrect": true },
+      { "text": "About 6 hours per day", "isCorrect": false },
+      { "text": "About 30 minutes per day", "isCorrect": false }
+    ],
+    "explanation": "After his devastating fight with All For One that destroyed his stomach and respiratory system, All Might could only maintain his muscular hero form for about 3 hours per day, and this time limit gradually decreased."
+  },
+  {
+    "question_text": "What is Eri's Quirk and why is it significant to the villain Overhaul?",
+    "question_type": "multiple_choice",
+    "difficulty": "hard",
+    "options": [
+      { "text": "Heal -- she can heal any wound, and Overhaul uses her blood to create healing serums", "isCorrect": false },
+      { "text": "Rewind -- she can revert a person's body to a previous state, and Overhaul uses her to manufacture Quirk-destroying bullets", "isCorrect": true },
+      { "text": "Time Stop -- she can freeze time around her, and Overhaul uses her power to avoid capture", "isCorrect": false },
+      { "text": "Copy -- she can duplicate any Quirk, and Overhaul uses her to stockpile Quirks", "isCorrect": false }
+    ],
+    "explanation": "Eri's Quirk is Rewind, which allows her to revert a living being's body to a previous state. Overhaul (Kai Chisaki) exploited Eri by using her body to create bullets that could permanently destroy a person's Quirk."
+  },
+  {
+    "question_text": "Who was the original first user of One For All?",
+    "question_type": "multiple_choice",
+    "difficulty": "hard",
+    "options": [
+      { "text": "Hikage Shinomori", "isCorrect": false },
+      { "text": "Daigoro Banjo", "isCorrect": false },
+      { "text": "Yoichi Shigaraki", "isCorrect": true },
+      { "text": "Nana Shimura", "isCorrect": false }
+    ],
+    "explanation": "Yoichi Shigaraki was the first holder of One For All. He was All For One's younger brother who was thought to be Quirkless. When All For One forcibly gave him a stockpiling Quirk, it merged with a hidden transfer Quirk Yoichi already had, creating One For All."
+  },
+  {
+    "question_text": "What is the pro hero Hawks' real name?",
+    "question_type": "multiple_choice",
+    "difficulty": "hard",
+    "options": [
+      { "text": "Takami Keigo", "isCorrect": false },
+      { "text": "Keigo Takami", "isCorrect": true },
+      { "text": "Rumi Usagiyama", "isCorrect": false },
+      { "text": "Shinji Nishiya", "isCorrect": false }
+    ],
+    "explanation": "Hawks' real name is Keigo Takami. He is the #2 ranked pro hero (later #1 in some rankings) known for his Fierce Wings Quirk. He works as a double agent infiltrating the villain side on behalf of the Hero Public Safety Commission."
+  }
+]

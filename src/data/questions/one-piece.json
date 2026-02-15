@@ -1,0 +1,362 @@
+[
+  {
+    "question_text": "What is Monkey D. Luffy's ultimate dream?",
+    "question_type": "multiple_choice",
+    "difficulty": "easy",
+    "options": [
+      { "text": "To become King of the Pirates", "isCorrect": true },
+      { "text": "To become the strongest swordsman", "isCorrect": false },
+      { "text": "To find the All Blue", "isCorrect": false },
+      { "text": "To draw a map of the entire world", "isCorrect": false }
+    ],
+    "explanation": "Luffy's lifelong dream, inspired by the pirate Shanks, is to find the One Piece and become the King of the Pirates."
+  },
+  {
+    "question_text": "What is the name of Luffy's pirate crew?",
+    "question_type": "multiple_choice",
+    "difficulty": "easy",
+    "options": [
+      { "text": "Red Hair Pirates", "isCorrect": false },
+      { "text": "Straw Hat Pirates", "isCorrect": true },
+      { "text": "Heart Pirates", "isCorrect": false },
+      { "text": "Sun Pirates", "isCorrect": false }
+    ],
+    "explanation": "Luffy's crew is called the Straw Hat Pirates, named after the iconic straw hat given to him by Shanks."
+  },
+  {
+    "question_text": "What Devil Fruit did Luffy eat as a child?",
+    "question_type": "multiple_choice",
+    "difficulty": "easy",
+    "options": [
+      { "text": "Flame-Flame Fruit (Mera Mera no Mi)", "isCorrect": false },
+      { "text": "Gum-Gum Fruit (Gomu Gomu no Mi)", "isCorrect": true },
+      { "text": "Chop-Chop Fruit (Bara Bara no Mi)", "isCorrect": false },
+      { "text": "Smoke-Smoke Fruit (Moku Moku no Mi)", "isCorrect": false }
+    ],
+    "explanation": "Luffy ate the Gum-Gum Fruit (Gomu Gomu no Mi) as a child, which turned his body into rubber."
+  },
+  {
+    "question_text": "What is the name of the legendary treasure that all pirates are searching for?",
+    "question_type": "multiple_choice",
+    "difficulty": "easy",
+    "options": [
+      { "text": "The Grand Treasure", "isCorrect": false },
+      { "text": "The Devil's Bounty", "isCorrect": false },
+      { "text": "One Piece", "isCorrect": true },
+      { "text": "The Pirate's Gold", "isCorrect": false }
+    ],
+    "explanation": "The One Piece is the legendary treasure left behind by the Pirate King, Gol D. Roger, at the final island of the Grand Line."
+  },
+  {
+    "question_text": "Who is the swordsman of the Straw Hat crew?",
+    "question_type": "multiple_choice",
+    "difficulty": "easy",
+    "options": [
+      { "text": "Sanji", "isCorrect": false },
+      { "text": "Brook", "isCorrect": false },
+      { "text": "Roronoa Zoro", "isCorrect": true },
+      { "text": "Franky", "isCorrect": false }
+    ],
+    "explanation": "Roronoa Zoro is the Straw Hat crew's swordsman and the first member to join Luffy. His dream is to become the world's greatest swordsman."
+  },
+  {
+    "question_text": "What is the name of the Straw Hat Pirates' second ship?",
+    "question_type": "multiple_choice",
+    "difficulty": "easy",
+    "options": [
+      { "text": "Going Merry", "isCorrect": false },
+      { "text": "Thousand Sunny", "isCorrect": true },
+      { "text": "Oro Jackson", "isCorrect": false },
+      { "text": "Red Force", "isCorrect": false }
+    ],
+    "explanation": "The Thousand Sunny is the Straw Hats' second ship, built by Franky using wood from the legendary Adam Tree to replace the Going Merry."
+  },
+  {
+    "question_text": "Who is the navigator of the Straw Hat crew?",
+    "question_type": "multiple_choice",
+    "difficulty": "easy",
+    "options": [
+      { "text": "Nico Robin", "isCorrect": false },
+      { "text": "Nami", "isCorrect": true },
+      { "text": "Vivi", "isCorrect": false },
+      { "text": "Carrot", "isCorrect": false }
+    ],
+    "explanation": "Nami is the Straw Hat crew's navigator. Her dream is to draw a complete map of the entire world."
+  },
+  {
+    "question_text": "What is the name of the cook of the Straw Hat crew?",
+    "question_type": "multiple_choice",
+    "difficulty": "easy",
+    "options": [
+      { "text": "Zeff", "isCorrect": false },
+      { "text": "Patty", "isCorrect": false },
+      { "text": "Sanji", "isCorrect": true },
+      { "text": "Duval", "isCorrect": false }
+    ],
+    "explanation": "Sanji, also known as 'Black Leg' Sanji, is the Straw Hat crew's cook. His dream is to find the All Blue, a legendary sea with fish from all four oceans."
+  },
+  {
+    "question_text": "Who was known as the Pirate King before the start of the series?",
+    "question_type": "multiple_choice",
+    "difficulty": "easy",
+    "options": [
+      { "text": "Edward Newgate", "isCorrect": false },
+      { "text": "Monkey D. Dragon", "isCorrect": false },
+      { "text": "Gol D. Roger", "isCorrect": true },
+      { "text": "Silvers Rayleigh", "isCorrect": false }
+    ],
+    "explanation": "Gol D. Roger was the only person to conquer the Grand Line and earn the title of Pirate King. His execution sparked the Great Pirate Era."
+  },
+  {
+    "question_text": "What is the name of the ocean where the main story of One Piece takes place?",
+    "question_type": "multiple_choice",
+    "difficulty": "easy",
+    "options": [
+      { "text": "East Blue", "isCorrect": false },
+      { "text": "The New World", "isCorrect": false },
+      { "text": "Grand Line", "isCorrect": true },
+      { "text": "Calm Belt", "isCorrect": false }
+    ],
+    "explanation": "The Grand Line is the dangerous ocean route that circles the globe, where the majority of the One Piece story takes place. It is divided into two halves: Paradise and the New World."
+  },
+  {
+    "question_text": "What are the three types of Haki?",
+    "question_type": "multiple_choice",
+    "difficulty": "medium",
+    "options": [
+      { "text": "Observation Haki, Armament Haki, and Conqueror's Haki", "isCorrect": true },
+      { "text": "Fire Haki, Ice Haki, and Lightning Haki", "isCorrect": false },
+      { "text": "Attack Haki, Defense Haki, and Spirit Haki", "isCorrect": false },
+      { "text": "Observation Haki, Armament Haki, and Destruction Haki", "isCorrect": false }
+    ],
+    "explanation": "The three types of Haki are Observation Haki (Kenbunshoku), which senses others' presence and intent; Armament Haki (Busoshoku), which creates an invisible armor; and Conqueror's Haki (Haoshoku), which can overwhelm the willpower of others."
+  },
+  {
+    "question_text": "Who is the doctor of the Straw Hat crew?",
+    "question_type": "multiple_choice",
+    "difficulty": "medium",
+    "options": [
+      { "text": "Trafalgar Law", "isCorrect": false },
+      { "text": "Tony Tony Chopper", "isCorrect": true },
+      { "text": "Kureha", "isCorrect": false },
+      { "text": "Hogback", "isCorrect": false }
+    ],
+    "explanation": "Tony Tony Chopper is a reindeer who ate the Human-Human Fruit (Hito Hito no Mi), giving him human intelligence. He serves as the Straw Hat crew's doctor and dreams of becoming a doctor who can cure any disease."
+  },
+  {
+    "question_text": "What is the name of the Marine headquarters where the Summit War took place?",
+    "question_type": "multiple_choice",
+    "difficulty": "medium",
+    "options": [
+      { "text": "Enies Lobby", "isCorrect": false },
+      { "text": "Impel Down", "isCorrect": false },
+      { "text": "Marineford", "isCorrect": true },
+      { "text": "Sabaody Archipelago", "isCorrect": false }
+    ],
+    "explanation": "Marineford was the Marine headquarters and the location of the Summit War (also called the Battle of Marineford), one of the largest conflicts in the series."
+  },
+  {
+    "question_text": "Who are the Four Emperors (Yonko) at the start of the series?",
+    "question_type": "multiple_choice",
+    "difficulty": "medium",
+    "options": [
+      { "text": "Shanks, Whitebeard, Kaido, and Big Mom", "isCorrect": true },
+      { "text": "Shanks, Blackbeard, Kaido, and Big Mom", "isCorrect": false },
+      { "text": "Roger, Whitebeard, Shiki, and Big Mom", "isCorrect": false },
+      { "text": "Shanks, Whitebeard, Doflamingo, and Kaido", "isCorrect": false }
+    ],
+    "explanation": "The original Four Emperors (Yonko) were Red-Haired Shanks, Whitebeard (Edward Newgate), Kaido of the Beasts, and Big Mom (Charlotte Linlin). They were the four most powerful pirates ruling the New World."
+  },
+  {
+    "question_text": "What is the name of Zoro's signature three-sword fighting style?",
+    "question_type": "multiple_choice",
+    "difficulty": "medium",
+    "options": [
+      { "text": "Nitoryu (Two Sword Style)", "isCorrect": false },
+      { "text": "Santoryu (Three Sword Style)", "isCorrect": true },
+      { "text": "Ittoryu (One Sword Style)", "isCorrect": false },
+      { "text": "Yontoryu (Four Sword Style)", "isCorrect": false }
+    ],
+    "explanation": "Santoryu (Three Sword Style) is Zoro's unique fighting style where he wields three swords simultaneously -- one in each hand and one in his mouth. He developed this style in honor of his childhood rival Kuina."
+  },
+  {
+    "question_text": "What is the name of Luffy's adopted brother who possesses the Flame-Flame Fruit?",
+    "question_type": "multiple_choice",
+    "difficulty": "medium",
+    "options": [
+      { "text": "Sabo", "isCorrect": false },
+      { "text": "Portgas D. Ace", "isCorrect": true },
+      { "text": "Trafalgar Law", "isCorrect": false },
+      { "text": "Donquixote Doflamingo", "isCorrect": false }
+    ],
+    "explanation": "Portgas D. Ace is Luffy's adopted brother and the biological son of Gol D. Roger. He ate the Flame-Flame Fruit (Mera Mera no Mi) and was the Second Division Commander of the Whitebeard Pirates."
+  },
+  {
+    "question_text": "Who is the leader of the Revolutionary Army and Luffy's biological father?",
+    "question_type": "multiple_choice",
+    "difficulty": "medium",
+    "options": [
+      { "text": "Silvers Rayleigh", "isCorrect": false },
+      { "text": "Monkey D. Garp", "isCorrect": false },
+      { "text": "Monkey D. Dragon", "isCorrect": true },
+      { "text": "Emporio Ivankov", "isCorrect": false }
+    ],
+    "explanation": "Monkey D. Dragon is the leader of the Revolutionary Army and Luffy's biological father. He is considered the World Government's most dangerous enemy and most wanted man in the world."
+  },
+  {
+    "question_text": "What are the three Ancient Weapons that the World Government fears?",
+    "question_type": "multiple_choice",
+    "difficulty": "medium",
+    "options": [
+      { "text": "Pluton, Poseidon, and Uranus", "isCorrect": true },
+      { "text": "Pluton, Neptune, and Zeus", "isCorrect": false },
+      { "text": "Hades, Poseidon, and Athena", "isCorrect": false },
+      { "text": "Pluton, Poseidon, and Kronos", "isCorrect": false }
+    ],
+    "explanation": "The three Ancient Weapons are Pluton (a massive warship), Poseidon (the ability to communicate with Sea Kings, held by Princess Shirahoshi), and Uranus (whose nature is still largely mysterious). They are capable of mass destruction."
+  },
+  {
+    "question_text": "What island is known as the final island on the Grand Line where the One Piece is located?",
+    "question_type": "multiple_choice",
+    "difficulty": "medium",
+    "options": [
+      { "text": "Zou", "isCorrect": false },
+      { "text": "Lodestar Island", "isCorrect": false },
+      { "text": "Laugh Tale", "isCorrect": true },
+      { "text": "God Valley", "isCorrect": false }
+    ],
+    "explanation": "Laugh Tale (originally romanized as Raftel) is the final island on the Grand Line where the One Piece is hidden. It was named by Gol D. Roger because he and his crew laughed when they arrived and discovered what was there."
+  },
+  {
+    "question_text": "What is the name of Sanji's fighting style that uses only kicks?",
+    "question_type": "multiple_choice",
+    "difficulty": "medium",
+    "options": [
+      { "text": "Fishman Karate", "isCorrect": false },
+      { "text": "Rokushiki", "isCorrect": false },
+      { "text": "Black Leg Style", "isCorrect": true },
+      { "text": "Okama Kenpo", "isCorrect": false }
+    ],
+    "explanation": "Black Leg Style is Sanji's fighting style where he exclusively uses kicks, refusing to use his hands in combat to protect them for cooking. The style was taught to him by his mentor, Red-Leg Zeff."
+  },
+  {
+    "question_text": "What is the true name of Luffy's Devil Fruit as revealed later in the series?",
+    "question_type": "multiple_choice",
+    "difficulty": "hard",
+    "options": [
+      { "text": "Gomu Gomu no Mi, Model: Vulcanized", "isCorrect": false },
+      { "text": "Hito Hito no Mi, Model: Nika", "isCorrect": true },
+      { "text": "Mythical Zoan: Raijin", "isCorrect": false },
+      { "text": "Paramecia Awakened: Gomu Gomu", "isCorrect": false }
+    ],
+    "explanation": "Luffy's Devil Fruit was revealed to actually be the Hito Hito no Mi, Model: Nika (Human-Human Fruit, Mythical Zoan type). The World Government had renamed it the Gomu Gomu no Mi to hide its true nature as the fruit of the Sun God Nika."
+  },
+  {
+    "question_text": "What is the Void Century in the world of One Piece?",
+    "question_type": "multiple_choice",
+    "difficulty": "hard",
+    "options": [
+      { "text": "A century when no pirates existed on the seas", "isCorrect": false },
+      { "text": "A 100-year gap in recorded history that the World Government has erased", "isCorrect": true },
+      { "text": "The century during which all Devil Fruits were created", "isCorrect": false },
+      { "text": "A 100-year war between the Marines and the Yonko", "isCorrect": false }
+    ],
+    "explanation": "The Void Century is a 100-year period of history (approximately 800-900 years before the current storyline) that has been erased from public record by the World Government. Researching it is considered a capital crime, and the Poneglyphs contain the hidden truth about what happened."
+  },
+  {
+    "question_text": "Who are the Five Elders (Gorosei)?",
+    "question_type": "multiple_choice",
+    "difficulty": "hard",
+    "options": [
+      { "text": "The five strongest Marine Admirals", "isCorrect": false },
+      { "text": "The five leaders of the Revolutionary Army's divisions", "isCorrect": false },
+      { "text": "The five highest-ranking Celestial Dragons who rule the World Government", "isCorrect": true },
+      { "text": "The five legendary pirates who discovered the Grand Line", "isCorrect": false }
+    ],
+    "explanation": "The Five Elders (Gorosei) are the five highest-ranking Celestial Dragons who hold the greatest authority in the World Government, answering only to the mysterious Imu. They have ruled from Mary Geoise for centuries and possess immense power."
+  },
+  {
+    "question_text": "What is Nico Robin's ultimate dream?",
+    "question_type": "multiple_choice",
+    "difficulty": "hard",
+    "options": [
+      { "text": "To become the greatest archaeologist in the world", "isCorrect": false },
+      { "text": "To find and read the Rio Poneglyph to learn the True History", "isCorrect": true },
+      { "text": "To destroy the World Government", "isCorrect": false },
+      { "text": "To avenge the scholars of Ohara", "isCorrect": false }
+    ],
+    "explanation": "Nico Robin's dream is to find the Rio Poneglyph, which contains the complete True History of the Void Century. This dream was inherited from the scholars of Ohara who were destroyed by the World Government's Buster Call for researching this forbidden knowledge."
+  },
+  {
+    "question_text": "What is the name and type of Kaido's Devil Fruit?",
+    "question_type": "multiple_choice",
+    "difficulty": "hard",
+    "options": [
+      { "text": "Ryu Ryu no Mi, Model: Pteranodon -- Ancient Zoan", "isCorrect": false },
+      { "text": "Uo Uo no Mi, Model: Seiryu -- Mythical Zoan (Fish-Fish Fruit, Azure Dragon)", "isCorrect": true },
+      { "text": "Hebi Hebi no Mi, Model: Yamata no Orochi -- Mythical Zoan", "isCorrect": false },
+      { "text": "Tatsu Tatsu no Mi -- Logia Dragon type", "isCorrect": false }
+    ],
+    "explanation": "Kaido's Devil Fruit is the Uo Uo no Mi, Model: Seiryu (Fish-Fish Fruit, Mythical Zoan type, Azure Dragon model). Despite being a Fish-Fish Fruit, it allows him to transform into a massive Eastern dragon, referencing the legend of a carp climbing a waterfall to become a dragon."
+  },
+  {
+    "question_text": "What is the name of Shanks' sword?",
+    "question_type": "multiple_choice",
+    "difficulty": "hard",
+    "options": [
+      { "text": "Enma", "isCorrect": false },
+      { "text": "Ace", "isCorrect": false },
+      { "text": "Gryphon", "isCorrect": true },
+      { "text": "Shusui", "isCorrect": false }
+    ],
+    "explanation": "Shanks wields a saber named Gryphon. Despite losing his left arm to a Sea King while saving young Luffy, Shanks remains one of the most powerful swordsmen in the world with this blade."
+  },
+  {
+    "question_text": "What is the significance of the 'Will of D.' in One Piece?",
+    "question_type": "multiple_choice",
+    "difficulty": "hard",
+    "options": [
+      { "text": "It grants the bearer immunity to Devil Fruit powers", "isCorrect": false },
+      { "text": "It marks descendants of the original Marine heroes", "isCorrect": false },
+      { "text": "People with D. in their name carry an inherited will and are called 'God's Natural Enemy'", "isCorrect": true },
+      { "text": "It is a tattoo given to members of the Revolutionary Army", "isCorrect": false }
+    ],
+    "explanation": "The Will of D. refers to a mysterious inherited will carried by those with the initial 'D.' in their name (such as Monkey D. Luffy, Gol D. Roger, and Portgas D. Ace). They are known as 'God's Natural Enemy' by the Celestial Dragons, and they tend to cause great upheavals in the world."
+  },
+  {
+    "question_text": "What is Gear Fifth and how does it work?",
+    "question_type": "multiple_choice",
+    "difficulty": "hard",
+    "options": [
+      { "text": "A form that combines all three types of Haki into Luffy's rubber body", "isCorrect": false },
+      { "text": "Luffy's awakened Devil Fruit form based on the Sun God Nika, granting cartoonish reality-bending powers", "isCorrect": true },
+      { "text": "A technique that permanently enlarges Luffy's body to giant size", "isCorrect": false },
+      { "text": "A Haki-only transformation that turns Luffy's body into pure energy", "isCorrect": false }
+    ],
+    "explanation": "Gear Fifth is Luffy's awakened Devil Fruit form, triggered when the Hito Hito no Mi, Model: Nika fully awakens. In this form, Luffy embodies the Sun God Nika, gaining the 'most ridiculous power in the world' -- the ability to fight with cartoonish, imagination-based, reality-bending powers while his hair and clothes turn white."
+  },
+  {
+    "question_text": "Who is Joyboy and what is his connection to Luffy?",
+    "question_type": "multiple_choice",
+    "difficulty": "hard",
+    "options": [
+      { "text": "Joyboy was Roger's first mate, and Luffy inherited his Devil Fruit", "isCorrect": false },
+      { "text": "A figure from the Void Century who left a promise on Fish-Man Island; Luffy is called the second coming of Joyboy", "isCorrect": true },
+      { "text": "The original creator of the Devil Fruits who cursed the seas", "isCorrect": false },
+      { "text": "A legendary Marine who defected and formed the first pirate crew", "isCorrect": false }
+    ],
+    "explanation": "Joyboy was a significant figure from the Void Century who made a promise to the people of Fish-Man Island that he could not keep. He left behind a treasure on Laugh Tale. When Luffy awakened his Devil Fruit and achieved Gear Fifth, Zunesha declared that Joyboy had returned, making Luffy the second coming of Joyboy."
+  },
+  {
+    "question_text": "What are the Road Poneglyphs and why are they important?",
+    "question_type": "multiple_choice",
+    "difficulty": "hard",
+    "options": [
+      { "text": "Ancient maps carved in stone that show the locations of all Devil Fruits", "isCorrect": false },
+      { "text": "Stone tablets that contain the blueprints for the Ancient Weapons", "isCorrect": false },
+      { "text": "Four special red Poneglyphs whose combined information reveals the location of Laugh Tale", "isCorrect": true },
+      { "text": "Sacred stones that grant the ability to read all written languages", "isCorrect": false }
+    ],
+    "explanation": "The Road Poneglyphs are four special red stone tablets. Each one contains a coordinate, and when all four coordinates are combined, they reveal the location of Laugh Tale, the final island where the One Piece is hidden. This is why Nico Robin's ability to read Poneglyphs is so crucial to the Straw Hats' journey."
+  }
+]

@@ -1,0 +1,362 @@
+[
+  {
+    "question_text": "What is the name of the main character in Dragon Ball Z?",
+    "question_type": "multiple_choice",
+    "difficulty": "easy",
+    "options": [
+      { "text": "Vegeta", "isCorrect": false },
+      { "text": "Goku", "isCorrect": true },
+      { "text": "Piccolo", "isCorrect": false },
+      { "text": "Gohan", "isCorrect": false }
+    ],
+    "explanation": "Goku (also known as Son Goku) is the main protagonist of the entire Dragon Ball franchise, following his journey from childhood through adulthood."
+  },
+  {
+    "question_text": "What alien race does Goku belong to?",
+    "question_type": "multiple_choice",
+    "difficulty": "easy",
+    "options": [
+      { "text": "Namekian", "isCorrect": false },
+      { "text": "Saiyan", "isCorrect": true },
+      { "text": "Frieza Race", "isCorrect": false },
+      { "text": "Human", "isCorrect": false }
+    ],
+    "explanation": "Goku is a Saiyan, a warrior race from Planet Vegeta. He was sent to Earth as a baby, which is why he grew up thinking he was human."
+  },
+  {
+    "question_text": "What are the magical orbs that grant wishes called?",
+    "question_type": "multiple_choice",
+    "difficulty": "easy",
+    "options": [
+      { "text": "Chaos Emeralds", "isCorrect": false },
+      { "text": "Spirit Orbs", "isCorrect": false },
+      { "text": "Dragon Balls", "isCorrect": true },
+      { "text": "Wishing Stones", "isCorrect": false }
+    ],
+    "explanation": "The Dragon Balls are seven magical orbs that, when gathered together, summon a wish-granting dragon. They are the namesake of the entire series."
+  },
+  {
+    "question_text": "What is Goku's signature energy attack?",
+    "question_type": "multiple_choice",
+    "difficulty": "easy",
+    "options": [
+      { "text": "Final Flash", "isCorrect": false },
+      { "text": "Special Beam Cannon", "isCorrect": false },
+      { "text": "Kamehameha", "isCorrect": true },
+      { "text": "Spirit Bomb", "isCorrect": false }
+    ],
+    "explanation": "The Kamehameha is Goku's iconic energy wave attack, originally invented by Master Roshi. Goku learned it by watching Roshi perform it just once."
+  },
+  {
+    "question_text": "Who is Goku's lifelong rival?",
+    "question_type": "multiple_choice",
+    "difficulty": "easy",
+    "options": [
+      { "text": "Piccolo", "isCorrect": false },
+      { "text": "Frieza", "isCorrect": false },
+      { "text": "Tien", "isCorrect": false },
+      { "text": "Vegeta", "isCorrect": true }
+    ],
+    "explanation": "Vegeta, the Prince of all Saiyans, starts as a villain but becomes Goku's greatest rival and eventual ally. Their rivalry is one of the most iconic in anime history."
+  },
+  {
+    "question_text": "What transformation makes a Saiyan's hair turn golden?",
+    "question_type": "multiple_choice",
+    "difficulty": "easy",
+    "options": [
+      { "text": "Kaioken", "isCorrect": false },
+      { "text": "Ultra Instinct", "isCorrect": false },
+      { "text": "Super Saiyan", "isCorrect": true },
+      { "text": "Great Ape", "isCorrect": false }
+    ],
+    "explanation": "The Super Saiyan transformation turns a Saiyan's hair golden and their eyes green. Goku was the first to achieve this form in over a thousand years, triggered by Frieza's actions on Planet Namek."
+  },
+  {
+    "question_text": "What is the name of Goku's oldest son?",
+    "question_type": "multiple_choice",
+    "difficulty": "easy",
+    "options": [
+      { "text": "Goten", "isCorrect": false },
+      { "text": "Trunks", "isCorrect": false },
+      { "text": "Gohan", "isCorrect": true },
+      { "text": "Pan", "isCorrect": false }
+    ],
+    "explanation": "Gohan is Goku's first son, named after Goku's adoptive grandfather. He is one of the most powerful characters in the series and plays a pivotal role in the Cell Saga."
+  },
+  {
+    "question_text": "What is the name of the dragon summoned by the Dragon Balls on Earth?",
+    "question_type": "multiple_choice",
+    "difficulty": "easy",
+    "options": [
+      { "text": "Porunga", "isCorrect": false },
+      { "text": "Shenron", "isCorrect": true },
+      { "text": "Super Shenron", "isCorrect": false },
+      { "text": "Omega Shenron", "isCorrect": false }
+    ],
+    "explanation": "Shenron is the magical dragon summoned by Earth's Dragon Balls. He can grant wishes within his power, which is limited by the abilities of his creator, Dende (and formerly Kami)."
+  },
+  {
+    "question_text": "Who is the galactic Emperor who destroyed Planet Vegeta?",
+    "question_type": "multiple_choice",
+    "difficulty": "easy",
+    "options": [
+      { "text": "Cell", "isCorrect": false },
+      { "text": "Beerus", "isCorrect": false },
+      { "text": "Frieza", "isCorrect": true },
+      { "text": "Majin Buu", "isCorrect": false }
+    ],
+    "explanation": "Frieza is the tyrannical Emperor of the Universe who destroyed Planet Vegeta and nearly wiped out the entire Saiyan race out of fear that a Super Saiyan would one day rise to challenge him."
+  },
+  {
+    "question_text": "What is Vegeta's royal status?",
+    "question_type": "multiple_choice",
+    "difficulty": "easy",
+    "options": [
+      { "text": "King of all Saiyans", "isCorrect": false },
+      { "text": "Prince of all Saiyans", "isCorrect": true },
+      { "text": "Emperor of all Saiyans", "isCorrect": false },
+      { "text": "General of all Saiyans", "isCorrect": false }
+    ],
+    "explanation": "Vegeta is the Prince of all Saiyans, son of King Vegeta. He frequently reminds others of his royal heritage, and his pride as a Saiyan prince is central to his character."
+  },
+  {
+    "question_text": "What is the name of the technique Goku uses to teleport instantly?",
+    "question_type": "multiple_choice",
+    "difficulty": "medium",
+    "options": [
+      { "text": "Solar Flare", "isCorrect": false },
+      { "text": "Instant Transmission", "isCorrect": true },
+      { "text": "Afterimage Technique", "isCorrect": false },
+      { "text": "Kai Kai", "isCorrect": false }
+    ],
+    "explanation": "Instant Transmission (Shunkan Ido) allows Goku to teleport anywhere instantly by locking onto a person's energy signature (ki). He learned it from the Yardrats after escaping Planet Namek."
+  },
+  {
+    "question_text": "Who defeats Cell in the Cell Games?",
+    "question_type": "multiple_choice",
+    "difficulty": "medium",
+    "options": [
+      { "text": "Goku", "isCorrect": false },
+      { "text": "Vegeta", "isCorrect": false },
+      { "text": "Gohan", "isCorrect": true },
+      { "text": "Trunks", "isCorrect": false }
+    ],
+    "explanation": "Gohan defeats Cell after ascending to Super Saiyan 2. His rage was triggered when Cell crushed Android 16, and he ultimately destroyed Cell with a one-handed Father-Son Kamehameha."
+  },
+  {
+    "question_text": "What is Vegeta's most iconic signature attack?",
+    "question_type": "multiple_choice",
+    "difficulty": "medium",
+    "options": [
+      { "text": "Big Bang Attack", "isCorrect": false },
+      { "text": "Final Flash", "isCorrect": true },
+      { "text": "Destructo Disc", "isCorrect": false },
+      { "text": "Masenko", "isCorrect": false }
+    ],
+    "explanation": "The Final Flash is Vegeta's most powerful and iconic attack. He famously used it against Perfect Cell during the Cell Saga, unleashing a massive beam of energy after a dramatic charge-up."
+  },
+  {
+    "question_text": "What is unique about the Hyperbolic Time Chamber?",
+    "question_type": "multiple_choice",
+    "difficulty": "medium",
+    "options": [
+      { "text": "It multiplies gravity by 100 times", "isCorrect": false },
+      { "text": "One day outside equals one year inside", "isCorrect": true },
+      { "text": "It can only be used by Saiyans", "isCorrect": false },
+      { "text": "It heals all injuries instantly", "isCorrect": false }
+    ],
+    "explanation": "The Hyperbolic Time Chamber (Room of Spirit and Time) is a special dimension where one day in the outside world equals a full year inside. The Z Fighters use it to train intensively before major battles."
+  },
+  {
+    "question_text": "What is the name of the fusion technique that uses special earrings?",
+    "question_type": "multiple_choice",
+    "difficulty": "medium",
+    "options": [
+      { "text": "Fusion Dance", "isCorrect": false },
+      { "text": "Metamoran Fusion", "isCorrect": false },
+      { "text": "Potara Fusion", "isCorrect": true },
+      { "text": "Namekian Fusion", "isCorrect": false }
+    ],
+    "explanation": "Potara Fusion uses the Potara earrings worn by the Supreme Kais. When two people each wear one earring on opposite ears, they fuse together. Goku and Vegeta used this to become Vegito."
+  },
+  {
+    "question_text": "Who is the Supreme Kai of Universe 7?",
+    "question_type": "multiple_choice",
+    "difficulty": "medium",
+    "options": [
+      { "text": "Old Kai", "isCorrect": false },
+      { "text": "Shin", "isCorrect": true },
+      { "text": "Zamasu", "isCorrect": false },
+      { "text": "Kibito", "isCorrect": false }
+    ],
+    "explanation": "Shin is the Supreme Kai of Universe 7. He first appears during the Buu Saga, initially in disguise as a contestant in the World Martial Arts Tournament, and reveals the threat of Majin Buu."
+  },
+  {
+    "question_text": "What is the name of Goku and Vegeta's fusion when they use the Fusion Dance?",
+    "question_type": "multiple_choice",
+    "difficulty": "medium",
+    "options": [
+      { "text": "Vegito", "isCorrect": false },
+      { "text": "Gotenks", "isCorrect": false },
+      { "text": "Gogeta", "isCorrect": true },
+      { "text": "Kefla", "isCorrect": false }
+    ],
+    "explanation": "Gogeta is the fusion of Goku and Vegeta using the Metamoran Fusion Dance technique. Unlike Vegito (Potara Fusion), Gogeta requires the two fighters to perform a perfectly synchronized dance."
+  },
+  {
+    "question_text": "Which android becomes a member of the Z Fighters?",
+    "question_type": "multiple_choice",
+    "difficulty": "medium",
+    "options": [
+      { "text": "Android 16", "isCorrect": false },
+      { "text": "Android 17", "isCorrect": false },
+      { "text": "Android 18", "isCorrect": true },
+      { "text": "Android 19", "isCorrect": false }
+    ],
+    "explanation": "Android 18 joins the Z Fighters after being freed from Cell. She marries Krillin and they have a daughter named Marron. She also competes in the Tournament of Power in Dragon Ball Super."
+  },
+  {
+    "question_text": "What is Piccolo's home planet?",
+    "question_type": "multiple_choice",
+    "difficulty": "medium",
+    "options": [
+      { "text": "Planet Vegeta", "isCorrect": false },
+      { "text": "Planet Yardrat", "isCorrect": false },
+      { "text": "Planet Namek", "isCorrect": true },
+      { "text": "Planet Kanassa", "isCorrect": false }
+    ],
+    "explanation": "Piccolo is a Namekian, originating from Planet Namek. The Namek Saga revolves around the Z Fighters traveling to Namek to use its Dragon Balls, created by the Namekian elder Guru."
+  },
+  {
+    "question_text": "Who trained Goku in the afterlife and taught him the Spirit Bomb technique?",
+    "question_type": "multiple_choice",
+    "difficulty": "medium",
+    "options": [
+      { "text": "Master Roshi", "isCorrect": false },
+      { "text": "Whis", "isCorrect": false },
+      { "text": "King Kai", "isCorrect": true },
+      { "text": "Kami", "isCorrect": false }
+    ],
+    "explanation": "King Kai (North Kai) trained Goku on his small planet at the end of Snake Way. He taught Goku the Kaioken technique and the Spirit Bomb (Genki Dama), which gathers energy from all living things."
+  },
+  {
+    "question_text": "What is Goku's Saiyan birth name?",
+    "question_type": "multiple_choice",
+    "difficulty": "hard",
+    "options": [
+      { "text": "Bardock", "isCorrect": false },
+      { "text": "Raditz", "isCorrect": false },
+      { "text": "Kakarot", "isCorrect": true },
+      { "text": "Turles", "isCorrect": false }
+    ],
+    "explanation": "Goku's Saiyan birth name is Kakarot. He was given the name 'Son Goku' by his adoptive grandfather Gohan on Earth. Vegeta almost exclusively calls him Kakarot throughout the series as a matter of Saiyan pride."
+  },
+  {
+    "question_text": "What is the name of the multi-universe tournament in Dragon Ball Super?",
+    "question_type": "multiple_choice",
+    "difficulty": "hard",
+    "options": [
+      { "text": "Cell Games", "isCorrect": false },
+      { "text": "World Martial Arts Tournament", "isCorrect": false },
+      { "text": "Tournament of Power", "isCorrect": true },
+      { "text": "Tournament of Destroyers", "isCorrect": false }
+    ],
+    "explanation": "The Tournament of Power is a battle royale between eight universes in Dragon Ball Super, organized by the Grand Zeno. The losing universes face erasure from existence, raising the stakes to the highest level in the series."
+  },
+  {
+    "question_text": "What form does Goku achieve during the Tournament of Power in Dragon Ball Super?",
+    "question_type": "multiple_choice",
+    "difficulty": "hard",
+    "options": [
+      { "text": "Super Saiyan Blue Evolution", "isCorrect": false },
+      { "text": "Super Saiyan 4", "isCorrect": false },
+      { "text": "Ultra Instinct", "isCorrect": true },
+      { "text": "Super Saiyan God", "isCorrect": false }
+    ],
+    "explanation": "Ultra Instinct is a technique that allows the body to react and fight independently of conscious thought. Goku first triggers it against Jiren and eventually masters it in the climax of the Tournament of Power."
+  },
+  {
+    "question_text": "Who is the angel attendant of Universe 7's God of Destruction?",
+    "question_type": "multiple_choice",
+    "difficulty": "hard",
+    "options": [
+      { "text": "Vados", "isCorrect": false },
+      { "text": "Whis", "isCorrect": true },
+      { "text": "Merus", "isCorrect": false },
+      { "text": "Grand Priest", "isCorrect": false }
+    ],
+    "explanation": "Whis is the angel attendant and martial arts teacher of Beerus, the God of Destruction of Universe 7. He is the son of the Grand Priest and trained both Goku and Vegeta in god-level techniques."
+  },
+  {
+    "question_text": "What is the name of the God of Destruction of Universe 7?",
+    "question_type": "multiple_choice",
+    "difficulty": "hard",
+    "options": [
+      { "text": "Champa", "isCorrect": false },
+      { "text": "Beerus", "isCorrect": true },
+      { "text": "Belmod", "isCorrect": false },
+      { "text": "Sidra", "isCorrect": false }
+    ],
+    "explanation": "Beerus is the God of Destruction of Universe 7, introduced in Dragon Ball Super. He is modeled after an Egyptian Sphynx cat and is one of the most powerful beings in the multiverse. His twin brother Champa is the God of Destruction of Universe 6."
+  },
+  {
+    "question_text": "In his original appearance, what is Frieza's final and most powerful transformation called?",
+    "question_type": "multiple_choice",
+    "difficulty": "hard",
+    "options": [
+      { "text": "Second Form", "isCorrect": false },
+      { "text": "Mecha Frieza", "isCorrect": false },
+      { "text": "Final Form", "isCorrect": true },
+      { "text": "Golden Frieza", "isCorrect": false }
+    ],
+    "explanation": "Frieza's Final Form (also called his True Form) is his fourth and original transformation on Planet Namek. Unlike his other forms, which suppress his power, his Final Form is his natural state. Golden Frieza came much later in Dragon Ball Super."
+  },
+  {
+    "question_text": "What is the name of the technique Tien uses to hold Semi-Perfect Cell at bay?",
+    "question_type": "multiple_choice",
+    "difficulty": "hard",
+    "options": [
+      { "text": "Dodon Ray", "isCorrect": false },
+      { "text": "Volleyball Fist", "isCorrect": false },
+      { "text": "Tri-Beam", "isCorrect": true },
+      { "text": "Solar Flare", "isCorrect": false }
+    ],
+    "explanation": "Tien uses the Tri-Beam (Kikoho) repeatedly to hold Semi-Perfect Cell in place, buying time for Android 18 to escape. This is one of Tien's most heroic moments, as the technique drains his own life force with each use."
+  },
+  {
+    "question_text": "Who is the mortal from Universe 11 said to be so strong that even a God of Destruction cannot defeat him?",
+    "question_type": "multiple_choice",
+    "difficulty": "hard",
+    "options": [
+      { "text": "Hit", "isCorrect": false },
+      { "text": "Toppo", "isCorrect": false },
+      { "text": "Jiren", "isCorrect": true },
+      { "text": "Broly", "isCorrect": false }
+    ],
+    "explanation": "Jiren from Universe 11 is described as a mortal whose strength surpasses that of a God of Destruction. He is the main antagonist of the Tournament of Power arc and pushes Goku to achieve Ultra Instinct."
+  },
+  {
+    "question_text": "What is the name of Vegeta's power-up form that serves as his counterpart to Goku's Ultra Instinct?",
+    "question_type": "multiple_choice",
+    "difficulty": "hard",
+    "options": [
+      { "text": "Super Saiyan Blue Evolution", "isCorrect": false },
+      { "text": "Ultra Ego", "isCorrect": true },
+      { "text": "Super Saiyan Royal Blue", "isCorrect": false },
+      { "text": "Mega Instinct", "isCorrect": false }
+    ],
+    "explanation": "Ultra Ego is Vegeta's transformation achieved through training with Beerus, the God of Destruction. While Ultra Instinct focuses on dodging and defense, Ultra Ego grows stronger the more damage Vegeta takes, reflecting the mindset of a Destroyer."
+  },
+  {
+    "question_text": "What wish does Krillin make to Shenron regarding the androids after Cell's defeat?",
+    "question_type": "multiple_choice",
+    "difficulty": "hard",
+    "options": [
+      { "text": "To make the androids fully human", "isCorrect": false },
+      { "text": "To erase the androids from existence", "isCorrect": false },
+      { "text": "To remove the bombs inside Android 17 and 18", "isCorrect": true },
+      { "text": "To restore Android 16 back to life", "isCorrect": false }
+    ],
+    "explanation": "After Cell's defeat, Krillin uses a wish on Shenron to remove the self-destruct bombs planted inside Android 17 and 18 by Dr. Gero. This act of kindness, driven by Krillin's feelings for Android 18, eventually leads to their marriage."
+  }
+]

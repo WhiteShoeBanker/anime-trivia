@@ -1,0 +1,362 @@
+[
+  {
+    "question_text": "What is the name of the main character in Attack on Titan?",
+    "question_type": "multiple_choice",
+    "difficulty": "easy",
+    "options": [
+      { "text": "Eren Yeager", "isCorrect": true },
+      { "text": "Levi Ackerman", "isCorrect": false },
+      { "text": "Armin Arlert", "isCorrect": false },
+      { "text": "Reiner Braun", "isCorrect": false }
+    ],
+    "explanation": "Eren Yeager is the protagonist of Attack on Titan. After witnessing his mother's death during the fall of Wall Maria, he vows to exterminate all Titans."
+  },
+  {
+    "question_text": "What are the giant humanoid creatures that threaten humanity called?",
+    "question_type": "multiple_choice",
+    "difficulty": "easy",
+    "options": [
+      { "text": "Hollows", "isCorrect": false },
+      { "text": "Titans", "isCorrect": true },
+      { "text": "Kaiju", "isCorrect": false },
+      { "text": "Giants", "isCorrect": false }
+    ],
+    "explanation": "The giant humanoid creatures are called Titans. They range in size from 3 to 15 meters and instinctively attack and eat humans."
+  },
+  {
+    "question_text": "What protects humanity from the Titans at the start of the series?",
+    "question_type": "multiple_choice",
+    "difficulty": "easy",
+    "options": [
+      { "text": "A vast ocean surrounding the land", "isCorrect": false },
+      { "text": "An army of elite soldiers", "isCorrect": false },
+      { "text": "Three massive walls — Wall Maria, Wall Rose, and Wall Sheena", "isCorrect": true },
+      { "text": "A magical barrier created by the king", "isCorrect": false }
+    ],
+    "explanation": "Humanity lives within three concentric walls: Wall Maria (outermost), Wall Rose (middle), and Wall Sheena (innermost). These walls are 50 meters tall and have protected humanity for over a century."
+  },
+  {
+    "question_text": "Who is Eren's adopted sister?",
+    "question_type": "multiple_choice",
+    "difficulty": "easy",
+    "options": [
+      { "text": "Annie Leonhart", "isCorrect": false },
+      { "text": "Historia Reiss", "isCorrect": false },
+      { "text": "Sasha Blouse", "isCorrect": false },
+      { "text": "Mikasa Ackerman", "isCorrect": true }
+    ],
+    "explanation": "Mikasa Ackerman was taken in by the Yeager family after Eren saved her from kidnappers as a child. She is fiercely protective of Eren and one of the most skilled soldiers in the series."
+  },
+  {
+    "question_text": "Who is Eren's best friend?",
+    "question_type": "multiple_choice",
+    "difficulty": "easy",
+    "options": [
+      { "text": "Jean Kirstein", "isCorrect": false },
+      { "text": "Connie Springer", "isCorrect": false },
+      { "text": "Armin Arlert", "isCorrect": true },
+      { "text": "Reiner Braun", "isCorrect": false }
+    ],
+    "explanation": "Armin Arlert is Eren's childhood best friend. Despite lacking physical strength, Armin's intelligence and strategic thinking make him invaluable. He dreams of seeing the ocean beyond the walls."
+  },
+  {
+    "question_text": "What military branch do Eren, Mikasa, and Armin join after graduating from training?",
+    "question_type": "multiple_choice",
+    "difficulty": "easy",
+    "options": [
+      { "text": "Military Police Brigade", "isCorrect": false },
+      { "text": "Garrison Regiment", "isCorrect": false },
+      { "text": "Survey Corps", "isCorrect": true },
+      { "text": "Training Corps", "isCorrect": false }
+    ],
+    "explanation": "Eren, Mikasa, and Armin join the Survey Corps (also known as the Scout Regiment), the branch that ventures beyond the walls to fight Titans and explore the outside world."
+  },
+  {
+    "question_text": "What is the name of the equipment soldiers use to fight Titans?",
+    "question_type": "multiple_choice",
+    "difficulty": "easy",
+    "options": [
+      { "text": "Thunder Spears", "isCorrect": false },
+      { "text": "ODM Gear (Omni-Directional Mobility Gear)", "isCorrect": true },
+      { "text": "Anti-Titan Cannons", "isCorrect": false },
+      { "text": "Vertical Maneuvering Swords", "isCorrect": false }
+    ],
+    "explanation": "ODM Gear (Omni-Directional Mobility Gear), also called 3D Maneuver Gear, uses gas-powered grappling hooks and wires to allow soldiers to fly through the air and slash Titans with paired blades."
+  },
+  {
+    "question_text": "What is the weak spot on a Titan's body that soldiers must strike to kill it?",
+    "question_type": "multiple_choice",
+    "difficulty": "easy",
+    "options": [
+      { "text": "The heart", "isCorrect": false },
+      { "text": "The eyes", "isCorrect": false },
+      { "text": "The nape of the neck", "isCorrect": true },
+      { "text": "The top of the head", "isCorrect": false }
+    ],
+    "explanation": "The nape of the neck is the only weak spot on a Titan. A deep enough cut to the nape kills the Titan, because the human body of a Titan shifter (or the core of a Pure Titan) resides there."
+  },
+  {
+    "question_text": "Which wall falls first at the very beginning of the series?",
+    "question_type": "multiple_choice",
+    "difficulty": "easy",
+    "options": [
+      { "text": "Wall Rose", "isCorrect": false },
+      { "text": "Wall Sheena", "isCorrect": false },
+      { "text": "Wall Maria", "isCorrect": true },
+      { "text": "All three walls fall at once", "isCorrect": false }
+    ],
+    "explanation": "Wall Maria, the outermost wall, is breached in the very first episode when the Colossal Titan kicks a hole in the gate of Shiganshina District. This forces humanity to retreat behind Wall Rose."
+  },
+  {
+    "question_text": "What is the name of the enormous Titan that kicks a hole in the wall at the start of the story?",
+    "question_type": "multiple_choice",
+    "difficulty": "easy",
+    "options": [
+      { "text": "Armored Titan", "isCorrect": false },
+      { "text": "Beast Titan", "isCorrect": false },
+      { "text": "Colossal Titan", "isCorrect": true },
+      { "text": "Attack Titan", "isCorrect": false }
+    ],
+    "explanation": "The Colossal Titan, standing at 60 meters tall, towers over the 50-meter walls. Its sudden appearance and destructive kick to the Shiganshina gate sets the entire story in motion."
+  },
+  {
+    "question_text": "What are the three military branches within the walls?",
+    "question_type": "multiple_choice",
+    "difficulty": "medium",
+    "options": [
+      { "text": "Survey Corps, Garrison Regiment, and Military Police Brigade", "isCorrect": true },
+      { "text": "Survey Corps, Royal Guard, and Garrison Regiment", "isCorrect": false },
+      { "text": "Scout Regiment, Wall Guard, and King's Brigade", "isCorrect": false },
+      { "text": "Attack Squad, Defense Corps, and Military Police", "isCorrect": false }
+    ],
+    "explanation": "The three branches are the Survey Corps (fights Titans beyond the walls), the Garrison Regiment (guards the walls), and the Military Police Brigade (maintains order in the interior near the king)."
+  },
+  {
+    "question_text": "Who is known as humanity's strongest soldier?",
+    "question_type": "multiple_choice",
+    "difficulty": "medium",
+    "options": [
+      { "text": "Erwin Smith", "isCorrect": false },
+      { "text": "Mikasa Ackerman", "isCorrect": false },
+      { "text": "Captain Levi Ackerman", "isCorrect": true },
+      { "text": "Kenny Ackerman", "isCorrect": false }
+    ],
+    "explanation": "Captain Levi Ackerman of the Survey Corps is widely regarded as humanity's strongest soldier. His combat skills are so exceptional that he is said to be worth an entire brigade on his own."
+  },
+  {
+    "question_text": "What is the name of Eren's Titan form?",
+    "question_type": "multiple_choice",
+    "difficulty": "medium",
+    "options": [
+      { "text": "Founding Titan", "isCorrect": false },
+      { "text": "War Hammer Titan", "isCorrect": false },
+      { "text": "Attack Titan", "isCorrect": true },
+      { "text": "Jaw Titan", "isCorrect": false }
+    ],
+    "explanation": "Eren possesses the Attack Titan (Shingeki no Kyojin), which is also the title of the series in Japanese. The Attack Titan has always moved forward seeking freedom, and it has the unique ability to see the memories of its future inheritors."
+  },
+  {
+    "question_text": "Who is revealed to be the Female Titan?",
+    "question_type": "multiple_choice",
+    "difficulty": "medium",
+    "options": [
+      { "text": "Mikasa Ackerman", "isCorrect": false },
+      { "text": "Historia Reiss", "isCorrect": false },
+      { "text": "Annie Leonhart", "isCorrect": true },
+      { "text": "Ymir", "isCorrect": false }
+    ],
+    "explanation": "Annie Leonhart, a fellow graduate of the 104th Training Corps, is revealed to be the Female Titan. She was sent as a warrior from Marley to infiltrate the walls and retrieve the Founding Titan."
+  },
+  {
+    "question_text": "Who is the commander of the Survey Corps that leads the suicidal charge against the Beast Titan?",
+    "question_type": "multiple_choice",
+    "difficulty": "medium",
+    "options": [
+      { "text": "Hange Zoe", "isCorrect": false },
+      { "text": "Erwin Smith", "isCorrect": true },
+      { "text": "Keith Shadis", "isCorrect": false },
+      { "text": "Dot Pixis", "isCorrect": false }
+    ],
+    "explanation": "Commander Erwin Smith leads the Survey Corps in a desperate charge against the Beast Titan during the Battle of Shiganshina. His courageous sacrifice allows Levi to close in on the Beast Titan."
+  },
+  {
+    "question_text": "What is the human identity of the Beast Titan?",
+    "question_type": "multiple_choice",
+    "difficulty": "medium",
+    "options": [
+      { "text": "Reiner Braun", "isCorrect": false },
+      { "text": "Grisha Yeager", "isCorrect": false },
+      { "text": "Zeke Yeager", "isCorrect": true },
+      { "text": "Tom Ksaver", "isCorrect": false }
+    ],
+    "explanation": "The Beast Titan is Zeke Yeager, Eren's older half-brother. Zeke is the son of Grisha Yeager and Dina Fritz, born and raised in Marley. He serves as the war chief of Marley's Warrior Unit."
+  },
+  {
+    "question_text": "How many Titan shifter types exist in total?",
+    "question_type": "multiple_choice",
+    "difficulty": "medium",
+    "options": [
+      { "text": "Seven", "isCorrect": false },
+      { "text": "Nine", "isCorrect": true },
+      { "text": "Twelve", "isCorrect": false },
+      { "text": "Five", "isCorrect": false }
+    ],
+    "explanation": "There are Nine Titans in total: the Founding Titan, Attack Titan, Colossal Titan, Armored Titan, Female Titan, Beast Titan, Jaw Titan, Cart Titan, and War Hammer Titan. They all originate from Ymir Fritz's power being split after her death."
+  },
+  {
+    "question_text": "What is the Founding Titan's special ability?",
+    "question_type": "multiple_choice",
+    "difficulty": "medium",
+    "options": [
+      { "text": "It can harden its skin to become indestructible", "isCorrect": false },
+      { "text": "It can see the future", "isCorrect": false },
+      { "text": "It can control all other Titans and alter the memories of Eldians", "isCorrect": true },
+      { "text": "It can regenerate faster than any other Titan", "isCorrect": false }
+    ],
+    "explanation": "The Founding Titan has the ability to control all Titans through the Coordinate and can alter or erase the memories of Subjects of Ymir (Eldians). This is how King Fritz erased humanity's memories of the outside world."
+  },
+  {
+    "question_text": "Who is revealed to be the Armored Titan?",
+    "question_type": "multiple_choice",
+    "difficulty": "medium",
+    "options": [
+      { "text": "Bertholdt Hoover", "isCorrect": false },
+      { "text": "Reiner Braun", "isCorrect": true },
+      { "text": "Porco Galliard", "isCorrect": false },
+      { "text": "Marcel Galliard", "isCorrect": false }
+    ],
+    "explanation": "Reiner Braun is the Armored Titan. He, along with Bertholdt (Colossal Titan) and Annie (Female Titan), infiltrated the walls as warriors from Marley. Reiner broke through the inner gate of Shiganshina after the Colossal Titan breached the outer wall."
+  },
+  {
+    "question_text": "What is the name of the district where Eren grew up?",
+    "question_type": "multiple_choice",
+    "difficulty": "medium",
+    "options": [
+      { "text": "Trost District", "isCorrect": false },
+      { "text": "Stohess District", "isCorrect": false },
+      { "text": "Shiganshina District", "isCorrect": true },
+      { "text": "Karanes District", "isCorrect": false }
+    ],
+    "explanation": "Shiganshina District is the southernmost town along Wall Maria where Eren, Mikasa, and Armin grew up. It is the first area to fall when the Colossal Titan breaches the gate."
+  },
+  {
+    "question_text": "What is the name of the nation across the sea that sent warriors to infiltrate Paradis Island?",
+    "question_type": "multiple_choice",
+    "difficulty": "hard",
+    "options": [
+      { "text": "Hizuru", "isCorrect": false },
+      { "text": "Eldia", "isCorrect": false },
+      { "text": "Marley", "isCorrect": true },
+      { "text": "Liberio", "isCorrect": false }
+    ],
+    "explanation": "Marley is the powerful nation across the sea that sent Reiner, Bertholdt, Annie, and Marcel to Paradis Island as warriors to retrieve the Founding Titan. Marley uses Titan powers as weapons of war and oppresses the Eldian people within its borders."
+  },
+  {
+    "question_text": "What is the name of the Eldian king who created the walls and erased humanity's memories?",
+    "question_type": "multiple_choice",
+    "difficulty": "hard",
+    "options": [
+      { "text": "Rod Reiss", "isCorrect": false },
+      { "text": "Karl Fritz, the 145th King", "isCorrect": true },
+      { "text": "Uri Reiss", "isCorrect": false },
+      { "text": "King Fritz the First", "isCorrect": false }
+    ],
+    "explanation": "Karl Fritz, the 145th King of Eldia, used the Founding Titan's power to create the three walls from countless Colossal Titans. He then erased the memories of the Eldians within the walls and made a vow of pacifism renouncing war."
+  },
+  {
+    "question_text": "What is Ymir Fritz's (the Founder's) connection to the origin of the Titans?",
+    "question_type": "multiple_choice",
+    "difficulty": "hard",
+    "options": [
+      { "text": "She was a goddess who created Titans to punish humanity", "isCorrect": false },
+      { "text": "She was the first Titan, gaining her power from a mysterious creature in a tree, and after her death her power split into the Nine Titans", "isCorrect": true },
+      { "text": "She was a scientist who discovered Titan serum in an ancient laboratory", "isCorrect": false },
+      { "text": "She inherited the power from the Devil of All Earth through a blood pact", "isCorrect": false }
+    ],
+    "explanation": "Ymir Fritz was a slave who fell into a great tree and came into contact with a mysterious spine-like creature, which granted her the power of the Titans. She served King Fritz and bore his children. After her death, her power was split among her descendants into the Nine Titans."
+  },
+  {
+    "question_text": "What is 'the Rumbling'?",
+    "question_type": "multiple_choice",
+    "difficulty": "hard",
+    "options": [
+      { "text": "An earthquake caused by Titans emerging from underground", "isCorrect": false },
+      { "text": "The activation of millions of Colossal Titans within the walls to flatten the world outside Paradis", "isCorrect": true },
+      { "text": "A military operation by the Survey Corps to reclaim Wall Maria", "isCorrect": false },
+      { "text": "The sound made when a Titan shifter transforms", "isCorrect": false }
+    ],
+    "explanation": "The Rumbling is the ultimate weapon: millions of Colossal Titans that make up the three walls are unleashed to march across the world and trample everything in their path. Eren activates the Rumbling using the Founding Titan's power to destroy the world beyond Paradis Island."
+  },
+  {
+    "question_text": "What is Eren's true motivation as revealed at the end of the series?",
+    "question_type": "multiple_choice",
+    "difficulty": "hard",
+    "options": [
+      { "text": "He wanted to become the ruler of the entire world", "isCorrect": false },
+      { "text": "He wanted to make his friends into heroes who stopped him, ensuring Paradis's freedom, while also fulfilling his desire to see a flat, empty world", "isCorrect": true },
+      { "text": "He was fully controlled by the Founding Titan and had no free will", "isCorrect": false },
+      { "text": "He wanted to eliminate all Titan powers from the world permanently", "isCorrect": false }
+    ],
+    "explanation": "Eren's final reveal shows a complex motivation: he orchestrated events so his friends would stop him and be seen as heroes by the world, securing peace for Paradis. He also confessed to Armin that part of him simply wanted to reduce the world to a blank, empty landscape, echoing the freedom Armin's book described."
+  },
+  {
+    "question_text": "What is the Ackerman clan's special trait that sets them apart from other Eldians?",
+    "question_type": "multiple_choice",
+    "difficulty": "hard",
+    "options": [
+      { "text": "They can transform into Titans at will without injections", "isCorrect": false },
+      { "text": "They can manifest the power of Titans in human form, granting extraordinary strength, and are immune to memory alteration by the Founding Titan", "isCorrect": true },
+      { "text": "They are the only bloodline that can use ODM Gear effectively", "isCorrect": false },
+      { "text": "They have a lifespan three times longer than normal humans", "isCorrect": false }
+    ],
+    "explanation": "The Ackerman clan is a byproduct of Titan science — they can access the power of Titans while remaining in human form, which gives them superhuman combat abilities. They are also immune to the Founding Titan's memory manipulation, which is why the royal government persecuted them."
+  },
+  {
+    "question_text": "What was the name of Grisha Yeager's first wife in Marley, and what became of her?",
+    "question_type": "multiple_choice",
+    "difficulty": "hard",
+    "options": [
+      { "text": "Carla Yeager — she was killed during the fall of Wall Maria", "isCorrect": false },
+      { "text": "Dina Fritz — she was turned into a Pure Titan and became the Smiling Titan that ate Eren's mother", "isCorrect": true },
+      { "text": "Faye Yeager — she was killed by Marleyan soldiers as a child", "isCorrect": false },
+      { "text": "Karina Braun — she raised Reiner in Marley's internment zone", "isCorrect": false }
+    ],
+    "explanation": "Dina Fritz was Grisha's first wife and a descendant of the royal Fritz family living in Marley. When their Eldian restorationist group was betrayed, she was turned into a Pure Titan. As the Smiling Titan, she killed Eren's mother Carla during the fall of Shiganshina."
+  },
+  {
+    "question_text": "What is 'the Coordinate' in the context of Attack on Titan?",
+    "question_type": "multiple_choice",
+    "difficulty": "hard",
+    "options": [
+      { "text": "The geographic center of the three walls", "isCorrect": false },
+      { "text": "The meeting point of the Paths where all Eldians are connected", "isCorrect": false },
+      { "text": "Another name for the Founding Titan's power — the ability to command all Titans and Subjects of Ymir", "isCorrect": true },
+      { "text": "A secret weapon developed by the Marleyan military", "isCorrect": false }
+    ],
+    "explanation": "The Coordinate is another name for the Founding Titan's power. It serves as the central point that connects all Subjects of Ymir through the Paths. Whoever holds the Coordinate can command all Titans and alter the biology and memories of all Eldians."
+  },
+  {
+    "question_text": "How does a person inherit one of the Nine Titan powers?",
+    "question_type": "multiple_choice",
+    "difficulty": "hard",
+    "options": [
+      { "text": "By being injected with a special serum created from Titan spinal fluid", "isCorrect": false },
+      { "text": "By touching the blood of a royal family member", "isCorrect": false },
+      { "text": "A mindless Titan must eat a Titan shifter in their human form to gain their power", "isCorrect": true },
+      { "text": "The power is passed down automatically to the eldest child upon the holder's death", "isCorrect": false }
+    ],
+    "explanation": "To inherit a Titan power, a mindless (Pure) Titan must consume a Titan shifter while the shifter is in human form. The mindless Titan then reverts to human and gains the shifter's power. If a shifter dies without being eaten, the power is passed to a random Eldian baby."
+  },
+  {
+    "question_text": "What is the 'Curse of Ymir' and how does it affect Titan shifters?",
+    "question_type": "multiple_choice",
+    "difficulty": "hard",
+    "options": [
+      { "text": "Titan shifters slowly lose their humanity and become mindless Titans", "isCorrect": false },
+      { "text": "Titan shifters can never have children", "isCorrect": false },
+      { "text": "Titan shifters die exactly 13 years after inheriting their power, because Ymir Fritz died 13 years after she first gained the Titan power", "isCorrect": true },
+      { "text": "Titan shifters are cursed to obey whoever holds the Founding Titan", "isCorrect": false }
+    ],
+    "explanation": "The Curse of Ymir dictates that no Titan shifter can live longer than 13 years after inheriting their power. This is because Ymir Fritz, the original Titan, died 13 years after she first obtained the power. As the end of the 13 years approaches, the shifter's body deteriorates."
+  }
+]

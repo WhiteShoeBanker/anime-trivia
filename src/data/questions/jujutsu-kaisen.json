@@ -1,0 +1,362 @@
+[
+  {
+    "question_text": "What is the name of the main character in Jujutsu Kaisen?",
+    "question_type": "multiple_choice",
+    "difficulty": "easy",
+    "options": [
+      { "text": "Yuji Itadori", "isCorrect": true },
+      { "text": "Megumi Fushiguro", "isCorrect": false },
+      { "text": "Tanjiro Kamado", "isCorrect": false },
+      { "text": "Yuta Okkotsu", "isCorrect": false }
+    ],
+    "explanation": "Yuji Itadori is the protagonist of Jujutsu Kaisen. He is a high school student with superhuman physical abilities who becomes entangled in the world of jujutsu sorcerers after swallowing a cursed object."
+  },
+  {
+    "question_text": "What does Yuji swallow that completely changes his life?",
+    "question_type": "multiple_choice",
+    "difficulty": "easy",
+    "options": [
+      { "text": "A cursed sword", "isCorrect": false },
+      { "text": "Sukuna's finger", "isCorrect": true },
+      { "text": "A demon's eye", "isCorrect": false },
+      { "text": "A spirit orb", "isCorrect": false }
+    ],
+    "explanation": "Yuji swallows one of Ryomen Sukuna's fingers — a special grade cursed object — to save his friends from a cursed spirit. This causes Sukuna to incarnate within his body, setting the entire story in motion."
+  },
+  {
+    "question_text": "Who is known as the King of Curses?",
+    "question_type": "multiple_choice",
+    "difficulty": "easy",
+    "options": [
+      { "text": "Satoru Gojo", "isCorrect": false },
+      { "text": "Kenjaku", "isCorrect": false },
+      { "text": "Ryomen Sukuna", "isCorrect": true },
+      { "text": "Suguru Geto", "isCorrect": false }
+    ],
+    "explanation": "Ryomen Sukuna is the King of Curses, an ancient and overwhelmingly powerful cursed spirit from over a thousand years ago. He is considered the most powerful curse to have ever existed."
+  },
+  {
+    "question_text": "What school does Yuji attend for jujutsu training?",
+    "question_type": "multiple_choice",
+    "difficulty": "easy",
+    "options": [
+      { "text": "Kyoto Jujutsu High", "isCorrect": false },
+      { "text": "Tokyo Jujutsu High", "isCorrect": true },
+      { "text": "U.A. High School", "isCorrect": false },
+      { "text": "Shinra Academy", "isCorrect": false }
+    ],
+    "explanation": "Yuji enrolls at Tokyo Jujutsu High (formally known as Tokyo Metropolitan Curse Technical College) to train as a jujutsu sorcerer under the guidance of Satoru Gojo while consuming all of Sukuna's fingers before being executed."
+  },
+  {
+    "question_text": "Who is Yuji's blindfolded teacher?",
+    "question_type": "multiple_choice",
+    "difficulty": "easy",
+    "options": [
+      { "text": "Kento Nanami", "isCorrect": false },
+      { "text": "Masamichi Yaga", "isCorrect": false },
+      { "text": "Suguru Geto", "isCorrect": false },
+      { "text": "Satoru Gojo", "isCorrect": true }
+    ],
+    "explanation": "Satoru Gojo is the blindfolded teacher of the first-year students at Tokyo Jujutsu High. He covers his eyes because his Six Eyes ability processes too much visual information otherwise. He is considered the strongest jujutsu sorcerer alive."
+  },
+  {
+    "question_text": "What are the evil supernatural beings in Jujutsu Kaisen called?",
+    "question_type": "multiple_choice",
+    "difficulty": "easy",
+    "options": [
+      { "text": "Demons", "isCorrect": false },
+      { "text": "Hollows", "isCorrect": false },
+      { "text": "Cursed Spirits", "isCorrect": true },
+      { "text": "Titans", "isCorrect": false }
+    ],
+    "explanation": "The supernatural antagonists in Jujutsu Kaisen are called Cursed Spirits (or simply Curses). They are born from the negative emotions of humans such as fear, hatred, and sadness, and they manifest as dangerous creatures."
+  },
+  {
+    "question_text": "Who are Yuji's two classmates as first-year students at Tokyo Jujutsu High?",
+    "question_type": "multiple_choice",
+    "difficulty": "easy",
+    "options": [
+      { "text": "Maki Zenin and Toge Inumaki", "isCorrect": false },
+      { "text": "Megumi Fushiguro and Nobara Kugisaki", "isCorrect": true },
+      { "text": "Panda and Yuta Okkotsu", "isCorrect": false },
+      { "text": "Aoi Todo and Mai Zenin", "isCorrect": false }
+    ],
+    "explanation": "Megumi Fushiguro and Nobara Kugisaki are Yuji's fellow first-year students at Tokyo Jujutsu High. Together, the three form the core trio of the series, each with distinct personalities and fighting styles."
+  },
+  {
+    "question_text": "What is the energy source that jujutsu sorcerers use to fuel their abilities?",
+    "question_type": "multiple_choice",
+    "difficulty": "easy",
+    "options": [
+      { "text": "Chakra", "isCorrect": false },
+      { "text": "Nen", "isCorrect": false },
+      { "text": "Reiatsu", "isCorrect": false },
+      { "text": "Cursed Energy", "isCorrect": true }
+    ],
+    "explanation": "Cursed Energy is the fundamental power source in Jujutsu Kaisen. It flows from negative emotions and is harnessed by jujutsu sorcerers to perform cursed techniques and combat cursed spirits."
+  },
+  {
+    "question_text": "Why is Yuji sentenced to death by the jujutsu higher-ups?",
+    "question_type": "multiple_choice",
+    "difficulty": "easy",
+    "options": [
+      { "text": "He destroyed a sacred temple", "isCorrect": false },
+      { "text": "He is the vessel of Sukuna", "isCorrect": true },
+      { "text": "He refused to follow orders", "isCorrect": false },
+      { "text": "He attacked another sorcerer", "isCorrect": false }
+    ],
+    "explanation": "The jujutsu higher-ups sentence Yuji to death because he became the host/vessel of Ryomen Sukuna after swallowing his finger. Harboring the King of Curses inside his body makes him an existential threat in their eyes."
+  },
+  {
+    "question_text": "What is Yuji Itadori's primary fighting style?",
+    "question_type": "multiple_choice",
+    "difficulty": "easy",
+    "options": [
+      { "text": "Swordsmanship", "isCorrect": false },
+      { "text": "Long-range cursed energy blasts", "isCorrect": false },
+      { "text": "Close combat martial arts enhanced with cursed energy", "isCorrect": true },
+      { "text": "Shikigami summoning", "isCorrect": false }
+    ],
+    "explanation": "Yuji primarily fights using martial arts and close-quarters combat enhanced with cursed energy. His exceptional physical strength and speed, combined with the ability to infuse his punches with cursed energy (Divergent Fist), make him a formidable hand-to-hand fighter."
+  },
+  {
+    "question_text": "What is Satoru Gojo's cursed technique called?",
+    "question_type": "multiple_choice",
+    "difficulty": "medium",
+    "options": [
+      { "text": "Ten Shadows Technique", "isCorrect": false },
+      { "text": "Limitless", "isCorrect": true },
+      { "text": "Straw Doll Technique", "isCorrect": false },
+      { "text": "Boogie Woogie", "isCorrect": false }
+    ],
+    "explanation": "Gojo's cursed technique is called Limitless (Mukagen). It grants him control over space at an atomic level, with Infinity being its neutral application that creates an infinite distance between him and anything that tries to touch him."
+  },
+  {
+    "question_text": "What is the name of Megumi Fushiguro's inherited cursed technique?",
+    "question_type": "multiple_choice",
+    "difficulty": "medium",
+    "options": [
+      { "text": "Cursed Speech", "isCorrect": false },
+      { "text": "Blood Manipulation", "isCorrect": false },
+      { "text": "Ten Shadows Technique", "isCorrect": true },
+      { "text": "Projection Sorcery", "isCorrect": false }
+    ],
+    "explanation": "Megumi uses the Ten Shadows Technique, an inherited technique of the Zenin family that allows him to summon up to ten different shikigami using shadows. It is considered one of the most powerful inherited techniques in the jujutsu world."
+  },
+  {
+    "question_text": "What is a Domain Expansion in Jujutsu Kaisen?",
+    "question_type": "multiple_choice",
+    "difficulty": "medium",
+    "options": [
+      { "text": "A barrier that heals all allies inside it", "isCorrect": false },
+      { "text": "A technique that doubles the user's cursed energy", "isCorrect": false },
+      { "text": "The pinnacle technique that manifests the user's innate domain as a real space with guaranteed-hit attacks", "isCorrect": true },
+      { "text": "A method to permanently seal a cursed spirit", "isCorrect": false }
+    ],
+    "explanation": "A Domain Expansion is the most advanced and powerful technique a jujutsu sorcerer can perform. It constructs the user's innate domain as an actual physical space, trapping opponents inside where the user's attacks become unavoidable guaranteed hits."
+  },
+  {
+    "question_text": "Which cursed spirit is most closely associated with manipulating human emotions and transfiguring souls during the Shibuya Incident arc?",
+    "question_type": "multiple_choice",
+    "difficulty": "medium",
+    "options": [
+      { "text": "Jogo", "isCorrect": false },
+      { "text": "Hanami", "isCorrect": false },
+      { "text": "Dagon", "isCorrect": false },
+      { "text": "Mahito", "isCorrect": true }
+    ],
+    "explanation": "Mahito is the special grade cursed spirit born from human hatred toward other humans. His Idle Transfiguration technique allows him to reshape souls (and therefore bodies), making him one of the most dangerous and personally antagonistic cursed spirits in the Shibuya Incident arc."
+  },
+  {
+    "question_text": "What is Nobara Kugisaki's cursed technique?",
+    "question_type": "multiple_choice",
+    "difficulty": "medium",
+    "options": [
+      { "text": "Cursed Speech", "isCorrect": false },
+      { "text": "Straw Doll Technique", "isCorrect": true },
+      { "text": "Construction", "isCorrect": false },
+      { "text": "Star Rage", "isCorrect": false }
+    ],
+    "explanation": "Nobara's cursed technique is the Straw Doll Technique (Shinso Sojutsu). She uses a hammer, nails, and a straw doll to attack opponents through resonance — driving nails into a doll linked to the target to inflict damage from any distance."
+  },
+  {
+    "question_text": "What is a Binding Vow in Jujutsu Kaisen?",
+    "question_type": "multiple_choice",
+    "difficulty": "medium",
+    "options": [
+      { "text": "A vow to never use cursed energy again", "isCorrect": false },
+      { "text": "A pact that exchanges one condition for another to increase power or impose restrictions", "isCorrect": true },
+      { "text": "A ritual to summon a shikigami permanently", "isCorrect": false },
+      { "text": "A contract between a sorcerer and a cursed spirit to share power", "isCorrect": false }
+    ],
+    "explanation": "A Binding Vow is a pact or contract in jujutsu that trades one thing for another. By accepting a restriction or disadvantage, a sorcerer can gain increased power elsewhere. They are enforced by cursed energy itself and breaking one has severe consequences."
+  },
+  {
+    "question_text": "Who is the true identity of the person inhabiting Suguru Geto's body and leading the cursed spirits?",
+    "question_type": "multiple_choice",
+    "difficulty": "medium",
+    "options": [
+      { "text": "Ryomen Sukuna", "isCorrect": false },
+      { "text": "Tengen", "isCorrect": false },
+      { "text": "Kenjaku", "isCorrect": true },
+      { "text": "Toji Fushiguro", "isCorrect": false }
+    ],
+    "explanation": "Kenjaku is an ancient sorcerer who has survived for over a thousand years by transferring his brain into other people's bodies. He took over the body of Suguru Geto after Geto's death and uses it to orchestrate his plans, appearing as 'Pseudo-Geto' to those who know the truth."
+  },
+  {
+    "question_text": "What happens to Gojo during the Shibuya Incident?",
+    "question_type": "multiple_choice",
+    "difficulty": "medium",
+    "options": [
+      { "text": "He loses his Six Eyes", "isCorrect": false },
+      { "text": "He is sealed inside the Prison Realm", "isCorrect": true },
+      { "text": "He is killed by Sukuna", "isCorrect": false },
+      { "text": "He is exiled to the cursed spirit realm", "isCorrect": false }
+    ],
+    "explanation": "During the Shibuya Incident, Kenjaku (in Geto's body) successfully seals Gojo inside the Prison Realm, a special grade cursed object that traps its target in an inescapable dimension. This was the primary objective of the entire Shibuya Incident."
+  },
+  {
+    "question_text": "What is the highest and most powerful classification grade for sorcerers and cursed spirits?",
+    "question_type": "multiple_choice",
+    "difficulty": "medium",
+    "options": [
+      { "text": "Grade 1", "isCorrect": false },
+      { "text": "Supreme Grade", "isCorrect": false },
+      { "text": "Special Grade", "isCorrect": true },
+      { "text": "S-Rank", "isCorrect": false }
+    ],
+    "explanation": "Special Grade is the highest classification for both jujutsu sorcerers and cursed spirits. It denotes power that exceeds the standard grading scale entirely. Special grade entities like Gojo, Yuta, Sukuna, and Mahito are considered catastrophically powerful."
+  },
+  {
+    "question_text": "What is Aoi Todo's cursed technique called, and what does it do?",
+    "question_type": "multiple_choice",
+    "difficulty": "medium",
+    "options": [
+      { "text": "Boogie Woogie — swaps the positions of two targets by clapping", "isCorrect": true },
+      { "text": "Black Flash — concentrates cursed energy into a devastating punch", "isCorrect": false },
+      { "text": "Ratio Technique — creates a weak point on any target he touches", "isCorrect": false },
+      { "text": "Star Rage — launches explosive cursed energy projectiles", "isCorrect": false }
+    ],
+    "explanation": "Todo's cursed technique is Boogie Woogie. By clapping his hands, he can instantly swap the positions of two objects or people that have sufficient cursed energy. This makes him unpredictable in combat and an exceptional tactical fighter."
+  },
+  {
+    "question_text": "What is the name of Gojo's Domain Expansion?",
+    "question_type": "multiple_choice",
+    "difficulty": "hard",
+    "options": [
+      { "text": "Chimera Shadow Garden", "isCorrect": false },
+      { "text": "Malevolent Shrine", "isCorrect": false },
+      { "text": "Unlimited Void", "isCorrect": true },
+      { "text": "Horizon of the Captivating Skandha", "isCorrect": false }
+    ],
+    "explanation": "Gojo's Domain Expansion is called Unlimited Void (Muryokusho). It floods the target's mind with infinite information and stimuli simultaneously, effectively paralyzing them as their brain tries to process everything and nothing at the same time."
+  },
+  {
+    "question_text": "What are the names of Sukuna's primary slashing cursed techniques?",
+    "question_type": "multiple_choice",
+    "difficulty": "hard",
+    "options": [
+      { "text": "Piercing Blood and Supernova", "isCorrect": false },
+      { "text": "Dismantle and Cleave", "isCorrect": true },
+      { "text": "Blade Dance and Cross Slash", "isCorrect": false },
+      { "text": "Razor Edge and Split", "isCorrect": false }
+    ],
+    "explanation": "Sukuna's cursed technique includes two primary slashing attacks: Dismantle, which cuts through objects without cursed energy, and Cleave, which adapts to the toughness and cursed energy of the target to cut them in one strike. He also possesses a fire-based technique called Open (Fuga)."
+  },
+  {
+    "question_text": "What is Kenjaku's ultimate goal involving Tengen and the population of Japan?",
+    "question_type": "multiple_choice",
+    "difficulty": "hard",
+    "options": [
+      { "text": "To absorb Tengen's immortality and become a god", "isCorrect": false },
+      { "text": "To merge all of Japan's population with Tengen to force humanity's evolution", "isCorrect": true },
+      { "text": "To use Tengen to resurrect Sukuna at full power", "isCorrect": false },
+      { "text": "To destroy Tengen's barriers and flood the world with cursed spirits", "isCorrect": false }
+    ],
+    "explanation": "Kenjaku's ultimate goal is to merge the entire non-sorcerer population of Japan with the immortal being Tengen, creating a new form of evolved humanity. The Culling Game serves as a necessary step in this plan by optimizing cursed energy across the population."
+  },
+  {
+    "question_text": "What is the Culling Game?",
+    "question_type": "multiple_choice",
+    "difficulty": "hard",
+    "options": [
+      { "text": "A tournament between jujutsu schools to determine the strongest sorcerer", "isCorrect": false },
+      { "text": "A deadly competition orchestrated by Kenjaku where awakened sorcerers must fight and earn points or die", "isCorrect": true },
+      { "text": "A ritual to determine the next vessel for Sukuna", "isCorrect": false },
+      { "text": "A series of exorcism missions assigned by the jujutsu higher-ups", "isCorrect": false }
+    ],
+    "explanation": "The Culling Game is a deadly battle royale set up by Kenjaku across multiple colonies in Japan. Awakened sorcerers — both modern and reincarnated ancient ones — are forced to fight and accumulate points. Failure to earn points within a set period results in the removal of the participant's cursed technique, which effectively means death."
+  },
+  {
+    "question_text": "What is the name of Megumi Fushiguro's Domain Expansion?",
+    "question_type": "multiple_choice",
+    "difficulty": "hard",
+    "options": [
+      { "text": "Unlimited Void", "isCorrect": false },
+      { "text": "Self-Embodiment of Perfection", "isCorrect": false },
+      { "text": "Chimera Shadow Garden", "isCorrect": true },
+      { "text": "Coffin of the Iron Mountain", "isCorrect": false }
+    ],
+    "explanation": "Megumi's Domain Expansion is Chimera Shadow Garden. It floods the surrounding area with dense shadows, allowing Megumi to summon multiple shikigami simultaneously and use the shadows themselves as weapons. Though incomplete for much of the series, it remains a powerful technique."
+  },
+  {
+    "question_text": "What is the Six Eyes ability that Gojo possesses, and what does it enable?",
+    "question_type": "multiple_choice",
+    "difficulty": "hard",
+    "options": [
+      { "text": "It lets him see the future and predict attacks", "isCorrect": false },
+      { "text": "It allows him to perceive cursed energy at an atomic level and use Limitless with virtually zero energy cost", "isCorrect": true },
+      { "text": "It grants him six additional cursed techniques from past sorcerers", "isCorrect": false },
+      { "text": "It enables him to see through any barrier or concealment technique", "isCorrect": false }
+    ],
+    "explanation": "The Six Eyes (Rikugan) is an ocular jujutsu trait that allows Gojo to perceive cursed energy at an atomic level with extraordinary precision. Combined with the Limitless technique, the Six Eyes reduce the cursed energy cost to near zero, effectively giving Gojo limitless stamina for his abilities."
+  },
+  {
+    "question_text": "Who was Gojo's best friend who later became a curse user and was eventually killed?",
+    "question_type": "multiple_choice",
+    "difficulty": "hard",
+    "options": [
+      { "text": "Kento Nanami", "isCorrect": false },
+      { "text": "Aoi Todo", "isCorrect": false },
+      { "text": "Suguru Geto", "isCorrect": true },
+      { "text": "Toji Fushiguro", "isCorrect": false }
+    ],
+    "explanation": "Suguru Geto was Gojo's best friend and fellow student at Tokyo Jujutsu High. They were once considered the strongest duo. However, Geto grew disillusioned with protecting non-sorcerers and defected, becoming a curse user who sought to eliminate all non-sorcerers. He was eventually killed, and his body was later taken over by Kenjaku."
+  },
+  {
+    "question_text": "What is a Reverse Cursed Technique?",
+    "question_type": "multiple_choice",
+    "difficulty": "hard",
+    "options": [
+      { "text": "A technique that reverses the effect of an opponent's cursed technique", "isCorrect": false },
+      { "text": "A technique that multiplies cursed energy by itself to create positive energy for healing", "isCorrect": true },
+      { "text": "A technique that reverses time within a localized area", "isCorrect": false },
+      { "text": "A technique that converts cursed spirits back into human souls", "isCorrect": false }
+    ],
+    "explanation": "Reverse Cursed Technique works by multiplying negative cursed energy by itself (negative times negative equals positive) to generate positive energy. This positive energy can be used for healing, which normal cursed energy cannot do. Very few sorcerers can use it — notably Gojo and Sukuna can use it instinctively."
+  },
+  {
+    "question_text": "What is the name of Sukuna's Domain Expansion?",
+    "question_type": "multiple_choice",
+    "difficulty": "hard",
+    "options": [
+      { "text": "Unlimited Void", "isCorrect": false },
+      { "text": "Chimera Shadow Garden", "isCorrect": false },
+      { "text": "Womb Profusion", "isCorrect": false },
+      { "text": "Malevolent Shrine", "isCorrect": true }
+    ],
+    "explanation": "Sukuna's Domain Expansion is Malevolent Shrine (Fukuma Mizushi). Uniquely among Domain Expansions, it does not create a separate enclosed space — instead it manifests as a Buddhist shrine that applies its guaranteed-hit effect to a vast open area, which is considered a more refined and advanced application of Domain Expansion."
+  },
+  {
+    "question_text": "What is the significance of Sukuna having exactly 20 fingers?",
+    "question_type": "multiple_choice",
+    "difficulty": "hard",
+    "options": [
+      { "text": "Each finger represents a different cursed technique he mastered in life", "isCorrect": false },
+      { "text": "His power was split into 20 indestructible cursed fingers after death, and consuming all 20 would fully revive him", "isCorrect": true },
+      { "text": "He had four arms in his original form, giving him a natural advantage in combat", "isCorrect": false },
+      { "text": "The 20 fingers correspond to 20 domain expansions he can deploy simultaneously", "isCorrect": false }
+    ],
+    "explanation": "After Sukuna's death over a thousand years ago, his immense power could not be destroyed and was preserved in 20 indestructible cursed fingers (he originally had four arms, hence 20 fingers). These fingers are special grade cursed objects, and consuming all 20 would fully restore Sukuna to his peak power within his vessel."
+  }
+]

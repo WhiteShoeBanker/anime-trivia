@@ -1,0 +1,362 @@
+[
+  {
+    "question_text": "What village is Naruto from?",
+    "question_type": "multiple_choice",
+    "difficulty": "easy",
+    "options": [
+      { "text": "Konohagakure (Hidden Leaf Village)", "isCorrect": true },
+      { "text": "Sunagakure (Hidden Sand Village)", "isCorrect": false },
+      { "text": "Kirigakure (Hidden Mist Village)", "isCorrect": false },
+      { "text": "Kumogakure (Hidden Cloud Village)", "isCorrect": false }
+    ],
+    "explanation": "Naruto Uzumaki was born and raised in Konohagakure, also known as the Hidden Leaf Village, which is the main setting of the series."
+  },
+  {
+    "question_text": "Who is Naruto's sensei in Team 7?",
+    "question_type": "multiple_choice",
+    "difficulty": "easy",
+    "options": [
+      { "text": "Might Guy", "isCorrect": false },
+      { "text": "Kakashi Hatake", "isCorrect": true },
+      { "text": "Asuma Sarutobi", "isCorrect": false },
+      { "text": "Kurenai Yuhi", "isCorrect": false }
+    ],
+    "explanation": "Kakashi Hatake is the jonin leader assigned to Team 7, which consists of Naruto, Sasuke, and Sakura."
+  },
+  {
+    "question_text": "What is the name of the demon fox sealed inside Naruto?",
+    "question_type": "multiple_choice",
+    "difficulty": "easy",
+    "options": [
+      { "text": "Shukaku", "isCorrect": false },
+      { "text": "Matatabi", "isCorrect": false },
+      { "text": "Kurama (Nine-Tails)", "isCorrect": true },
+      { "text": "Son Goku", "isCorrect": false }
+    ],
+    "explanation": "The Nine-Tailed Fox, later revealed to be named Kurama, was sealed inside Naruto by his father Minato Namikaze on the day of his birth."
+  },
+  {
+    "question_text": "Who is Naruto's rival and teammate in Team 7?",
+    "question_type": "multiple_choice",
+    "difficulty": "easy",
+    "options": [
+      { "text": "Neji Hyuga", "isCorrect": false },
+      { "text": "Shikamaru Nara", "isCorrect": false },
+      { "text": "Sasuke Uchiha", "isCorrect": true },
+      { "text": "Kiba Inuzuka", "isCorrect": false }
+    ],
+    "explanation": "Sasuke Uchiha is Naruto's rival and fellow Team 7 member. Their rivalry and bond is one of the central themes of the entire series."
+  },
+  {
+    "question_text": "What is Naruto's signature jutsu?",
+    "question_type": "multiple_choice",
+    "difficulty": "easy",
+    "options": [
+      { "text": "Fireball Jutsu", "isCorrect": false },
+      { "text": "Shadow Clone Jutsu", "isCorrect": true },
+      { "text": "Substitution Jutsu", "isCorrect": false },
+      { "text": "Transformation Jutsu", "isCorrect": false }
+    ],
+    "explanation": "The Shadow Clone Jutsu (Kage Bunshin no Jutsu) is Naruto's signature technique. Unlike regular clones, shadow clones are solid copies that can fight and interact with the environment."
+  },
+  {
+    "question_text": "What does Naruto dream of becoming?",
+    "question_type": "multiple_choice",
+    "difficulty": "easy",
+    "options": [
+      { "text": "The strongest ninja in the world", "isCorrect": false },
+      { "text": "Hokage", "isCorrect": true },
+      { "text": "An ANBU captain", "isCorrect": false },
+      { "text": "A Legendary Sannin", "isCorrect": false }
+    ],
+    "explanation": "Naruto's lifelong dream is to become Hokage, the leader of the Hidden Leaf Village, so that everyone in the village will acknowledge and respect him."
+  },
+  {
+    "question_text": "What is the name of the pink-haired member of Team 7?",
+    "question_type": "multiple_choice",
+    "difficulty": "easy",
+    "options": [
+      { "text": "Ino Yamanaka", "isCorrect": false },
+      { "text": "Hinata Hyuga", "isCorrect": false },
+      { "text": "Sakura Haruno", "isCorrect": true },
+      { "text": "Tenten", "isCorrect": false }
+    ],
+    "explanation": "Sakura Haruno is the pink-haired kunoichi of Team 7. She later becomes a medical ninja trained by the Fifth Hokage, Tsunade."
+  },
+  {
+    "question_text": "What is the name of the academy teacher who treats Naruto to ramen?",
+    "question_type": "multiple_choice",
+    "difficulty": "easy",
+    "options": [
+      { "text": "Mizuki", "isCorrect": false },
+      { "text": "Iruka Umino", "isCorrect": true },
+      { "text": "Ebisu", "isCorrect": false },
+      { "text": "Konohamaru", "isCorrect": false }
+    ],
+    "explanation": "Iruka Umino is Naruto's academy teacher and one of the first people to truly acknowledge Naruto. He often treats Naruto to his favorite food at Ichiraku Ramen."
+  },
+  {
+    "question_text": "What is the name of the headband that Naruto and other ninja wear?",
+    "question_type": "multiple_choice",
+    "difficulty": "easy",
+    "options": [
+      { "text": "Chakra band", "isCorrect": false },
+      { "text": "Ninja crown", "isCorrect": false },
+      { "text": "Forehead protector", "isCorrect": true },
+      { "text": "Village crest", "isCorrect": false }
+    ],
+    "explanation": "The headband is called a forehead protector (hitai-ate). It is engraved with the symbol of the ninja's village — in Naruto's case, the Hidden Leaf symbol."
+  },
+  {
+    "question_text": "What is Naruto's favorite food?",
+    "question_type": "multiple_choice",
+    "difficulty": "easy",
+    "options": [
+      { "text": "Sushi", "isCorrect": false },
+      { "text": "Onigiri (rice balls)", "isCorrect": false },
+      { "text": "Ramen from Ichiraku Ramen", "isCorrect": true },
+      { "text": "Dango", "isCorrect": false }
+    ],
+    "explanation": "Naruto's favorite food is ramen, specifically from Ichiraku Ramen, a small ramen stand in the Hidden Leaf Village run by Teuchi and his daughter Ayame."
+  },
+  {
+    "question_text": "What is the name of Sasuke's older brother?",
+    "question_type": "multiple_choice",
+    "difficulty": "medium",
+    "options": [
+      { "text": "Madara Uchiha", "isCorrect": false },
+      { "text": "Obito Uchiha", "isCorrect": false },
+      { "text": "Itachi Uchiha", "isCorrect": true },
+      { "text": "Shisui Uchiha", "isCorrect": false }
+    ],
+    "explanation": "Itachi Uchiha is Sasuke's older brother who massacred the entire Uchiha clan, leaving only Sasuke alive. Sasuke's desire for revenge against Itachi drives much of the story."
+  },
+  {
+    "question_text": "Which eye technique is unique to the Uchiha clan?",
+    "question_type": "multiple_choice",
+    "difficulty": "medium",
+    "options": [
+      { "text": "Byakugan", "isCorrect": false },
+      { "text": "Rinnegan", "isCorrect": false },
+      { "text": "Sharingan", "isCorrect": true },
+      { "text": "Tenseigan", "isCorrect": false }
+    ],
+    "explanation": "The Sharingan is the kekkei genkai (bloodline limit) dojutsu of the Uchiha clan. It allows the user to copy techniques, see chakra, and cast powerful genjutsu."
+  },
+  {
+    "question_text": "Who is the Fifth Hokage?",
+    "question_type": "multiple_choice",
+    "difficulty": "medium",
+    "options": [
+      { "text": "Jiraiya", "isCorrect": false },
+      { "text": "Tsunade", "isCorrect": true },
+      { "text": "Danzo Shimura", "isCorrect": false },
+      { "text": "Kakashi Hatake", "isCorrect": false }
+    ],
+    "explanation": "Tsunade, one of the Legendary Sannin, becomes the Fifth Hokage after the death of the Third Hokage. She is renowned as the greatest medical ninja in the world."
+  },
+  {
+    "question_text": "What is the name of Naruto's father?",
+    "question_type": "multiple_choice",
+    "difficulty": "medium",
+    "options": [
+      { "text": "Hiruzen Sarutobi", "isCorrect": false },
+      { "text": "Jiraiya", "isCorrect": false },
+      { "text": "Minato Namikaze", "isCorrect": true },
+      { "text": "Fugaku Uchiha", "isCorrect": false }
+    ],
+    "explanation": "Naruto's father is Minato Namikaze, the Fourth Hokage, also known as the Yellow Flash of the Leaf. He sacrificed his life to seal the Nine-Tails inside Naruto."
+  },
+  {
+    "question_text": "What organization does Itachi join after leaving the Hidden Leaf Village?",
+    "question_type": "multiple_choice",
+    "difficulty": "medium",
+    "options": [
+      { "text": "The Foundation (Root)", "isCorrect": false },
+      { "text": "The Sound Four", "isCorrect": false },
+      { "text": "Akatsuki", "isCorrect": true },
+      { "text": "The Seven Ninja Swordsmen", "isCorrect": false }
+    ],
+    "explanation": "Itachi joins the Akatsuki, a criminal organization of S-rank rogue ninja. The Akatsuki's goal is to capture all nine tailed beasts."
+  },
+  {
+    "question_text": "What is Rock Lee's specialty as a ninja?",
+    "question_type": "multiple_choice",
+    "difficulty": "medium",
+    "options": [
+      { "text": "Genjutsu (illusion techniques)", "isCorrect": false },
+      { "text": "Ninjutsu (ninja techniques)", "isCorrect": false },
+      { "text": "Taijutsu (hand-to-hand combat)", "isCorrect": true },
+      { "text": "Fuinjutsu (sealing techniques)", "isCorrect": false }
+    ],
+    "explanation": "Rock Lee specializes in taijutsu because he is unable to use ninjutsu or genjutsu. Despite this limitation, he becomes an extremely powerful fighter through sheer hard work and dedication."
+  },
+  {
+    "question_text": "What is the Rasengan?",
+    "question_type": "multiple_choice",
+    "difficulty": "medium",
+    "options": [
+      { "text": "A fire-based jutsu passed down in the Uchiha clan", "isCorrect": false },
+      { "text": "A spinning ball of chakra created by the Fourth Hokage", "isCorrect": true },
+      { "text": "A summoning technique that calls giant toads", "isCorrect": false },
+      { "text": "A lightning-based assassination technique", "isCorrect": false }
+    ],
+    "explanation": "The Rasengan is a spinning ball of concentrated chakra created by Minato Namikaze (the Fourth Hokage). It was later taught to Naruto by Jiraiya during their training journey."
+  },
+  {
+    "question_text": "Who is the leader of the Akatsuki as publicly known to the world?",
+    "question_type": "multiple_choice",
+    "difficulty": "medium",
+    "options": [
+      { "text": "Obito Uchiha", "isCorrect": false },
+      { "text": "Konan", "isCorrect": false },
+      { "text": "Pain (Nagato)", "isCorrect": true },
+      { "text": "Orochimaru", "isCorrect": false }
+    ],
+    "explanation": "Pain, whose real identity is Nagato, is the publicly known leader of the Akatsuki. He uses six corpses called the Six Paths of Pain to act as his proxies."
+  },
+  {
+    "question_text": "What is Gaara's title after the time skip in Naruto Shippuden?",
+    "question_type": "multiple_choice",
+    "difficulty": "medium",
+    "options": [
+      { "text": "Mizukage", "isCorrect": false },
+      { "text": "Tsuchikage", "isCorrect": false },
+      { "text": "Fifth Kazekage", "isCorrect": true },
+      { "text": "Raikage", "isCorrect": false }
+    ],
+    "explanation": "After the time skip, Gaara has become the Fifth Kazekage, the leader of the Hidden Sand Village (Sunagakure). This shows his dramatic transformation from a feared loner to a beloved leader."
+  },
+  {
+    "question_text": "What is the name of the technique Sasuke learns from Kakashi?",
+    "question_type": "multiple_choice",
+    "difficulty": "medium",
+    "options": [
+      { "text": "Rasengan", "isCorrect": false },
+      { "text": "Chidori", "isCorrect": true },
+      { "text": "Fire Ball Jutsu", "isCorrect": false },
+      { "text": "Shadow Clone Jutsu", "isCorrect": false }
+    ],
+    "explanation": "Kakashi teaches Sasuke the Chidori (also called Lightning Blade in Kakashi's enhanced version), a lightning-based technique that concentrates chakra in the user's hand for a powerful piercing attack."
+  },
+  {
+    "question_text": "What are the names of all three Legendary Sannin?",
+    "question_type": "multiple_choice",
+    "difficulty": "hard",
+    "options": [
+      { "text": "Jiraiya, Tsunade, and Orochimaru", "isCorrect": true },
+      { "text": "Jiraiya, Tsunade, and Kabuto", "isCorrect": false },
+      { "text": "Minato, Tsunade, and Orochimaru", "isCorrect": false },
+      { "text": "Jiraiya, Sakumo, and Orochimaru", "isCorrect": false }
+    ],
+    "explanation": "The three Legendary Sannin are Jiraiya (the Toad Sage), Tsunade (the Slug Princess), and Orochimaru (the Snake Sage). They were students of the Third Hokage, Hiruzen Sarutobi, and earned their title during the Second Great Ninja War from Hanzo of the Salamander."
+  },
+  {
+    "question_text": "What is the name of Might Guy's ultimate technique that he uses against Madara Uchiha?",
+    "question_type": "multiple_choice",
+    "difficulty": "hard",
+    "options": [
+      { "text": "Primary Lotus", "isCorrect": false },
+      { "text": "Morning Peacock", "isCorrect": false },
+      { "text": "Night Guy (Eight Gates: Gate of Death)", "isCorrect": true },
+      { "text": "Afternoon Tiger", "isCorrect": false }
+    ],
+    "explanation": "Night Guy is the ultimate taijutsu technique used by Might Guy when he opens all Eight Gates, including the final Gate of Death. He uses this technique against Madara Uchiha in the Fourth Great Ninja War, nearly killing him at the cost of almost losing his own life."
+  },
+  {
+    "question_text": "Who is historically recognized as one of the first to awaken the Mangekyo Sharingan?",
+    "question_type": "multiple_choice",
+    "difficulty": "hard",
+    "options": [
+      { "text": "Sasuke Uchiha", "isCorrect": false },
+      { "text": "Madara Uchiha", "isCorrect": true },
+      { "text": "Kakashi Hatake", "isCorrect": false },
+      { "text": "Fugaku Uchiha", "isCorrect": false }
+    ],
+    "explanation": "While Indra Otsutsuki is considered the progenitor of the Sharingan in ancient lore, Madara Uchiha is historically recognized as one of the first known shinobi to awaken the Mangekyo Sharingan, which he achieved alongside his brother Izuna Uchiha."
+  },
+  {
+    "question_text": "What is the name of the forbidden jutsu that reanimates the dead, used extensively by Kabuto during the Fourth Great Ninja War?",
+    "question_type": "multiple_choice",
+    "difficulty": "hard",
+    "options": [
+      { "text": "Rinne Rebirth", "isCorrect": false },
+      { "text": "Edo Tensei (Summoning: Impure World Reincarnation)", "isCorrect": true },
+      { "text": "Izanagi", "isCorrect": false },
+      { "text": "Reanimation Seal Jutsu", "isCorrect": false }
+    ],
+    "explanation": "The Edo Tensei (Summoning: Impure World Reincarnation) was originally created by the Second Hokage, Tobirama Senju. Kabuto Yakushi perfected the technique and used it to reanimate dozens of powerful dead shinobi during the Fourth Great Ninja War."
+  },
+  {
+    "question_text": "What is Kakashi's father's name and his famous nickname?",
+    "question_type": "multiple_choice",
+    "difficulty": "hard",
+    "options": [
+      { "text": "Sakumo Hatake, the White Fang of the Leaf", "isCorrect": true },
+      { "text": "Saizo Hatake, the Silver Shadow", "isCorrect": false },
+      { "text": "Kenshi Hatake, the Lightning Fang", "isCorrect": false },
+      { "text": "Takeshi Hatake, the Ghost of the Leaf", "isCorrect": false }
+    ],
+    "explanation": "Kakashi's father is Sakumo Hatake, known as the White Fang of the Leaf. He was said to be even more powerful than the Legendary Sannin. He took his own life after being shamed for choosing to save his comrades over completing a mission."
+  },
+  {
+    "question_text": "Which tailed beast is sealed inside Killer Bee?",
+    "question_type": "multiple_choice",
+    "difficulty": "hard",
+    "options": [
+      { "text": "Seven-Tails (Chomei)", "isCorrect": false },
+      { "text": "Two-Tails (Matatabi)", "isCorrect": false },
+      { "text": "Eight-Tails (Gyuki)", "isCorrect": true },
+      { "text": "Six-Tails (Saiken)", "isCorrect": false }
+    ],
+    "explanation": "Killer Bee is the jinchuriki of the Eight-Tails, Gyuki, a giant ox-like creature with octopus tails. Unlike most jinchuriki, Killer Bee has a perfect partnership with his tailed beast and can fully transform into it at will."
+  },
+  {
+    "question_text": "What is the name of Obito Uchiha's space-time dimension accessed through his Mangekyo Sharingan?",
+    "question_type": "multiple_choice",
+    "difficulty": "hard",
+    "options": [
+      { "text": "Tsukuyomi realm", "isCorrect": false },
+      { "text": "Kamui dimension", "isCorrect": true },
+      { "text": "Izanami void", "isCorrect": false },
+      { "text": "Susanoo plane", "isCorrect": false }
+    ],
+    "explanation": "The Kamui dimension is a separate space-time dimension accessible through Obito's Mangekyo Sharingan ability called Kamui. He can teleport himself and others into this dimension, and it also allows him to become intangible by sending parts of his body there."
+  },
+  {
+    "question_text": "What is the name of the sage who created ninjutsu and divided the Ten-Tails into the nine tailed beasts?",
+    "question_type": "multiple_choice",
+    "difficulty": "hard",
+    "options": [
+      { "text": "Hamura Otsutsuki", "isCorrect": false },
+      { "text": "Ashura Otsutsuki", "isCorrect": false },
+      { "text": "Hagoromo Otsutsuki (Sage of Six Paths)", "isCorrect": true },
+      { "text": "Kaguya Otsutsuki", "isCorrect": false }
+    ],
+    "explanation": "Hagoromo Otsutsuki, known as the Sage of Six Paths, is the legendary figure who created ninjutsu (ninshuu) and used his Creation of All Things technique to divide the Ten-Tails' chakra into the nine separate tailed beasts before sealing its body as the moon."
+  },
+  {
+    "question_text": "Where does Naruto train to learn Sage Mode in Naruto Shippuden?",
+    "question_type": "multiple_choice",
+    "difficulty": "hard",
+    "options": [
+      { "text": "The Forest of Death", "isCorrect": false },
+      { "text": "Turtle Island", "isCorrect": false },
+      { "text": "Mount Myoboku", "isCorrect": true },
+      { "text": "Ryuchi Cave", "isCorrect": false }
+    ],
+    "explanation": "Naruto trains to learn Sage Mode at Mount Myoboku, the home of the toad summons. He is trained by Fukasaku, one of the Two Great Sage Toads. The training begins around episode 154 of Naruto Shippuden."
+  },
+  {
+    "question_text": "According to Madara Uchiha, what is the purpose of the Infinite Tsukuyomi?",
+    "question_type": "multiple_choice",
+    "difficulty": "hard",
+    "options": [
+      { "text": "To destroy all ninja villages and start over", "isCorrect": false },
+      { "text": "To resurrect all fallen Uchiha clan members", "isCorrect": false },
+      { "text": "To create a world of endless dreams where suffering does not exist", "isCorrect": true },
+      { "text": "To grant the caster immortality and ultimate power", "isCorrect": false }
+    ],
+    "explanation": "Madara believed the Infinite Tsukuyomi would cast a genjutsu over the entire world, trapping everyone in an eternal dream where they would experience their ideal reality. In his view, this was the only way to end all war, hatred, and suffering — creating a perfect but illusory peace."
+  }
+]
