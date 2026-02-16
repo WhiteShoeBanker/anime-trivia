@@ -66,7 +66,7 @@ const FEATURE_FLAG_LABELS: Record<keyof FeatureFlags, string> = {
   badges: "Badges",
   daily_challenge: "Daily Challenge",
   grand_prix: "Grand Prix",
-  cosmetic_shop: "Cosmetic Shop",
+  cosmetic_shop: "Swag Shop",
 };
 
 const DIFFICULTY_KEYS: (keyof DailyChallengeMix)[] = [

@@ -397,7 +397,7 @@ const LandingContent = ({ topAnime, stats }: LandingContentProps) => {
                 href="/shop"
                 className="px-8 py-4 text-lg font-bold rounded-xl bg-white/10 text-white hover:bg-white/20 transition-colors"
               >
-                Cosmetic Shop
+                Swag Shop
               </Link>
             </motion.div>
 

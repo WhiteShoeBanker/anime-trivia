@@ -20,7 +20,7 @@ const Footer = () => {
               </li>
               <li>
                 <Link href="/shop" className="text-white/40 hover:text-primary transition-colors">
-                  Cosmetic Shop
+                  Swag Shop
                 </Link>
               </li>
             </ul>

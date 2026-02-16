@@ -19,7 +19,7 @@ const NAV_LINKS = [
   { href: "/grand-prix", label: "Grand Prix" },
   { href: "/duels", label: "Duels" },
   { href: "/badges", label: "Badges" },
-  { href: "/shop", label: "Shop" },
+  { href: "/shop", label: "Swag Shop" },
   { href: "/stats", label: "Stats" },
   { href: "/profile", label: "Profile" },
 ];

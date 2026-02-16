@@ -31,7 +31,7 @@ const ShopPage = () => {
       >
         <div className="flex items-center gap-3 mb-2">
           <Sparkles size={28} className="text-primary" />
-          <h1 className="text-3xl md:text-4xl font-bold">Cosmetic Shop</h1>
+          <h1 className="text-3xl md:text-4xl font-bold">Swag Shop</h1>
         </div>
         <p className="text-white/50">
           Customize your profile with frames, badges, titles, and themes.
@@ -89,8 +89,8 @@ const ShopPage = () => {
       >
         <Sparkles size={20} className="mx-auto text-primary mb-2" />
         <p className="text-sm text-white/60">
-          The cosmetic shop is under construction. Earn coins from quizzes and
-          spend them on cosmetics when the shop launches!
+          The Swag Shop is under construction. Earn coins from quizzes and
+          spend them on items when the shop launches!
         </p>
       </motion.div>
     </div>
