@@ -35,8 +35,8 @@ const LEAGUE_ICONS: Record<number, typeof Trophy> = {
   1: Shield,
   2: Medal,
   3: Star,
-  4: Gem,
-  5: Award,
+  4: Award,
+  5: Gem,
   6: Swords,
 };
 
