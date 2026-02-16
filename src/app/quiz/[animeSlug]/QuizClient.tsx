@@ -3,7 +3,8 @@
 import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
-import type { AnimeSeries, Difficulty } from "@/types";
+import type { AnimeSeries, Difficulty, AgeGroup } from "@/types";
+import { useAuth } from "@/contexts/AuthContext";
 import { useQuizStore } from "@/stores/quizStore";
 import { calculateMaxScore } from "@/lib/scoring";
 import { trackClientEvent } from "@/app/actions";
@@ -12,6 +13,8 @@ import ProgressBar from "@/components/ProgressBar";
 import QuizCard from "@/components/QuizCard";
 import ScoreDisplay from "@/components/ScoreDisplay";
 import AdBanner from "@/components/AdBanner";
+import LeagueNudge from "@/components/LeagueNudge";
+import AnimeDiversityTracker from "@/components/AnimeDiversityTracker";
 
 const QUIZ_LIMIT_KEY = "otaku_daily_quizzes";
 
@@ -40,12 +43,16 @@ interface QuizClientProps {
   anime: AnimeSeries;
   freeQuizLimit?: number;
   adVisible?: boolean;
+  ageGroup?: AgeGroup;
+  userId?: string;
 }
 
 const QuizClient = ({
   anime,
   freeQuizLimit = 10,
   adVisible = true,
+  ageGroup,
+  userId,
 }: QuizClientProps) => {
   const {
     quizStatus,
@@ -57,6 +64,7 @@ const QuizClient = ({
     xpEarned,
     answers,
     timePerQuestion,
+    leagueResult,
     startQuiz,
     selectAnswer,
     confirmAnswer,
@@ -64,15 +72,17 @@ const QuizClient = ({
     resetQuiz,
   } = useQuizStore();
 
-  const [localDifficulty, setLocalDifficulty] = useState<Difficulty>("medium");
+  const { profile } = useAuth();
+  const isPro = profile?.subscription_tier === "pro";
+  const isJunior = ageGroup === "junior";
+
+  const [localDifficulty, setLocalDifficulty] = useState<Difficulty>(
+    isJunior ? "easy" : "medium"
+  );
   const [timeLeft, setTimeLeft] = useState(30);
   const [copied, setCopied] = useState(false);
   const [limitReached, setLimitReached] = useState(false);
   const questionStartRef = useRef(Date.now());
-
-  // Auth placeholders — will be connected when auth is implemented
-  const isPro = false;
-  const isJunior = false;
 
   // Timer countdown
   useEffect(() => {
@@ -128,7 +138,7 @@ const QuizClient = ({
       anime: anime.slug,
       difficulty: localDifficulty,
     });
-    await startQuiz(anime.slug, localDifficulty);
+    await startQuiz(anime.slug, localDifficulty, ageGroup);
   };
 
   const handleAnswer = (index: number) => {
@@ -141,7 +151,7 @@ const QuizClient = ({
   const handlePlayAgain = async () => {
     const currentDifficulty = difficulty;
     resetQuiz();
-    await startQuiz(anime.slug, currentDifficulty);
+    await startQuiz(anime.slug, currentDifficulty, ageGroup);
   };
 
   const handleTryDifferentDifficulty = () => {
@@ -185,7 +195,11 @@ const QuizClient = ({
             </h2>
             <DifficultySelector
               selected={localDifficulty}
-              onSelect={setLocalDifficulty}
+              onSelect={(d) => {
+                if (isJunior && d === "hard") return;
+                setLocalDifficulty(d);
+              }}
+              isJunior={isJunior}
             />
           </div>
 
@@ -291,6 +305,55 @@ const QuizClient = ({
             total={questions.length}
             xpEarned={xpEarned}
           />
+
+          {/* League XP info */}
+          {leagueResult && userId && (
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3 }}
+              className="mt-4 space-y-3"
+            >
+              {/* League XP earned */}
+              <div className="bg-surface rounded-xl border border-white/10 p-3 flex items-center justify-between">
+                <div>
+                  <p className="text-xs text-white/50">League XP</p>
+                  <p className="text-lg font-bold text-primary">
+                    +{leagueResult.leagueXp}
+                    {leagueResult.multiplier < 1 && (
+                      <span className="text-xs font-normal text-amber-300 ml-1.5">
+                        ({Math.round(leagueResult.multiplier * 100)}%)
+                      </span>
+                    )}
+                  </p>
+                </div>
+                {leagueResult.previousRank !== null &&
+                  leagueResult.newRank !== null &&
+                  leagueResult.previousRank !== leagueResult.newRank && (
+                    <div className="text-right">
+                      <p className="text-xs text-white/50">Rank</p>
+                      <p className="text-sm font-semibold text-success">
+                        #{leagueResult.previousRank} → #{leagueResult.newRank}
+                      </p>
+                    </div>
+                  )}
+              </div>
+
+              {/* Nudge banner when diminishing returns kick in */}
+              {leagueResult.nudge && (
+                <LeagueNudge
+                  userId={userId}
+                  leagueXp={leagueResult.leagueXp}
+                  multiplier={leagueResult.multiplier}
+                  playCount={leagueResult.playCount}
+                  animeName={anime.title}
+                />
+              )}
+
+              {/* Anime diversity tracker */}
+              <AnimeDiversityTracker />
+            </motion.div>
+          )}
 
           {/* Ad banner — hidden for Pro, junior users, or when admin disables */}
           <AdBanner isPro={isPro} isJunior={isJunior} isVisible={adVisible} />

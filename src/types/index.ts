@@ -6,6 +6,10 @@ export type SubscriptionTier = "free" | "pro";
 
 export type CosmeticType = "avatar_frame" | "badge" | "title" | "theme";
 
+export type ContentRating = "E" | "T" | "M";
+
+export type AgeGroup = "junior" | "teen" | "full";
+
 export type CosmeticRarity = "common" | "rare" | "epic" | "legendary";
 
 export interface QuestionOption {
@@ -22,6 +26,7 @@ export interface AnimeSeries {
   genre: string[];
   total_questions: number;
   is_active: boolean;
+  content_rating: ContentRating;
   created_at: string;
 }
 
@@ -34,6 +39,7 @@ export interface Question {
   options: QuestionOption[];
   explanation: string | null;
   image_url: string | null;
+  kid_safe: boolean;
   created_at: string;
 }
 
@@ -49,6 +55,10 @@ export interface UserProfile {
   last_played_at: string | null;
   subscription_tier: SubscriptionTier;
   is_junior: boolean;
+  birth_year: number | null;
+  age_group: AgeGroup;
+  parent_email: string | null;
+  parent_consent_at: string | null;
   created_at: string;
 }
 
@@ -98,4 +108,84 @@ export interface UserCosmetic {
   user_id: string;
   cosmetic_id: string;
   purchased_at: string;
+}
+
+// ── League System ─────────────────────────────────────────────
+
+export type LeagueTier = 1 | 2 | 3 | 4 | 5 | 6;
+
+export type LeagueResult = "promoted" | "stayed" | "demoted" | "missed_promotion";
+
+export interface League {
+  id: string;
+  name: string;
+  tier: LeagueTier;
+  icon_url: string | null;
+  color: string;
+  promotion_slots: number;
+  demotion_slots: number;
+  group_size: number;
+  created_at: string;
+}
+
+export interface LeagueGroup {
+  id: string;
+  league_id: string;
+  week_start: string;
+  is_active: boolean;
+  created_at: string;
+}
+
+export interface LeagueMembership {
+  id: string;
+  user_id: string;
+  group_id: string;
+  league_id: string;
+  weekly_xp: number;
+  unique_anime_count: number;
+  joined_at: string;
+}
+
+export interface LeagueMembershipWithProfile extends LeagueMembership {
+  user_profiles: {
+    username: string | null;
+    display_name: string | null;
+    avatar_url: string | null;
+    age_group: AgeGroup;
+  };
+}
+
+export interface LeagueHistory {
+  id: string;
+  user_id: string;
+  league_id: string;
+  group_id: string;
+  week_start: string;
+  final_rank: number;
+  weekly_xp: number;
+  unique_anime_count: number;
+  result: LeagueResult;
+  created_at: string;
+}
+
+export interface WeeklyAnimePlay {
+  id: string;
+  user_id: string;
+  anime_id: string;
+  week_start: string;
+  play_count: number;
+  created_at: string;
+}
+
+export interface LeagueXpResult {
+  leagueXp: number;
+  multiplier: number;
+  playCount: number;
+  nudge: boolean;
+}
+
+export interface PromotionRequirements {
+  minAnime: number;
+  requiresHard: boolean;
+  requiresImpossible: number;
 }

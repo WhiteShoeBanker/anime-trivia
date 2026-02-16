@@ -1,13 +1,23 @@
 import { create } from "zustand";
 import { createClient } from "@/lib/supabase/client";
-import type { AnimeSeries, Question, Difficulty } from "@/types";
+import type { AnimeSeries, Question, Difficulty, AgeGroup, LeagueXpResult } from "@/types";
 import { calculateQuestionXP } from "@/lib/scoring";
+import { calculateLeagueXp, updateLeagueMembershipXp } from "@/lib/league-xp";
 
 interface QuizAnswer {
   questionId: string;
   selectedOption: number;
   isCorrect: boolean;
   timeMs: number;
+}
+
+interface LeagueResultInfo {
+  leagueXp: number;
+  multiplier: number;
+  playCount: number;
+  nudge: boolean;
+  previousRank: number | null;
+  newRank: number | null;
 }
 
 interface QuizState {
@@ -23,10 +33,11 @@ interface QuizState {
   quizStatus: "idle" | "loading" | "playing" | "reviewing" | "completed";
   selectedAnswer: number | null;
   isRevealed: boolean;
+  leagueResult: LeagueResultInfo | null;
 }
 
 interface QuizActions {
-  startQuiz: (animeSlug: string, difficulty: Difficulty) => Promise<void>;
+  startQuiz: (animeSlug: string, difficulty: Difficulty, ageGroup?: AgeGroup) => Promise<void>;
   selectAnswer: (optionIndex: number) => void;
   confirmAnswer: (timeMs: number) => void;
   nextQuestion: () => void;
@@ -53,12 +64,13 @@ const initialState: QuizState = {
   quizStatus: "idle",
   selectedAnswer: null,
   isRevealed: false,
+  leagueResult: null,
 };
 
 export const useQuizStore = create<QuizState & QuizActions>((set, get) => ({
   ...initialState,
 
-  startQuiz: async (animeSlug, difficulty) => {
+  startQuiz: async (animeSlug, difficulty, ageGroup) => {
     set({ quizStatus: "loading", difficulty });
 
     try {
@@ -75,11 +87,17 @@ export const useQuizStore = create<QuizState & QuizActions>((set, get) => ({
         return;
       }
 
-      const { data: allQuestions, error: questionsError } = await supabase
+      let questionsQuery = supabase
         .from("questions")
         .select("*")
         .eq("anime_id", anime.id)
         .eq("difficulty", difficulty);
+
+      if (ageGroup === "junior") {
+        questionsQuery = questionsQuery.eq("kid_safe", true);
+      }
+
+      const { data: allQuestions, error: questionsError } = await questionsQuery;
 
       if (questionsError) {
         set({ quizStatus: "idle" });
@@ -230,6 +248,7 @@ export const useQuizStore = create<QuizState & QuizActions>((set, get) => ({
 
       await supabase.from("user_answers").insert(userAnswers);
 
+      // Update user XP and rank
       const { data: profile } = await supabase
         .from("user_profiles")
         .select("total_xp")
@@ -265,6 +284,34 @@ export const useQuizStore = create<QuizState & QuizActions>((set, get) => ({
             last_played_at: new Date().toISOString(),
           })
           .eq("id", userId);
+      }
+
+      // League XP with diminishing returns
+      try {
+        const leagueXpResult = await calculateLeagueXp(
+          state.xpEarned,
+          state.currentAnime.id,
+          userId
+        );
+
+        const rankChange = await updateLeagueMembershipXp(
+          userId,
+          leagueXpResult.leagueXp,
+          state.currentAnime.id
+        );
+
+        set({
+          leagueResult: {
+            leagueXp: leagueXpResult.leagueXp,
+            multiplier: leagueXpResult.multiplier,
+            playCount: leagueXpResult.playCount,
+            nudge: leagueXpResult.nudge,
+            previousRank: rankChange?.previousRank ?? null,
+            newRank: rankChange?.newRank ?? null,
+          },
+        });
+      } catch {
+        // League XP calculation failed — non-critical
       }
     } catch {
       // Silently fail - quiz results are still shown locally
