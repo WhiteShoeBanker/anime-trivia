@@ -51,7 +51,7 @@ const TIME_LIMITS: Record<Difficulty, number> = {
   easy: 30,
   medium: 20,
   hard: 15,
-  impossible: 10,
+  impossible: 5,
 };
 
 const initialState: QuizState = {
