@@ -12,7 +12,14 @@ const ProgressBar = ({ current, total }: ProgressBarProps) => {
 
   return (
     <div className="w-full">
-      <div className="w-full h-2 bg-white/10 rounded-full overflow-hidden">
+      <div
+        className="w-full h-2 bg-white/10 rounded-full overflow-hidden"
+        role="progressbar"
+        aria-valuenow={current}
+        aria-valuemin={0}
+        aria-valuemax={total}
+        aria-label={`Question ${current} of ${total}`}
+      >
         <motion.div
           className="h-full bg-gradient-to-r from-primary to-accent rounded-full"
           initial={{ width: 0 }}

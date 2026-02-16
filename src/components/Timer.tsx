@@ -28,6 +28,8 @@ const Timer = ({ totalSeconds, timeLeft }: TimerProps) => {
       animate={shouldPulse ? { scale: [1, 1.1, 1] } : { scale: 1 }}
       transition={shouldPulse ? { duration: 0.6, repeat: Infinity } : undefined}
       className="relative flex items-center justify-center w-12 h-12"
+      role="timer"
+      aria-label={`${timeLeft} seconds remaining`}
     >
       <svg viewBox="0 0 48 48" className="w-full h-full -rotate-90">
         <circle

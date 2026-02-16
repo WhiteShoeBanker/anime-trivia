@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { getAnimeBySlug } from "@/lib/queries";
 import { getConfig } from "@/lib/admin-config";
 import { createClient } from "@/lib/supabase/server";
@@ -7,6 +8,26 @@ import QuizClient from "./QuizClient";
 
 interface Props {
   params: Promise<{ animeSlug: string }>;
+}
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { animeSlug } = await params;
+  let anime: AnimeSeries | null = null;
+
+  try {
+    anime = await getAnimeBySlug(animeSlug);
+  } catch {
+    // DB not available
+  }
+
+  if (!anime) {
+    return { title: "Quiz Not Found" };
+  }
+
+  return {
+    title: `${anime.title} Quiz`,
+    description: `Test your ${anime.title} knowledge with ${anime.total_questions}+ trivia questions. Choose your difficulty and prove you're a true fan!`,
+  };
 }
 
 export default async function QuizPage({ params }: Props) {

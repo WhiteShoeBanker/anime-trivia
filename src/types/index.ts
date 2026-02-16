@@ -68,6 +68,8 @@ export interface UserProfile {
   daily_quiz_count: number;
   daily_quiz_reset: string;
   emblem_badge_id: string | null;
+  daily_challenge_date: string | null;
+  daily_challenge_score: number | null;
   created_at: string;
 }
 

@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, LogOut, Swords, ShoppingBag, BarChart3 } from "lucide-react";
+import { Menu, X, LogOut, Swords, ShoppingBag, BarChart3, Calendar } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import BadgeIcon from "@/components/BadgeIcon";
 import type { Badge } from "@/types";
@@ -14,6 +14,7 @@ import { createClient } from "@/lib/supabase/client";
 const NAV_LINKS = [
   { href: "/", label: "Home" },
   { href: "/browse", label: "Browse" },
+  { href: "/daily", label: "Daily" },
   { href: "/leagues", label: "Leagues" },
   { href: "/grand-prix", label: "Grand Prix" },
   { href: "/duels", label: "Duels" },
@@ -126,12 +127,14 @@ const Navbar = () => {
               key={link.href}
               href={link.href}
               className="relative px-1 py-2 text-sm font-medium transition-colors hover:text-primary flex items-center gap-1.5"
+              aria-current={isActive(pathname, link.href) ? "page" : undefined}
               style={{
                 color: isActive(pathname, link.href)
                   ? "var(--color-primary)"
                   : "rgba(255,255,255,0.7)",
               }}
             >
+              {link.href === "/daily" && <Calendar size={14} />}
               {link.href === "/duels" && <Swords size={14} />}
               {link.href === "/shop" && <ShoppingBag size={14} />}
               {link.href === "/stats" && <BarChart3 size={14} />}
@@ -197,6 +200,7 @@ const Navbar = () => {
           className="md:hidden p-2"
           onClick={() => setMobileOpen(true)}
           aria-label="Open menu"
+          aria-expanded={mobileOpen}
         >
           <Menu size={24} />
         </button>
@@ -236,12 +240,14 @@ const Navbar = () => {
                   <Link
                     href={link.href}
                     className="text-2xl font-semibold transition-colors hover:text-primary flex items-center gap-2"
+                    aria-current={isActive(pathname, link.href) ? "page" : undefined}
                     style={{
                       color: isActive(pathname, link.href)
                         ? "var(--color-primary)"
                         : "white",
                     }}
                   >
+                    {link.href === "/daily" && <Calendar size={22} />}
                     {link.href === "/duels" && <Swords size={22} />}
                     {link.href === "/shop" && <ShoppingBag size={22} />}
                     {link.href === "/stats" && <BarChart3 size={22} />}

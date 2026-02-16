@@ -51,6 +51,9 @@ const AnswerButton = ({
       disabled={disabled}
       animate={shakeAnimation}
       transition={{ duration: 0.4 }}
+      role="radio"
+      aria-checked={isSelected}
+      aria-label={`Option ${LETTERS[index]}: ${text}`}
       className={`w-full flex items-center gap-3 px-4 py-3 min-h-[56px] rounded-xl border text-left transition-colors ${getStyles()}`}
     >
       <span
