@@ -206,7 +206,8 @@ export type BadgeCategory =
   | "daily"
   | "special"
   | "league"
-  | "grand_prix";
+  | "grand_prix"
+  | "duel";
 
 export type BadgeRarity = "common" | "uncommon" | "rare" | "epic" | "legendary";
 
@@ -329,4 +330,88 @@ export interface BadgeCheckContext {
   animeId?: string;
   answers?: { isCorrect: boolean; timeMs: number }[];
   xpEarned?: number;
+  isDuel?: boolean;
+  duelOpponentId?: string;
+}
+
+// ── Duel System ───────────────────────────────────────────────
+
+export type DuelMatchType = "quick_match" | "friend_challenge";
+
+export type DuelDifficulty = Difficulty | "mixed";
+
+export type DuelStatus =
+  | "waiting"
+  | "matched"
+  | "in_progress"
+  | "completed"
+  | "expired"
+  | "declined";
+
+export type FriendshipStatus = "pending" | "accepted" | "blocked";
+
+export interface Friendship {
+  id: string;
+  requester_id: string;
+  recipient_id: string;
+  status: FriendshipStatus;
+  created_at: string;
+}
+
+export interface FriendshipWithProfile extends Friendship {
+  user_profiles: {
+    id: string;
+    username: string | null;
+    display_name: string | null;
+    avatar_url: string | null;
+    age_group: AgeGroup;
+    total_xp: number;
+  };
+}
+
+export interface DuelMatch {
+  id: string;
+  challenger_id: string;
+  opponent_id: string | null;
+  match_type: DuelMatchType;
+  anime_id: string | null;
+  difficulty: DuelDifficulty;
+  question_count: number;
+  questions: string[];
+  challenger_score: number | null;
+  challenger_correct: number | null;
+  challenger_time_ms: number | null;
+  challenger_answers: Record<string, unknown>[] | null;
+  challenger_completed_at: string | null;
+  opponent_score: number | null;
+  opponent_correct: number | null;
+  opponent_time_ms: number | null;
+  opponent_answers: Record<string, unknown>[] | null;
+  opponent_completed_at: string | null;
+  winner_id: string | null;
+  status: DuelStatus;
+  challenger_xp_earned: number;
+  opponent_xp_earned: number;
+  expires_at: string;
+  created_at: string;
+}
+
+export interface DuelStats {
+  user_id: string;
+  total_duels: number;
+  wins: number;
+  losses: number;
+  draws: number;
+  win_streak: number;
+  best_win_streak: number;
+  giant_kills: number;
+  duel_xp_total: number;
+}
+
+export interface DuelCreateOptions {
+  match_type: DuelMatchType;
+  anime_id?: string;
+  difficulty: DuelDifficulty;
+  question_count: 5 | 10;
+  opponent_id?: string;
 }

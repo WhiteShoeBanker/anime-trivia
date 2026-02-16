@@ -7,6 +7,10 @@
     {
       "path": "/api/process-grand-prix",
       "schedule": "10 */6 * * *"
+    },
+    {
+      "path": "/api/expire-duels",
+      "schedule": "0 2 * * *"
     }
   ]
 }

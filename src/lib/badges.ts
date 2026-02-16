@@ -69,6 +69,10 @@ interface UserStats {
   recentQuizScores: { score: number; total: number; difficulty: string }[];
   gpQualificationCount: number;
   gpWinCount: number;
+  duelWins: number;
+  duelGiantKills: number;
+  duelWinStreak: number;
+  duelBestWinStreak: number;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -84,6 +88,7 @@ const gatherUserStats = async (userId: string, supabase: any): Promise<UserStats
     { data: recentSessions },
     { count: gpQualificationCount },
     { count: gpWinCount },
+    { data: duelStatsRow },
   ] = await Promise.all([
     supabase.from("user_profiles").select("*").eq("id", userId).single(),
     supabase
@@ -133,6 +138,11 @@ const gatherUserStats = async (userId: string, supabase: any): Promise<UserStats
       .select("*", { count: "exact", head: true })
       .eq("winner_id", userId)
       .eq("status", "completed"),
+    supabase
+      .from("duel_stats")
+      .select("wins, giant_kills, win_streak, best_win_streak")
+      .eq("user_id", userId)
+      .single(),
   ]);
 
   const hardScores = (hardQuizzes ?? []) as {
@@ -184,6 +194,10 @@ const gatherUserStats = async (userId: string, supabase: any): Promise<UserStats
     ),
     gpQualificationCount: gpQualificationCount ?? 0,
     gpWinCount: gpWinCount ?? 0,
+    duelWins: duelStatsRow?.wins ?? 0,
+    duelGiantKills: duelStatsRow?.giant_kills ?? 0,
+    duelWinStreak: duelStatsRow?.win_streak ?? 0,
+    duelBestWinStreak: duelStatsRow?.best_win_streak ?? 0,
   };
 };
 
@@ -194,7 +208,7 @@ const checkBadge = async (
   context: BadgeCheckContext,
   stats: UserStats,
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  _supabase: any
+  supabase: any
 ): Promise<boolean> => {
   const val = badge.requirement_value;
 
@@ -259,6 +273,21 @@ const checkBadge = async (
 
     case "gp_win_count":
       return stats.gpWinCount >= (val.count as number);
+
+    case "duel_wins":
+      return stats.duelWins >= (val.count as number);
+
+    case "duel_giant_kills":
+      return stats.duelGiantKills >= (val.count as number);
+
+    case "duel_win_streak":
+      return stats.duelBestWinStreak >= (val.count as number);
+
+    case "duel_perfect":
+      return checkDuelPerfect(context);
+
+    case "duel_rivalry":
+      return await checkDuelRivalry(context, val.count as number, supabase);
 
     default:
       return false;
@@ -360,6 +389,34 @@ const checkSpeedDifficultyBadge = (
 ): boolean => {
   if (context.difficulty !== difficulty) return false;
   return checkSpeedBadge(context, maxMs);
+};
+
+// ── Duel-Specific Checkers ──────────────────────────────────
+
+const checkDuelPerfect = (context: BadgeCheckContext): boolean => {
+  if (!context.isDuel) return false;
+  if (!context.quizScore || !context.quizTotal) return false;
+  return context.quizScore === context.quizTotal;
+};
+
+const checkDuelRivalry = async (
+  context: BadgeCheckContext,
+  requiredCount: number,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  supabase: any
+): Promise<boolean> => {
+  if (!context.isDuel || !context.duelOpponentId) return false;
+
+  const { count } = await supabase
+    .from("duel_matches")
+    .select("*", { count: "exact", head: true })
+    .eq("status", "completed")
+    .or(
+      `and(challenger_id.eq.${context.userId},opponent_id.eq.${context.duelOpponentId}),` +
+      `and(challenger_id.eq.${context.duelOpponentId},opponent_id.eq.${context.userId})`
+    );
+
+  return (count ?? 0) >= requiredCount;
 };
 
 // ── Emblem Management ───────────────────────────────────────
