@@ -6,12 +6,15 @@ import { usePathname, useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, LogOut } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
+import BadgeIcon from "@/components/BadgeIcon";
+import type { Badge } from "@/types";
+import { getUserEmblem } from "@/lib/badges";
 
 const NAV_LINKS = [
   { href: "/", label: "Home" },
   { href: "/browse", label: "Browse" },
   { href: "/leagues", label: "Leagues" },
-  { href: "/leaderboard", label: "Leaderboard" },
+  { href: "/badges", label: "Badges" },
   { href: "/profile", label: "Profile" },
 ];
 
@@ -42,7 +45,17 @@ const Navbar = () => {
   const pathname = usePathname();
   const router = useRouter();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [emblem, setEmblem] = useState<Badge | null>(null);
   const { user, profile, ageGroup, signOut } = useAuth();
+
+  // Fetch emblem when user/profile changes
+  useEffect(() => {
+    if (!user || !profile?.emblem_badge_id) {
+      setEmblem(null);
+      return;
+    }
+    getUserEmblem(user.id).then(setEmblem).catch(() => setEmblem(null));
+  }, [user, profile?.emblem_badge_id]);
 
   const handleSignIn = () => {
     router.push("/auth");
@@ -109,6 +122,15 @@ const Navbar = () => {
           {user ? (
             <>
               <AgeBadge ageGroup={ageGroup} />
+              {emblem && (
+                <BadgeIcon
+                  iconName={emblem.icon_name}
+                  iconColor={emblem.icon_color}
+                  rarity={emblem.rarity}
+                  size="sm"
+                  earned
+                />
+              )}
               <div className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center text-sm font-bold text-primary">
                 {displayInitial}
               </div>
@@ -194,6 +216,15 @@ const Navbar = () => {
                 {user ? (
                   <div className="flex flex-col items-center gap-3">
                     <div className="flex items-center gap-2">
+                      {emblem && (
+                        <BadgeIcon
+                          iconName={emblem.icon_name}
+                          iconColor={emblem.icon_color}
+                          rarity={emblem.rarity}
+                          size="sm"
+                          earned
+                        />
+                      )}
                       <div className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center text-lg font-bold text-primary">
                         {displayInitial}
                       </div>

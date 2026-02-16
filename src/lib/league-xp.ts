@@ -186,7 +186,7 @@ export const getUserLeagueInfo = async (userId: string) => {
     .select(`
       user_id, weekly_xp, unique_anime_count,
       user_profiles:user_id (
-        username, display_name, avatar_url, age_group
+        username, display_name, avatar_url, age_group, emblem_badge_id
       )
     `)
     .eq("group_id", membership.group_id)

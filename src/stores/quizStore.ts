@@ -1,8 +1,9 @@
 import { create } from "zustand";
 import { createClient } from "@/lib/supabase/client";
-import type { AnimeSeries, Question, Difficulty, AgeGroup, LeagueXpResult } from "@/types";
+import type { AnimeSeries, Question, Difficulty, AgeGroup, LeagueXpResult, Badge } from "@/types";
 import { calculateQuestionXP } from "@/lib/scoring";
 import { calculateLeagueXp, updateLeagueMembershipXp } from "@/lib/league-xp";
+import { checkAndAwardBadges } from "@/lib/badges";
 
 interface QuizAnswer {
   questionId: string;
@@ -34,6 +35,7 @@ interface QuizState {
   selectedAnswer: number | null;
   isRevealed: boolean;
   leagueResult: LeagueResultInfo | null;
+  newBadges: Badge[];
 }
 
 interface QuizActions {
@@ -65,6 +67,7 @@ const initialState: QuizState = {
   selectedAnswer: null,
   isRevealed: false,
   leagueResult: null,
+  newBadges: [],
 };
 
 export const useQuizStore = create<QuizState & QuizActions>((set, get) => ({
@@ -312,6 +315,28 @@ export const useQuizStore = create<QuizState & QuizActions>((set, get) => ({
         });
       } catch {
         // League XP calculation failed — non-critical
+      }
+
+      // Badge checks
+      try {
+        const badgeContext = {
+          userId,
+          quizScore: state.score,
+          quizTotal: state.questions.length,
+          difficulty: state.difficulty,
+          animeId: state.currentAnime.id,
+          answers: state.answers.map((a) => ({
+            isCorrect: a.isCorrect,
+            timeMs: a.timeMs,
+          })),
+          xpEarned: state.xpEarned,
+        };
+        const newBadges = await checkAndAwardBadges(badgeContext);
+        if (newBadges.length > 0) {
+          set({ newBadges });
+        }
+      } catch {
+        // Badge check failed — non-critical
       }
     } catch {
       // Silently fail - quiz results are still shown locally

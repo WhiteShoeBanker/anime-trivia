@@ -26,7 +26,8 @@ import {
 } from "@/lib/league-xp";
 import AnimeDiversityTracker from "@/components/AnimeDiversityTracker";
 import LeagueBanner from "@/components/LeagueBanners";
-import type { League, LeagueTier, LeagueResult } from "@/types";
+import BadgeIcon from "@/components/BadgeIcon";
+import type { League, LeagueTier, LeagueResult, Badge } from "@/types";
 
 // ── League Badge Icons ──────────────────────────────────────
 
@@ -83,6 +84,7 @@ interface LeagueMemberProfile {
   display_name: string | null;
   avatar_url: string | null;
   age_group: string;
+  emblem_badge_id: string | null;
 }
 
 interface LeagueMember {
@@ -103,7 +105,7 @@ interface HistoryEntry {
 
 const getMemberProfile = (member: LeagueMember): LeagueMemberProfile => {
   const profiles = member.user_profiles;
-  if (Array.isArray(profiles)) return profiles[0] ?? { username: null, display_name: null, avatar_url: null, age_group: "full" };
+  if (Array.isArray(profiles)) return profiles[0] ?? { username: null, display_name: null, avatar_url: null, age_group: "full", emblem_badge_id: null };
   return profiles;
 };
 
@@ -126,6 +128,7 @@ const LeaguesPage = () => {
   } | null>(null);
   const [historyOpen, setHistoryOpen] = useState(false);
   const [countdown, setCountdown] = useState(getTimeUntilMonday());
+  const [memberEmblems, setMemberEmblems] = useState<Record<string, Badge>>({});
   const [loading, setLoading] = useState(true);
 
   // Countdown timer
@@ -177,6 +180,27 @@ const LeaguesPage = () => {
         .select("*")
         .order("tier");
       setAllLeagues((leagues as League[]) ?? []);
+
+      // Fetch member emblems
+      if (info) {
+        const typedInfo = info as unknown as typeof leagueInfo;
+        const emblemIds = (typedInfo?.members ?? [])
+          .map((m) => getMemberProfile(m as unknown as LeagueMember).emblem_badge_id)
+          .filter((id): id is string => id !== null);
+
+        if (emblemIds.length > 0) {
+          const { data: badges } = await supabase
+            .from("badges")
+            .select("*")
+            .in("id", emblemIds);
+
+          const emblemMap: Record<string, Badge> = {};
+          for (const badge of (badges as Badge[]) ?? []) {
+            emblemMap[badge.id] = badge;
+          }
+          setMemberEmblems(emblemMap);
+        }
+      }
     } catch {
       // Data fetch failed
     }
@@ -515,6 +539,16 @@ const LeaguesPage = () => {
                   <div className="w-7 h-7 rounded-full bg-white/10 flex items-center justify-center text-xs font-bold flex-shrink-0">
                     {initial}
                   </div>
+                  {memberProfile.emblem_badge_id &&
+                    memberEmblems[memberProfile.emblem_badge_id] && (
+                      <BadgeIcon
+                        iconName={memberEmblems[memberProfile.emblem_badge_id].icon_name}
+                        iconColor={memberEmblems[memberProfile.emblem_badge_id].icon_color}
+                        rarity={memberEmblems[memberProfile.emblem_badge_id].rarity}
+                        size="sm"
+                        earned
+                      />
+                    )}
                   <span
                     className={`text-sm truncate ${
                       isCurrentUser

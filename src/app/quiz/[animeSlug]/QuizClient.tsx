@@ -15,6 +15,7 @@ import ScoreDisplay from "@/components/ScoreDisplay";
 import AdBanner from "@/components/AdBanner";
 import LeagueNudge from "@/components/LeagueNudge";
 import AnimeDiversityTracker from "@/components/AnimeDiversityTracker";
+import BadgeCelebration from "@/components/BadgeCelebration";
 
 const QUIZ_LIMIT_KEY = "otaku_daily_quizzes";
 
@@ -65,6 +66,7 @@ const QuizClient = ({
     answers,
     timePerQuestion,
     leagueResult,
+    newBadges,
     startQuiz,
     selectAnswer,
     confirmAnswer,
@@ -82,6 +84,7 @@ const QuizClient = ({
   const [timeLeft, setTimeLeft] = useState(30);
   const [copied, setCopied] = useState(false);
   const [limitReached, setLimitReached] = useState(false);
+  const [showBadgeCelebration, setShowBadgeCelebration] = useState(false);
   const questionStartRef = useRef(Date.now());
 
   // Timer countdown
@@ -268,7 +271,7 @@ const QuizClient = ({
     );
   }
 
-  // Track quiz completion
+  // Track quiz completion and show badge celebration
   useEffect(() => {
     if (quizStatus === "completed") {
       const correctCount = answers.filter((a) => a.isCorrect).length;
@@ -279,6 +282,9 @@ const QuizClient = ({
         total: questions.length,
         xpEarned,
       });
+      if (newBadges.length > 0) {
+        setShowBadgeCelebration(true);
+      }
     }
   }, [quizStatus]); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -403,6 +409,14 @@ const QuizClient = ({
             </Link>
           </motion.div>
         </motion.div>
+
+        {/* Badge celebration overlay */}
+        {showBadgeCelebration && newBadges.length > 0 && (
+          <BadgeCelebration
+            badges={newBadges}
+            onComplete={() => setShowBadgeCelebration(false)}
+          />
+        )}
       </div>
     );
   }

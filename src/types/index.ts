@@ -59,6 +59,7 @@ export interface UserProfile {
   age_group: AgeGroup;
   parent_email: string | null;
   parent_consent_at: string | null;
+  emblem_badge_id: string | null;
   created_at: string;
 }
 
@@ -188,4 +189,57 @@ export interface PromotionRequirements {
   minAnime: number;
   requiresHard: boolean;
   requiresImpossible: number;
+}
+
+// ── Badge System ──────────────────────────────────────────────
+
+export type BadgeCategory =
+  | "streak"
+  | "weekend"
+  | "time"
+  | "difficulty"
+  | "breadth"
+  | "volume"
+  | "accuracy"
+  | "social"
+  | "speed"
+  | "daily"
+  | "special"
+  | "league";
+
+export type BadgeRarity = "common" | "uncommon" | "rare" | "epic" | "legendary";
+
+export interface Badge {
+  id: string;
+  slug: string;
+  name: string;
+  description: string;
+  category: BadgeCategory;
+  icon_name: string;
+  icon_color: string;
+  requirement_type: string;
+  requirement_value: Record<string, unknown>;
+  rarity: BadgeRarity;
+  created_at: string;
+}
+
+export interface UserBadge {
+  id: string;
+  user_id: string;
+  badge_id: string;
+  earned_at: string;
+}
+
+export interface UserBadgeWithDetails extends UserBadge {
+  badges: Badge;
+}
+
+export interface BadgeCheckContext {
+  userId: string;
+  quizScore?: number;
+  quizTotal?: number;
+  difficulty?: Difficulty;
+  animeId?: string;
+  answers?: { isCorrect: boolean; timeMs: number }[];
+  xpEarned?: number;
 }
