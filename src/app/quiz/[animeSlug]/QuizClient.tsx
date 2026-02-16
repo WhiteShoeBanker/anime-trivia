@@ -84,6 +84,7 @@ const QuizClient = ({
   const [timeLeft, setTimeLeft] = useState(30);
   const [copied, setCopied] = useState(false);
   const [limitReached, setLimitReached] = useState(false);
+  const [noQuestions, setNoQuestions] = useState(false);
   const [showBadgeCelebration, setShowBadgeCelebration] = useState(false);
   const questionStartRef = useRef(Date.now());
 
@@ -153,12 +154,17 @@ const QuizClient = ({
       trackClientEvent("quiz_limit_hit", undefined, { anime: anime.slug });
       return;
     }
+    setNoQuestions(false);
     incrementQuizCount();
     trackClientEvent("quiz_started", undefined, {
       anime: anime.slug,
       difficulty: localDifficulty,
     });
     await startQuiz(anime.slug, localDifficulty, ageGroup);
+    // If quiz didn't start (still idle), no questions were found
+    if (useQuizStore.getState().quizStatus === "idle") {
+      setNoQuestions(true);
+    }
   };
 
   const handleAnswer = (index: number) => {
@@ -218,6 +224,7 @@ const QuizClient = ({
               onSelect={(d) => {
                 if (isJunior && (d === "hard" || d === "impossible")) return;
                 setLocalDifficulty(d);
+                setNoQuestions(false);
               }}
               isJunior={isJunior}
             />
@@ -228,6 +235,18 @@ const QuizClient = ({
             <p className="text-xs text-white/40 mb-4">
               {remaining} of {freeQuizLimit} free quizzes remaining today
             </p>
+          )}
+
+          {/* No questions available */}
+          {noQuestions && (
+            <div className="max-w-sm mx-auto mb-4">
+              <div className="p-4 rounded-2xl bg-purple-500/10 border border-purple-500/30">
+                <p className="font-semibold text-purple-400 mb-1">No Questions Available</p>
+                <p className="text-sm text-white/60">
+                  There are no {localDifficulty} questions for {anime.title} yet. Try a different difficulty!
+                </p>
+              </div>
+            </div>
           )}
 
           {/* Limit reached */}
