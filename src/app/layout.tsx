@@ -4,6 +4,7 @@ import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import AnnouncementBanner from "@/components/AnnouncementBanner";
+import { AuthProvider } from "@/contexts/AuthContext";
 import { getConfig } from "@/lib/admin-config";
 
 const inter = Inter({
@@ -34,28 +35,30 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body className={`${inter.variable} font-sans antialiased bg-secondary`}>
-        {maintenanceMode ? (
-          <div className="min-h-screen flex flex-col items-center justify-center px-4 text-center">
-            <h1 className="text-4xl font-bold text-primary mb-4">
-              Under Maintenance
-            </h1>
-            <p className="text-white/60 max-w-md">
-              OtakuQuiz is temporarily down for maintenance. We&apos;ll be back
-              shortly — thanks for your patience!
-            </p>
-          </div>
-        ) : (
-          <>
-            {announcementBanner && (
-              <AnnouncementBanner message={announcementBanner} />
-            )}
-            <Navbar />
-            <main className="pt-16 min-h-screen flex flex-col">
-              <div className="flex-1">{children}</div>
-              <Footer />
-            </main>
-          </>
-        )}
+        <AuthProvider>
+          {maintenanceMode ? (
+            <div className="min-h-screen flex flex-col items-center justify-center px-4 text-center">
+              <h1 className="text-4xl font-bold text-primary mb-4">
+                Under Maintenance
+              </h1>
+              <p className="text-white/60 max-w-md">
+                OtakuQuiz is temporarily down for maintenance. We&apos;ll be back
+                shortly — thanks for your patience!
+              </p>
+            </div>
+          ) : (
+            <>
+              {announcementBanner && (
+                <AnnouncementBanner message={announcementBanner} />
+              )}
+              <Navbar />
+              <main className="pt-16 min-h-screen flex flex-col">
+                <div className="flex-1">{children}</div>
+                <Footer />
+              </main>
+            </>
+          )}
+        </AuthProvider>
       </body>
     </html>
   );

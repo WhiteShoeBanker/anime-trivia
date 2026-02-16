@@ -7,17 +7,27 @@ import type {
   Difficulty,
   UserAnswer,
   Cosmetic,
+  AgeGroup,
 } from "@/types";
 
 // ── Anime Series ─────────────────────────────────────────────
 
-export const getAnimeList = async (): Promise<AnimeSeries[]> => {
+export const getAnimeList = async (
+  ageGroup?: AgeGroup
+): Promise<AnimeSeries[]> => {
   const supabase = await createClient();
-  const { data, error } = await supabase
+  let query = supabase
     .from("anime_series")
     .select("*")
-    .eq("is_active", true)
-    .order("title");
+    .eq("is_active", true);
+
+  if (ageGroup === "junior") {
+    query = query.eq("content_rating", "E");
+  } else if (ageGroup === "teen") {
+    query = query.in("content_rating", ["E", "T"]);
+  }
+
+  const { data, error } = await query.order("title");
 
   if (error) throw error;
   return data as AnimeSeries[];
@@ -42,17 +52,24 @@ export const getAnimeBySlug = async (
 export const getQuestions = async (
   animeId: string,
   difficulty: Difficulty,
-  limit: number = 10
+  limit: number = 10,
+  ageGroup?: AgeGroup
 ): Promise<Question[]> => {
   const supabase = await createClient();
 
   // Supabase doesn't have ORDER BY random() natively,
   // so we fetch a larger pool and shuffle client-side.
-  const { data, error } = await supabase
+  let query = supabase
     .from("questions")
     .select("*")
     .eq("anime_id", animeId)
     .eq("difficulty", difficulty);
+
+  if (ageGroup === "junior") {
+    query = query.eq("kid_safe", true);
+  }
+
+  const { data, error } = await query;
 
   if (error) throw error;
 

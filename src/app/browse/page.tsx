@@ -11,7 +11,8 @@ export default async function BrowsePage() {
   let animeList: AnimeSeries[] = [];
 
   try {
-    animeList = await getAnimeList();
+    // Fetch all anime — client-side filtering handles age restrictions
+    animeList = await getAnimeList("full");
   } catch {
     // DB not available - show empty state
   }

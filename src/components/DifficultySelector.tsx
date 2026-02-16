@@ -89,7 +89,7 @@ const DifficultySelector = ({
                   {questionCounts[value]} questions
                 </span>
               )}
-              {isLocked && value === "impossible" && (
+              {isLocked && (
                 <span className="relative z-10 block text-[10px] text-white/30 mt-0.5">
                   Unlock when you turn 13!
                 </span>
