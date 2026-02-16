@@ -16,6 +16,7 @@ interface DifficultyCount {
   easy: number;
   medium: number;
   hard: number;
+  impossible: number;
 }
 
 interface AnimeAccuracyRow {
@@ -56,13 +57,14 @@ const computeAnimePopularity = (
 const computeDifficultyDistribution = (
   questions: ContentStats["questions"]
 ): DifficultyCount => {
-  const counts: DifficultyCount = { easy: 0, medium: 0, hard: 0 };
+  const counts: DifficultyCount = { easy: 0, medium: 0, hard: 0, impossible: 0 };
 
   for (const q of questions) {
     const diff = q.difficulty.toLowerCase();
     if (diff === "easy") counts.easy++;
     else if (diff === "medium") counts.medium++;
     else if (diff === "hard") counts.hard++;
+    else if (diff === "impossible") counts.impossible++;
   }
 
   return counts;
@@ -121,6 +123,7 @@ const DIFFICULTY_COLORS: Record<string, { bg: string; text: string; bar: string 
   easy: { bg: "bg-green-500/10", text: "text-green-400", bar: "bg-green-500" },
   medium: { bg: "bg-yellow-500/10", text: "text-yellow-400", bar: "bg-yellow-500" },
   hard: { bg: "bg-red-500/10", text: "text-red-400", bar: "bg-red-500" },
+  impossible: { bg: "bg-purple-500/10", text: "text-purple-400", bar: "bg-purple-500" },
 };
 
 const AdminContentPage = () => {
@@ -199,8 +202,8 @@ const AdminContentPage = () => {
             </h2>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            {(["easy", "medium", "hard"] as const).map((level) => {
+          <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
+            {(["easy", "medium", "hard", "impossible"] as const).map((level) => {
               const count = difficultyData[level];
               const percentage =
                 totalQuestions > 0

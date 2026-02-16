@@ -4,6 +4,7 @@ const BASE_XP: Record<Difficulty, number> = {
   easy: 10,
   medium: 25,
   hard: 50,
+  impossible: 100,
 };
 
 const RANK_THRESHOLDS = [
@@ -23,7 +24,8 @@ export const calculateQuestionXP = (
 ): number => {
   const baseXP = BASE_XP[difficulty];
   const streakMultiplier = Math.min(1 + streak * 0.1, 2.0);
-  const timeBonus = timeMs < 5000 ? 1.5 : 1.0;
+  const timeBonusThreshold = difficulty === "impossible" ? 3000 : 5000;
+  const timeBonus = timeMs < timeBonusThreshold ? 1.5 : 1.0;
   return Math.round(baseXP * streakMultiplier * timeBonus);
 };
 

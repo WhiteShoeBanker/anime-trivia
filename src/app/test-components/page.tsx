@@ -22,6 +22,7 @@ const mockAnime: AnimeSeries[] = [
     genre: ["Action", "Adventure", "Shonen"],
     total_questions: 30,
     is_active: true,
+    content_rating: "E",
     created_at: "2024-01-01",
   },
   {
@@ -33,6 +34,7 @@ const mockAnime: AnimeSeries[] = [
     genre: ["Action", "Drama", "Dark Fantasy"],
     total_questions: 30,
     is_active: true,
+    content_rating: "E",
     created_at: "2024-01-01",
   },
   {
@@ -44,6 +46,7 @@ const mockAnime: AnimeSeries[] = [
     genre: ["Action", "Adventure", "Comedy"],
     total_questions: 30,
     is_active: true,
+    content_rating: "E",
     created_at: "2024-01-01",
   },
   {
@@ -55,6 +58,7 @@ const mockAnime: AnimeSeries[] = [
     genre: ["Action", "Supernatural"],
     total_questions: 30,
     is_active: true,
+    content_rating: "E",
     created_at: "2024-01-01",
   },
   {
@@ -66,6 +70,7 @@ const mockAnime: AnimeSeries[] = [
     genre: ["Action", "Supernatural", "Shonen"],
     total_questions: 30,
     is_active: true,
+    content_rating: "E",
     created_at: "2024-01-01",
   },
   {
@@ -77,6 +82,7 @@ const mockAnime: AnimeSeries[] = [
     genre: ["Action", "Superhero", "Shonen"],
     total_questions: 30,
     is_active: true,
+    content_rating: "E",
     created_at: "2024-01-01",
   },
 ];
@@ -96,6 +102,7 @@ const mockQuestion: Question = {
   explanation:
     "The Shadow Clone Jutsu (Kage Bunshin no Jutsu) is Naruto's most frequently used technique throughout the series.",
   image_url: null,
+  kid_safe: true,
   created_at: "2024-01-01",
 };
 
@@ -144,7 +151,7 @@ const TestComponentsPage = () => {
           <DifficultySelector
             selected={difficulty}
             onSelect={setDifficulty}
-            questionCounts={{ easy: 80, medium: 90, hard: 70 }}
+            questionCounts={{ easy: 80, medium: 90, hard: 70, impossible: 30 }}
           />
           <p className="mt-3 text-sm text-white/50">
             Selected: <span className="text-white">{difficulty}</span>

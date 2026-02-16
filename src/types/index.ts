@@ -1,4 +1,4 @@
-export type Difficulty = "easy" | "medium" | "hard";
+export type Difficulty = "easy" | "medium" | "hard" | "impossible";
 
 export type QuestionType = "multiple_choice" | "true_false" | "image_guess";
 

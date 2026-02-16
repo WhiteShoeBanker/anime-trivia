@@ -216,7 +216,7 @@ const QuizClient = ({
             <DifficultySelector
               selected={localDifficulty}
               onSelect={(d) => {
-                if (isJunior && d === "hard") return;
+                if (isJunior && (d === "hard" || d === "impossible")) return;
                 setLocalDifficulty(d);
               }}
               isJunior={isJunior}
