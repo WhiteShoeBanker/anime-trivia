@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Shield, Lock, Eye, Zap, Trophy, BookOpen } from "lucide-react";
+import { Shield, Lock, Eye, Zap, Trophy, BookOpen, Swords } from "lucide-react";
 
 const FEATURES = [
   {
@@ -16,6 +16,11 @@ const FEATURES = [
     icon: BookOpen,
     title: "8 Anime Series",
     description: "240+ questions across Naruto, One Piece, Attack on Titan, Demon Slayer, and more.",
+  },
+  {
+    icon: Swords,
+    title: "1v1 Duels",
+    description: "Challenge friends or find a random opponent for head-to-head anime trivia battles.",
   },
 ];
 

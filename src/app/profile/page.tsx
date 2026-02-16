@@ -3,22 +3,24 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { User, Award, Trophy, Zap, Calendar, ChevronRight } from "lucide-react";
+import { User, Award, Trophy, Zap, Calendar, ChevronRight, Swords } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { getUserBadges, getUserEmblem } from "@/lib/badges";
 import { getUserGrandPrixEmblems } from "@/lib/grand-prix";
+import { getDuelStats } from "@/lib/duels";
 import { getRank } from "@/lib/scoring";
 import BadgeIcon from "@/components/BadgeIcon";
 import BadgeGrid from "@/components/BadgeGrid";
 import MonthlyEmblem from "@/components/MonthlyEmblem";
 import EmblemSelector from "@/components/EmblemSelector";
-import type { Badge, UserEmblemWithDetails } from "@/types";
+import type { Badge, UserEmblemWithDetails, DuelStats } from "@/types";
 
 const ProfilePage = () => {
   const { user, profile, isLoading, refreshProfile } = useAuth();
   const [earnedBadges, setEarnedBadges] = useState<Badge[]>([]);
   const [emblem, setEmblem] = useState<Badge | null>(null);
   const [gpEmblems, setGpEmblems] = useState<UserEmblemWithDetails[]>([]);
+  const [duelStats, setDuelStats] = useState<DuelStats | null>(null);
   const [emblemOpen, setEmblemOpen] = useState(false);
   const [loading, setLoading] = useState(true);
 
@@ -29,14 +31,16 @@ const ProfilePage = () => {
     }
     const fetchData = async () => {
       try {
-        const [badges, emb, gpEmbs] = await Promise.all([
+        const [badges, emb, gpEmbs, dStats] = await Promise.all([
           getUserBadges(user.id),
           getUserEmblem(user.id),
           getUserGrandPrixEmblems(user.id),
+          getDuelStats(user.id),
         ]);
         setEarnedBadges(badges);
         setEmblem(emb);
         setGpEmblems(gpEmbs);
+        setDuelStats(dStats);
       } catch {
         // Failed
       }
@@ -245,6 +249,63 @@ const ProfilePage = () => {
                 size="sm"
               />
             ))}
+          </div>
+        </motion.div>
+      )}
+
+      {/* Duel Record */}
+      {duelStats && duelStats.total_duels > 0 && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.23 }}
+        >
+          <div className="flex items-center justify-between mb-3">
+            <h2 className="text-sm font-semibold text-white/70">
+              Duel Record
+            </h2>
+            <Link
+              href="/duels"
+              className="flex items-center gap-1 text-xs text-primary hover:text-primary/80 transition-colors"
+            >
+              Duels
+              <ChevronRight size={14} />
+            </Link>
+          </div>
+          <div className="bg-surface rounded-2xl border border-white/10 p-4">
+            <div className="grid grid-cols-4 gap-3 text-center">
+              <div>
+                <p className="text-lg font-bold text-success">{duelStats.wins}</p>
+                <p className="text-xs text-white/40">Wins</p>
+              </div>
+              <div>
+                <p className="text-lg font-bold text-accent">{duelStats.losses}</p>
+                <p className="text-xs text-white/40">Losses</p>
+              </div>
+              <div>
+                <p className="text-lg font-bold text-yellow-400">{duelStats.draws}</p>
+                <p className="text-xs text-white/40">Draws</p>
+              </div>
+              <div>
+                <Swords size={14} className="mx-auto text-primary mb-0.5" />
+                <p className="text-lg font-bold">
+                  {duelStats.total_duels > 0
+                    ? Math.round((duelStats.wins / duelStats.total_duels) * 100)
+                    : 0}%
+                </p>
+                <p className="text-xs text-white/40">Win Rate</p>
+              </div>
+            </div>
+            {(duelStats.best_win_streak > 0 || duelStats.giant_kills > 0) && (
+              <div className="flex items-center justify-center gap-4 mt-3 pt-3 border-t border-white/5 text-xs text-white/40">
+                {duelStats.best_win_streak > 0 && (
+                  <span>Best streak: {duelStats.best_win_streak}</span>
+                )}
+                {duelStats.giant_kills > 0 && (
+                  <span>Giant kills: {duelStats.giant_kills}</span>
+                )}
+              </div>
+            )}
           </div>
         </motion.div>
       )}

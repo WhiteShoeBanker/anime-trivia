@@ -15,6 +15,7 @@ const NAV_LINKS = [
   { href: "/browse", label: "Browse" },
   { href: "/leagues", label: "Leagues" },
   { href: "/grand-prix", label: "Grand Prix" },
+  { href: "/duels", label: "Duels" },
   { href: "/badges", label: "Badges" },
   { href: "/profile", label: "Profile" },
 ];
