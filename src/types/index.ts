@@ -4,6 +4,10 @@ export type QuestionType = "multiple_choice" | "true_false" | "image_guess";
 
 export type SubscriptionTier = "free" | "pro";
 
+export type SubscriptionSource = "none" | "paid" | "promo_code" | "admin_grant";
+
+export type PromoCodeType = "pro_monthly" | "pro_yearly" | "pro_lifetime";
+
 export type CosmeticType = "avatar_frame" | "badge" | "title" | "theme";
 
 export type ContentRating = "E" | "T" | "M";
@@ -59,6 +63,10 @@ export interface UserProfile {
   age_group: AgeGroup;
   parent_email: string | null;
   parent_consent_at: string | null;
+  subscription_source: SubscriptionSource;
+  pro_expires_at: string | null;
+  daily_quiz_count: number;
+  daily_quiz_reset: string;
   emblem_badge_id: string | null;
   created_at: string;
 }
@@ -407,6 +415,26 @@ export interface DuelStats {
   best_win_streak: number;
   giant_kills: number;
   duel_xp_total: number;
+}
+
+// ── Promo Code System ─────────────────────────────────────────
+
+export interface PromoCode {
+  id: string;
+  code: string;
+  type: PromoCodeType;
+  max_uses: number;
+  current_uses: number;
+  expires_at: string | null;
+  created_by: string | null;
+  created_at: string;
+}
+
+export interface PromoRedemption {
+  id: string;
+  user_id: string;
+  promo_code_id: string;
+  redeemed_at: string;
 }
 
 export interface DuelCreateOptions {

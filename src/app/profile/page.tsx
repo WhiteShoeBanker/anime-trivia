@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { User, Award, Trophy, Zap, Calendar, ChevronRight, Swords } from "lucide-react";
+import { User, Award, Trophy, Zap, Calendar, ChevronRight, Swords, Gift } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { getUserBadges, getUserEmblem } from "@/lib/badges";
 import { getUserGrandPrixEmblems } from "@/lib/grand-prix";
@@ -338,6 +338,22 @@ const ProfilePage = () => {
           />
         </motion.div>
       )}
+
+      {/* Promo code link */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.3 }}
+        className="text-center"
+      >
+        <Link
+          href="/redeem"
+          className="inline-flex items-center gap-2 text-sm text-white/40 hover:text-primary transition-colors"
+        >
+          <Gift size={16} />
+          Have a promo code?
+        </Link>
+      </motion.div>
 
       {/* Emblem selector modal */}
       <EmblemSelector

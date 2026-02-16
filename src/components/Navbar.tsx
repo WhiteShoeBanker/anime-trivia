@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, LogOut, Swords } from "lucide-react";
+import { Menu, X, LogOut, Swords, ShoppingBag, BarChart3 } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import BadgeIcon from "@/components/BadgeIcon";
 import type { Badge } from "@/types";
@@ -18,6 +18,8 @@ const NAV_LINKS = [
   { href: "/grand-prix", label: "Grand Prix" },
   { href: "/duels", label: "Duels" },
   { href: "/badges", label: "Badges" },
+  { href: "/shop", label: "Shop" },
+  { href: "/stats", label: "Stats" },
   { href: "/profile", label: "Profile" },
 ];
 
@@ -131,6 +133,8 @@ const Navbar = () => {
               }}
             >
               {link.href === "/duels" && <Swords size={14} />}
+              {link.href === "/shop" && <ShoppingBag size={14} />}
+              {link.href === "/stats" && <BarChart3 size={14} />}
               {link.label}
               {link.href === "/duels" && pendingDuelCount > 0 && (
                 <span className="ml-0.5 w-4 h-4 rounded-full bg-accent text-white text-[10px] font-bold flex items-center justify-center">
@@ -152,6 +156,11 @@ const Navbar = () => {
         <div className="hidden md:flex items-center gap-3">
           {user ? (
             <>
+              {profile?.subscription_tier === "pro" && (
+                <span className="px-1.5 py-0.5 text-[10px] font-bold rounded bg-primary text-white">
+                  PRO
+                </span>
+              )}
               <AgeBadge ageGroup={ageGroup} />
               {emblem && (
                 <BadgeIcon
@@ -234,6 +243,8 @@ const Navbar = () => {
                     }}
                   >
                     {link.href === "/duels" && <Swords size={22} />}
+                    {link.href === "/shop" && <ShoppingBag size={22} />}
+                    {link.href === "/stats" && <BarChart3 size={22} />}
                     {link.label}
                     {link.href === "/duels" && pendingDuelCount > 0 && (
                       <span className="w-5 h-5 rounded-full bg-accent text-white text-xs font-bold flex items-center justify-center">
@@ -252,6 +263,11 @@ const Navbar = () => {
               >
                 {user ? (
                   <div className="flex flex-col items-center gap-3">
+                    {profile?.subscription_tier === "pro" && (
+                      <span className="px-2 py-0.5 text-xs font-bold rounded bg-primary text-white">
+                        PRO
+                      </span>
+                    )}
                     <div className="flex items-center gap-2">
                       {emblem && (
                         <BadgeIcon
