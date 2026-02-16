@@ -130,6 +130,23 @@ const QuizClient = ({
     return () => resetQuiz();
   }, [resetQuiz]);
 
+  // Track quiz completion and show badge celebration
+  useEffect(() => {
+    if (quizStatus === "completed") {
+      const correctCount = answers.filter((a) => a.isCorrect).length;
+      trackClientEvent("quiz_completed", undefined, {
+        anime: anime.slug,
+        difficulty,
+        correct: correctCount,
+        total: questions.length,
+        xpEarned,
+      });
+      if (newBadges.length > 0) {
+        setShowBadgeCelebration(true);
+      }
+    }
+  }, [quizStatus]); // eslint-disable-line react-hooks/exhaustive-deps
+
   const handleStartQuiz = async () => {
     if (!isPro && getQuizCountToday() >= freeQuizLimit) {
       setLimitReached(true);
@@ -270,23 +287,6 @@ const QuizClient = ({
       </div>
     );
   }
-
-  // Track quiz completion and show badge celebration
-  useEffect(() => {
-    if (quizStatus === "completed") {
-      const correctCount = answers.filter((a) => a.isCorrect).length;
-      trackClientEvent("quiz_completed", undefined, {
-        anime: anime.slug,
-        difficulty,
-        correct: correctCount,
-        total: questions.length,
-        xpEarned,
-      });
-      if (newBadges.length > 0) {
-        setShowBadgeCelebration(true);
-      }
-    }
-  }, [quizStatus]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // STATE 3 - Completed
   if (quizStatus === "completed") {
