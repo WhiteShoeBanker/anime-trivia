@@ -690,7 +690,7 @@ export const getFriends = async (
     .select(`
       *,
       user_profiles:recipient_id (
-        id, username, display_name, avatar_url, age_group, total_xp
+        id, username, display_name, avatar_url, age_group, total_xp, last_played_at
       )
     `)
     .eq("requester_id", userId)
@@ -702,7 +702,7 @@ export const getFriends = async (
     .select(`
       *,
       user_profiles:requester_id (
-        id, username, display_name, avatar_url, age_group, total_xp
+        id, username, display_name, avatar_url, age_group, total_xp, last_played_at
       )
     `)
     .eq("recipient_id", userId)
@@ -724,7 +724,7 @@ export const getPendingFriendRequests = async (
     .select(`
       *,
       user_profiles:requester_id (
-        id, username, display_name, avatar_url, age_group, total_xp
+        id, username, display_name, avatar_url, age_group, total_xp, last_played_at
       )
     `)
     .eq("recipient_id", userId)
@@ -792,4 +792,34 @@ export const removeFriend = async (
     .or(`requester_id.eq.${userId},recipient_id.eq.${userId}`);
 
   return !error;
+};
+
+// ── Head-to-Head Map ──────────────────────────────────────────
+
+export const getHeadToHeadMap = async (
+  userId: string,
+  opponentIds: string[]
+): Promise<Record<string, { wins: number; losses: number; draws: number }>> => {
+  if (opponentIds.length === 0) return {};
+  const supabase = createClient();
+
+  const { data } = await supabase
+    .from("duel_matches")
+    .select("challenger_id, opponent_id, winner_id")
+    .eq("status", "completed")
+    .or(`challenger_id.eq.${userId},opponent_id.eq.${userId}`);
+
+  const map: Record<string, { wins: number; losses: number; draws: number }> = {};
+  const oppSet = new Set(opponentIds);
+
+  for (const d of data ?? []) {
+    const oppId = d.challenger_id === userId ? d.opponent_id : d.challenger_id;
+    if (!oppId || !oppSet.has(oppId)) continue;
+    if (!map[oppId]) map[oppId] = { wins: 0, losses: 0, draws: 0 };
+    if (d.winner_id === userId) map[oppId].wins++;
+    else if (d.winner_id === null) map[oppId].draws++;
+    else map[oppId].losses++;
+  }
+
+  return map;
 };

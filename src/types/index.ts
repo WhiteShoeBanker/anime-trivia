@@ -366,6 +366,7 @@ export interface FriendshipWithProfile extends Friendship {
     avatar_url: string | null;
     age_group: AgeGroup;
     total_xp: number;
+    last_played_at: string | null;
   };
 }
 

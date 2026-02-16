@@ -296,8 +296,11 @@ const ProfilePage = () => {
                 <p className="text-xs text-white/40">Win Rate</p>
               </div>
             </div>
-            {(duelStats.best_win_streak > 0 || duelStats.giant_kills > 0) && (
+            {(duelStats.win_streak > 0 || duelStats.best_win_streak > 0 || duelStats.giant_kills > 0) && (
               <div className="flex items-center justify-center gap-4 mt-3 pt-3 border-t border-white/5 text-xs text-white/40">
+                {duelStats.win_streak > 0 && (
+                  <span>Current streak: {duelStats.win_streak}</span>
+                )}
                 {duelStats.best_win_streak > 0 && (
                   <span>Best streak: {duelStats.best_win_streak}</span>
                 )}

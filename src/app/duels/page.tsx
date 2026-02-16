@@ -8,7 +8,6 @@ import {
   Search,
   Users,
   Clock,
-  Trophy,
   Flame,
   UserPlus,
   Check,
@@ -16,6 +15,8 @@ import {
   ChevronDown,
   ChevronUp,
   Loader2,
+  Zap,
+  RotateCcw,
 } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import {
@@ -29,6 +30,7 @@ import {
   sendFriendRequest,
   declineDuel,
   createDuel,
+  getHeadToHeadMap,
 } from "@/lib/duels";
 import { createClient } from "@/lib/supabase/client";
 import ChallengeModal from "@/components/ChallengeModal";
@@ -66,6 +68,7 @@ const DuelsPage = () => {
   const [friends, setFriends] = useState<FriendshipWithProfile[]>([]);
   const [pendingRequests, setPendingRequests] = useState<FriendshipWithProfile[]>([]);
   const [profileCache, setProfileCache] = useState<Record<string, UserProfile>>({});
+  const [h2hMap, setH2hMap] = useState<Record<string, { wins: number; losses: number; draws: number }>>({});
   const [loading, setLoading] = useState(true);
 
   // Quick match state
@@ -106,6 +109,13 @@ const DuelsPage = () => {
       setHistory(duelHistory);
       setFriends(friendList);
       setPendingRequests(pending);
+
+      // Fetch head-to-head records for friends
+      if (friendList.length > 0) {
+        const friendIds = friendList.map((f) => f.user_profiles.id);
+        const h2h = await getHeadToHeadMap(user.id, friendIds);
+        setH2hMap(h2h);
+      }
 
       // Batch-fetch profiles for history opponents
       const opponentIds = new Set<string>();
@@ -272,6 +282,24 @@ const DuelsPage = () => {
     }
   };
 
+  const handleRematch = async (duel: DuelMatch) => {
+    if (!user) return;
+    try {
+      const opponentId =
+        duel.challenger_id === user.id ? duel.opponent_id : duel.challenger_id;
+      const newDuel = await createDuel(user.id, {
+        match_type: duel.match_type,
+        anime_id: duel.anime_id ?? undefined,
+        difficulty: duel.difficulty,
+        question_count: duel.question_count as 5 | 10,
+        opponent_id: opponentId ?? undefined,
+      });
+      if (newDuel) router.push(`/duels/${newDuel.id}`);
+    } catch {
+      // Rematch creation failed
+    }
+  };
+
   const getOpponentName = (duel: DuelMatch): string => {
     const oppId =
       duel.challenger_id === user?.id ? duel.opponent_id : duel.challenger_id;
@@ -284,10 +312,10 @@ const DuelsPage = () => {
     duel: DuelMatch
   ): { label: string; color: string } => {
     if (duel.winner_id === user?.id)
-      return { label: "W", color: "bg-success/20 text-success" };
+      return { label: "WIN", color: "bg-success/20 text-success" };
     if (duel.winner_id === null)
-      return { label: "D", color: "bg-yellow-400/20 text-yellow-400" };
-    return { label: "L", color: "bg-accent/20 text-accent" };
+      return { label: "DRAW", color: "bg-yellow-400/20 text-yellow-400" };
+    return { label: "LOSS", color: "bg-accent/20 text-accent" };
   };
 
   if (loading) {
@@ -629,46 +657,62 @@ const DuelsPage = () => {
                   </p>
                 </div>
               ) : (
-                friends.map((friend) => (
-                  <div
-                    key={friend.id}
-                    className="bg-surface rounded-xl border border-white/10 p-3 flex items-center justify-between"
-                  >
-                    <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center text-xs font-bold text-primary">
-                        {(
-                          friend.user_profiles.display_name ??
-                          friend.user_profiles.username ??
-                          "?"
-                        )
-                          .charAt(0)
-                          .toUpperCase()}
-                      </div>
-                      <div>
-                        <p className="text-sm font-semibold">
-                          {friend.user_profiles.display_name ??
-                            friend.user_profiles.username}
-                        </p>
-                        <p className="text-xs text-white/40">
-                          {friend.user_profiles.total_xp.toLocaleString()} XP
-                        </p>
-                      </div>
-                    </div>
-                    <button
-                      onClick={() =>
-                        setChallengeTarget({
-                          id: friend.user_profiles.id,
-                          username: friend.user_profiles.username,
-                          display_name: friend.user_profiles.display_name,
-                        })
-                      }
-                      className="px-3 py-1.5 text-xs font-bold rounded-lg bg-accent/20 text-accent hover:bg-accent/30 transition-colors flex items-center gap-1"
+                friends.map((friend) => {
+                  const fp = friend.user_profiles;
+                  const isOnline =
+                    fp.last_played_at &&
+                    Date.now() - new Date(fp.last_played_at).getTime() <
+                      15 * 60 * 1000;
+                  const h2h = h2hMap[fp.id];
+
+                  return (
+                    <div
+                      key={friend.id}
+                      className="bg-surface rounded-xl border border-white/10 p-3 flex items-center justify-between"
                     >
-                      <Swords size={12} />
-                      Challenge
-                    </button>
-                  </div>
-                ))
+                      <div className="flex items-center gap-3">
+                        <div className="relative">
+                          <div className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center text-xs font-bold text-primary">
+                            {(fp.display_name ?? fp.username ?? "?")
+                              .charAt(0)
+                              .toUpperCase()}
+                          </div>
+                          <span
+                            className={`absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full border-2 border-surface ${
+                              isOnline ? "bg-success" : "bg-white/20"
+                            }`}
+                          />
+                        </div>
+                        <div>
+                          <p className="text-sm font-semibold">
+                            {fp.display_name ?? fp.username}
+                          </p>
+                          <div className="flex items-center gap-2 text-xs text-white/40">
+                            <span>{fp.total_xp.toLocaleString()} XP</span>
+                            {h2h && (
+                              <span>
+                                {h2h.wins}W-{h2h.losses}L-{h2h.draws}D
+                              </span>
+                            )}
+                          </div>
+                        </div>
+                      </div>
+                      <button
+                        onClick={() =>
+                          setChallengeTarget({
+                            id: fp.id,
+                            username: fp.username,
+                            display_name: fp.display_name,
+                          })
+                        }
+                        className="px-3 py-1.5 text-xs font-bold rounded-lg bg-accent/20 text-accent hover:bg-accent/30 transition-colors flex items-center gap-1"
+                      >
+                        <Swords size={12} />
+                        Challenge
+                      </button>
+                    </div>
+                  );
+                })
               )}
             </div>
           </motion.div>
@@ -727,7 +771,7 @@ const DuelsPage = () => {
                       <div className="flex items-center justify-between">
                         <div className="flex items-center gap-3">
                           <span
-                            className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold ${result.color}`}
+                            className={`px-2 py-1 rounded-full flex items-center justify-center text-[10px] font-bold ${result.color}`}
                           >
                             {result.label}
                           </span>
@@ -751,6 +795,13 @@ const DuelsPage = () => {
                               <span className="text-white/50">
                                 {theirScore ?? 0}
                               </span>
+                            </p>
+                            <p className="text-[10px] text-primary/70 flex items-center justify-end gap-0.5">
+                              <Zap size={8} />+
+                              {isChallenger
+                                ? duel.challenger_xp_earned
+                                : duel.opponent_xp_earned}
+                              XP
                             </p>
                           </div>
                           {isExpanded ? (
@@ -820,13 +871,14 @@ const DuelsPage = () => {
 
                             {/* Rematch button */}
                             <button
-                              onClick={() =>
-                                router.push(`/duels/${duel.id}`)
-                              }
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleRematch(duel);
+                              }}
                               className="w-full mt-2 px-3 py-2 text-xs font-bold rounded-lg bg-primary/20 text-primary hover:bg-primary/30 transition-colors flex items-center justify-center gap-1"
                             >
-                              <Trophy size={12} />
-                              View Duel
+                              <RotateCcw size={12} />
+                              Rematch
                             </button>
                           </div>
                         </motion.div>

@@ -3,9 +3,13 @@
 import { useEffect, useRef, useState, useCallback } from "react";
 import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
-import { Swords, User, Clock, Shield } from "lucide-react";
+import {
+  Swords, User, Clock, Shield,
+  Medal, Star, Award, Gem,
+} from "lucide-react";
 import { useDuelStore } from "@/stores/duelStore";
 import { createDuel } from "@/lib/duels";
+import { getUserLeagueInfo } from "@/lib/league-xp";
 import { createClient } from "@/lib/supabase/client";
 import { checkAndAwardBadges } from "@/lib/badges";
 import ProgressBar from "@/components/ProgressBar";
@@ -13,6 +17,13 @@ import QuizCard from "@/components/QuizCard";
 import DuelResults from "@/components/DuelResults";
 import ChallengeModal from "@/components/ChallengeModal";
 import type { DuelMatch, DuelDifficulty, Badge } from "@/types";
+
+const LEAGUE_ICONS: Record<number, typeof Shield> = {
+  1: Shield, 2: Medal, 3: Star, 4: Award, 5: Gem, 6: Swords,
+};
+const LEAGUE_COLORS: Record<number, string> = {
+  1: "#CD7F32", 2: "#C0C0C0", 3: "#FFD700", 4: "#E5E4E2", 5: "#B9F2FF", 6: "#FF6B35",
+};
 
 interface DuelClientProps {
   duel: DuelMatch;
@@ -59,6 +70,7 @@ const DuelClient = ({
   const [latestDuel, setLatestDuel] = useState<DuelMatch>(initialDuel);
   const [newBadges, setNewBadges] = useState<Badge[]>([]);
   const [challengeOpen, setChallengeOpen] = useState(false);
+  const [opponentTier, setOpponentTier] = useState<number | null>(null);
   const questionStartRef = useRef(Date.now());
 
   // Determine if user already played
@@ -66,6 +78,15 @@ const DuelClient = ({
   const alreadyPlayed = isChallenger
     ? initialDuel.challenger_completed_at !== null
     : initialDuel.opponent_completed_at !== null;
+
+  // Fetch opponent's league tier for badge display
+  useEffect(() => {
+    const oppId = isChallenger ? initialDuel.opponent_id : initialDuel.challenger_id;
+    if (!oppId) return;
+    getUserLeagueInfo(oppId)
+      .then((info) => setOpponentTier(info?.league?.tier ?? null))
+      .catch(() => {});
+  }, [isChallenger, initialDuel.opponent_id, initialDuel.challenger_id]);
 
   // Timer countdown
   useEffect(() => {
@@ -259,6 +280,11 @@ const DuelClient = ({
               display_name: opponentName,
             }}
             onSend={handleSendChallenge}
+            defaults={{
+              anime_id: initialDuel.anime_id ?? undefined,
+              difficulty: initialDuel.difficulty,
+              question_count: initialDuel.question_count as 5 | 10,
+            }}
           />
         </>
       );
@@ -364,10 +390,23 @@ const DuelClient = ({
 
     return (
       <div className="max-w-2xl mx-auto px-4 py-6">
-        <div className="mb-2 text-center">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-accent/10 text-accent text-xs font-semibold">
+        <div className="mb-2 flex items-center justify-center gap-2">
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-accent/10 text-accent text-xs font-semibold">
             <Swords size={12} />
-            DUEL vs {opponentName}
+            <span>DUEL vs</span>
+            <div className="w-5 h-5 rounded-full bg-accent/30 flex items-center justify-center text-[10px] font-bold">
+              {opponentName.charAt(0).toUpperCase()}
+            </div>
+            <span>{opponentName}</span>
+            {opponentTier && (() => {
+              const LeagueIcon = LEAGUE_ICONS[opponentTier] ?? Shield;
+              return (
+                <LeagueIcon
+                  size={12}
+                  style={{ color: LEAGUE_COLORS[opponentTier] ?? "#CD7F32" }}
+                />
+              );
+            })()}
           </div>
         </div>
         <div className="mb-6">
@@ -419,6 +458,11 @@ const DuelClient = ({
               display_name: opponentName,
             }}
             onSend={handleSendChallenge}
+            defaults={{
+              anime_id: initialDuel.anime_id ?? undefined,
+              difficulty: initialDuel.difficulty,
+              question_count: initialDuel.question_count as 5 | 10,
+            }}
           />
         </>
       );

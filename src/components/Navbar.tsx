@@ -4,11 +4,12 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, LogOut } from "lucide-react";
+import { Menu, X, LogOut, Swords } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import BadgeIcon from "@/components/BadgeIcon";
 import type { Badge } from "@/types";
 import { getUserEmblem } from "@/lib/badges";
+import { createClient } from "@/lib/supabase/client";
 
 const NAV_LINKS = [
   { href: "/", label: "Home" },
@@ -48,6 +49,7 @@ const Navbar = () => {
   const router = useRouter();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [emblem, setEmblem] = useState<Badge | null>(null);
+  const [pendingDuelCount, setPendingDuelCount] = useState(0);
   const { user, profile, ageGroup, signOut } = useAuth();
 
   // Fetch emblem when user/profile changes
@@ -58,6 +60,27 @@ const Navbar = () => {
     }
     getUserEmblem(user.id).then(setEmblem).catch(() => setEmblem(null));
   }, [user, profile?.emblem_badge_id]);
+
+  // Fetch pending duel challenge count
+  useEffect(() => {
+    if (!user) {
+      setPendingDuelCount(0);
+      return;
+    }
+    const fetchPending = async () => {
+      const supabase = createClient();
+      const { count } = await supabase
+        .from("duel_matches")
+        .select("*", { count: "exact", head: true })
+        .eq("opponent_id", user.id)
+        .eq("status", "waiting")
+        .eq("match_type", "friend_challenge");
+      setPendingDuelCount(count ?? 0);
+    };
+    fetchPending();
+    const interval = setInterval(fetchPending, 30000);
+    return () => clearInterval(interval);
+  }, [user]);
 
   const handleSignIn = () => {
     router.push("/auth");
@@ -100,14 +123,20 @@ const Navbar = () => {
             <Link
               key={link.href}
               href={link.href}
-              className="relative px-1 py-2 text-sm font-medium transition-colors hover:text-primary"
+              className="relative px-1 py-2 text-sm font-medium transition-colors hover:text-primary flex items-center gap-1.5"
               style={{
                 color: isActive(pathname, link.href)
                   ? "var(--color-primary)"
                   : "rgba(255,255,255,0.7)",
               }}
             >
+              {link.href === "/duels" && <Swords size={14} />}
               {link.label}
+              {link.href === "/duels" && pendingDuelCount > 0 && (
+                <span className="ml-0.5 w-4 h-4 rounded-full bg-accent text-white text-[10px] font-bold flex items-center justify-center">
+                  {pendingDuelCount}
+                </span>
+              )}
               {isActive(pathname, link.href) && (
                 <motion.div
                   layoutId="nav-underline"
@@ -197,14 +226,20 @@ const Navbar = () => {
                 >
                   <Link
                     href={link.href}
-                    className="text-2xl font-semibold transition-colors hover:text-primary"
+                    className="text-2xl font-semibold transition-colors hover:text-primary flex items-center gap-2"
                     style={{
                       color: isActive(pathname, link.href)
                         ? "var(--color-primary)"
                         : "white",
                     }}
                   >
+                    {link.href === "/duels" && <Swords size={22} />}
                     {link.label}
+                    {link.href === "/duels" && pendingDuelCount > 0 && (
+                      <span className="w-5 h-5 rounded-full bg-accent text-white text-xs font-bold flex items-center justify-center">
+                        {pendingDuelCount}
+                      </span>
+                    )}
                   </Link>
                 </motion.div>
               ))}
