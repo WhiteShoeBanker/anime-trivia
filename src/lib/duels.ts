@@ -296,20 +296,48 @@ export const submitDuelResults = async (
     const cCorrect = isChallenger ? correctCount : duel.challenger_correct;
     const oCorrect = isOpponent ? correctCount : duel.opponent_correct;
 
-    if (cScore !== null && oScore !== null) {
-      if (cScore > oScore) {
+    // Helper: longest consecutive correct streak from answers
+    const longestStreak = (ans: DuelAnswer[]): number => {
+      let best = 0;
+      let cur = 0;
+      for (const a of ans) {
+        if (a.isCorrect) { cur++; best = Math.max(best, cur); }
+        else { cur = 0; }
+      }
+      return best;
+    };
+
+    const challengerAnswers = isChallenger
+      ? answers
+      : (duel.challenger_answers as DuelAnswer[] | null) ?? [];
+    const opponentAnswers = isOpponent
+      ? answers
+      : (duel.opponent_answers as DuelAnswer[] | null) ?? [];
+    const cStreak = longestStreak(challengerAnswers);
+    const oStreak = longestStreak(opponentAnswers);
+
+    if (cCorrect !== null && oCorrect !== null) {
+      // 1. Highest correct count wins
+      if (cCorrect > oCorrect) {
         update.winner_id = duel.challenger_id;
-      } else if (oScore > cScore) {
+      } else if (oCorrect > cCorrect) {
         update.winner_id = duel.opponent_id;
-      } else if (cTime !== null && oTime !== null) {
-        // Tiebreaker: faster time
+      } else if (cTime !== null && oTime !== null && cTime !== oTime) {
+        // 2. Tiebreaker: faster total time
         if (cTime < oTime) {
           update.winner_id = duel.challenger_id;
-        } else if (oTime < cTime) {
+        } else {
           update.winner_id = duel.opponent_id;
         }
-        // If times equal too, it's a draw (winner_id stays null)
+      } else if (cStreak !== oStreak) {
+        // 3. Tiebreaker: longest correct streak
+        if (cStreak > oStreak) {
+          update.winner_id = duel.challenger_id;
+        } else {
+          update.winner_id = duel.opponent_id;
+        }
       }
+      // 4. All equal — draw (winner_id stays null)
     }
 
     update.status = "completed";
@@ -318,8 +346,6 @@ export const submitDuelResults = async (
     const { challengerXp, opponentXp } = await calculateDuelXp(
       duel.challenger_id,
       duel.opponent_id,
-      cScore ?? 0,
-      oScore ?? 0,
       update.winner_id as string | null
     );
 
@@ -330,7 +356,9 @@ export const submitDuelResults = async (
     await updateDuelStats(
       duel.challenger_id,
       duel.opponent_id,
-      update.winner_id as string | null
+      update.winner_id as string | null,
+      challengerXp,
+      opponentXp
     );
 
     // Award XP to user profiles
@@ -351,13 +379,6 @@ export const submitDuelResults = async (
     );
 
     // Check badges for both players
-    const challengerAnswers = isChallenger
-      ? answers
-      : (duel.challenger_answers as DuelAnswer[] | null) ?? [];
-    const opponentAnswers = isOpponent
-      ? answers
-      : (duel.opponent_answers as DuelAnswer[] | null) ?? [];
-
     await checkAndAwardBadges({
       userId: duel.challenger_id,
       quizScore: cCorrect ?? 0,
@@ -400,11 +421,14 @@ export const submitDuelResults = async (
 const calculateDuelXp = async (
   challengerId: string,
   opponentId: string,
-  challengerScore: number,
-  opponentScore: number,
   winnerId: string | null
 ): Promise<{ challengerXp: number; opponentXp: number }> => {
   const supabase = createClient();
+
+  // Base XP by result
+  const WIN_XP = 50;
+  const DRAW_XP = 20;
+  const LOSS_XP = 10;
 
   // Get league tiers for both players
   const challengerLeague = await getUserLeagueInfo(challengerId);
@@ -412,8 +436,8 @@ const calculateDuelXp = async (
   const challengerTier = challengerLeague?.league?.tier ?? 1;
   const opponentTier = opponentLeague?.league?.tier ?? 1;
 
-  // Calculate tier-diff multipliers
-  const getChallengerMultiplier = (tierDiff: number): number => {
+  // Tier-diff multiplier (from winner's perspective vs opponent's tier)
+  const getTierMultiplier = (tierDiff: number): number => {
     if (tierDiff >= 2) return 3.0;   // Beat opponent 2+ tiers above
     if (tierDiff === 1) return 2.0;  // Beat opponent 1 tier above
     if (tierDiff === 0) return 1.0;  // Same tier
@@ -440,16 +464,16 @@ const calculateDuelXp = async (
 
   if (winnerId === challengerId) {
     const tierDiff = opponentTier - challengerTier;
-    challengerXp = Math.round(challengerScore * getChallengerMultiplier(tierDiff) * diminishingFactor);
-    opponentXp = Math.round(opponentScore * 0.5 * diminishingFactor); // Loser gets 50% base
+    challengerXp = Math.round(WIN_XP * getTierMultiplier(tierDiff) * diminishingFactor);
+    opponentXp = Math.round(LOSS_XP * getTierMultiplier(challengerTier - opponentTier) * diminishingFactor);
   } else if (winnerId === opponentId) {
     const tierDiff = challengerTier - opponentTier;
-    opponentXp = Math.round(opponentScore * getChallengerMultiplier(tierDiff) * diminishingFactor);
-    challengerXp = Math.round(challengerScore * 0.5 * diminishingFactor);
+    opponentXp = Math.round(WIN_XP * getTierMultiplier(tierDiff) * diminishingFactor);
+    challengerXp = Math.round(LOSS_XP * getTierMultiplier(opponentTier - challengerTier) * diminishingFactor);
   } else {
-    // Draw — both get 75% base
-    challengerXp = Math.round(challengerScore * 0.75 * diminishingFactor);
-    opponentXp = Math.round(opponentScore * 0.75 * diminishingFactor);
+    // Draw — both get draw base XP with tier multiplier
+    challengerXp = Math.round(DRAW_XP * getTierMultiplier(opponentTier - challengerTier) * diminishingFactor);
+    opponentXp = Math.round(DRAW_XP * getTierMultiplier(challengerTier - opponentTier) * diminishingFactor);
   }
 
   return { challengerXp, opponentXp };
@@ -480,14 +504,17 @@ const awardDuelXp = async (userId: string, xp: number): Promise<void> => {
 const updateDuelStats = async (
   challengerId: string,
   opponentId: string,
-  winnerId: string | null
+  winnerId: string | null,
+  challengerXpEarned: number,
+  opponentXpEarned: number
 ): Promise<void> => {
   const supabase = createClient();
 
   const updatePlayerStats = async (
     playerId: string,
     won: boolean,
-    isDraw: boolean
+    isDraw: boolean,
+    xpEarned: number
   ) => {
     // Fetch current stats
     const { data: existing } = await supabase
@@ -509,6 +536,7 @@ const updateDuelStats = async (
           draws: existing.draws + (isDraw ? 1 : 0),
           win_streak: newWinStreak,
           best_win_streak: newBestStreak,
+          duel_xp_total: existing.duel_xp_total + xpEarned,
         })
         .eq("user_id", playerId);
     } else {
@@ -520,13 +548,14 @@ const updateDuelStats = async (
         draws: isDraw ? 1 : 0,
         win_streak: won ? 1 : 0,
         best_win_streak: won ? 1 : 0,
+        duel_xp_total: xpEarned,
       });
     }
   };
 
   const isDraw = winnerId === null;
-  await updatePlayerStats(challengerId, winnerId === challengerId, isDraw);
-  await updatePlayerStats(opponentId, winnerId === opponentId, isDraw);
+  await updatePlayerStats(challengerId, winnerId === challengerId, isDraw, challengerXpEarned);
+  await updatePlayerStats(opponentId, winnerId === opponentId, isDraw, opponentXpEarned);
 };
 
 // ── Giant Kill Check ───────────────────────────────────────────
