@@ -67,6 +67,8 @@ interface UserStats {
   leagueTier: number;
   recentQuizDifficulties: string[];
   recentQuizScores: { score: number; total: number; difficulty: string }[];
+  gpQualificationCount: number;
+  gpWinCount: number;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -80,6 +82,8 @@ const gatherUserStats = async (userId: string, supabase: any): Promise<UserStats
     { count: promotionCount },
     { data: membership },
     { data: recentSessions },
+    { count: gpQualificationCount },
+    { count: gpWinCount },
   ] = await Promise.all([
     supabase.from("user_profiles").select("*").eq("id", userId).single(),
     supabase
@@ -120,6 +124,15 @@ const gatherUserStats = async (userId: string, supabase: any): Promise<UserStats
       .eq("user_id", userId)
       .order("completed_at", { ascending: false })
       .limit(10),
+    supabase
+      .from("grand_prix_matches")
+      .select("*", { count: "exact", head: true })
+      .or(`player1_id.eq.${userId},player2_id.eq.${userId}`),
+    supabase
+      .from("grand_prix_tournaments")
+      .select("*", { count: "exact", head: true })
+      .eq("winner_id", userId)
+      .eq("status", "completed"),
   ]);
 
   const hardScores = (hardQuizzes ?? []) as {
@@ -169,6 +182,8 @@ const gatherUserStats = async (userId: string, supabase: any): Promise<UserStats
         difficulty: s.difficulty,
       })
     ),
+    gpQualificationCount: gpQualificationCount ?? 0,
+    gpWinCount: gpWinCount ?? 0,
   };
 };
 
@@ -238,6 +253,12 @@ const checkBadge = async (
 
     case "total_xp":
       return stats.totalXp >= (val.xp as number);
+
+    case "gp_qualifier_count":
+      return stats.gpQualificationCount >= (val.count as number);
+
+    case "gp_win_count":
+      return stats.gpWinCount >= (val.count as number);
 
     default:
       return false;

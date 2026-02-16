@@ -26,6 +26,7 @@ const CATEGORY_LABELS: Record<BadgeCategory, string> = {
   daily: "Daily",
   special: "Special",
   league: "League",
+  grand_prix: "Grand Prix",
 };
 
 const BadgesPage = () => {

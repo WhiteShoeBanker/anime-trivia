@@ -6,16 +6,19 @@ import Link from "next/link";
 import { User, Award, Trophy, Zap, Calendar, ChevronRight } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { getUserBadges, getUserEmblem } from "@/lib/badges";
+import { getUserGrandPrixEmblems } from "@/lib/grand-prix";
 import { getRank } from "@/lib/scoring";
 import BadgeIcon from "@/components/BadgeIcon";
 import BadgeGrid from "@/components/BadgeGrid";
+import MonthlyEmblem from "@/components/MonthlyEmblem";
 import EmblemSelector from "@/components/EmblemSelector";
-import type { Badge } from "@/types";
+import type { Badge, UserEmblemWithDetails } from "@/types";
 
 const ProfilePage = () => {
   const { user, profile, isLoading, refreshProfile } = useAuth();
   const [earnedBadges, setEarnedBadges] = useState<Badge[]>([]);
   const [emblem, setEmblem] = useState<Badge | null>(null);
+  const [gpEmblems, setGpEmblems] = useState<UserEmblemWithDetails[]>([]);
   const [emblemOpen, setEmblemOpen] = useState(false);
   const [loading, setLoading] = useState(true);
 
@@ -26,12 +29,14 @@ const ProfilePage = () => {
     }
     const fetchData = async () => {
       try {
-        const [badges, emb] = await Promise.all([
+        const [badges, emb, gpEmbs] = await Promise.all([
           getUserBadges(user.id),
           getUserEmblem(user.id),
+          getUserGrandPrixEmblems(user.id),
         ]);
         setEarnedBadges(badges);
         setEmblem(emb);
+        setGpEmblems(gpEmbs);
       } catch {
         // Failed
       }
@@ -212,6 +217,37 @@ const ProfilePage = () => {
           </button>
         </div>
       </motion.div>
+
+      {/* Grand Prix Trophy Case */}
+      {gpEmblems.length > 0 && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.22 }}
+        >
+          <div className="flex items-center justify-between mb-3">
+            <h2 className="text-sm font-semibold text-white/70">
+              Grand Prix Trophy Case ({gpEmblems.length})
+            </h2>
+            <Link
+              href="/grand-prix"
+              className="flex items-center gap-1 text-xs text-primary hover:text-primary/80 transition-colors"
+            >
+              Grand Prix
+              <ChevronRight size={14} />
+            </Link>
+          </div>
+          <div className="grid grid-cols-4 sm:grid-cols-6 gap-3">
+            {gpEmblems.map((ue) => (
+              <MonthlyEmblem
+                key={ue.id}
+                emblem={ue.grand_prix_emblems}
+                size="sm"
+              />
+            ))}
+          </div>
+        </motion.div>
+      )}
 
       {/* Recent badges */}
       {earnedBadges.length > 0 && (

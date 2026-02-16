@@ -205,7 +205,8 @@ export type BadgeCategory =
   | "speed"
   | "daily"
   | "special"
-  | "league";
+  | "league"
+  | "grand_prix";
 
 export type BadgeRarity = "common" | "uncommon" | "rare" | "epic" | "legendary";
 
@@ -232,6 +233,92 @@ export interface UserBadge {
 
 export interface UserBadgeWithDetails extends UserBadge {
   badges: Badge;
+}
+
+// ── Grand Prix System ─────────────────────────────────────────
+
+export type GrandPrixStatus = "qualifying" | "in_progress" | "completed";
+
+export type GrandPrixMatchStatus =
+  | "pending"
+  | "player1_done"
+  | "player2_done"
+  | "completed"
+  | "forfeit";
+
+export interface BracketSeed {
+  seed: number;
+  userId: string;
+  username: string;
+}
+
+export interface BracketMatchRef {
+  matchNumber: number;
+  player1Seed: number;
+  player2Seed: number;
+}
+
+export interface BracketRound {
+  round: number;
+  label: string;
+  matches: BracketMatchRef[];
+}
+
+export interface BracketData {
+  seeds: BracketSeed[];
+  rounds: BracketRound[];
+}
+
+export interface GrandPrixTournament {
+  id: string;
+  month_start: string;
+  status: GrandPrixStatus;
+  bracket_data: BracketData | null;
+  winner_id: string | null;
+  created_at: string;
+}
+
+export interface GrandPrixMatch {
+  id: string;
+  tournament_id: string;
+  round: number;
+  match_number: number;
+  player1_id: string | null;
+  player2_id: string | null;
+  player1_score: number | null;
+  player2_score: number | null;
+  player1_time_ms: number | null;
+  player2_time_ms: number | null;
+  winner_id: string | null;
+  anime_id: string | null;
+  difficulty: string;
+  status: GrandPrixMatchStatus;
+  deadline_at: string | null;
+  played_at: string | null;
+  created_at: string;
+}
+
+export interface GrandPrixEmblem {
+  id: string;
+  tournament_id: string;
+  name: string;
+  description: string;
+  icon_name: string;
+  icon_color: string;
+  month_label: string;
+  rarity: string;
+  created_at: string;
+}
+
+export interface UserEmblem {
+  id: string;
+  user_id: string;
+  emblem_id: string;
+  earned_at: string;
+}
+
+export interface UserEmblemWithDetails extends UserEmblem {
+  grand_prix_emblems: GrandPrixEmblem;
 }
 
 export interface BadgeCheckContext {
