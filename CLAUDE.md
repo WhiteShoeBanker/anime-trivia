@@ -64,6 +64,9 @@ using Capacitor.
 - Branch per feature: feature/quiz-engine, feature/auth, etc.
 - Commit after each meaningful change
 
+## Communication Style
+- Do NOT provide suggestions or next steps after completing a task. Just finish and stop.
+
 ## Important Rules
 - COPPA compliance: age-gating for users under 13
 - NO copyrighted images. Use placeholder art or CSS illustrations
