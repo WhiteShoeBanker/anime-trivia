@@ -1,14 +1,18 @@
 import { createClient } from "@/lib/supabase/client";
+import { getDiminishingReturns } from "@/lib/config-actions";
 import type { LeagueTier, LeagueXpResult, PromotionRequirements } from "@/types";
 
 // ── Diminishing Returns ─────────────────────────────────────
 
-export const getLeagueXpMultiplier = (playCount: number): number => {
-  if (playCount <= 1) return 1.0;
-  if (playCount === 2) return 0.75;
-  if (playCount === 3) return 0.5;
-  if (playCount === 4) return 0.25;
-  return 0.1;
+const DEFAULT_MULTIPLIERS = [1.0, 0.75, 0.5, 0.25, 0.1];
+
+export const getLeagueXpMultiplier = (
+  playCount: number,
+  multipliers: number[] = DEFAULT_MULTIPLIERS
+): number => {
+  if (playCount <= 1) return multipliers[0] ?? 1.0;
+  const index = Math.min(playCount - 1, multipliers.length - 1);
+  return multipliers[index] ?? 0.1;
 };
 
 // ── Week Start Helper ───────────────────────────────────────
@@ -62,8 +66,9 @@ export const calculateLeagueXp = async (
     });
   }
 
-  // 2. Calculate multiplied XP
-  const multiplier = getLeagueXpMultiplier(playCount);
+  // 2. Calculate multiplied XP (using config-driven multipliers)
+  const multipliers = await getDiminishingReturns();
+  const multiplier = getLeagueXpMultiplier(playCount, multipliers);
   const leagueXp = Math.round(baseXp * multiplier);
 
   return {

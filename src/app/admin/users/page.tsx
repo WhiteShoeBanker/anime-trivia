@@ -1,23 +1,40 @@
 "use client";
 
 import { useState, useEffect, useCallback, useRef } from "react";
-import { Search, Download, ChevronUp, ChevronDown, Loader2 } from "lucide-react";
-import { getUsersList, type UsersListResult } from "../actions";
+import {
+  Search,
+  Download,
+  ChevronUp,
+  ChevronDown,
+  Loader2,
+  Crown,
+  XCircle,
+  CheckCircle2,
+} from "lucide-react";
+import {
+  getUsersList,
+  upgradeUserToPro,
+  revokeUserPro,
+  getUserDuelStats,
+  type UsersListResult,
+} from "../actions";
 
 type UserRow = UsersListResult["users"][number];
 type SortKey = keyof Pick<
   UserRow,
   | "username"
   | "display_name"
+  | "age_group"
   | "rank"
   | "total_xp"
   | "current_streak"
   | "subscription_tier"
+  | "subscription_source"
   | "created_at"
   | "last_played_at"
 >;
 type SortDir = "asc" | "desc";
-type FilterTab = "all" | "pro" | "junior";
+type FilterTab = "all" | "pro" | "junior" | "teen" | "churned" | "admin_grant";
 
 const RANK_COLORS: Record<string, string> = {
   Genin: "bg-slate-600 text-slate-200",
@@ -31,10 +48,12 @@ const RANK_COLORS: Record<string, string> = {
 const COLUMNS: { key: SortKey; label: string }[] = [
   { key: "username", label: "Username" },
   { key: "display_name", label: "Display Name" },
+  { key: "age_group", label: "Age Group" },
   { key: "rank", label: "Rank" },
   { key: "total_xp", label: "XP" },
   { key: "current_streak", label: "Streak" },
   { key: "subscription_tier", label: "Tier" },
+  { key: "subscription_source", label: "Source" },
   { key: "created_at", label: "Joined" },
   { key: "last_played_at", label: "Last Active" },
 ];
@@ -43,6 +62,9 @@ const FILTER_TABS: { key: FilterTab; label: string }[] = [
   { key: "all", label: "All" },
   { key: "pro", label: "Pro" },
   { key: "junior", label: "Junior" },
+  { key: "teen", label: "Teen" },
+  { key: "churned", label: "Churned" },
+  { key: "admin_grant", label: "Admin Grant" },
 ];
 
 const formatDate = (dateStr: string | null): string => {
@@ -54,7 +76,11 @@ const formatDate = (dateStr: string | null): string => {
   });
 };
 
-const sortUsers = (users: UserRow[], sortKey: SortKey, sortDir: SortDir): UserRow[] => {
+const sortUsers = (
+  users: UserRow[],
+  sortKey: SortKey,
+  sortDir: SortDir
+): UserRow[] => {
   const sorted = [...users].sort((a, b) => {
     const aVal = a[sortKey];
     const bVal = b[sortKey];
@@ -77,10 +103,12 @@ const generateCSV = (users: UserRow[]): string => {
   const headers = [
     "Username",
     "Display Name",
+    "Age Group",
     "Rank",
     "XP",
     "Streak",
     "Tier",
+    "Source",
     "Joined",
     "Last Active",
   ];
@@ -88,10 +116,12 @@ const generateCSV = (users: UserRow[]): string => {
   const rows = users.map((u) => [
     u.username ?? "",
     u.display_name ?? "",
+    u.age_group,
     u.rank,
     String(u.total_xp),
     String(u.current_streak),
     u.subscription_tier,
+    u.subscription_source,
     u.created_at,
     u.last_played_at ?? "",
   ]);
@@ -103,7 +133,10 @@ const generateCSV = (users: UserRow[]): string => {
     return val;
   };
 
-  const lines = [headers.map(escape).join(","), ...rows.map((r) => r.map(escape).join(","))];
+  const lines = [
+    headers.map(escape).join(","),
+    ...rows.map((r) => r.map(escape).join(",")),
+  ];
   return lines.join("\n");
 };
 
@@ -116,6 +149,10 @@ const AdminUsersPage = () => {
   const [sortDir, setSortDir] = useState<SortDir>("desc");
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState<UsersListResult | null>(null);
+  const [upgradeDropdownOpen, setUpgradeDropdownOpen] = useState<string | null>(
+    null
+  );
+  const [actionLoading, setActionLoading] = useState<string | null>(null);
   const debounceTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // Debounce search input
@@ -134,10 +171,22 @@ const AdminUsersPage = () => {
     };
   }, [search]);
 
+  const fetchData = useCallback(async () => {
+    setLoading(true);
+    try {
+      const result = await getUsersList(page, debouncedSearch, filter);
+      setData(result);
+    } catch {
+      // Server action failed - keep previous data
+    } finally {
+      setLoading(false);
+    }
+  }, [page, debouncedSearch, filter]);
+
   // Fetch data when page, debouncedSearch, or filter changes
   useEffect(() => {
     let cancelled = false;
-    const fetchData = async () => {
+    const load = async () => {
       setLoading(true);
       try {
         const result = await getUsersList(page, debouncedSearch, filter);
@@ -145,14 +194,14 @@ const AdminUsersPage = () => {
           setData(result);
         }
       } catch {
-        // Server action failed — keep previous data
+        // Server action failed - keep previous data
       } finally {
         if (!cancelled) {
           setLoading(false);
         }
       }
     };
-    fetchData();
+    load();
     return () => {
       cancelled = true;
     };
@@ -189,6 +238,40 @@ const AdminUsersPage = () => {
     document.body.removeChild(link);
     URL.revokeObjectURL(url);
   }, [data, sortKey, sortDir]);
+
+  const handleUpgrade = useCallback(
+    async (
+      userId: string,
+      tier: "pro_monthly" | "pro_yearly" | "pro_lifetime"
+    ) => {
+      setActionLoading(userId);
+      setUpgradeDropdownOpen(null);
+      try {
+        await upgradeUserToPro(userId, tier, "admin");
+        await fetchData();
+      } catch {
+        // Action failed
+      } finally {
+        setActionLoading(null);
+      }
+    },
+    [fetchData]
+  );
+
+  const handleRevoke = useCallback(
+    async (userId: string) => {
+      setActionLoading(userId);
+      try {
+        await revokeUserPro(userId, "admin");
+        await fetchData();
+      } catch {
+        // Action failed
+      } finally {
+        setActionLoading(null);
+      }
+    },
+    [fetchData]
+  );
 
   const sortedUsers = data ? sortUsers(data.users, sortKey, sortDir) : [];
 
@@ -230,7 +313,7 @@ const AdminUsersPage = () => {
         </div>
 
         {/* Filter Tabs */}
-        <div className="flex gap-2">
+        <div className="flex gap-2 flex-wrap">
           {FILTER_TABS.map(({ key, label }) => (
             <button
               key={key}
@@ -278,13 +361,16 @@ const AdminUsersPage = () => {
                       </span>
                     </th>
                   ))}
+                  <th className="px-4 py-3 text-left font-semibold text-slate-300 whitespace-nowrap">
+                    Actions
+                  </th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-700/50">
                 {sortedUsers.length === 0 ? (
                   <tr>
                     <td
-                      colSpan={COLUMNS.length}
+                      colSpan={COLUMNS.length + 1}
                       className="px-4 py-12 text-center text-slate-500"
                     >
                       No users found.
@@ -302,10 +388,14 @@ const AdminUsersPage = () => {
                       <td className="px-4 py-3 text-slate-300 whitespace-nowrap">
                         {user.display_name ?? "\u2014"}
                       </td>
+                      <td className="px-4 py-3 text-slate-300 whitespace-nowrap">
+                        {user.age_group}
+                      </td>
                       <td className="px-4 py-3 whitespace-nowrap">
                         <span
                           className={`inline-block px-2.5 py-0.5 rounded-full text-xs font-semibold ${
-                            RANK_COLORS[user.rank] ?? "bg-slate-600 text-slate-200"
+                            RANK_COLORS[user.rank] ??
+                            "bg-slate-600 text-slate-200"
                           }`}
                         >
                           {user.rank}
@@ -328,11 +418,75 @@ const AdminUsersPage = () => {
                           {user.subscription_tier}
                         </span>
                       </td>
+                      <td className="px-4 py-3 text-slate-500 text-xs whitespace-nowrap">
+                        {user.subscription_source}
+                      </td>
                       <td className="px-4 py-3 text-slate-400 whitespace-nowrap">
                         {formatDate(user.created_at)}
                       </td>
                       <td className="px-4 py-3 text-slate-400 whitespace-nowrap">
                         {formatDate(user.last_played_at)}
+                      </td>
+                      <td className="px-4 py-3 whitespace-nowrap">
+                        {actionLoading === user.id ? (
+                          <Loader2
+                            size={16}
+                            className="animate-spin text-orange-400"
+                          />
+                        ) : user.subscription_tier === "pro" ? (
+                          <button
+                            onClick={() => handleRevoke(user.id)}
+                            className="flex items-center gap-1.5 px-3 py-1.5 bg-red-500/10 hover:bg-red-500/20 text-red-400 hover:text-red-300 rounded-lg text-xs font-medium transition-colors"
+                          >
+                            <XCircle size={14} />
+                            Revoke Pro
+                          </button>
+                        ) : (
+                          <div className="relative">
+                            <button
+                              onClick={() =>
+                                setUpgradeDropdownOpen(
+                                  upgradeDropdownOpen === user.id
+                                    ? null
+                                    : user.id
+                                )
+                              }
+                              className="flex items-center gap-1.5 px-3 py-1.5 bg-orange-500/10 hover:bg-orange-500/20 text-orange-400 hover:text-orange-300 rounded-lg text-xs font-medium transition-colors"
+                            >
+                              <Crown size={14} />
+                              Upgrade to Pro
+                              <ChevronDown size={12} />
+                            </button>
+                            {upgradeDropdownOpen === user.id && (
+                              <div className="absolute right-0 top-full mt-1 z-50 w-40 bg-slate-700 border border-slate-600 rounded-lg shadow-xl overflow-hidden">
+                                <button
+                                  onClick={() =>
+                                    handleUpgrade(user.id, "pro_monthly")
+                                  }
+                                  className="w-full px-4 py-2.5 text-left text-xs font-medium text-slate-200 hover:bg-slate-600 transition-colors"
+                                >
+                                  Monthly
+                                </button>
+                                <button
+                                  onClick={() =>
+                                    handleUpgrade(user.id, "pro_yearly")
+                                  }
+                                  className="w-full px-4 py-2.5 text-left text-xs font-medium text-slate-200 hover:bg-slate-600 transition-colors"
+                                >
+                                  Yearly
+                                </button>
+                                <button
+                                  onClick={() =>
+                                    handleUpgrade(user.id, "pro_lifetime")
+                                  }
+                                  className="w-full px-4 py-2.5 text-left text-xs font-medium text-slate-200 hover:bg-slate-600 transition-colors"
+                                >
+                                  Lifetime
+                                </button>
+                              </div>
+                            )}
+                          </div>
+                        )}
                       </td>
                     </tr>
                   ))
@@ -345,7 +499,10 @@ const AdminUsersPage = () => {
         {/* Loading overlay for subsequent fetches */}
         {loading && data && (
           <div className="flex items-center justify-center py-4 border-t border-slate-700">
-            <Loader2 size={20} className="animate-spin text-orange-400 mr-2" />
+            <Loader2
+              size={20}
+              className="animate-spin text-orange-400 mr-2"
+            />
             <span className="text-sm text-slate-400">Updating...</span>
           </div>
         )}

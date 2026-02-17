@@ -4,6 +4,7 @@ import type { AnimeSeries, Question, Difficulty, AgeGroup, LeagueXpResult, Badge
 import { calculateQuestionXP } from "@/lib/scoring";
 import { calculateLeagueXp, updateLeagueMembershipXp } from "@/lib/league-xp";
 import { checkAndAwardBadges } from "@/lib/badges";
+import { trackQuizStarted, trackQuizCompleted, trackBadgeEarned } from "@/lib/track-actions";
 
 interface QuizAnswer {
   questionId: string;
@@ -136,6 +137,8 @@ export const useQuizStore = create<QuizState & QuizActions>((set, get) => ({
         selectedAnswer: null,
         isRevealed: false,
       });
+
+      trackQuizStarted("anonymous", { anime_slug: animeSlug, difficulty }).catch(() => {});
     } catch {
       set({ quizStatus: "idle" });
     }
@@ -290,6 +293,15 @@ export const useQuizStore = create<QuizState & QuizActions>((set, get) => ({
           .eq("id", userId);
       }
 
+      // Track quiz completion
+      trackQuizCompleted(userId, {
+        anime_slug: state.currentAnime.slug,
+        difficulty: state.difficulty,
+        score: state.score,
+        total: state.questions.length,
+        xp_earned: state.xpEarned,
+      }).catch(() => {});
+
       // League XP with diminishing returns
       try {
         const leagueXpResult = await calculateLeagueXp(
@@ -335,6 +347,9 @@ export const useQuizStore = create<QuizState & QuizActions>((set, get) => ({
         const newBadges = await checkAndAwardBadges(badgeContext);
         if (newBadges.length > 0) {
           set({ newBadges });
+          for (const badge of newBadges) {
+            trackBadgeEarned(userId, { badge_slug: badge.slug, badge_name: badge.name }).catch(() => {});
+          }
         }
       } catch {
         // Badge check failed — non-critical

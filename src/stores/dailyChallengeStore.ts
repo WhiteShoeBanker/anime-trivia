@@ -7,6 +7,7 @@ import {
 } from "@/lib/daily-challenge";
 import { calculateLeagueXp, updateLeagueMembershipXp } from "@/lib/league-xp";
 import { checkAndAwardBadges } from "@/lib/badges";
+import { trackDailyChallengeCompleted, trackBadgeEarned } from "@/lib/track-actions";
 
 interface DailyAnswer {
   questionId: string;
@@ -166,6 +167,12 @@ export const useDailyChallengeStore = create<
     try {
       await saveDailyChallengeResult(userId, state.score, state.xpEarned);
 
+      trackDailyChallengeCompleted(userId, {
+        score: state.score,
+        total: state.questions.length,
+        xp_earned: state.xpEarned,
+      }).catch(() => {});
+
       // League XP — pick the first question's anime for tracking
       try {
         if (state.questions.length > 0) {
@@ -200,6 +207,9 @@ export const useDailyChallengeStore = create<
         const newBadges = await checkAndAwardBadges(badgeContext);
         if (newBadges.length > 0) {
           set({ newBadges });
+          for (const badge of newBadges) {
+            trackBadgeEarned(userId, { badge_slug: badge.slug, badge_name: badge.name }).catch(() => {});
+          }
         }
       } catch {
         // Badge check failed — non-critical

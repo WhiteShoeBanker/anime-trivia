@@ -1,6 +1,7 @@
 "use server";
 
 import { createClient } from "@/lib/supabase/server";
+import { trackEvent } from "@/lib/analytics";
 import type { AgeGroup } from "@/types";
 
 interface ProfileData {
@@ -45,6 +46,11 @@ export async function updateProfileAfterSignup(data: ProfileData) {
   if (error) {
     return { error: error.message };
   }
+
+  trackEvent("signup", user.id, {
+    age_group: data.ageGroup,
+    auth_provider: user.app_metadata?.provider ?? "email",
+  }).catch(() => {});
 
   return { success: true };
 }

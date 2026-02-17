@@ -1,4 +1,5 @@
 import { createClient } from "@/lib/supabase/client";
+import { trackPromoCodeRedeemed } from "@/lib/track-actions";
 import type { PromoCode, PromoCodeType } from "@/types";
 
 interface RedeemSuccess {
@@ -108,6 +109,11 @@ export const redeemPromoCode = async (
     .from("promo_codes")
     .update({ current_uses: promo.current_uses + 1 })
     .eq("id", promo.id);
+
+  trackPromoCodeRedeemed(userId, {
+    code_type: promo.type,
+    code_id: promo.id,
+  }).catch(() => {});
 
   return {
     success: true,

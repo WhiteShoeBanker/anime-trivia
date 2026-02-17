@@ -12,6 +12,9 @@ import {
   ClipboardList,
   CheckCircle2,
   XCircle,
+  Trophy,
+  Swords,
+  Shield,
 } from "lucide-react";
 import {
   getAdminSettings,
@@ -24,6 +27,10 @@ import {
 interface ConfigMap {
   free_quiz_limit: number;
   diminishing_returns: string;
+  breadth_gates: string;
+  league_promotion_sizes: string;
+  league_demotion_sizes: string;
+  duel_max_per_opponent_weekly: number;
   feature_flags: FeatureFlags;
   maintenance_mode: boolean;
   announcement_banner: string;
@@ -37,6 +44,8 @@ interface FeatureFlags {
   daily_challenge: boolean;
   grand_prix: boolean;
   cosmetic_shop: boolean;
+  duels: boolean;
+  swag_shop: boolean;
 }
 
 interface DailyChallengeMix {
@@ -59,6 +68,8 @@ const FEATURE_FLAG_KEYS: (keyof FeatureFlags)[] = [
   "daily_challenge",
   "grand_prix",
   "cosmetic_shop",
+  "duels",
+  "swag_shop",
 ];
 
 const FEATURE_FLAG_LABELS: Record<keyof FeatureFlags, string> = {
@@ -66,7 +77,9 @@ const FEATURE_FLAG_LABELS: Record<keyof FeatureFlags, string> = {
   badges: "Badges",
   daily_challenge: "Daily Challenge",
   grand_prix: "Grand Prix",
-  cosmetic_shop: "Swag Shop",
+  cosmetic_shop: "Cosmetic Shop",
+  duels: "Duels",
+  swag_shop: "Swag Shop",
 };
 
 const DIFFICULTY_KEYS: (keyof DailyChallengeMix)[] = [
@@ -75,6 +88,12 @@ const DIFFICULTY_KEYS: (keyof DailyChallengeMix)[] = [
   "hard",
   "impossible",
 ];
+
+const DEFAULT_BREADTH_GATES = JSON.stringify(
+  { "1": 0, "2": 2, "3": 3, "4": 5, "5": 6 },
+  null,
+  2
+);
 
 const parseConfigMap = (
   configs: AdminSettings["configs"]
@@ -92,6 +111,28 @@ const parseConfigMap = (
           typeof cfg.value === "string"
             ? cfg.value
             : JSON.stringify(cfg.value, null, 2);
+        break;
+      case "breadth_gates":
+        map.breadth_gates =
+          typeof cfg.value === "string"
+            ? cfg.value
+            : JSON.stringify(cfg.value, null, 2);
+        break;
+      case "league_promotion_sizes":
+        map.league_promotion_sizes =
+          typeof cfg.value === "string"
+            ? cfg.value
+            : JSON.stringify(cfg.value, null, 2);
+        break;
+      case "league_demotion_sizes":
+        map.league_demotion_sizes =
+          typeof cfg.value === "string"
+            ? cfg.value
+            : JSON.stringify(cfg.value, null, 2);
+        break;
+      case "duel_max_per_opponent_weekly":
+        map.duel_max_per_opponent_weekly =
+          typeof cfg.value === "number" ? cfg.value : Number(cfg.value) || 3;
         break;
       case "feature_flags":
         map.feature_flags = cfg.value as FeatureFlags;
@@ -151,13 +192,19 @@ const AdminSettingsPage = () => {
 
   // Local form state
   const [freeQuizLimit, setFreeQuizLimit] = useState(5);
-  const [diminishingReturns, setDiminishingReturns] = useState("{}");
+  const [diminishingReturns, setDiminishingReturns] = useState("[]");
+  const [breadthGates, setBreadthGates] = useState(DEFAULT_BREADTH_GATES);
+  const [leaguePromotionSizes, setLeaguePromotionSizes] = useState("{}");
+  const [leagueDemotionSizes, setLeagueDemotionSizes] = useState("{}");
+  const [duelMaxPerOpponentWeekly, setDuelMaxPerOpponentWeekly] = useState(3);
   const [featureFlags, setFeatureFlags] = useState<FeatureFlags>({
     leagues: false,
     badges: false,
     daily_challenge: false,
     grand_prix: false,
     cosmetic_shop: false,
+    duels: false,
+    swag_shop: false,
   });
   const [maintenanceMode, setMaintenanceMode] = useState(false);
   const [announcementBanner, setAnnouncementBanner] = useState("");
@@ -184,8 +231,16 @@ const AdminSettingsPage = () => {
         setFreeQuizLimit(parsed.free_quiz_limit);
       if (parsed.diminishing_returns !== undefined)
         setDiminishingReturns(parsed.diminishing_returns);
+      if (parsed.breadth_gates !== undefined)
+        setBreadthGates(parsed.breadth_gates);
+      if (parsed.league_promotion_sizes !== undefined)
+        setLeaguePromotionSizes(parsed.league_promotion_sizes);
+      if (parsed.league_demotion_sizes !== undefined)
+        setLeagueDemotionSizes(parsed.league_demotion_sizes);
+      if (parsed.duel_max_per_opponent_weekly !== undefined)
+        setDuelMaxPerOpponentWeekly(parsed.duel_max_per_opponent_weekly);
       if (parsed.feature_flags !== undefined)
-        setFeatureFlags(parsed.feature_flags);
+        setFeatureFlags((prev) => ({ ...prev, ...parsed.feature_flags }));
       if (parsed.maintenance_mode !== undefined)
         setMaintenanceMode(parsed.maintenance_mode);
       if (parsed.announcement_banner !== undefined)
@@ -241,9 +296,45 @@ const AdminSettingsPage = () => {
       showToast("error", "Invalid JSON for diminishing returns");
       return;
     }
+
+    // Validate breadth_gates JSON
+    let parsedBG: unknown;
+    try {
+      parsedBG = JSON.parse(breadthGates);
+    } catch {
+      showToast("error", "Invalid JSON for breadth gates");
+      return;
+    }
+
     handleSave("free_quiz_limit", freeQuizLimit);
     handleSave("diminishing_returns", parsedDR);
-  }, [freeQuizLimit, diminishingReturns, handleSave]);
+    handleSave("breadth_gates", parsedBG);
+  }, [freeQuizLimit, diminishingReturns, breadthGates, handleSave]);
+
+  const handleSaveLeagues = useCallback(() => {
+    let parsedPromotion: unknown;
+    try {
+      parsedPromotion = JSON.parse(leaguePromotionSizes);
+    } catch {
+      showToast("error", "Invalid JSON for league promotion sizes");
+      return;
+    }
+
+    let parsedDemotion: unknown;
+    try {
+      parsedDemotion = JSON.parse(leagueDemotionSizes);
+    } catch {
+      showToast("error", "Invalid JSON for league demotion sizes");
+      return;
+    }
+
+    handleSave("league_promotion_sizes", parsedPromotion);
+    handleSave("league_demotion_sizes", parsedDemotion);
+  }, [leaguePromotionSizes, leagueDemotionSizes, handleSave]);
+
+  const handleSaveDuels = useCallback(() => {
+    handleSave("duel_max_per_opponent_weekly", duelMaxPerOpponentWeekly);
+  }, [duelMaxPerOpponentWeekly, handleSave]);
 
   const handleSaveFeatureFlags = useCallback(() => {
     handleSave("feature_flags", featureFlags);
@@ -304,7 +395,7 @@ const AdminSettingsPage = () => {
         </p>
       </div>
 
-      {/* Game Balance */}
+      {/* 1. Game Balance */}
       <div className="bg-slate-800 rounded-xl p-6">
         <div className="flex items-center gap-2 mb-4">
           <Gamepad2 size={20} className="text-orange-400" />
@@ -341,7 +432,22 @@ const AdminSettingsPage = () => {
               className="w-full px-3 py-2 bg-slate-700 border border-slate-600 rounded-lg text-sm text-slate-100 font-mono focus:outline-none focus:ring-2 focus:ring-orange-500/50 focus:border-orange-500 transition-colors resize-y"
             />
             <p className="text-xs text-slate-500 mt-1">
-              JSON config for XP diminishing returns after repeated plays
+              JSON array config for XP diminishing returns after repeated plays
+            </p>
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-slate-300 mb-1">
+              Breadth Gates (JSON)
+            </label>
+            <textarea
+              value={breadthGates}
+              onChange={(e) => setBreadthGates(e.target.value)}
+              rows={4}
+              className="w-full px-3 py-2 bg-slate-700 border border-slate-600 rounded-lg text-sm text-slate-100 font-mono focus:outline-none focus:ring-2 focus:ring-orange-500/50 focus:border-orange-500 transition-colors resize-y"
+            />
+            <p className="text-xs text-slate-500 mt-1">
+              Breadth gate config: maps difficulty tier to required unique anime count (e.g. {"{"}1:0, 2:2, 3:3, 4:5, 5:6{"}"})
             </p>
           </div>
         </div>
@@ -351,13 +457,97 @@ const AdminSettingsPage = () => {
             onClick={handleSaveGameBalance}
             saving={
               savingKey === "free_quiz_limit" ||
-              savingKey === "diminishing_returns"
+              savingKey === "diminishing_returns" ||
+              savingKey === "breadth_gates"
             }
           />
         </div>
       </div>
 
-      {/* Features */}
+      {/* 2. Leagues */}
+      <div className="bg-slate-800 rounded-xl p-6">
+        <div className="flex items-center gap-2 mb-4">
+          <Trophy size={20} className="text-yellow-400" />
+          <h2 className="text-lg font-semibold text-slate-100">Leagues</h2>
+        </div>
+
+        <div className="space-y-4">
+          <div>
+            <label className="block text-sm font-medium text-slate-300 mb-1">
+              League Promotion Sizes (JSON)
+            </label>
+            <textarea
+              value={leaguePromotionSizes}
+              onChange={(e) => setLeaguePromotionSizes(e.target.value)}
+              rows={4}
+              className="w-full px-3 py-2 bg-slate-700 border border-slate-600 rounded-lg text-sm text-slate-100 font-mono focus:outline-none focus:ring-2 focus:ring-orange-500/50 focus:border-orange-500 transition-colors resize-y"
+            />
+            <p className="text-xs text-slate-500 mt-1">
+              Number of top players promoted per league tier each week
+            </p>
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-slate-300 mb-1">
+              League Demotion Sizes (JSON)
+            </label>
+            <textarea
+              value={leagueDemotionSizes}
+              onChange={(e) => setLeagueDemotionSizes(e.target.value)}
+              rows={4}
+              className="w-full px-3 py-2 bg-slate-700 border border-slate-600 rounded-lg text-sm text-slate-100 font-mono focus:outline-none focus:ring-2 focus:ring-orange-500/50 focus:border-orange-500 transition-colors resize-y"
+            />
+            <p className="text-xs text-slate-500 mt-1">
+              Number of bottom players demoted per league tier each week
+            </p>
+          </div>
+        </div>
+
+        <div className="mt-4 flex justify-end">
+          <SaveButton
+            onClick={handleSaveLeagues}
+            saving={
+              savingKey === "league_promotion_sizes" ||
+              savingKey === "league_demotion_sizes"
+            }
+          />
+        </div>
+      </div>
+
+      {/* 3. Duels */}
+      <div className="bg-slate-800 rounded-xl p-6">
+        <div className="flex items-center gap-2 mb-4">
+          <Swords size={20} className="text-red-400" />
+          <h2 className="text-lg font-semibold text-slate-100">Duels</h2>
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium text-slate-300 mb-1">
+            Max Duels Per Opponent Weekly
+          </label>
+          <input
+            type="number"
+            min={1}
+            value={duelMaxPerOpponentWeekly}
+            onChange={(e) =>
+              setDuelMaxPerOpponentWeekly(Number(e.target.value))
+            }
+            className="w-full max-w-xs px-3 py-2 bg-slate-700 border border-slate-600 rounded-lg text-sm text-slate-100 focus:outline-none focus:ring-2 focus:ring-orange-500/50 focus:border-orange-500 transition-colors"
+          />
+          <p className="text-xs text-slate-500 mt-1">
+            Maximum number of duels a player can have against the same opponent per week
+          </p>
+        </div>
+
+        <div className="mt-4 flex justify-end">
+          <SaveButton
+            onClick={handleSaveDuels}
+            saving={savingKey === "duel_max_per_opponent_weekly"}
+          />
+        </div>
+      </div>
+
+      {/* 4. Features */}
       <div className="bg-slate-800 rounded-xl p-6">
         <div className="flex items-center gap-2 mb-4">
           <ToggleLeft size={20} className="text-blue-400" />
@@ -391,7 +581,7 @@ const AdminSettingsPage = () => {
         </div>
       </div>
 
-      {/* Communication */}
+      {/* 5. Communication */}
       <div className="bg-slate-800 rounded-xl p-6">
         <div className="flex items-center gap-2 mb-4">
           <Megaphone size={20} className="text-yellow-400" />
@@ -409,6 +599,11 @@ const AdminSettingsPage = () => {
               <p className="text-xs text-slate-500 mt-0.5">
                 When enabled, users see a maintenance page
               </p>
+              {maintenanceMode && (
+                <p className="text-xs text-orange-400 font-medium mt-1">
+                  Warning: Maintenance mode is currently active. Users cannot access the app.
+                </p>
+              )}
             </div>
             <Toggle
               enabled={maintenanceMode}
@@ -430,6 +625,16 @@ const AdminSettingsPage = () => {
             <p className="text-xs text-slate-500 mt-1">
               Displayed as a banner across the app. Leave empty to hide.
             </p>
+            {announcementBanner && (
+              <div className="mt-3">
+                <span className="text-xs font-medium text-slate-400 mb-1 block">
+                  Preview:
+                </span>
+                <div className="bg-orange-500/10 border border-orange-500/30 rounded-lg px-4 py-2 text-sm text-orange-300">
+                  {announcementBanner}
+                </div>
+              </div>
+            )}
           </div>
         </div>
 
@@ -444,7 +649,7 @@ const AdminSettingsPage = () => {
         </div>
       </div>
 
-      {/* Daily Challenge */}
+      {/* 6. Daily Challenge */}
       <div className="bg-slate-800 rounded-xl p-6">
         <div className="flex items-center gap-2 mb-4">
           <CalendarDays size={20} className="text-purple-400" />
@@ -487,7 +692,7 @@ const AdminSettingsPage = () => {
         </div>
       </div>
 
-      {/* Ads */}
+      {/* 7. Ads */}
       <div className="bg-slate-800 rounded-xl p-6">
         <div className="flex items-center gap-2 mb-4">
           <Eye size={20} className="text-teal-400" />
@@ -514,7 +719,7 @@ const AdminSettingsPage = () => {
         </div>
       </div>
 
-      {/* Audit Log */}
+      {/* 8. Audit Log */}
       <div className="bg-slate-800 rounded-xl overflow-hidden">
         <div className="p-6 pb-4">
           <div className="flex items-center gap-2 mb-1">

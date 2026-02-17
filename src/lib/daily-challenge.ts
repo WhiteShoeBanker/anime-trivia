@@ -1,4 +1,5 @@
 import { createClient } from "@/lib/supabase/client";
+import { getDailyChallengeMix } from "@/lib/config-actions";
 import type { Question, AgeGroup } from "@/types";
 
 /**
@@ -32,12 +33,11 @@ export const fetchDailyChallengeQuestions = async (
     [shuffledAnime[i], shuffledAnime[j]] = [shuffledAnime[j], shuffledAnime[i]];
   }
 
-  // Mix of difficulties: 3 easy, 4 medium, 3 hard
-  const difficultyMix: Array<{ difficulty: string; count: number }> = [
-    { difficulty: "easy", count: 3 },
-    { difficulty: "medium", count: 4 },
-    { difficulty: "hard", count: 3 },
-  ];
+  // Mix of difficulties from admin config
+  const mixConfig = await getDailyChallengeMix();
+  const difficultyMix: Array<{ difficulty: string; count: number }> = Object.entries(
+    mixConfig
+  ).map(([difficulty, count]) => ({ difficulty, count }));
 
   const allQuestions: Question[] = [];
 

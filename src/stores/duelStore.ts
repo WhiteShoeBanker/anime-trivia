@@ -2,6 +2,7 @@ import { create } from "zustand";
 import { createClient } from "@/lib/supabase/client";
 import { submitDuelResults } from "@/lib/duels";
 import { calculateQuestionXP } from "@/lib/scoring";
+import { trackDuelCompleted } from "@/lib/track-actions";
 import type { Question, DuelMatch, Difficulty, DuelDifficulty } from "@/types";
 
 interface DuelQuizAnswer {
@@ -203,6 +204,17 @@ export const useDuelStore = create<DuelQuizState & DuelQuizActions>((set, get) =
       );
 
       set({ quizStatus: "submitted", submittedDuel: updated });
+
+      if (updated && updated.status === "completed") {
+        trackDuelCompleted(userId, {
+          duel_id: updated.id,
+          match_type: updated.match_type,
+          winner_id: updated.winner_id,
+          xp_earned: updated.challenger_id === userId
+            ? updated.challenger_xp_earned
+            : updated.opponent_xp_earned,
+        }).catch(() => {});
+      }
     } catch {
       // Submit failed — keep completed state
     }

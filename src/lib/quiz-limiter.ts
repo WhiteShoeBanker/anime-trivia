@@ -1,7 +1,6 @@
 import { createClient } from "@/lib/supabase/client";
+import { getFreeQuizLimit } from "@/lib/config-actions";
 import type { UserProfile } from "@/types";
-
-const FREE_DAILY_LIMIT = 10;
 
 interface QuizLimitResult {
   allowed: boolean;
@@ -13,6 +12,7 @@ export const checkQuizLimit = async (
   userId: string
 ): Promise<QuizLimitResult> => {
   const supabase = createClient();
+  const limit = await getFreeQuizLimit();
 
   const { data: profile, error } = await supabase
     .from("user_profiles")
@@ -21,7 +21,7 @@ export const checkQuizLimit = async (
     .single();
 
   if (error || !profile) {
-    return { allowed: false, count: 0, limit: FREE_DAILY_LIMIT };
+    return { allowed: false, count: 0, limit };
   }
 
   const p = profile as Pick<
@@ -41,9 +41,9 @@ export const checkQuizLimit = async (
   const currentCount = resetDate === today ? p.daily_quiz_count : 0;
 
   return {
-    allowed: currentCount < FREE_DAILY_LIMIT,
+    allowed: currentCount < limit,
     count: currentCount,
-    limit: FREE_DAILY_LIMIT,
+    limit,
   };
 };
 

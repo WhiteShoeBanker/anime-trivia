@@ -2,6 +2,13 @@ import { createClient } from "@/lib/supabase/client";
 import { getUserLeagueInfo, getCurrentWeekStart, updateLeagueMembershipXp } from "@/lib/league-xp";
 import { calculateQuestionXP } from "@/lib/scoring";
 import { checkAndAwardBadges } from "@/lib/badges";
+import { getDuelMaxPerOpponentWeekly } from "@/lib/config-actions";
+import {
+  trackDuelCreated,
+  trackFriendRequestSent,
+  trackFriendRequestAccepted,
+  trackBadgeEarned,
+} from "@/lib/track-actions";
 import type {
   DuelMatch,
   DuelCreateOptions,
@@ -136,6 +143,16 @@ export const createDuel = async (
     .single();
 
   if (error) throw error;
+
+  if (data) {
+    trackDuelCreated(challengerId, {
+      match_type: options.match_type,
+      difficulty: options.difficulty,
+      question_count: options.question_count,
+      duel_id: (data as DuelMatch).id,
+    }).catch(() => {});
+  }
+
   return data as DuelMatch;
 };
 
@@ -379,7 +396,7 @@ export const submitDuelResults = async (
     );
 
     // Check badges for both players
-    await checkAndAwardBadges({
+    const challengerBadges = await checkAndAwardBadges({
       userId: duel.challenger_id,
       quizScore: cCorrect ?? 0,
       quizTotal: duel.question_count,
@@ -390,8 +407,11 @@ export const submitDuelResults = async (
       isDuel: true,
       duelOpponentId: duel.opponent_id,
     });
+    for (const badge of challengerBadges) {
+      trackBadgeEarned(duel.challenger_id, { badge_slug: badge.slug, badge_name: badge.name }).catch(() => {});
+    }
 
-    await checkAndAwardBadges({
+    const opponentBadges = await checkAndAwardBadges({
       userId: duel.opponent_id,
       quizScore: oCorrect ?? 0,
       quizTotal: duel.question_count,
@@ -402,6 +422,9 @@ export const submitDuelResults = async (
       isDuel: true,
       duelOpponentId: duel.challenger_id,
     });
+    for (const badge of opponentBadges) {
+      trackBadgeEarned(duel.opponent_id, { badge_slug: badge.slug, badge_name: badge.name }).catch(() => {});
+    }
   } else {
     update.status = "in_progress";
   }
@@ -445,7 +468,8 @@ const calculateDuelXp = async (
     return 0.5;                       // Beat opponent 2+ tiers below
   };
 
-  // Check diminishing returns (max 3 duels vs same opponent/week at full XP)
+  // Check diminishing returns (configurable max duels vs same opponent/week at full XP)
+  const maxPerOpponentWeekly = await getDuelMaxPerOpponentWeekly();
   const weekStart = getCurrentWeekStart();
   const { count: duelsThisWeek } = await supabase
     .from("duel_matches")
@@ -457,7 +481,7 @@ const calculateDuelXp = async (
     )
     .gte("created_at", weekStart);
 
-  const diminishingFactor = (duelsThisWeek ?? 0) >= 3 ? 0.25 : 1.0;
+  const diminishingFactor = (duelsThisWeek ?? 0) >= maxPerOpponentWeekly ? 0.25 : 1.0;
 
   let challengerXp: number;
   let opponentXp: number;
@@ -758,6 +782,10 @@ export const sendFriendRequest = async (
     status: "pending",
   });
 
+  if (!error) {
+    trackFriendRequestSent(fromId, { recipient_id: toId }).catch(() => {});
+  }
+
   return !error;
 };
 
@@ -774,6 +802,10 @@ export const acceptFriendRequest = async (
     .eq("id", friendshipId)
     .eq("recipient_id", userId)
     .eq("status", "pending");
+
+  if (!error) {
+    trackFriendRequestAccepted(userId, { friendship_id: friendshipId }).catch(() => {});
+  }
 
   return !error;
 };
