@@ -99,7 +99,7 @@ const sortUsers = (
   return sortDir === "desc" ? sorted.reverse() : sorted;
 };
 
-const generateCSV = (users: UserRow[]): string => {
+const generateCSV = (users: UserRow[], statsMap: Record<string, DuelStats>): string => {
   const headers = [
     "Username",
     "Display Name",
@@ -111,20 +111,29 @@ const generateCSV = (users: UserRow[]): string => {
     "Source",
     "Joined",
     "Last Active",
+    "Wins",
+    "Losses",
+    "Draws",
   ];
 
-  const rows = users.map((u) => [
-    u.username ?? "",
-    u.display_name ?? "",
-    u.age_group,
-    u.rank,
-    String(u.total_xp),
-    String(u.current_streak),
-    u.subscription_tier,
-    u.subscription_source,
-    u.created_at,
-    u.last_played_at ?? "",
-  ]);
+  const rows = users.map((u) => {
+    const s = statsMap[u.id];
+    return [
+      u.username ?? "",
+      u.display_name ?? "",
+      u.age_group,
+      u.rank,
+      String(u.total_xp),
+      String(u.current_streak),
+      u.subscription_tier,
+      u.subscription_source,
+      u.created_at,
+      u.last_played_at ?? "",
+      String(s?.wins ?? 0),
+      String(s?.losses ?? 0),
+      String(s?.draws ?? 0),
+    ];
+  });
 
   const escape = (val: string) => {
     if (val.includes(",") || val.includes('"') || val.includes("\n")) {
@@ -140,6 +149,8 @@ const generateCSV = (users: UserRow[]): string => {
   return lines.join("\n");
 };
 
+type DuelStats = { wins: number; losses: number; draws: number };
+
 const AdminUsersPage = () => {
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState("");
@@ -153,6 +164,7 @@ const AdminUsersPage = () => {
     null
   );
   const [actionLoading, setActionLoading] = useState<string | null>(null);
+  const [duelStatsMap, setDuelStatsMap] = useState<Record<string, DuelStats>>({});
   const debounceTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // Debounce search input
@@ -207,6 +219,25 @@ const AdminUsersPage = () => {
     };
   }, [page, debouncedSearch, filter]);
 
+  // Fetch duel stats for current page of users
+  useEffect(() => {
+    if (!data) return;
+    let cancelled = false;
+    const fetchStats = async () => {
+      const entries = await Promise.all(
+        data.users.map(async (u) => {
+          const stats = await getUserDuelStats(u.id);
+          return [u.id, stats ?? { wins: 0, losses: 0, draws: 0 }] as const;
+        })
+      );
+      if (!cancelled) {
+        setDuelStatsMap(Object.fromEntries(entries));
+      }
+    };
+    fetchStats();
+    return () => { cancelled = true; };
+  }, [data]);
+
   const handleSort = useCallback(
     (key: SortKey) => {
       if (sortKey === key) {
@@ -227,7 +258,7 @@ const AdminUsersPage = () => {
   const handleExportCSV = useCallback(() => {
     if (!data) return;
     const sorted = sortUsers(data.users, sortKey, sortDir);
-    const csv = generateCSV(sorted);
+    const csv = generateCSV(sorted, duelStatsMap);
     const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
@@ -237,7 +268,7 @@ const AdminUsersPage = () => {
     link.click();
     document.body.removeChild(link);
     URL.revokeObjectURL(url);
-  }, [data, sortKey, sortDir]);
+  }, [data, sortKey, sortDir, duelStatsMap]);
 
   const handleUpgrade = useCallback(
     async (
@@ -361,6 +392,9 @@ const AdminUsersPage = () => {
                       </span>
                     </th>
                   ))}
+                  <th className="px-4 py-3 text-center font-semibold text-emerald-400 whitespace-nowrap">W</th>
+                  <th className="px-4 py-3 text-center font-semibold text-red-400 whitespace-nowrap">L</th>
+                  <th className="px-4 py-3 text-center font-semibold text-slate-400 whitespace-nowrap">D</th>
                   <th className="px-4 py-3 text-left font-semibold text-slate-300 whitespace-nowrap">
                     Actions
                   </th>
@@ -370,7 +404,7 @@ const AdminUsersPage = () => {
                 {sortedUsers.length === 0 ? (
                   <tr>
                     <td
-                      colSpan={COLUMNS.length + 1}
+                      colSpan={COLUMNS.length + 4}
                       className="px-4 py-12 text-center text-slate-500"
                     >
                       No users found.
@@ -427,6 +461,16 @@ const AdminUsersPage = () => {
                       <td className="px-4 py-3 text-slate-400 whitespace-nowrap">
                         {formatDate(user.last_played_at)}
                       </td>
+                      {(() => {
+                        const s = duelStatsMap[user.id];
+                        return (
+                          <>
+                            <td className="px-4 py-3 text-center tabular-nums text-emerald-400 whitespace-nowrap">{s?.wins ?? 0}</td>
+                            <td className="px-4 py-3 text-center tabular-nums text-red-400 whitespace-nowrap">{s?.losses ?? 0}</td>
+                            <td className="px-4 py-3 text-center tabular-nums text-slate-400 whitespace-nowrap">{s?.draws ?? 0}</td>
+                          </>
+                        );
+                      })()}
                       <td className="px-4 py-3 whitespace-nowrap">
                         {actionLoading === user.id ? (
                           <Loader2

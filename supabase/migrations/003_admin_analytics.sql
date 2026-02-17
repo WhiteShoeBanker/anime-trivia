@@ -40,7 +40,7 @@ INSERT INTO admin_config (key, value) VALUES
   ('league_demotion_sizes', '{"bronze":0,"silver":10,"gold":10,"platinum":10,"diamond":10,"champion":5}'::jsonb),
   ('breadth_gates', '{"1":0,"2":2,"3":3,"4":5,"5":6}'::jsonb),
   ('maintenance_mode', 'false'::jsonb),
-  ('feature_flags', '{"leagues":true,"badges":true,"daily_challenge":true,"grand_prix":true,"cosmetic_shop":true}'::jsonb),
+  ('feature_flags', '{"leagues":true,"badges":true,"daily_challenge":true,"grand_prix":true,"swag_shop":true}'::jsonb),
   ('announcement_banner', '""'::jsonb),
   ('daily_challenge_mix', '{"easy":3,"medium":3,"hard":3,"impossible":1}'::jsonb),
   ('ad_visibility', 'true'::jsonb);

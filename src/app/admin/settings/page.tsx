@@ -43,7 +43,6 @@ interface FeatureFlags {
   badges: boolean;
   daily_challenge: boolean;
   grand_prix: boolean;
-  cosmetic_shop: boolean;
   duels: boolean;
   swag_shop: boolean;
 }
@@ -67,7 +66,6 @@ const FEATURE_FLAG_KEYS: (keyof FeatureFlags)[] = [
   "badges",
   "daily_challenge",
   "grand_prix",
-  "cosmetic_shop",
   "duels",
   "swag_shop",
 ];
@@ -77,7 +75,6 @@ const FEATURE_FLAG_LABELS: Record<keyof FeatureFlags, string> = {
   badges: "Badges",
   daily_challenge: "Daily Challenge",
   grand_prix: "Grand Prix",
-  cosmetic_shop: "Cosmetic Shop",
   duels: "Duels",
   swag_shop: "Swag Shop",
 };
@@ -202,7 +199,6 @@ const AdminSettingsPage = () => {
     badges: false,
     daily_challenge: false,
     grand_prix: false,
-    cosmetic_shop: false,
     duels: false,
     swag_shop: false,
   });

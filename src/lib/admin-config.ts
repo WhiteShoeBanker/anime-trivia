@@ -12,7 +12,7 @@ const DEFAULTS: Record<string, unknown> = {
     badges: true,
     daily_challenge: true,
     grand_prix: true,
-    cosmetic_shop: true,
+    swag_shop: true,
   },
   announcement_banner: "",
   ad_visibility: true,
