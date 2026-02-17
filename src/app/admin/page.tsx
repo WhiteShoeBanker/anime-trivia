@@ -22,7 +22,13 @@ import {
   ResponsiveContainer,
   Legend,
 } from "recharts";
-import { getOverviewStats, type OverviewStats } from "./actions";
+import {
+  getOverviewStats,
+  getCronStatuses,
+  retryCronJob,
+  type OverviewStats,
+  type CronStatusInfo,
+} from "./actions";
 
 const RANK_COLORS: Record<string, string> = {
   Genin: "bg-gray-500",
@@ -58,18 +64,36 @@ const formatCreatedAt = (dateStr: string): string => {
   });
 };
 
+const STALE_THRESHOLD_MS = 5 * 60 * 1000;
+
 const AdminOverview = () => {
   const [stats, setStats] = useState<OverviewStats | null>(null);
+  const [cronStatuses, setCronStatuses] = useState<CronStatusInfo[]>([]);
   const [loading, setLoading] = useState(true);
+  const [retrying, setRetrying] = useState<string | null>(null);
 
   const fetchStats = useCallback(async () => {
     try {
-      const data = await getOverviewStats();
+      const [data, crons] = await Promise.all([
+        getOverviewStats(),
+        getCronStatuses(),
+      ]);
       setStats(data);
+      setCronStatuses(crons);
     } finally {
       setLoading(false);
     }
   }, []);
+
+  const handleRetry = async (cronKey: string) => {
+    setRetrying(cronKey);
+    try {
+      await retryCronJob(cronKey);
+      await fetchStats();
+    } finally {
+      setRetrying(null);
+    }
+  };
 
   useEffect(() => {
     fetchStats();
@@ -433,29 +457,145 @@ const AdminOverview = () => {
           </div>
         </div>
 
-        {/* Alerts */}
+        {/* Alerts & Cron Status */}
         <div className="bg-slate-800 border border-slate-700 rounded-xl p-6">
           <h2 className="text-lg font-semibold text-slate-100 mb-4">Alerts</h2>
-          {stats.alerts.length > 0 ? (
-            <div className="space-y-3">
-              {stats.alerts.map((alert, i) => (
-                <div
-                  key={i}
-                  className="flex items-start gap-3 bg-yellow-500/10 border border-yellow-500/20 rounded-lg p-3"
-                >
-                  <AlertTriangle
-                    size={18}
-                    className="text-yellow-400 mt-0.5 shrink-0"
-                  />
-                  <p className="text-sm text-yellow-200">{alert.message}</p>
+          <div className="space-y-3">
+            {/* Cron job alerts */}
+            {cronStatuses.map((cron) => {
+              const isStale =
+                cron.state === "in_progress" &&
+                cron.started_at &&
+                Date.now() - new Date(cron.started_at).getTime() > STALE_THRESHOLD_MS;
+
+              if (cron.state === "failed") {
+                return (
+                  <div
+                    key={cron.key}
+                    className="flex items-start gap-3 bg-red-500/10 border border-red-500/20 rounded-lg p-3"
+                  >
+                    <AlertTriangle
+                      size={18}
+                      className="text-red-400 mt-0.5 shrink-0"
+                    />
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm text-red-200 font-medium">
+                        {cron.name} failed
+                      </p>
+                      {cron.error && (
+                        <p className="text-xs text-red-300/70 mt-0.5 truncate">
+                          {cron.error}
+                        </p>
+                      )}
+                    </div>
+                    <button
+                      onClick={() => handleRetry(cron.key)}
+                      disabled={retrying === cron.key}
+                      className="shrink-0 px-3 py-1 text-xs font-medium rounded bg-red-500/20 text-red-300 hover:bg-red-500/30 disabled:opacity-50"
+                    >
+                      {retrying === cron.key ? "Retrying..." : "Retry"}
+                    </button>
+                  </div>
+                );
+              }
+
+              if (cron.state === "partial") {
+                return (
+                  <div
+                    key={cron.key}
+                    className="flex items-start gap-3 bg-yellow-500/10 border border-yellow-500/20 rounded-lg p-3"
+                  >
+                    <AlertTriangle
+                      size={18}
+                      className="text-yellow-400 mt-0.5 shrink-0"
+                    />
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm text-yellow-200 font-medium">
+                        {cron.name} partially completed
+                      </p>
+                      {cron.stats && (
+                        <p className="text-xs text-yellow-300/70 mt-0.5">
+                          {Object.entries(cron.stats)
+                            .map(([k, v]) => `${k}: ${v}`)
+                            .join(", ")}
+                        </p>
+                      )}
+                    </div>
+                    <button
+                      onClick={() => handleRetry(cron.key)}
+                      disabled={retrying === cron.key}
+                      className="shrink-0 px-3 py-1 text-xs font-medium rounded bg-yellow-500/20 text-yellow-300 hover:bg-yellow-500/30 disabled:opacity-50"
+                    >
+                      {retrying === cron.key ? "Retrying..." : "Retry"}
+                    </button>
+                  </div>
+                );
+              }
+
+              if (isStale) {
+                return (
+                  <div
+                    key={cron.key}
+                    className="flex items-start gap-3 bg-orange-500/10 border border-orange-500/20 rounded-lg p-3"
+                  >
+                    <AlertTriangle
+                      size={18}
+                      className="text-orange-400 mt-0.5 shrink-0"
+                    />
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm text-orange-200 font-medium">
+                        {cron.name} appears stale
+                      </p>
+                      <p className="text-xs text-orange-300/70 mt-0.5">
+                        Started at{" "}
+                        {new Date(cron.started_at!).toLocaleTimeString()} and
+                        still in progress
+                      </p>
+                    </div>
+                    <button
+                      onClick={() => handleRetry(cron.key)}
+                      disabled={retrying === cron.key}
+                      className="shrink-0 px-3 py-1 text-xs font-medium rounded bg-orange-500/20 text-orange-300 hover:bg-orange-500/30 disabled:opacity-50"
+                    >
+                      {retrying === cron.key ? "Resetting..." : "Reset"}
+                    </button>
+                  </div>
+                );
+              }
+
+              return null;
+            })}
+
+            {/* General alerts */}
+            {stats.alerts.map((alert, i) => (
+              <div
+                key={`alert-${i}`}
+                className="flex items-start gap-3 bg-yellow-500/10 border border-yellow-500/20 rounded-lg p-3"
+              >
+                <AlertTriangle
+                  size={18}
+                  className="text-yellow-400 mt-0.5 shrink-0"
+                />
+                <p className="text-sm text-yellow-200">{alert.message}</p>
+              </div>
+            ))}
+
+            {/* No alerts state */}
+            {stats.alerts.length === 0 &&
+              !cronStatuses.some(
+                (c) =>
+                  c.state === "failed" ||
+                  c.state === "partial" ||
+                  (c.state === "in_progress" &&
+                    c.started_at &&
+                    Date.now() - new Date(c.started_at).getTime() >
+                      STALE_THRESHOLD_MS)
+              ) && (
+                <div className="flex items-center justify-center h-32 text-slate-500 text-sm">
+                  All clear -- no alerts at this time.
                 </div>
-              ))}
-            </div>
-          ) : (
-            <div className="flex items-center justify-center h-32 text-slate-500 text-sm">
-              All clear -- no alerts at this time.
-            </div>
-          )}
+              )}
+          </div>
         </div>
       </div>
     </div>

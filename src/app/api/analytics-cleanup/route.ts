@@ -8,14 +8,64 @@ import { trackEvent } from "@/lib/analytics";
 const CRON_SECRET = process.env.CRON_SECRET;
 const BATCH_SIZE = 5000;
 const RETENTION_DAYS = 90;
+const STATUS_KEY = "analytics_cleanup_status";
+const TIMEOUT_MS = 45_000;
+const STALE_THRESHOLD_MS = 5 * 60 * 1000;
 
-export async function GET(request: Request) {
-  const authHeader = request.headers.get("authorization");
-  if (CRON_SECRET && authHeader !== `Bearer ${CRON_SECRET}`) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+interface CronStatus {
+  state: "idle" | "in_progress" | "completed" | "failed" | "partial";
+  started_at?: string;
+  completed_at?: string;
+  failed_at?: string;
+  error?: string;
+  stats?: { aggregated: number; deleted: number; elapsed_ms: number };
+}
+
+async function updateStatus(
+  supabase: ReturnType<typeof createServiceClient>,
+  status: CronStatus
+) {
+  await supabase.from("admin_config").upsert({
+    key: STATUS_KEY,
+    value: status,
+    updated_at: new Date().toISOString(),
+  });
+}
+
+async function getStatus(
+  supabase: ReturnType<typeof createServiceClient>
+): Promise<CronStatus | null> {
+  const { data } = await supabase
+    .from("admin_config")
+    .select("value")
+    .eq("key", STATUS_KEY)
+    .single();
+  return (data?.value as CronStatus) ?? null;
+}
+
+export async function runAnalyticsCleanup() {
+  const supabase = createServiceClient();
+  const startTime = Date.now();
+
+  // Double-run guard
+  const currentStatus = await getStatus(supabase);
+  if (
+    currentStatus?.state === "in_progress" &&
+    currentStatus.started_at &&
+    Date.now() - new Date(currentStatus.started_at).getTime() < STALE_THRESHOLD_MS
+  ) {
+    return NextResponse.json(
+      { error: "Already in progress" },
+      { status: 409 }
+    );
   }
 
-  const supabase = createServiceClient();
+  await updateStatus(supabase, {
+    state: "in_progress",
+    started_at: new Date().toISOString(),
+    stats: { aggregated: 0, deleted: 0, elapsed_ms: 0 },
+  });
+
   const cutoff = new Date();
   cutoff.setDate(cutoff.getDate() - RETENTION_DAYS);
   const cutoffISO = cutoff.toISOString();
@@ -26,6 +76,32 @@ export async function GET(request: Request) {
     let hasMore = true;
 
     while (hasMore) {
+      // Timeout check before each batch
+      if (Date.now() - startTime > TIMEOUT_MS) {
+        await updateStatus(supabase, {
+          state: "partial",
+          started_at: new Date(startTime).toISOString(),
+          stats: {
+            aggregated: totalAggregated,
+            deleted: totalDeleted,
+            elapsed_ms: Date.now() - startTime,
+          },
+        });
+
+        trackEvent("analytics_cleanup", undefined, {
+          total_aggregated: totalAggregated,
+          total_deleted: totalDeleted,
+          elapsed_ms: Date.now() - startTime,
+          state: "partial",
+        }).catch(() => {});
+
+        return NextResponse.json({
+          message: "Analytics cleanup timed out — partial completion",
+          totalAggregated,
+          totalDeleted,
+        });
+      }
+
       // Fetch a batch of old events
       const { data: oldEvents, error: fetchError } = await supabase
         .from("analytics_events")
@@ -107,11 +183,24 @@ export async function GET(request: Request) {
       }
     }
 
-    // Log the cleanup event
-    await trackEvent("system_cleanup", undefined, {
+    const elapsed = Date.now() - startTime;
+
+    await updateStatus(supabase, {
+      state: "completed",
+      completed_at: new Date().toISOString(),
+      stats: {
+        aggregated: totalAggregated,
+        deleted: totalDeleted,
+        elapsed_ms: elapsed,
+      },
+    });
+
+    await trackEvent("analytics_cleanup", undefined, {
       total_aggregated: totalAggregated,
       total_deleted: totalDeleted,
       retention_days: RETENTION_DAYS,
+      elapsed_ms: elapsed,
+      state: "completed",
       ran_at: new Date().toISOString(),
     });
 
@@ -122,9 +211,26 @@ export async function GET(request: Request) {
     });
   } catch (error) {
     console.error("Analytics cleanup failed:", error);
+
+    await updateStatus(supabase, {
+      state: "failed",
+      failed_at: new Date().toISOString(),
+      error: error instanceof Error ? error.message : "Unknown error",
+      stats: { aggregated: 0, deleted: 0, elapsed_ms: Date.now() - startTime },
+    });
+
     return NextResponse.json(
       { error: "Analytics cleanup failed" },
       { status: 500 }
     );
   }
+}
+
+export async function GET(request: Request) {
+  const authHeader = request.headers.get("authorization");
+  if (CRON_SECRET && authHeader !== `Bearer ${CRON_SECRET}`) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
+  return runAnalyticsCleanup();
 }
