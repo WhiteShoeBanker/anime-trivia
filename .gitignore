@@ -38,6 +38,9 @@ yarn-error.log*
 /ios/
 /android/
 
+# backups
+/backups
+
 # vercel
 .vercel
 

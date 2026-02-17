@@ -11,7 +11,8 @@
     "test:watch": "vitest",
     "build:mobile": "CAPACITOR_BUILD=true next build && npx cap sync",
     "cap:ios": "npx cap open ios",
-    "cap:android": "npx cap open android"
+    "cap:android": "npx cap open android",
+    "backup": "npx tsx scripts/backup-db.ts"
   },
   "dependencies": {
     "@capacitor/android": "^8.1.0",
@@ -38,10 +39,12 @@
     "@tailwindcss/postcss": "^4",
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.3.2",
+    "@types/archiver": "^7.0.0",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "@vitejs/plugin-react": "^5.1.4",
+    "archiver": "^7.0.1",
     "eslint": "^9",
     "eslint-config-next": "16.1.6",
     "jsdom": "^28.0.0",
