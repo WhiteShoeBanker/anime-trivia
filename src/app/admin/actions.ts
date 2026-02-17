@@ -337,7 +337,7 @@ export async function getEngagementData(
   const since = new Date();
   since.setDate(since.getDate() - days);
 
-  const [{ data: sessions }, { count: dcCount }, { data: duels }] = await Promise.all([
+  const [{ data: sessions }, { count: rawDcCount }, { data: duels }, { data: rollupDc }] = await Promise.all([
     supabase.from("quiz_sessions")
       .select("user_id, completed_at, time_taken_seconds, score, total_questions")
       .gte("completed_at", since.toISOString()).order("completed_at"),
@@ -349,7 +349,15 @@ export async function getEngagementData(
       .select("challenger_id, opponent_id")
       .eq("status", "completed")
       .gte("created_at", since.toISOString()),
+    supabase.from("analytics_daily_rollup")
+      .select("event_count")
+      .eq("event_name", "daily_challenge_completed")
+      .gte("event_date", since.toISOString().slice(0, 10)),
   ]);
+
+  // Combine raw events + rollup for daily challenge count
+  const dailyChallengeCount = (rawDcCount ?? 0) +
+    (rollupDc ?? []).reduce((s: number, r: { event_count: number }) => s + (r.event_count ?? 0), 0);
 
   const duelUsers = new Set<string>();
   for (const d of duels ?? []) {
@@ -359,7 +367,7 @@ export async function getEngagementData(
 
   return {
     sessions: (sessions ?? []) as EngagementData["sessions"],
-    dailyChallengeCount: dcCount ?? 0,
+    dailyChallengeCount,
     duelParticipants: duelUsers.size,
   };
 }
@@ -605,11 +613,13 @@ export async function getRevenueData(): Promise<RevenueData> {
     { count: proCount },
     { count: totalCount },
     { count: waitlistCount },
-    { count: limitHits },
+    { count: rawLimitHits },
     { data: proUsers },
     { data: promoCodes },
     { data: limitEvents },
-    { count: shopViews },
+    { count: rawShopViews },
+    { data: rollupLimitRows },
+    { data: rollupShopRows },
   ] = await Promise.all([
     supabase.from("user_profiles").select("*", { count: "exact", head: true }).eq("subscription_tier", "pro"),
     supabase.from("user_profiles").select("*", { count: "exact", head: true }),
@@ -621,7 +631,15 @@ export async function getRevenueData(): Promise<RevenueData> {
       .select("created_at").eq("event_name", "quiz_limit_hit")
       .gte("created_at", thirtyDaysAgo.toISOString()),
     supabase.from("analytics_events").select("*", { count: "exact", head: true }).eq("event_name", "shop_view"),
+    supabase.from("analytics_daily_rollup").select("event_count").eq("event_name", "quiz_limit_hit"),
+    supabase.from("analytics_daily_rollup").select("event_count").eq("event_name", "shop_view"),
   ]);
+
+  // Combine raw events + rollup for all-time counts (rollup holds data >90 days old)
+  const limitHits = (rawLimitHits ?? 0) +
+    (rollupLimitRows ?? []).reduce((s: number, r: { event_count: number }) => s + (r.event_count ?? 0), 0);
+  const shopViews = (rawShopViews ?? 0) +
+    (rollupShopRows ?? []).reduce((s: number, r: { event_count: number }) => s + (r.event_count ?? 0), 0);
 
   // Pro by source
   const proBySource = { paid: 0, promo_code: 0, admin_grant: 0 };
@@ -677,12 +695,12 @@ export async function getRevenueData(): Promise<RevenueData> {
     proSubscribers: proCount ?? 0,
     totalUsers: totalCount ?? 0,
     waitlistCount: waitlistCount ?? 0,
-    limitHits: limitHits ?? 0,
+    limitHits,
     proBySource,
     promoCodes: (promoCodes ?? []) as RevenueData["promoCodes"],
     redemptions,
     limitHitsByDay,
-    shopViews: shopViews ?? 0,
+    shopViews,
   };
 }
 
