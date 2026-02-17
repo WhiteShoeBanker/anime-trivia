@@ -3,6 +3,7 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { Swords, X as XIcon } from "lucide-react";
 import type { DuelMatch } from "@/types";
+import useReducedMotion from "@/lib/use-reduced-motion";
 
 interface DuelNotificationProps {
   duel: DuelMatch;
@@ -21,13 +22,15 @@ const DuelNotification = ({
   onDecline,
   onDismiss,
 }: DuelNotificationProps) => {
+  const reducedMotion = useReducedMotion();
+
   return (
     <AnimatePresence>
       <motion.div
-        initial={{ y: 100, opacity: 0 }}
+        initial={reducedMotion ? false : { y: 100, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
-        exit={{ y: 100, opacity: 0 }}
-        transition={{ type: "spring", damping: 20 }}
+        exit={reducedMotion ? { opacity: 0 } : { y: 100, opacity: 0 }}
+        transition={reducedMotion ? { duration: 0 } : { type: "spring", damping: 20 }}
         className="fixed bottom-4 left-4 right-4 z-[80] max-w-md mx-auto"
       >
         <div className="bg-surface border border-accent/30 rounded-2xl shadow-2xl shadow-accent/10 p-4">

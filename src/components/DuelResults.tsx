@@ -16,6 +16,7 @@ import {
 } from "lucide-react";
 import BadgeCelebration from "@/components/BadgeCelebration";
 import type { DuelMatch, Badge } from "@/types";
+import useReducedMotion from "@/lib/use-reduced-motion";
 
 interface DuelAnswer {
   questionId: string;
@@ -59,6 +60,7 @@ const DuelResults = ({
   const [showBadges, setShowBadges] = useState(
     (newBadges?.length ?? 0) > 0
   );
+  const reducedMotion = useReducedMotion();
 
   const isChallenger = duel.challenger_id === userId;
   const myScore = isChallenger ? duel.challenger_score : duel.opponent_score;
@@ -73,7 +75,6 @@ const DuelResults = ({
 
   const iWon = duel.winner_id === userId;
   const isDraw = duel.winner_id === null;
-  const iLost = !iWon && !isDraw;
 
   const resultText = iWon ? "VICTORY!" : isDraw ? "DRAW" : "DEFEAT";
   const resultColor = iWon
@@ -103,15 +104,15 @@ const DuelResults = ({
       <div className="max-w-2xl mx-auto px-4 py-8 space-y-6">
         {/* Result banner */}
         <motion.div
-          initial={{ scale: 0.5, opacity: 0 }}
+          initial={reducedMotion ? false : { scale: 0.5, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
-          transition={{ type: "spring", stiffness: 200, damping: 15 }}
+          transition={reducedMotion ? { duration: 0 } : { type: "spring", stiffness: 200, damping: 15 }}
           className={`text-center py-8 rounded-2xl bg-gradient-to-b ${resultBg} to-transparent`}
         >
           <motion.div
-            initial={{ rotate: -10, scale: 0 }}
+            initial={reducedMotion ? false : { rotate: -10, scale: 0 }}
             animate={{ rotate: 0, scale: 1 }}
-            transition={{ delay: 0.2, type: "spring" }}
+            transition={reducedMotion ? { duration: 0 } : { delay: 0.2, type: "spring" }}
           >
             {iWon ? (
               <Trophy size={48} className="mx-auto text-success mb-3" />
@@ -129,9 +130,9 @@ const DuelResults = ({
 
         {/* VS comparison card */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={reducedMotion ? false : { opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3 }}
+          transition={reducedMotion ? { duration: 0 } : { delay: 0.3 }}
           className="bg-surface rounded-2xl border border-white/10 p-5"
         >
           <div className="flex items-center justify-between mb-4">
@@ -167,7 +168,7 @@ const DuelResults = ({
                   className="h-full bg-primary rounded-full"
                   initial={{ width: 0 }}
                   animate={{ width: `${myBarWidth}%` }}
-                  transition={{ duration: 0.8, delay: 0.5 }}
+                  transition={reducedMotion ? { duration: 0 } : { duration: 0.8, delay: 0.5 }}
                 />
               </div>
             </div>
@@ -180,7 +181,7 @@ const DuelResults = ({
                   className="h-full bg-accent rounded-full"
                   initial={{ width: 0 }}
                   animate={{ width: `${theirBarWidth}%` }}
-                  transition={{ duration: 0.8, delay: 0.6 }}
+                  transition={reducedMotion ? { duration: 0 } : { duration: 0.8, delay: 0.6 }}
                 />
               </div>
             </div>
@@ -202,9 +203,9 @@ const DuelResults = ({
 
         {/* XP breakdown */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={reducedMotion ? false : { opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.4 }}
+          transition={reducedMotion ? { duration: 0 } : { delay: 0.4 }}
           className="bg-surface rounded-2xl border border-white/10 p-4 flex items-center justify-between"
         >
           <div className="flex items-center gap-2">
@@ -216,9 +217,9 @@ const DuelResults = ({
 
         {/* Question accordion */}
         <motion.div
-          initial={{ opacity: 0 }}
+          initial={reducedMotion ? false : { opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: 0.5 }}
+          transition={reducedMotion ? { duration: 0 } : { delay: 0.5 }}
           className="space-y-2"
         >
           <h3 className="text-sm font-semibold text-white/50 mb-2">
@@ -312,9 +313,9 @@ const DuelResults = ({
 
         {/* Action buttons */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={reducedMotion ? false : { opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.6 }}
+          transition={reducedMotion ? { duration: 0 } : { delay: 0.6 }}
           className="flex flex-col gap-3 pt-2"
         >
           <button

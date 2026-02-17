@@ -27,6 +27,7 @@ import { createClient } from "@/lib/supabase/client";
 import AnimeCard from "@/components/AnimeCard";
 import BadgeIcon from "@/components/BadgeIcon";
 import type { AnimeSeries, Badge } from "@/types";
+import useReducedMotion from "@/lib/use-reduced-motion";
 
 // ── Types ──────────────────────────────────────────────────────
 
@@ -88,8 +89,14 @@ const AnimatedCounter = ({ target, label }: { target: number; label: string }) =
   const [count, setCount] = useState(0);
   const ref = useRef<HTMLDivElement>(null);
   const hasAnimated = useRef(false);
+  const reducedMotion = useReducedMotion();
 
   useEffect(() => {
+    if (reducedMotion) {
+      setCount(target);
+      return;
+    }
+
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting && !hasAnimated.current) {
@@ -113,7 +120,7 @@ const AnimatedCounter = ({ target, label }: { target: number; label: string }) =
 
     if (ref.current) observer.observe(ref.current);
     return () => observer.disconnect();
-  }, [target]);
+  }, [target, reducedMotion]);
 
   return (
     <div ref={ref} className="text-center">
@@ -133,6 +140,7 @@ const LandingContent = ({ topAnime, stats }: LandingContentProps) => {
   const [dailyScore, setDailyScore] = useState<number | null>(null);
   const [recentBadge, setRecentBadge] = useState<Badge | null>(null);
   const [pendingDuelCount, setPendingDuelCount] = useState(0);
+  const reducedMotion = useReducedMotion();
 
   // Logged-in user data fetches
   useEffect(() => {
@@ -221,7 +229,7 @@ const LandingContent = ({ topAnime, stats }: LandingContentProps) => {
         {user && profile && !isLoading ? (
           /* ── Logged-in Hero ──────────────────────────────── */
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={reducedMotion ? false : { opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             className="relative z-10 w-full max-w-2xl"
           >
@@ -335,7 +343,7 @@ const LandingContent = ({ topAnime, stats }: LandingContentProps) => {
           /* ── Visitor Hero ────────────────────────────────── */
           <div className="relative z-10">
             <motion.h1
-              initial={{ opacity: 0, y: 20 }}
+              initial={reducedMotion ? false : { opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight mb-4"
             >
@@ -345,9 +353,9 @@ const LandingContent = ({ topAnime, stats }: LandingContentProps) => {
             </motion.h1>
 
             <motion.p
-              initial={{ opacity: 0, y: 20 }}
+              initial={reducedMotion ? false : { opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.1 }}
+              transition={reducedMotion ? { duration: 0 } : { delay: 0.1 }}
               className="text-lg sm:text-xl text-white/60 max-w-lg mx-auto mb-3"
             >
               Test your anime knowledge with trivia questions across 50+ titles.
@@ -355,9 +363,9 @@ const LandingContent = ({ topAnime, stats }: LandingContentProps) => {
             </motion.p>
 
             <motion.p
-              initial={{ opacity: 0 }}
+              initial={reducedMotion ? false : { opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ delay: 0.2 }}
+              transition={reducedMotion ? { duration: 0 } : { delay: 0.2 }}
               className="text-sm text-white/40 mb-8"
             >
               From Genin to Hokage — climb the ranks!
@@ -365,9 +373,9 @@ const LandingContent = ({ topAnime, stats }: LandingContentProps) => {
 
             {/* Rank progression preview */}
             <motion.div
-              initial={{ opacity: 0 }}
+              initial={reducedMotion ? false : { opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ delay: 0.3 }}
+              transition={reducedMotion ? { duration: 0 } : { delay: 0.3 }}
               className="flex flex-wrap justify-center gap-3 mb-8"
             >
               {RANK_ICONS.map((rank) => (
@@ -382,9 +390,9 @@ const LandingContent = ({ topAnime, stats }: LandingContentProps) => {
             </motion.div>
 
             <motion.div
-              initial={{ opacity: 0, y: 10 }}
+              initial={reducedMotion ? false : { opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.4 }}
+              transition={reducedMotion ? { duration: 0 } : { delay: 0.4 }}
               className="flex flex-col sm:flex-row gap-3 justify-center"
             >
               <Link

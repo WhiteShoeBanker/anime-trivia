@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { Check, X } from "lucide-react";
+import useReducedMotion from "@/lib/use-reduced-motion";
 
 interface AnswerButtonProps {
   text: string;
@@ -24,6 +25,8 @@ const AnswerButton = ({
   onClick,
   disabled,
 }: AnswerButtonProps) => {
+  const reducedMotion = useReducedMotion();
+
   const getStyles = (): string => {
     if (isRevealed) {
       if (isCorrect) {
@@ -41,7 +44,7 @@ const AnswerButton = ({
   };
 
   const shakeAnimation =
-    isRevealed && isSelected && !isCorrect
+    !reducedMotion && isRevealed && isSelected && !isCorrect
       ? { x: [0, -8, 8, -4, 4, 0] }
       : {};
 
@@ -50,7 +53,7 @@ const AnswerButton = ({
       onClick={onClick}
       disabled={disabled}
       animate={shakeAnimation}
-      transition={{ duration: 0.4 }}
+      transition={{ duration: reducedMotion ? 0 : 0.4 }}
       role="radio"
       aria-checked={isSelected}
       aria-label={`Option ${LETTERS[index]}: ${text}`}

@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import BadgeIcon from "@/components/BadgeIcon";
 import type { Badge, BadgeRarity } from "@/types";
+import useReducedMotion from "@/lib/use-reduced-motion";
 
 const RARITY_LABELS: Record<BadgeRarity, { text: string; color: string }> = {
   common: { text: "Common", color: "text-gray-400" },
@@ -47,6 +48,7 @@ const ConfettiParticle = ({ delay, x }: { delay: number; x: number }) => (
 
 const BadgeCelebration = ({ badges, onComplete }: BadgeCelebrationProps) => {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const reducedMotion = useReducedMotion();
 
   const currentBadge = badges[currentIndex];
   const isLast = currentIndex >= badges.length - 1;
@@ -73,30 +75,31 @@ const BadgeCelebration = ({ badges, onComplete }: BadgeCelebrationProps) => {
   return (
     <AnimatePresence>
       <motion.div
-        initial={{ opacity: 0 }}
+        initial={reducedMotion ? false : { opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
         className="fixed inset-0 z-[100] flex items-center justify-center bg-black/70 backdrop-blur-sm"
         onClick={isLast ? onComplete : () => setCurrentIndex((i) => i + 1)}
       >
-        {/* Confetti */}
-        {Array.from({ length: 20 }).map((_, i) => (
-          <ConfettiParticle key={i} delay={i * 0.08} x={5 + i * 4.5} />
-        ))}
+        {/* Confetti — skip when reduced motion */}
+        {!reducedMotion &&
+          Array.from({ length: 20 }).map((_, i) => (
+            <ConfettiParticle key={i} delay={i * 0.08} x={5 + i * 4.5} />
+          ))}
 
         <motion.div
           key={currentBadge.id}
-          initial={{ scale: 0, rotate: -10 }}
+          initial={reducedMotion ? false : { scale: 0, rotate: -10 }}
           animate={{ scale: 1, rotate: 0 }}
-          exit={{ scale: 0, opacity: 0 }}
-          transition={{ type: "spring", stiffness: 200, damping: 15 }}
+          exit={reducedMotion ? { opacity: 0 } : { scale: 0, opacity: 0 }}
+          transition={reducedMotion ? { duration: 0 } : { type: "spring", stiffness: 200, damping: 15 }}
           className="flex flex-col items-center gap-4 p-8"
         >
           {/* Badge label */}
           <motion.p
-            initial={{ opacity: 0, y: -20 }}
+            initial={reducedMotion ? false : { opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3 }}
+            transition={reducedMotion ? { duration: 0 } : { delay: 0.3 }}
             className="text-sm font-semibold text-white/50 uppercase tracking-wider"
           >
             Badge Unlocked!
@@ -104,9 +107,9 @@ const BadgeCelebration = ({ badges, onComplete }: BadgeCelebrationProps) => {
 
           {/* Badge icon (large) */}
           <motion.div
-            initial={{ scale: 0 }}
+            initial={reducedMotion ? false : { scale: 0 }}
             animate={{ scale: 1 }}
-            transition={{ delay: 0.1, type: "spring", stiffness: 300 }}
+            transition={reducedMotion ? { duration: 0 } : { delay: 0.1, type: "spring", stiffness: 300 }}
           >
             <BadgeIcon
               iconName={currentBadge.icon_name}
@@ -120,9 +123,9 @@ const BadgeCelebration = ({ badges, onComplete }: BadgeCelebrationProps) => {
 
           {/* Badge name */}
           <motion.h2
-            initial={{ opacity: 0, y: 10 }}
+            initial={reducedMotion ? false : { opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4 }}
+            transition={reducedMotion ? { duration: 0 } : { delay: 0.4 }}
             className="text-2xl font-bold text-white text-center"
           >
             {currentBadge.name}
@@ -130,9 +133,9 @@ const BadgeCelebration = ({ badges, onComplete }: BadgeCelebrationProps) => {
 
           {/* Description */}
           <motion.p
-            initial={{ opacity: 0 }}
+            initial={reducedMotion ? false : { opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ delay: 0.5 }}
+            transition={reducedMotion ? { duration: 0 } : { delay: 0.5 }}
             className="text-sm text-white/50 text-center max-w-xs"
           >
             {currentBadge.description}
@@ -140,9 +143,9 @@ const BadgeCelebration = ({ badges, onComplete }: BadgeCelebrationProps) => {
 
           {/* Rarity */}
           <motion.span
-            initial={{ opacity: 0 }}
+            initial={reducedMotion ? false : { opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ delay: 0.6 }}
+            transition={reducedMotion ? { duration: 0 } : { delay: 0.6 }}
             className={`text-xs font-bold uppercase ${rarityInfo.color}`}
           >
             {rarityInfo.text}
@@ -151,9 +154,9 @@ const BadgeCelebration = ({ badges, onComplete }: BadgeCelebrationProps) => {
           {/* Progress indicator for multiple badges */}
           {badges.length > 1 && (
             <motion.p
-              initial={{ opacity: 0 }}
+              initial={reducedMotion ? false : { opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ delay: 0.7 }}
+              transition={reducedMotion ? { duration: 0 } : { delay: 0.7 }}
               className="text-xs text-white/30 mt-2"
             >
               {currentIndex + 1} of {badges.length} — Tap to continue
@@ -163,9 +166,9 @@ const BadgeCelebration = ({ badges, onComplete }: BadgeCelebrationProps) => {
           {/* Dismiss */}
           {isLast && (
             <motion.p
-              initial={{ opacity: 0 }}
+              initial={reducedMotion ? false : { opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ delay: 0.8 }}
+              transition={reducedMotion ? { duration: 0 } : { delay: 0.8 }}
               className="text-xs text-white/30 mt-2"
             >
               Tap anywhere to close

@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import type { BracketData, GrandPrixMatch } from "@/types";
+import useReducedMotion from "@/lib/use-reduced-motion";
 
 interface TournamentBracketProps {
   bracketData: BracketData;
@@ -25,6 +26,8 @@ const TournamentBracket = ({
   currentUserId,
   onMatchClick,
 }: TournamentBracketProps) => {
+  const reducedMotion = useReducedMotion();
+
   // Group matches by round
   const matchesByRound = new Map<number, GrandPrixMatch[]>();
   for (const match of matches) {
@@ -65,9 +68,9 @@ const TournamentBracket = ({
                     return (
                       <motion.button
                         key={match.id}
-                        initial={{ opacity: 0, x: -10 }}
+                        initial={reducedMotion ? false : { opacity: 0, x: -10 }}
                         animate={{ opacity: 1, x: 0 }}
-                        transition={{ delay: roundIdx * 0.1 + matchIdx * 0.05 }}
+                        transition={reducedMotion ? { duration: 0 } : { delay: roundIdx * 0.1 + matchIdx * 0.05 }}
                         onClick={() => onMatchClick?.(match.id)}
                         className={`rounded-xl border p-3 text-left transition-colors ${
                           isCurrentUserMatch

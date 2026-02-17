@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { X, Swords } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import type { AnimeSeries, DuelDifficulty } from "@/types";
+import useReducedMotion from "@/lib/use-reduced-motion";
 
 interface ChallengeModalProps {
   isOpen: boolean;
@@ -58,6 +59,7 @@ const ChallengeModal = ({
     defaults?.question_count ?? 10
   );
   const [sending, setSending] = useState(false);
+  const reducedMotion = useReducedMotion();
 
   useEffect(() => {
     if (!isOpen) return;
@@ -90,17 +92,17 @@ const ChallengeModal = ({
     <AnimatePresence>
       {isOpen && (
         <motion.div
-          initial={{ opacity: 0 }}
+          initial={reducedMotion ? false : { opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           className="fixed inset-0 z-[90] flex items-end sm:items-center justify-center bg-black/60 backdrop-blur-sm"
           onClick={onClose}
         >
           <motion.div
-            initial={{ y: 100, opacity: 0 }}
+            initial={reducedMotion ? false : { y: 100, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
-            exit={{ y: 100, opacity: 0 }}
-            transition={{ type: "spring", damping: 20 }}
+            exit={reducedMotion ? { opacity: 0 } : { y: 100, opacity: 0 }}
+            transition={reducedMotion ? { duration: 0 } : { type: "spring", damping: 20 }}
             className="w-full max-w-md bg-surface rounded-t-3xl sm:rounded-3xl border border-white/10 p-5 max-h-[80vh] overflow-hidden flex flex-col"
             onClick={(e) => e.stopPropagation()}
           >

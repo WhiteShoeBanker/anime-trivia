@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import type { Question } from "@/types";
 import Timer from "./Timer";
 import AnswerButton from "./AnswerButton";
+import useReducedMotion from "@/lib/use-reduced-motion";
 
 interface QuizCardProps {
   question: Question;
@@ -32,14 +33,16 @@ const QuizCard = ({
   timeLeft,
   totalTime,
 }: QuizCardProps) => {
+  const reducedMotion = useReducedMotion();
+
   return (
     <AnimatePresence mode="wait">
       <motion.div
         key={question.id}
-        initial={{ opacity: 0, x: 50 }}
+        initial={reducedMotion ? false : { opacity: 0, x: 50 }}
         animate={{ opacity: 1, x: 0 }}
-        exit={{ opacity: 0, x: -50 }}
-        transition={{ duration: 0.3 }}
+        exit={reducedMotion ? { opacity: 0 } : { opacity: 0, x: -50 }}
+        transition={{ duration: reducedMotion ? 0 : 0.3 }}
         className="w-full max-w-2xl mx-auto"
       >
         <div className="bg-surface rounded-2xl border border-white/10 p-5 md:p-6">
@@ -81,10 +84,10 @@ const QuizCard = ({
           <AnimatePresence>
             {isRevealed && question.explanation && (
               <motion.div
-                initial={{ opacity: 0, height: 0 }}
+                initial={reducedMotion ? false : { opacity: 0, height: 0 }}
                 animate={{ opacity: 1, height: "auto" }}
-                exit={{ opacity: 0, height: 0 }}
-                transition={{ duration: 0.3 }}
+                exit={reducedMotion ? { opacity: 0 } : { opacity: 0, height: 0 }}
+                transition={{ duration: reducedMotion ? 0 : 0.3 }}
                 className="mt-4 p-4 rounded-xl bg-white/5 border border-white/10"
               >
                 <p className="text-sm text-white/70">

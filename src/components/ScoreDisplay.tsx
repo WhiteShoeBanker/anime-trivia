@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
+import useReducedMotion from "@/lib/use-reduced-motion";
 
 interface ScoreDisplayProps {
   score: number;
@@ -23,10 +24,16 @@ const ScoreDisplay = ({
   xpEarned,
   newRank,
 }: ScoreDisplayProps) => {
+  const reducedMotion = useReducedMotion();
   const [displayScore, setDisplayScore] = useState(0);
   const rafRef = useRef<number>(0);
 
   useEffect(() => {
+    if (reducedMotion) {
+      setDisplayScore(score);
+      return;
+    }
+
     const duration = 1500;
     const start = performance.now();
 
@@ -44,7 +51,7 @@ const ScoreDisplay = ({
 
     rafRef.current = requestAnimationFrame(animate);
     return () => cancelAnimationFrame(rafRef.current);
-  }, [score]);
+  }, [score, reducedMotion]);
 
   const percentage = maxScore > 0 ? (score / maxScore) * 100 : 0;
   const offset = RING_CIRCUMFERENCE * (1 - percentage / 100);
@@ -81,7 +88,7 @@ const ScoreDisplay = ({
             strokeDasharray={RING_CIRCUMFERENCE}
             initial={{ strokeDashoffset: RING_CIRCUMFERENCE }}
             animate={{ strokeDashoffset: offset }}
-            transition={{ duration: 1.5, ease: "easeOut" }}
+            transition={reducedMotion ? { duration: 0 } : { duration: 1.5, ease: "easeOut" }}
           />
         </svg>
         <div className="absolute flex flex-col items-center">
@@ -113,9 +120,9 @@ const ScoreDisplay = ({
       {/* Rank celebration */}
       {newRank && (
         <motion.div
-          initial={{ opacity: 0, scale: 0.5 }}
+          initial={reducedMotion ? false : { opacity: 0, scale: 0.5 }}
           animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: 1.8, duration: 0.5, type: "spring" }}
+          transition={reducedMotion ? { duration: 0 } : { delay: 1.8, duration: 0.5, type: "spring" }}
           className="text-center mt-2"
         >
           <p className="text-sm text-white/50 mb-1">Rank Up!</p>

@@ -4,6 +4,7 @@ import { useId } from "react";
 import { motion } from "framer-motion";
 import { Lock, Skull } from "lucide-react";
 import type { Difficulty } from "@/types";
+import useReducedMotion from "@/lib/use-reduced-motion";
 
 interface DifficultySelectorProps {
   selected: Difficulty;
@@ -49,6 +50,7 @@ const DifficultySelector = ({
   isJunior,
 }: DifficultySelectorProps) => {
   const layoutId = useId();
+  const reducedMotion = useReducedMotion();
 
   return (
     <div>
@@ -76,7 +78,7 @@ const DifficultySelector = ({
                 <motion.div
                   layoutId={`${layoutId}-indicator`}
                   className="absolute inset-0 rounded-xl border-2 border-white/30"
-                  transition={{ type: "spring", stiffness: 400, damping: 30 }}
+                  transition={reducedMotion ? { duration: 0 } : { type: "spring", stiffness: 400, damping: 30 }}
                 />
               )}
               <span className="relative z-10 flex items-center justify-center gap-1">

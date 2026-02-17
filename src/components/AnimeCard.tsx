@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { motion } from "framer-motion";
 import type { AnimeSeries, ContentRating } from "@/types";
+import useReducedMotion from "@/lib/use-reduced-motion";
 
 interface AnimeCardProps {
   anime: AnimeSeries;
@@ -30,6 +31,7 @@ const ratingConfig: Record<ContentRating, { bg: string; label: string }> = {
 const AnimeCard = ({ anime, index = 0, restricted }: AnimeCardProps) => {
   const gradient = gradients[index % gradients.length];
   const rating = ratingConfig[anime.content_rating];
+  const reducedMotion = useReducedMotion();
 
   const cardContent = (
     <div className="bg-surface rounded-2xl border border-white/10 overflow-hidden transition-shadow hover:shadow-lg hover:shadow-primary/10">
@@ -81,10 +83,10 @@ const AnimeCard = ({ anime, index = 0, restricted }: AnimeCardProps) => {
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
+      initial={reducedMotion ? false : { opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.4, delay: index * 0.1 }}
-      whileHover={{ scale: 1.03 }}
+      transition={reducedMotion ? { duration: 0 } : { duration: 0.4, delay: index * 0.1 }}
+      whileHover={reducedMotion ? undefined : { scale: 1.03 }}
     >
       {restricted ? (
         <div className="block group">{cardContent}</div>

@@ -10,6 +10,7 @@ import BadgeIcon from "@/components/BadgeIcon";
 import type { Badge } from "@/types";
 import { getUserEmblem } from "@/lib/badges";
 import { createClient } from "@/lib/supabase/client";
+import useReducedMotion from "@/lib/use-reduced-motion";
 
 const NAV_LINKS = [
   { href: "/", label: "Home" },
@@ -54,6 +55,7 @@ const Navbar = () => {
   const [emblem, setEmblem] = useState<Badge | null>(null);
   const [pendingDuelCount, setPendingDuelCount] = useState(0);
   const { user, profile, ageGroup, signOut } = useAuth();
+  const reducedMotion = useReducedMotion();
 
   // Fetch emblem when user/profile changes
   useEffect(() => {
@@ -148,7 +150,7 @@ const Navbar = () => {
                 <motion.div
                   layoutId="nav-underline"
                   className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary rounded-full"
-                  transition={{ type: "spring", stiffness: 400, damping: 30 }}
+                  transition={reducedMotion ? { duration: 0 } : { type: "spring", stiffness: 400, damping: 30 }}
                 />
               )}
             </Link>
@@ -210,10 +212,10 @@ const Navbar = () => {
       <AnimatePresence>
         {mobileOpen && (
           <motion.div
-            initial={{ opacity: 0 }}
+            initial={reducedMotion ? false : { opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.2 }}
+            transition={{ duration: reducedMotion ? 0 : 0.2 }}
             className="fixed inset-0 z-50 bg-secondary flex flex-col"
           >
             <div className="flex items-center justify-between h-16 px-4">
@@ -233,9 +235,9 @@ const Navbar = () => {
               {NAV_LINKS.map((link, i) => (
                 <motion.div
                   key={link.href}
-                  initial={{ opacity: 0, y: 20 }}
+                  initial={reducedMotion ? false : { opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: i * 0.1 }}
+                  transition={reducedMotion ? { duration: 0 } : { delay: i * 0.1 }}
                 >
                   <Link
                     href={link.href}
@@ -262,9 +264,9 @@ const Navbar = () => {
               ))}
 
               <motion.div
-                initial={{ opacity: 0, y: 20 }}
+                initial={reducedMotion ? false : { opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: NAV_LINKS.length * 0.1 }}
+                transition={reducedMotion ? { duration: 0 } : { delay: NAV_LINKS.length * 0.1 }}
                 className="mt-4"
               >
                 {user ? (
