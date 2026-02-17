@@ -67,6 +67,9 @@ using Capacitor.
 ## Communication Style
 - Do NOT provide suggestions or next steps after completing a task. Just finish and stop.
 
+## Deployment
+- Do NOT deploy to Vercel or run any deployment commands. The user will deploy manually when ready.
+
 ## Important Rules
 - COPPA compliance: age-gating for users under 13
 - NO copyrighted images. Use placeholder art or CSS illustrations
