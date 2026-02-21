@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useCallback, useRef } from "react";
+import { useEffect, useState, useRef } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { Calendar, Zap, Trophy, Clock, CheckCircle } from "lucide-react";
@@ -12,6 +12,13 @@ import ProgressBar from "@/components/ProgressBar";
 import ScoreDisplay from "@/components/ScoreDisplay";
 import BadgeIcon from "@/components/BadgeIcon";
 import { calculateMaxScore } from "@/lib/scoring";
+
+const TIME_LIMITS: Record<string, number> = {
+  easy: 30,
+  medium: 20,
+  hard: 15,
+  impossible: 5,
+};
 
 const DailyContent = () => {
   const { user, profile, ageGroup, isLoading: authLoading } = useAuth();
@@ -36,8 +43,7 @@ const DailyContent = () => {
   const [previousScore, setPreviousScore] = useState<number | null>(null);
   const [checking, setChecking] = useState(true);
   const [timeLeft, setTimeLeft] = useState(20);
-  const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
-  const startTimeRef = useRef<number>(0);
+  const questionStartRef = useRef(Date.now());
 
   // Check if user already played today
   useEffect(() => {
@@ -46,53 +52,47 @@ const DailyContent = () => {
       return;
     }
     const check = async () => {
-      const result = await checkDailyChallengePlayed(user.id);
-      setAlreadyPlayed(result.played);
-      setPreviousScore(result.score);
+      try {
+        const result = await checkDailyChallengePlayed(user.id);
+        setAlreadyPlayed(result.played);
+        setPreviousScore(result.score);
+      } catch {
+        // Check failed — allow playing
+      }
       setChecking(false);
     };
     check();
   }, [user]);
 
-  // Timer logic
   const currentQuestion = questions[currentQuestionIndex];
-  const TIME_LIMITS: Record<string, number> = {
-    easy: 30,
-    medium: 20,
-    hard: 15,
-    impossible: 5,
-  };
   const totalTime = currentQuestion ? (TIME_LIMITS[currentQuestion.difficulty] ?? 20) : 20;
 
+  // Timer countdown
   useEffect(() => {
-    if (status === "playing" && currentQuestion) {
-      setTimeLeft(totalTime);
-      startTimeRef.current = Date.now();
+    if (status !== "playing") return;
 
-      timerRef.current = setInterval(() => {
-        setTimeLeft((prev) => {
-          if (prev <= 1) {
-            if (timerRef.current) clearInterval(timerRef.current);
-            const elapsed = Date.now() - startTimeRef.current;
-            confirmAnswer(elapsed);
-            return 0;
-          }
-          return prev - 1;
-        });
-      }, 1000);
+    setTimeLeft(totalTime);
+    questionStartRef.current = Date.now();
 
-      return () => {
-        if (timerRef.current) clearInterval(timerRef.current);
-      };
-    }
-  }, [status, currentQuestionIndex, currentQuestion, totalTime, confirmAnswer]);
+    const interval = setInterval(() => {
+      setTimeLeft((prev) => {
+        if (prev <= 1) {
+          clearInterval(interval);
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
 
-  // Stop timer on reveal
+    return () => clearInterval(interval);
+  }, [status, currentQuestionIndex, totalTime]);
+
+  // Auto-confirm on timeout
   useEffect(() => {
-    if (isRevealed && timerRef.current) {
-      clearInterval(timerRef.current);
+    if (timeLeft === 0 && status === "playing") {
+      confirmAnswer(totalTime * 1000);
     }
-  }, [isRevealed]);
+  }, [timeLeft, status, totalTime, confirmAnswer]);
 
   // Complete challenge when status becomes completed
   useEffect(() => {
@@ -108,16 +108,12 @@ const DailyContent = () => {
     };
   }, [reset]);
 
-  // Instant answer: select + confirm in one tap (matches regular quiz flow)
-  const handleAnswer = useCallback(
-    (index: number) => {
-      if (isRevealed) return;
-      const timeMs = Date.now() - startTimeRef.current;
-      selectAnswer(index);
-      confirmAnswer(timeMs);
-    },
-    [isRevealed, selectAnswer, confirmAnswer]
-  );
+  const handleAnswer = (index: number) => {
+    if (isRevealed) return;
+    const timeMs = Date.now() - questionStartRef.current;
+    selectAnswer(index);
+    confirmAnswer(timeMs);
+  };
 
   // Auto-advance to next question after 2s feedback pause
   useEffect(() => {
