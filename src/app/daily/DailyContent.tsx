@@ -3,7 +3,7 @@
 import { useEffect, useState, useCallback, useRef } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { Calendar, Zap, Trophy, Clock, ArrowRight, CheckCircle } from "lucide-react";
+import { Calendar, Zap, Trophy, Clock, CheckCircle } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { useDailyChallengeStore } from "@/stores/dailyChallengeStore";
 import { checkDailyChallengePlayed } from "@/lib/daily-challenge";
@@ -108,14 +108,27 @@ const DailyContent = () => {
     };
   }, [reset]);
 
-  const handleConfirm = useCallback(() => {
-    if (isRevealed) {
+  // Instant answer: select + confirm in one tap (matches regular quiz flow)
+  const handleAnswer = useCallback(
+    (index: number) => {
+      if (isRevealed) return;
+      const timeMs = Date.now() - startTimeRef.current;
+      selectAnswer(index);
+      confirmAnswer(timeMs);
+    },
+    [isRevealed, selectAnswer, confirmAnswer]
+  );
+
+  // Auto-advance to next question after 2s feedback pause
+  useEffect(() => {
+    if (status !== "reviewing") return;
+
+    const timeout = setTimeout(() => {
       nextQuestion();
-    } else {
-      const elapsed = Date.now() - startTimeRef.current;
-      confirmAnswer(elapsed);
-    }
-  }, [isRevealed, nextQuestion, confirmAnswer]);
+    }, 2000);
+
+    return () => clearTimeout(timeout);
+  }, [status, currentQuestionIndex, nextQuestion]);
 
   // Countdown until midnight
   const getCountdown = () => {
@@ -246,32 +259,12 @@ const DailyContent = () => {
             question={currentQuestion}
             questionNumber={currentQuestionIndex + 1}
             totalQuestions={questions.length}
-            onAnswer={selectAnswer}
+            onAnswer={handleAnswer}
             isRevealed={isRevealed}
             selectedAnswer={selectedAnswer}
             timeLeft={timeLeft}
             totalTime={totalTime}
           />
-        </div>
-
-        <div className="flex justify-center mt-6">
-          <button
-            onClick={handleConfirm}
-            disabled={!isRevealed && selectedAnswer === null}
-            className="px-8 py-3 rounded-xl bg-primary text-white font-bold hover:bg-primary/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
-          >
-            {isRevealed ? (
-              currentQuestionIndex + 1 < questions.length ? (
-                <>
-                  Next <ArrowRight size={16} />
-                </>
-              ) : (
-                "See Results"
-              )
-            ) : (
-              "Confirm Answer"
-            )}
-          </button>
         </div>
       </div>
     );
