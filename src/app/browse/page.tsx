@@ -13,8 +13,11 @@ export default async function BrowsePage() {
   try {
     // Fetch all anime — client-side filtering handles age restrictions
     animeList = await getAnimeList("full");
-  } catch {
-    // DB not available - show empty state
+    // TODO: remove after confirming browse page works
+    console.log("[BrowsePage] fetched anime count:", animeList.length);
+  } catch (err) {
+    // TODO: remove after confirming browse page works
+    console.error("[BrowsePage] getAnimeList failed:", err);
   }
 
   return <BrowseContent animeList={animeList} />;

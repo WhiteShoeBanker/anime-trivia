@@ -1,4 +1,5 @@
 import { createClient } from "@/lib/supabase/server";
+import { createServiceClient } from "@/lib/supabase/service";
 import type {
   AnimeSeries,
   Question,
@@ -15,7 +16,9 @@ import type {
 export const getAnimeList = async (
   ageGroup?: AgeGroup
 ): Promise<AnimeSeries[]> => {
-  const supabase = await createClient();
+  // Use service client to bypass RLS — anime list is public data
+  // and this function is only called from Server Components
+  const supabase = createServiceClient();
   let query = supabase
     .from("anime_series")
     .select("*")
@@ -36,7 +39,8 @@ export const getAnimeList = async (
 export const getAnimeBySlug = async (
   slug: string
 ): Promise<AnimeSeries | null> => {
-  const supabase = await createClient();
+  // Use service client to bypass RLS — anime details are public data
+  const supabase = createServiceClient();
   const { data, error } = await supabase
     .from("anime_series")
     .select("*")
