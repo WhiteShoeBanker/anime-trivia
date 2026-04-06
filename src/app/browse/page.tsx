@@ -2,6 +2,8 @@ import { getAnimeList } from "@/lib/queries";
 import type { AnimeSeries } from "@/types";
 import BrowseContent from "./BrowseContent";
 
+export const dynamic = "force-dynamic";
+
 export const metadata = {
   title: "Browse Anime - OtakuQuiz",
   description: "Choose an anime series and test your knowledge!",
