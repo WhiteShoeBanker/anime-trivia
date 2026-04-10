@@ -72,11 +72,6 @@ const AnimeCard = ({ anime, index = 0, restricted }: AnimeCardProps) => {
             </span>
           ))}
         </div>
-
-        {/* Question count */}
-        <p className="text-sm text-white/50">
-          {anime.total_questions} questions
-        </p>
       </div>
     </div>
   );
