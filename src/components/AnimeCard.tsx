@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import type { AnimeSeries, ContentRating } from "@/types";
@@ -11,16 +12,16 @@ interface AnimeCardProps {
   restricted?: boolean;
 }
 
-const gradients = [
-  "from-purple-600 to-blue-500",
-  "from-primary to-yellow-500",
-  "from-accent to-pink-500",
-  "from-success to-emerald-400",
-  "from-blue-500 to-cyan-400",
-  "from-red-500 to-orange-400",
-  "from-violet-500 to-purple-400",
-  "from-amber-500 to-yellow-400",
-];
+const animeImages: Record<string, string> = {
+  "attack-on-titan": "/images/attack%20on%20titan.png",
+  "death-note": "/images/death%20note.png",
+  "demon-slayer": "/images/demon%20slayer.png",
+  "dragon-ball-z": "/images/dragon%20ball.png",
+  "jujutsu-kaisen": "/images/jiu%20jitsu.png",
+  "my-hero-academia": "/images/my%20hero.png",
+  naruto: "/images/naruto.png",
+  "one-piece": "/images/one%20piece%20.png",
+};
 
 const ratingConfig: Record<ContentRating, { bg: string; label: string }> = {
   E: { bg: "bg-emerald-500", label: "E 6+" },
@@ -29,50 +30,45 @@ const ratingConfig: Record<ContentRating, { bg: string; label: string }> = {
 };
 
 const AnimeCard = ({ anime, index = 0, restricted }: AnimeCardProps) => {
-  const gradient = gradients[index % gradients.length];
   const rating = ratingConfig[anime.content_rating];
   const reducedMotion = useReducedMotion();
+  const imageSrc = animeImages[anime.slug];
 
   const cardContent = (
-    <div className="bg-surface rounded-2xl border border-white/10 overflow-hidden transition-shadow hover:shadow-lg hover:shadow-primary/10">
-      {/* Gradient placeholder image */}
-      <div
-        className={`relative h-[200px] bg-gradient-to-br ${gradient} flex items-end p-4`}
-      >
-        {/* Content rating badge */}
-        {rating && (
-          <span
-            className={`absolute top-3 right-3 px-2 py-0.5 rounded text-xs font-bold ${rating.bg}`}
-          >
-            {rating.label}
-          </span>
-        )}
-        {restricted && (
-          <div className="absolute inset-0 bg-black/30 flex items-center justify-center">
-            <span className="px-3 py-1.5 rounded-lg bg-black/50 text-xs font-semibold text-white/80">
-              Sign in to play
-            </span>
-          </div>
-        )}
-        <h3 className="text-xl font-bold text-white drop-shadow-lg">
-          {anime.title}
-        </h3>
-      </div>
+    <div className="relative h-[280px] bg-surface rounded-2xl border border-white/10 overflow-hidden transition-shadow hover:shadow-lg hover:shadow-primary/10">
+      {imageSrc && (
+        <Image
+          src={imageSrc}
+          alt={anime.title}
+          fill
+          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+          className="object-cover"
+        />
+      )}
 
-      {/* Card body */}
-      <div className="p-4">
-        {/* Genre pills */}
-        <div className="flex flex-wrap gap-2 mb-3">
-          {anime.genre.map((g) => (
-            <span
-              key={g}
-              className="px-2 py-1 rounded-full text-xs bg-white/10 text-white/70"
-            >
-              {g}
-            </span>
-          ))}
+      {/* Dark gradient overlay so the title stays readable */}
+      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+
+      {/* Content rating badge */}
+      {rating && (
+        <span
+          className={`absolute top-3 right-3 px-2 py-0.5 rounded text-xs font-bold ${rating.bg}`}
+        >
+          {rating.label}
+        </span>
+      )}
+
+      {restricted && (
+        <div className="absolute inset-0 bg-black/30 flex items-center justify-center">
+          <span className="px-3 py-1.5 rounded-lg bg-black/50 text-xs font-semibold text-white/80">
+            Sign in to play
+          </span>
         </div>
-      </div>
+      )}
+
+      <h3 className="absolute bottom-4 left-4 right-4 text-xl font-bold text-white drop-shadow-lg">
+        {anime.title}
+      </h3>
     </div>
   );
 
