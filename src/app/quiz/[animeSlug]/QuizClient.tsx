@@ -74,7 +74,7 @@ const QuizClient = ({
     resetQuiz,
   } = useQuizStore();
 
-  const { profile } = useAuth();
+  const { user, profile, isLoading: isAuthLoading } = useAuth();
   const isPro = profile?.subscription_tier === "pro";
   const isJunior = ageGroup === "junior";
 
@@ -410,23 +410,25 @@ const QuizClient = ({
             </button>
           </div>
 
-          {/* Sign up banner */}
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.5 }}
-            className="mt-8 p-4 rounded-xl bg-primary/10 border border-primary/30 text-center"
-          >
-            <p className="text-sm text-white/70">
-              Sign up to save your score and compete on leaderboards!
-            </p>
-            <Link
-              href="/auth"
-              className="inline-block mt-2 px-4 py-2 text-sm font-semibold rounded-lg bg-primary text-white hover:bg-primary/90 transition-colors"
+          {/* Sign up banner — only for guests */}
+          {!isAuthLoading && !user && !userId && (
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.5 }}
+              className="mt-8 p-4 rounded-xl bg-primary/10 border border-primary/30 text-center"
             >
-              Sign Up
-            </Link>
-          </motion.div>
+              <p className="text-sm text-white/70">
+                Sign up to save your score and compete on leaderboards!
+              </p>
+              <Link
+                href="/auth"
+                className="inline-block mt-2 px-4 py-2 text-sm font-semibold rounded-lg bg-primary text-white hover:bg-primary/90 transition-colors"
+              >
+                Sign Up
+              </Link>
+            </motion.div>
+          )}
         </motion.div>
 
         {/* Badge celebration overlay */}
