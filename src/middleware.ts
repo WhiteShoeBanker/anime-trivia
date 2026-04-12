@@ -42,14 +42,15 @@ export async function middleware(request: NextRequest) {
     }
 
     // Authenticated user without birth_year: force profile completion
+    // Only redirect brand-new users (no birth_year AND no activity)
     if (user && !pathname.startsWith("/auth")) {
       const { data: profile } = await supabase
         .from("user_profiles")
-        .select("birth_year")
+        .select("birth_year, total_xp")
         .eq("id", user.id)
         .single();
 
-      if (profile && !profile.birth_year) {
+      if (profile && !profile.birth_year && profile.total_xp === 0) {
         return NextResponse.redirect(
           new URL("/auth?complete_profile=true", request.url)
         );
