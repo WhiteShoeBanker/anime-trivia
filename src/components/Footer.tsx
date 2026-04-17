@@ -14,7 +14,7 @@ const Footer = () => {
                 </Link>
               </li>
               <li>
-                <Link href="/leaderboard" className="text-white/40 hover:text-primary transition-colors">
+                <Link href="/leagues" className="text-white/40 hover:text-primary transition-colors">
                   Leaderboard
                 </Link>
               </li>

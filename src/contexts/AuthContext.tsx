@@ -22,6 +22,16 @@ interface AuthContextValue {
   refreshProfile: () => Promise<void>;
 }
 
+const isAbortError = (err: unknown): boolean => {
+  if (!err || typeof err !== "object") return false;
+  const e = err as { name?: string; code?: string; message?: string };
+  return (
+    e.name === "AbortError" ||
+    e.code === "20" ||
+    (typeof e.message === "string" && e.message.includes("aborted"))
+  );
+};
+
 const AuthContext = createContext<AuthContextValue>({
   user: null,
   profile: null,
@@ -49,15 +59,17 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         .maybeSingle();
 
       if (error) {
-        // Surface the failure so pages gated on profile (Pro badge, Pro stats)
-        // can be diagnosed in devtools instead of silently rendering the
-        // free-tier view.
+        // AbortError comes from Next.js route transitions interrupting
+        // in-flight fetches; it's transient and the next auth event will
+        // refetch. Don't clobber a valid cached profile over it.
+        if (isAbortError(error)) return;
         console.error("[AuthContext] fetchProfile failed:", error);
         setProfile(null);
         return;
       }
       setProfile((data as UserProfile | null) ?? null);
     } catch (err) {
+      if (isAbortError(err)) return;
       console.error("[AuthContext] fetchProfile threw:", err);
       setProfile(null);
     }
