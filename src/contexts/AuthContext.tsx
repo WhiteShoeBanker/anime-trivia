@@ -46,13 +46,20 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         .from("user_profiles")
         .select("*")
         .eq("id", userId)
-        .single();
+        .maybeSingle();
 
-      if (!error && data) {
-        setProfile(data as UserProfile);
+      if (error) {
+        // Surface the failure so pages gated on profile (Pro badge, Pro stats)
+        // can be diagnosed in devtools instead of silently rendering the
+        // free-tier view.
+        console.error("[AuthContext] fetchProfile failed:", error);
+        setProfile(null);
+        return;
       }
-    } catch {
-      // Profile fetch failed — continue without profile
+      setProfile((data as UserProfile | null) ?? null);
+    } catch (err) {
+      console.error("[AuthContext] fetchProfile threw:", err);
+      setProfile(null);
     }
   }, []);
 
@@ -96,7 +103,13 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange(async (event, session) => {
-      if (event === "SIGNED_IN" && session?.user) {
+      if (
+        (event === "SIGNED_IN" ||
+          event === "TOKEN_REFRESHED" ||
+          event === "USER_UPDATED" ||
+          event === "INITIAL_SESSION") &&
+        session?.user
+      ) {
         setUser(session.user);
         await fetchProfile(session.user.id);
       } else if (event === "SIGNED_OUT") {

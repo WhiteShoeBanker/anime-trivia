@@ -438,11 +438,15 @@ export const setEmblem = async (
 
 export const getUserBadges = async (userId: string): Promise<Badge[]> => {
   const supabase = createClient();
-  const { data } = await supabase
+  const { data, error } = await supabase
     .from("user_badges")
     .select("badge_id, badges (*)")
     .eq("user_id", userId);
 
+  if (error) {
+    console.error("[badges] getUserBadges failed:", error);
+    return [];
+  }
   if (!data) return [];
   return data
     .map((row) => {
@@ -455,7 +459,15 @@ export const getUserBadges = async (userId: string): Promise<Badge[]> => {
 
 export const getAllBadges = async (): Promise<Badge[]> => {
   const supabase = createClient();
-  const { data } = await supabase.from("badges").select("*").order("category");
+  const { data, error } = await supabase
+    .from("badges")
+    .select("*")
+    .order("category");
+  if (error) {
+    // Surface so an empty /badges page is diagnosable instead of silent.
+    console.error("[badges] getAllBadges failed:", error);
+    return [];
+  }
   return (data as Badge[]) ?? [];
 };
 
