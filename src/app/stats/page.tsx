@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { BarChart3, Target, Zap, Clock, Lock, TrendingUp } from "lucide-react";
+import { BarChart3, Target, Zap, Clock, Lock, TrendingUp, CheckCircle2 } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { createClient } from "@/lib/supabase/client";
 
@@ -32,6 +32,7 @@ const StatsPage = () => {
   const { user, profile } = useAuth();
   const [stats, setStats] = useState<UserStats | null>(null);
   const [loading, setLoading] = useState(true);
+  const isPro = profile?.subscription_tier === "pro";
 
   useEffect(() => {
     if (!user) {
@@ -181,18 +182,24 @@ const StatsPage = () => {
       >
         <div className="bg-surface rounded-2xl border border-white/10 p-6">
           <div className="flex items-center gap-2 mb-4">
-            <Lock size={18} className="text-primary" />
+            {isPro ? (
+              <CheckCircle2 size={18} className="text-success" />
+            ) : (
+              <Lock size={18} className="text-primary" />
+            )}
             <h2 className="text-lg font-semibold">Pro Stats</h2>
             <span className="ml-auto px-2 py-0.5 rounded-full bg-primary/20 text-primary text-xs font-semibold">
               PRO
             </span>
           </div>
 
-          {/* Blurred preview */}
           <div className="relative overflow-hidden rounded-xl">
-            <div className="blur-sm pointer-events-none select-none">
+            <div
+              className={
+                isPro ? "" : "blur-sm pointer-events-none select-none"
+              }
+            >
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {/* Fake chart placeholder */}
                 <div className="bg-white/5 rounded-xl p-4 h-40 flex items-end gap-1">
                   {[40, 65, 55, 80, 70, 90, 85].map((h, i) => (
                     <div
@@ -202,7 +209,6 @@ const StatsPage = () => {
                     />
                   ))}
                 </div>
-                {/* Fake per-anime list */}
                 <div className="space-y-2">
                   {["Naruto", "One Piece", "Attack on Titan", "Demon Slayer"].map((name) => (
                     <div
@@ -217,24 +223,26 @@ const StatsPage = () => {
               </div>
             </div>
 
-            {/* Overlay */}
-            <div className="absolute inset-0 flex items-center justify-center bg-surface/60 rounded-xl">
-              <div className="text-center">
-                <Lock size={24} className="mx-auto text-primary mb-2" />
-                <p className="text-sm font-semibold mb-1">Upgrade to Pro</p>
-                <p className="text-xs text-white/40">
-                  Unlock detailed analytics
-                </p>
+            {!isPro && (
+              <div className="absolute inset-0 flex items-center justify-center bg-surface/60 rounded-xl">
+                <div className="text-center">
+                  <Lock size={24} className="mx-auto text-primary mb-2" />
+                  <p className="text-sm font-semibold mb-1">Upgrade to Pro</p>
+                  <p className="text-xs text-white/40">
+                    Unlock detailed analytics
+                  </p>
+                </div>
               </div>
-            </div>
+            )}
           </div>
 
-          {/* Feature list */}
           <ul className="mt-4 space-y-2">
             {PRO_FEATURES.map((feature) => (
               <li
                 key={feature}
-                className="flex items-center gap-2 text-sm text-white/50"
+                className={`flex items-center gap-2 text-sm ${
+                  isPro ? "text-white/80" : "text-white/50"
+                }`}
               >
                 <div className="w-1.5 h-1.5 rounded-full bg-primary flex-shrink-0" />
                 {feature}

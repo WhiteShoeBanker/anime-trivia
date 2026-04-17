@@ -63,7 +63,11 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   }, [user, fetchProfile]);
 
   const signOut = useCallback(async () => {
-    await supabaseRef.current.auth.signOut();
+    try {
+      await supabaseRef.current.auth.signOut();
+    } catch {
+      // Sign-out network/API failure — still clear local state below
+    }
     setUser(null);
     setProfile(null);
   }, []);
