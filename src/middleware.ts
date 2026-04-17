@@ -41,16 +41,18 @@ export async function middleware(request: NextRequest) {
       return NextResponse.redirect(new URL("/auth", request.url));
     }
 
-    // Authenticated user without birth_year: force profile completion
-    // Only redirect brand-new users (no birth_year AND no activity)
+    // Profile completeness check. Use age_group (trigger-defaulted to 'full'
+    // on every row) rather than birth_year, which is legitimately null for
+    // OAuth users until /auth/callback captures it — checking birth_year here
+    // would trap those users in a redirect loop on every protected route.
     if (user && !pathname.startsWith("/auth")) {
       const { data: profile } = await supabase
         .from("user_profiles")
-        .select("birth_year, total_xp")
+        .select("age_group")
         .eq("id", user.id)
         .single();
 
-      if (profile && !profile.birth_year && profile.total_xp === 0) {
+      if (!profile?.age_group) {
         return NextResponse.redirect(
           new URL("/auth?complete_profile=true", request.url)
         );
