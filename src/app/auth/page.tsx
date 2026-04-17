@@ -1,6 +1,6 @@
 "use client";
 
-import { Suspense, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { motion } from "framer-motion";
 import { createClient } from "@/lib/supabase/client";
@@ -16,11 +16,20 @@ type AuthMode = "sign-in" | "sign-up";
 const AuthPageContent = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const { user, refreshProfile, signOut } = useAuth();
+  const { user, profile, refreshProfile, signOut } = useAuth();
   const supabase = createClient();
 
   const callbackError = searchParams.get("error");
   const isCompleteProfile = searchParams.get("complete_profile") === "true";
+
+  // Safety net: if middleware bounced an already-complete profile here
+  // (e.g. transient query failure), send them back to /browse instead of
+  // re-asking for age. Uses AuthContext's cached profile so we don't refetch.
+  useEffect(() => {
+    if (isCompleteProfile && user && profile?.age_group) {
+      router.replace("/browse");
+    }
+  }, [isCompleteProfile, user, profile?.age_group, router]);
 
   const [step, setStep] = useState<AuthStep>(
     isCompleteProfile ? "age-gate" : "age-gate"

@@ -18,13 +18,15 @@ export async function GET(request: NextRequest) {
       } = await supabase.auth.getUser();
 
       if (user) {
-        const { data: profile } = await supabase
+        const { data: profile, error: profileError } = await supabase
           .from("user_profiles")
-          .select("birth_year")
+          .select("age_group")
           .eq("id", user.id)
-          .single();
+          .maybeSingle();
 
-        if (!profile?.birth_year) {
+        // Fail-open to match middleware: only force completion when we
+        // positively observe a row with null age_group.
+        if (!profileError && profile && !profile.age_group) {
           return NextResponse.redirect(
             `${origin}/auth?complete_profile=true`
           );

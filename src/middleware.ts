@@ -41,18 +41,19 @@ export async function middleware(request: NextRequest) {
       return NextResponse.redirect(new URL("/auth", request.url));
     }
 
-    // Profile completeness check. Use age_group (trigger-defaulted to 'full'
-    // on every row) rather than birth_year, which is legitimately null for
-    // OAuth users until /auth/callback captures it — checking birth_year here
-    // would trap those users in a redirect loop on every protected route.
+    // Profile completeness check. Fail-open: only redirect when we positively
+    // observe a profile row with a null age_group. Query errors, missing rows,
+    // or transient failures must not trap authenticated users in a redirect
+    // loop — the /auth page itself guards against showing the age gate to
+    // users who already completed it.
     if (user && !pathname.startsWith("/auth")) {
-      const { data: profile } = await supabase
+      const { data: profile, error: profileError } = await supabase
         .from("user_profiles")
         .select("age_group")
         .eq("id", user.id)
-        .single();
+        .maybeSingle();
 
-      if (!profile?.age_group) {
+      if (!profileError && profile && !profile.age_group) {
         return NextResponse.redirect(
           new URL("/auth?complete_profile=true", request.url)
         );
