@@ -8,6 +8,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import { useQuizStore } from "@/stores/quizStore";
 import { calculateMaxScore } from "@/lib/scoring";
 import { trackClientEvent } from "@/app/actions";
+import { createClient } from "@/lib/supabase/client";
 import DifficultySelector from "@/components/DifficultySelector";
 import ProgressBar from "@/components/ProgressBar";
 import QuizCard from "@/components/QuizCard";
@@ -17,28 +18,45 @@ import LeagueNudge from "@/components/LeagueNudge";
 import AnimeDiversityTracker from "@/components/AnimeDiversityTracker";
 import BadgeCelebration from "@/components/BadgeCelebration";
 
-const QUIZ_LIMIT_KEY = "otaku_daily_quizzes";
+// localStorage is a UX-only hint (count to render before any RPC call) —
+// it is NOT on the enforcement path. The server start_quiz RPC is the
+// authoritative gate. After each successful start the hint is overwritten
+// from the server response so tampering self-corrects on the next render.
+const QUIZ_HINT_KEY = "otaku_daily_quizzes";
 
-const getQuizCountToday = (): number => {
+const readQuizHint = (): number => {
+  if (typeof window === "undefined") return 0;
   try {
-    const stored = localStorage.getItem(QUIZ_LIMIT_KEY);
+    const stored = localStorage.getItem(QUIZ_HINT_KEY);
     if (!stored) return 0;
     const { date, count } = JSON.parse(stored);
     if (date !== new Date().toDateString()) return 0;
-    return count;
+    return typeof count === "number" ? count : 0;
   } catch {
     return 0;
   }
 };
 
-const incrementQuizCount = () => {
-  const today = new Date().toDateString();
-  const count = getQuizCountToday() + 1;
-  localStorage.setItem(
-    QUIZ_LIMIT_KEY,
-    JSON.stringify({ date: today, count })
-  );
+const writeQuizHint = (count: number) => {
+  if (typeof window === "undefined") return;
+  try {
+    localStorage.setItem(
+      QUIZ_HINT_KEY,
+      JSON.stringify({ date: new Date().toDateString(), count })
+    );
+  } catch {
+    // Storage disabled (private mode) — UX hint just won't persist.
+  }
 };
+
+interface StartQuizResult {
+  success: boolean;
+  error_code?: "rate_limited" | "not_authenticated" | "internal";
+  tier?: "free" | "pro";
+  count?: number;
+  limit?: number | null;
+  quizzes_remaining?: number | null;
+}
 
 interface QuizClientProps {
   anime: AnimeSeries;
@@ -86,7 +104,15 @@ const QuizClient = ({
   const [limitReached, setLimitReached] = useState(false);
   const [noQuestions, setNoQuestions] = useState(false);
   const [showBadgeCelebration, setShowBadgeCelebration] = useState(false);
+  // UX hint only: starts from localStorage; overwritten by every server
+  // start_quiz response (see handleStartQuiz). Never read for enforcement.
+  const [quizzesUsedHint, setQuizzesUsedHint] = useState<number>(0);
   const questionStartRef = useRef(Date.now());
+
+  // Hydrate the hint after mount so SSR markup matches the first render.
+  useEffect(() => {
+    setQuizzesUsedHint(readQuizHint());
+  }, []);
 
   // Timer countdown
   useEffect(() => {
@@ -149,13 +175,70 @@ const QuizClient = ({
   }, [quizStatus]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleStartQuiz = async () => {
-    if (!isPro && getQuizCountToday() >= freeQuizLimit) {
-      setLimitReached(true);
-      trackClientEvent("quiz_limit_hit", undefined, { anime: anime.slug });
-      return;
-    }
     setNoQuestions(false);
-    incrementQuizCount();
+
+    // Authenticated users: server start_quiz RPC is the authoritative gate.
+    // Anonymous users have no profile to lock against — fall back to a
+    // best-effort localStorage gate (gives them the same daily cap UX
+    // and a soft brake on abuse, but is not security-critical: anonymous
+    // play cannot earn XP/badges/leaderboard slots in any case).
+    if (userId) {
+      const supabase = createClient();
+      const { data, error } = await supabase.rpc("start_quiz", {
+        p_anime_id: anime.id,
+      });
+
+      if (error || !data) {
+        // RPC unreachable — treat as transient and refuse to start so we
+        // never silently bypass the gate when the server is down.
+        setLimitReached(true);
+        trackClientEvent("quiz_limit_hit", undefined, {
+          anime: anime.slug,
+          reason: "rpc_error",
+        });
+        return;
+      }
+
+      const result = data as StartQuizResult;
+
+      if (!result.success) {
+        if (result.error_code === "rate_limited") {
+          // Reconcile the UX hint to the server-known count so the
+          // "X of Y remaining" line is accurate even if localStorage
+          // was tampered.
+          if (typeof result.count === "number") {
+            writeQuizHint(result.count);
+            setQuizzesUsedHint(result.count);
+          }
+          setLimitReached(true);
+          trackClientEvent("quiz_limit_hit", undefined, {
+            anime: anime.slug,
+          });
+          return;
+        }
+        // not_authenticated / internal — fail closed, surface upgrade UI.
+        setLimitReached(true);
+        return;
+      }
+
+      // Success: reconcile hint from server (Pro returns count too so the
+      // counter still rolls over correctly if they later downgrade).
+      if (typeof result.count === "number") {
+        writeQuizHint(result.count);
+        setQuizzesUsedHint(result.count);
+      }
+    } else if (!isPro) {
+      // Anonymous best-effort UX gate.
+      const used = readQuizHint();
+      if (used >= freeQuizLimit) {
+        setLimitReached(true);
+        trackClientEvent("quiz_limit_hit", undefined, { anime: anime.slug });
+        return;
+      }
+      writeQuizHint(used + 1);
+      setQuizzesUsedHint(used + 1);
+    }
+
     trackClientEvent("quiz_started", undefined, {
       anime: anime.slug,
       difficulty: localDifficulty,
@@ -175,9 +258,13 @@ const QuizClient = ({
   };
 
   const handlePlayAgain = async () => {
+    // Re-enter through the gate so a second quiz also consumes a slot.
+    // resetQuiz() flips state back to idle; handleStartQuiz() re-checks
+    // the server, then proceeds with the previously-chosen difficulty.
     const currentDifficulty = difficulty;
     resetQuiz();
-    await startQuiz(anime.slug, currentDifficulty, ageGroup);
+    setLocalDifficulty(currentDifficulty);
+    await handleStartQuiz();
   };
 
   const handleTryDifferentDifficulty = () => {
@@ -198,8 +285,7 @@ const QuizClient = ({
 
   // STATE 1 - Pre-quiz setup
   if (quizStatus === "idle" || quizStatus === "loading") {
-    const quizzesToday = typeof window !== "undefined" ? getQuizCountToday() : 0;
-    const remaining = Math.max(freeQuizLimit - quizzesToday, 0);
+    const remaining = Math.max(freeQuizLimit - quizzesUsedHint, 0);
 
     return (
       <div className="max-w-2xl mx-auto px-4 py-12">

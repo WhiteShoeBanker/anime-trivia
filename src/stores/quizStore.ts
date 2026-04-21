@@ -226,6 +226,21 @@ export const useQuizStore = create<QuizState & QuizActions>((set, get) => ({
     try {
       const supabase = createClient();
 
+      // Backstop: ask the server whether this user is currently entitled
+      // to record a quiz result. submit_quiz() rejects when the gating
+      // counter is in an impossible state (e.g., > free_quiz_limit), the
+      // single signature of a client that bypassed start_quiz. On
+      // rejection we abort BEFORE inserting quiz_session or awarding XP.
+      const { data: gateData, error: gateError } = await supabase.rpc(
+        "submit_quiz"
+      );
+      if (gateError || !gateData) {
+        // Server unreachable — fail closed, no XP.
+        return;
+      }
+      const gate = gateData as { success: boolean; error_code?: string };
+      if (!gate.success) return;
+
       const totalTimeMs = state.answers.reduce((sum, a) => sum + a.timeMs, 0);
 
       const { data: session, error: sessionError } = await supabase
