@@ -1,259 +1,231 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 
-// Track all calls to from() for assertion
-const mockFrom = vi.fn();
+// The client is a thin wrapper over supabase.rpc('redeem_promo_code', ...).
+// We mock at the network boundary (rpc) — per spec, we do NOT attempt to
+// reimplement or mock the Postgres function's logic in JS. Behavior of the
+// function itself is covered by supabase/tests/017_promo_redeem.test.sql.
+
+// vi.mock is hoisted above `const` declarations, so the mock factory
+// cannot close over module-scope vars. Use vi.hoisted to share refs.
+const { mockRpc, mockGetUser, mockTrack } = vi.hoisted(() => ({
+  mockRpc: vi.fn(),
+  mockGetUser: vi.fn(),
+  mockTrack: vi.fn(),
+}));
+
 vi.mock("@/lib/supabase/client", () => ({
-  createClient: () => ({ from: mockFrom }),
+  createClient: () => ({
+    rpc: mockRpc,
+    auth: { getUser: mockGetUser },
+  }),
+}));
+
+vi.mock("@/lib/track-actions", () => ({
+  trackPromoCodeRedeemed: mockTrack,
 }));
 
 import { redeemPromoCode } from "./promo-codes";
 
-// Build a chainable mock resolving to the given data/error
-const chain = (resolvedData: unknown, error?: unknown) => {
-  const builder: Record<string, unknown> = {};
-  const proxy: unknown = new Proxy(builder, {
-    get(_t, prop: string) {
-      if (prop === "then") {
-        return (resolve: (v: unknown) => void) =>
-          resolve({ data: resolvedData, error: error ?? null });
-      }
-      if (!builder[prop]) {
-        builder[prop] = vi.fn().mockReturnValue(proxy);
-      }
-      return builder[prop];
-    },
-  });
-  return proxy;
-};
-
-describe("redeemPromoCode", () => {
+describe("redeemPromoCode — client wrapper over RPC", () => {
   beforeEach(() => {
     vi.clearAllMocks();
+    mockGetUser.mockResolvedValue({ data: { user: null } });
   });
 
-  it("returns error for empty code", async () => {
-    const result = await redeemPromoCode("user-1", "   ");
-    expect(result.success).toBe(false);
-    if (!result.success) {
-      expect(result.error).toBe("Please enter a promo code.");
-    }
-  });
-
-  it("returns error for invalid/unknown code", async () => {
-    mockFrom.mockReturnValue(chain(null, { code: "PGRST116" }));
-
-    const result = await redeemPromoCode("user-1", "FAKECODE");
-    expect(result.success).toBe(false);
-    if (!result.success) {
-      expect(result.error).toBe("Code not found. Please check and try again.");
-    }
-  });
-
-  it("returns error for expired code", async () => {
-    const pastDate = new Date("2023-01-01").toISOString();
-    let callNum = 0;
-    mockFrom.mockImplementation(() => {
-      callNum++;
-      if (callNum === 1) {
-        // promo_codes lookup
-        return chain({
-          id: "promo-1",
-          code: "EXPIRED",
-          type: "pro_monthly",
-          max_uses: 100,
-          current_uses: 5,
-          expires_at: pastDate,
-          created_at: "2023-01-01",
-        });
+  describe("pre-RPC validation", () => {
+    it("rejects empty input without calling the RPC", async () => {
+      const result = await redeemPromoCode("   ");
+      expect(result.success).toBe(false);
+      expect(mockRpc).not.toHaveBeenCalled();
+      if (!result.success) {
+        expect(result.errorCode).toBe("invalid");
+        expect(result.error).toBe("Please enter a promo code.");
       }
-      return chain(null);
+    });
+  });
+
+  describe("RPC request shape", () => {
+    it("trims whitespace but passes the user's casing through to the RPC (the DB normalizes)", async () => {
+      mockRpc.mockResolvedValue({
+        data: {
+          success: true,
+          tier: "pro_monthly",
+          code_id: "abc",
+          expires_at: "2026-05-20T00:00:00Z",
+        },
+        error: null,
+      });
+
+      await redeemPromoCode("  otaku-abcd-efgh  ");
+
+      expect(mockRpc).toHaveBeenCalledWith("redeem_promo_code", {
+        p_code: "otaku-abcd-efgh",
+      });
+    });
+  });
+
+  describe("error_code → user message mapping", () => {
+    const cases: [string, string, string][] = [
+      ["invalid", "invalid", "That code isn't valid. Please check and try again."],
+      ["expired", "expired", "This code has expired."],
+      ["exhausted", "exhausted", "This code has already been fully redeemed."],
+      [
+        "already_redeemed",
+        "already_redeemed",
+        "You've already redeemed this code.",
+      ],
+      [
+        "already_pro",
+        "already_pro",
+        "You already have Pro — no need to redeem.",
+      ],
+      [
+        "unauthenticated",
+        "unauthenticated",
+        "Please sign in to redeem a code.",
+      ],
+    ];
+
+    it.each(cases)(
+      "error_code=%s surfaces the right user message",
+      async (_label, errorCode, expectedMessage) => {
+        mockRpc.mockResolvedValue({
+          data: { success: false, error_code: errorCode },
+          error: null,
+        });
+
+        const result = await redeemPromoCode("SOMECODE");
+        expect(result.success).toBe(false);
+        if (!result.success) {
+          expect(result.errorCode).toBe(errorCode);
+          expect(result.error).toBe(expectedMessage);
+        }
+      }
+    );
+
+    it("network/RPC error → internal message", async () => {
+      mockRpc.mockResolvedValue({
+        data: null,
+        error: { message: "db unreachable" },
+      });
+      const result = await redeemPromoCode("SOMECODE");
+      expect(result.success).toBe(false);
+      if (!result.success) {
+        expect(result.errorCode).toBe("internal");
+        expect(result.error).toBe("Something went wrong. Please try again.");
+      }
     });
 
-    const result = await redeemPromoCode("user-1", "EXPIRED");
-    expect(result.success).toBe(false);
-    if (!result.success) {
-      expect(result.error).toBe("This code has expired.");
-    }
+    it("unknown error_code from future DB version → falls back to internal message", async () => {
+      mockRpc.mockResolvedValue({
+        data: { success: false, error_code: "some_future_code" },
+        error: null,
+      });
+      const result = await redeemPromoCode("SOMECODE");
+      expect(result.success).toBe(false);
+      if (!result.success) {
+        expect(result.error).toBe("Something went wrong. Please try again.");
+      }
+    });
   });
 
-  it("returns error when code is maxed out", async () => {
-    let callNum = 0;
-    mockFrom.mockImplementation(() => {
-      callNum++;
-      if (callNum === 1) {
-        return chain({
-          id: "promo-2",
-          code: "MAXEDOUT",
-          type: "pro_monthly",
-          max_uses: 10,
-          current_uses: 10, // maxed
+  describe("success path", () => {
+    it("surfaces tier and expires_at from the RPC payload", async () => {
+      mockRpc.mockResolvedValue({
+        data: {
+          success: true,
+          tier: "pro_yearly",
+          code_id: "code-uuid-1",
+          expires_at: "2027-04-20T00:00:00.000Z",
+        },
+        error: null,
+      });
+
+      const result = await redeemPromoCode("GOODCODE");
+      expect(result.success).toBe(true);
+      if (result.success) {
+        expect(result.type).toBe("pro_yearly");
+        expect(result.expiresAt).toBe("2027-04-20T00:00:00.000Z");
+      }
+    });
+
+    it("lifetime: expires_at is null", async () => {
+      mockRpc.mockResolvedValue({
+        data: {
+          success: true,
+          tier: "pro_lifetime",
+          code_id: "code-uuid-2",
           expires_at: null,
-          created_at: "2024-01-01",
-        });
+        },
+        error: null,
+      });
+
+      const result = await redeemPromoCode("LIFETIME");
+      expect(result.success).toBe(true);
+      if (result.success) {
+        expect(result.expiresAt).toBeNull();
       }
-      return chain(null);
     });
 
-    const result = await redeemPromoCode("user-1", "MAXEDOUT");
-    expect(result.success).toBe(false);
-    if (!result.success) {
-      expect(result.error).toBe("This code has already been fully redeemed.");
-    }
-  });
+    it("fires analytics on success, using session userId (not a client-supplied one)", async () => {
+      mockRpc.mockResolvedValue({
+        data: {
+          success: true,
+          tier: "pro_monthly",
+          code_id: "code-uuid-3",
+          expires_at: "2026-05-20T00:00:00Z",
+        },
+        error: null,
+      });
+      mockGetUser.mockResolvedValue({
+        data: { user: { id: "session-user-99" } },
+      });
 
-  it("returns error when user already redeemed code", async () => {
-    let callNum = 0;
-    mockFrom.mockImplementation(() => {
-      callNum++;
-      if (callNum === 1) {
-        // promo_codes lookup
-        return chain({
-          id: "promo-3",
-          code: "ALREADYUSED",
-          type: "pro_monthly",
-          max_uses: 100,
-          current_uses: 5,
+      await redeemPromoCode("GOOD");
+      // Analytics is fire-and-forget — wait a microtask for the .then() chain
+      await new Promise((resolve) => setTimeout(resolve, 0));
+
+      expect(mockTrack).toHaveBeenCalledWith("session-user-99", {
+        code_type: "pro_monthly",
+        code_id: "code-uuid-3",
+      });
+    });
+
+    it("does not fire analytics when no session user is present", async () => {
+      mockRpc.mockResolvedValue({
+        data: {
+          success: true,
+          tier: "pro_monthly",
+          code_id: "code-uuid-4",
           expires_at: null,
-          created_at: "2024-01-01",
-        });
-      }
-      if (callNum === 2) {
-        // promo_redemptions check — user already redeemed
-        return chain({ id: "existing-redemption" });
-      }
-      return chain(null);
+        },
+        error: null,
+      });
+      mockGetUser.mockResolvedValue({ data: { user: null } });
+
+      await redeemPromoCode("GOOD");
+      await new Promise((resolve) => setTimeout(resolve, 0));
+
+      expect(mockTrack).not.toHaveBeenCalled();
     });
 
-    const result = await redeemPromoCode("user-1", "ALREADYUSED");
-    expect(result.success).toBe(false);
-    if (!result.success) {
-      expect(result.error).toBe("You've already redeemed this code.");
-    }
-  });
-
-  it("successfully redeems a valid monthly code", async () => {
-    let callNum = 0;
-    mockFrom.mockImplementation(() => {
-      callNum++;
-      if (callNum === 1) {
-        // promo_codes lookup
-        return chain({
-          id: "promo-valid",
-          code: "MONTHLY",
-          type: "pro_monthly",
-          max_uses: 100,
-          current_uses: 5,
+    it("analytics failure does not affect the returned result", async () => {
+      mockRpc.mockResolvedValue({
+        data: {
+          success: true,
+          tier: "pro_lifetime",
+          code_id: "code-uuid-5",
           expires_at: null,
-          created_at: "2024-01-01",
-        });
-      }
-      if (callNum === 2) {
-        // promo_redemptions check — not redeemed
-        return chain(null, { code: "PGRST116" });
-      }
-      // Remaining calls: insert redemption, update profile, update code
-      return chain(null);
+        },
+        error: null,
+      });
+      mockGetUser.mockResolvedValue({
+        data: { user: { id: "user-99" } },
+      });
+      mockTrack.mockRejectedValueOnce(new Error("analytics down"));
+
+      const result = await redeemPromoCode("GOOD");
+      expect(result.success).toBe(true);
     });
-
-    const result = await redeemPromoCode("user-1", "MONTHLY");
-    expect(result.success).toBe(true);
-    if (result.success) {
-      expect(result.type).toBe("pro_monthly");
-      expect(result.expiresAt).toBeTruthy();
-      // Check expiration is ~1 month from now
-      const expires = new Date(result.expiresAt!);
-      const now = new Date();
-      const diffDays = (expires.getTime() - now.getTime()) / (1000 * 60 * 60 * 24);
-      expect(diffDays).toBeGreaterThan(27);
-      expect(diffDays).toBeLessThan(32);
-    }
-  });
-
-  it("successfully redeems a valid yearly code", async () => {
-    let callNum = 0;
-    mockFrom.mockImplementation(() => {
-      callNum++;
-      if (callNum === 1) {
-        return chain({
-          id: "promo-yearly",
-          code: "YEARLY",
-          type: "pro_yearly",
-          max_uses: 50,
-          current_uses: 10,
-          expires_at: null,
-          created_at: "2024-01-01",
-        });
-      }
-      if (callNum === 2) {
-        return chain(null, { code: "PGRST116" });
-      }
-      return chain(null);
-    });
-
-    const result = await redeemPromoCode("user-1", "YEARLY");
-    expect(result.success).toBe(true);
-    if (result.success) {
-      expect(result.type).toBe("pro_yearly");
-      expect(result.expiresAt).toBeTruthy();
-      const expires = new Date(result.expiresAt!);
-      const now = new Date();
-      const diffDays = (expires.getTime() - now.getTime()) / (1000 * 60 * 60 * 24);
-      expect(diffDays).toBeGreaterThan(360);
-      expect(diffDays).toBeLessThan(370);
-    }
-  });
-
-  it("successfully redeems a lifetime code with null expiration", async () => {
-    let callNum = 0;
-    mockFrom.mockImplementation(() => {
-      callNum++;
-      if (callNum === 1) {
-        return chain({
-          id: "promo-lifetime",
-          code: "LIFETIME",
-          type: "pro_lifetime",
-          max_uses: 10,
-          current_uses: 2,
-          expires_at: null,
-          created_at: "2024-01-01",
-        });
-      }
-      if (callNum === 2) {
-        return chain(null, { code: "PGRST116" });
-      }
-      return chain(null);
-    });
-
-    const result = await redeemPromoCode("user-1", "LIFETIME");
-    expect(result.success).toBe(true);
-    if (result.success) {
-      expect(result.type).toBe("pro_lifetime");
-      expect(result.expiresAt).toBeNull();
-    }
-  });
-
-  it("trims and uppercases the input code", async () => {
-    let callNum = 0;
-    mockFrom.mockImplementation(() => {
-      callNum++;
-      if (callNum === 1) {
-        return chain({
-          id: "promo-trim",
-          code: "TRIMTEST",
-          type: "pro_monthly",
-          max_uses: 100,
-          current_uses: 0,
-          expires_at: null,
-          created_at: "2024-01-01",
-        });
-      }
-      if (callNum === 2) {
-        return chain(null, { code: "PGRST116" });
-      }
-      return chain(null);
-    });
-
-    const result = await redeemPromoCode("user-1", "  trimtest  ");
-    expect(result.success).toBe(true);
   });
 });

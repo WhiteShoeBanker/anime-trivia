@@ -1,5 +1,4 @@
 import { createClient } from "@/lib/supabase/server";
-import { createServiceClient } from "@/lib/supabase/service";
 import type {
   AnimeSeries,
   Question,
@@ -13,24 +12,16 @@ import type {
 
 // ── Anime Series ─────────────────────────────────────────────
 
-export const getAnimeList = async (
-  ageGroup?: AgeGroup
-): Promise<AnimeSeries[]> => {
-  // Use service client to bypass RLS — anime list is public data
-  // and this function is only called from Server Components
-  const supabase = createServiceClient();
-  let query = supabase
+export const getAnimeList = async (): Promise<AnimeSeries[]> => {
+  // Cookie-aware server client → RLS (migration 016) scopes anime_series
+  // to the viewer's age_group. Filtering is intentionally NOT done in
+  // userland: callers used to hardcode "full" and leak mature content.
+  const supabase = await createClient();
+  const { data, error } = await supabase
     .from("anime_series")
     .select("*")
-    .eq("is_active", true);
-
-  if (ageGroup === "junior") {
-    query = query.eq("content_rating", "E");
-  } else if (ageGroup === "teen") {
-    query = query.in("content_rating", ["E", "T"]);
-  }
-
-  const { data, error } = await query.order("title");
+    .eq("is_active", true)
+    .order("title");
 
   if (error) throw error;
   return data as AnimeSeries[];
@@ -39,15 +30,17 @@ export const getAnimeList = async (
 export const getAnimeBySlug = async (
   slug: string
 ): Promise<AnimeSeries | null> => {
-  // Use service client to bypass RLS — anime details are public data
-  const supabase = createServiceClient();
+  // Cookie-aware server client → RLS filters out anime the viewer is not
+  // permitted to see. Callers MUST treat null as "do not render anything
+  // that reveals the anime" — it covers both "not found" and "forbidden".
+  const supabase = await createClient();
   const { data, error } = await supabase
     .from("anime_series")
     .select("*")
     .eq("slug", slug)
-    .single();
+    .maybeSingle();
 
-  if (error && error.code !== "PGRST116") throw error;
+  if (error) throw error;
   return (data as AnimeSeries) ?? null;
 };
 

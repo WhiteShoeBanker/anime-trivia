@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState, useCallback } from "react";
+import Link from "next/link";
 import {
   Users,
   UserCheck,
@@ -10,6 +11,8 @@ import {
   TrendingUp,
   Swords,
   AlertTriangle,
+  Info,
+  Hourglass,
 } from "lucide-react";
 import {
   LineChart,
@@ -170,6 +173,13 @@ const AdminOverview = () => {
       icon: DollarSign,
       iconBg: "bg-emerald-500/10",
       iconColor: "text-emerald-400",
+    },
+    {
+      label: "Incomplete >24h",
+      value: stats.incompleteProfiles24h.toLocaleString(),
+      icon: Hourglass,
+      iconBg: "bg-sky-500/10",
+      iconColor: "text-sky-400",
     },
   ];
 
@@ -362,7 +372,10 @@ const AdminOverview = () => {
                       {signup.display_name ?? signup.username ?? "Anonymous"}
                     </td>
                     <td className="py-2.5 pr-4 text-sm text-slate-400">
-                      {AGE_GROUP_LABELS[signup.age_group] ?? signup.age_group}
+                      {signup.age_group
+                        ? (AGE_GROUP_LABELS[signup.age_group] ??
+                          signup.age_group)
+                        : "Incomplete"}
                     </td>
                     <td className="py-2.5 text-sm text-slate-400 text-right whitespace-nowrap">
                       {formatCreatedAt(signup.created_at)}
@@ -567,18 +580,47 @@ const AdminOverview = () => {
             })}
 
             {/* General alerts */}
-            {stats.alerts.map((alert, i) => (
-              <div
-                key={`alert-${i}`}
-                className="flex items-start gap-3 bg-yellow-500/10 border border-yellow-500/20 rounded-lg p-3"
-              >
-                <AlertTriangle
-                  size={18}
-                  className="text-yellow-400 mt-0.5 shrink-0"
-                />
-                <p className="text-sm text-yellow-200">{alert.message}</p>
-              </div>
-            ))}
+            {stats.alerts.map((alert, i) => {
+              const isInfo = alert.type === "info";
+              const containerClasses = isInfo
+                ? "bg-sky-500/10 border border-sky-500/20 hover:bg-sky-500/15"
+                : "bg-yellow-500/10 border border-yellow-500/20";
+              const textClass = isInfo ? "text-sky-200" : "text-yellow-200";
+              const Icon = isInfo ? Info : AlertTriangle;
+              const iconClass = isInfo
+                ? "text-sky-400 mt-0.5 shrink-0"
+                : "text-yellow-400 mt-0.5 shrink-0";
+
+              const body = (
+                <>
+                  <Icon size={18} className={iconClass} />
+                  <p className={`text-sm ${textClass} flex-1`}>
+                    {alert.message}
+                  </p>
+                </>
+              );
+
+              if (alert.href) {
+                return (
+                  <Link
+                    key={`alert-${i}`}
+                    href={alert.href}
+                    className={`flex items-start gap-3 rounded-lg p-3 transition-colors ${containerClasses}`}
+                  >
+                    {body}
+                  </Link>
+                );
+              }
+
+              return (
+                <div
+                  key={`alert-${i}`}
+                  className={`flex items-start gap-3 rounded-lg p-3 ${containerClasses}`}
+                >
+                  {body}
+                </div>
+              );
+            })}
 
             {/* No alerts state */}
             {stats.alerts.length === 0 &&

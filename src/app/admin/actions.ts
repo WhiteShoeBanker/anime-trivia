@@ -3,6 +3,7 @@
 import { createServiceClient } from "@/lib/supabase/service";
 import { invalidateConfig } from "@/lib/admin-config";
 import { trackEvent } from "@/lib/analytics";
+import { getIncompleteProfilesCount } from "@/lib/admin-metrics";
 
 const PRO_PRICE = 4.99;
 
@@ -16,6 +17,7 @@ export interface OverviewStats {
   quizzesToday: number;
   activeDuelsToday: number;
   estimatedMRR: number;
+  incompleteProfiles24h: number;
   dauSeries: { date: string; value: number }[];
   mauSeries: { date: string; value: number }[];
   signupsByAge: { date: string; junior: number; teen: number; full: number }[];
@@ -23,7 +25,7 @@ export interface OverviewStats {
     id: string;
     username: string | null;
     display_name: string | null;
-    age_group: string;
+    age_group: string | null;
     created_at: string;
   }[];
   topPlayers: {
@@ -34,7 +36,7 @@ export interface OverviewStats {
     rank: string;
     subscription_tier: string;
   }[];
-  alerts: { type: string; message: string }[];
+  alerts: { type: "warning" | "info"; message: string; href?: string }[];
 }
 
 export async function getOverviewStats(): Promise<OverviewStats> {
@@ -53,6 +55,7 @@ export async function getOverviewStats(): Promise<OverviewStats> {
     { data: allUsers },
     { count: activeDuels },
     { data: signupsAll30d },
+    incompleteProfiles24h,
   ] = await Promise.all([
     supabase.from("user_profiles").select("*", { count: "exact", head: true }).eq("subscription_tier", "pro"),
     supabase.from("user_profiles")
@@ -71,6 +74,7 @@ export async function getOverviewStats(): Promise<OverviewStats> {
     supabase.from("user_profiles")
       .select("age_group, created_at")
       .gte("created_at", thirtyDaysAgo.toISOString()),
+    getIncompleteProfilesCount(supabase, 24),
   ]);
 
   // Compute DAU/MAU series
@@ -147,7 +151,7 @@ export async function getOverviewStats(): Promise<OverviewStats> {
   const estimatedMRR = (proCount ?? 0) * PRO_PRICE;
 
   // Alerts
-  const alerts: { type: string; message: string }[] = [];
+  const alerts: OverviewStats["alerts"] = [];
   if (dau === 0 && quizzesToday === 0) {
     alerts.push({ type: "warning", message: "No activity today yet" });
   }
@@ -156,11 +160,19 @@ export async function getOverviewStats(): Promise<OverviewStats> {
   if (yesterdayDau > 0 && dau < yesterdayDau * 0.5) {
     alerts.push({ type: "warning", message: `DAU dropped ${Math.round((1 - dau / yesterdayDau) * 100)}% vs yesterday` });
   }
+  if (incompleteProfiles24h > 0) {
+    alerts.push({
+      type: "info",
+      message: `${incompleteProfiles24h} ${incompleteProfiles24h === 1 ? "user is" : "users are"} stuck in age verification (>24h old)`,
+      href: "/admin/users?filter=incomplete",
+    });
+  }
 
   return {
     dau, mau, stickiness, newSignupsToday, quizzesToday,
     activeDuelsToday: activeDuels ?? 0,
     estimatedMRR,
+    incompleteProfiles24h,
     dauSeries, mauSeries, signupsByAge,
     recentSignups: (recentSignups ?? []) as OverviewStats["recentSignups"],
     topPlayers: (topPlayers ?? []) as OverviewStats["topPlayers"],
@@ -181,7 +193,7 @@ export interface UsersListResult {
     current_streak: number;
     subscription_tier: string;
     subscription_source: string;
-    age_group: string;
+    age_group: string | null;
     is_junior: boolean;
     created_at: string;
     last_played_at: string | null;
@@ -224,6 +236,8 @@ export async function getUsersList(
     query = query.eq("age_group", "teen");
   } else if (filter === "admin_grant") {
     query = query.eq("subscription_source", "admin_grant");
+  } else if (filter === "incomplete") {
+    query = query.is("age_group", null);
   }
 
   const { data, count } = await query

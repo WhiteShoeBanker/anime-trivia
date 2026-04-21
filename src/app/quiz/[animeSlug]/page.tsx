@@ -20,8 +20,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     // DB not available
   }
 
+  // Neutral when anime is null — covers both "slug does not exist" and
+  // "RLS filtered this anime out of the viewer's session" uniformly.
+  // Do NOT return the anime's real title: that would leak M-rated titles
+  // into the <title> tag for junior/teen sessions.
   if (!anime) {
-    return { title: "Quiz Not Found" };
+    return { title: "OtakuQuiz" };
   }
 
   return {

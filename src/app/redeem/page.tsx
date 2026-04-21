@@ -31,7 +31,7 @@ const RedeemPage = () => {
     setState("submitting");
     setErrorMsg("");
 
-    const result = await redeemPromoCode(user.id, code);
+    const result = await redeemPromoCode(code);
 
     if (result.success) {
       setSuccessType(result.type);

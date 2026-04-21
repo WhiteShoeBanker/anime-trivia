@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { createServerClient } from "@supabase/ssr";
+import { profileNeedsCompletion } from "@/lib/profile-completeness";
 
 const PROTECTED_ROUTES = ["/profile", "/leagues", "/badges", "/stats", "/grand-prix", "/duels"];
 
@@ -41,11 +42,11 @@ export async function middleware(request: NextRequest) {
       return NextResponse.redirect(new URL("/auth", request.url));
     }
 
-    // Profile completeness check. Fail-open: only redirect when we positively
-    // observe a profile row with a null age_group. Query errors, missing rows,
-    // or transient failures must not trap authenticated users in a redirect
-    // loop — the /auth page itself guards against showing the age gate to
-    // users who already completed it.
+    // Profile completeness check. Authoritative rule in profileNeedsCompletion:
+    //   null age_group or missing row → redirect to age gate.
+    //   query error → fail open (don't trap users during Supabase outages).
+    // The /auth page itself guards against showing the age gate to users who
+    // already completed it.
     if (user && !pathname.startsWith("/auth")) {
       const { data: profile, error: profileError } = await supabase
         .from("user_profiles")
@@ -53,7 +54,7 @@ export async function middleware(request: NextRequest) {
         .eq("id", user.id)
         .maybeSingle();
 
-      if (!profileError && profile && !profile.age_group) {
+      if (profileNeedsCompletion(profile, !!profileError)) {
         return NextResponse.redirect(
           new URL("/auth?complete_profile=true", request.url)
         );

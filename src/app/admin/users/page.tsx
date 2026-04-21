@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback, useRef } from "react";
+import { useSearchParams } from "next/navigation";
 import {
   Search,
   Download,
@@ -34,7 +35,24 @@ type SortKey = keyof Pick<
   | "last_played_at"
 >;
 type SortDir = "asc" | "desc";
-type FilterTab = "all" | "pro" | "junior" | "teen" | "churned" | "admin_grant";
+type FilterTab =
+  | "all"
+  | "pro"
+  | "junior"
+  | "teen"
+  | "incomplete"
+  | "churned"
+  | "admin_grant";
+
+const VALID_FILTERS: FilterTab[] = [
+  "all",
+  "pro",
+  "junior",
+  "teen",
+  "incomplete",
+  "churned",
+  "admin_grant",
+];
 
 const RANK_COLORS: Record<string, string> = {
   Genin: "bg-slate-600 text-slate-200",
@@ -63,6 +81,7 @@ const FILTER_TABS: { key: FilterTab; label: string }[] = [
   { key: "pro", label: "Pro" },
   { key: "junior", label: "Junior" },
   { key: "teen", label: "Teen" },
+  { key: "incomplete", label: "Incomplete" },
   { key: "churned", label: "Churned" },
   { key: "admin_grant", label: "Admin Grant" },
 ];
@@ -121,7 +140,7 @@ const generateCSV = (users: UserRow[], statsMap: Record<string, DuelStats>): str
     return [
       u.username ?? "",
       u.display_name ?? "",
-      u.age_group,
+      u.age_group ?? "incomplete",
       u.rank,
       String(u.total_xp),
       String(u.current_streak),
@@ -152,10 +171,18 @@ const generateCSV = (users: UserRow[], statsMap: Record<string, DuelStats>): str
 type DuelStats = { wins: number; losses: number; draws: number };
 
 const AdminUsersPage = () => {
+  const searchParams = useSearchParams();
+  const initialFilter = ((): FilterTab => {
+    const raw = searchParams.get("filter");
+    return raw && (VALID_FILTERS as string[]).includes(raw)
+      ? (raw as FilterTab)
+      : "all";
+  })();
+
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState("");
   const [debouncedSearch, setDebouncedSearch] = useState("");
-  const [filter, setFilter] = useState<FilterTab>("all");
+  const [filter, setFilter] = useState<FilterTab>(initialFilter);
   const [sortKey, setSortKey] = useState<SortKey>("created_at");
   const [sortDir, setSortDir] = useState<SortDir>("desc");
   const [loading, setLoading] = useState(true);
@@ -423,7 +450,9 @@ const AdminUsersPage = () => {
                         {user.display_name ?? "\u2014"}
                       </td>
                       <td className="px-4 py-3 text-slate-300 whitespace-nowrap">
-                        {user.age_group}
+                        {user.age_group ?? (
+                          <span className="text-sky-400">Incomplete</span>
+                        )}
                       </td>
                       <td className="px-4 py-3 whitespace-nowrap">
                         <span

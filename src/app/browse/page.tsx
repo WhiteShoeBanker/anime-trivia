@@ -13,8 +13,8 @@ export default async function BrowsePage() {
   let animeList: AnimeSeries[] = [];
 
   try {
-    // Fetch all anime — client-side filtering handles age restrictions
-    animeList = await getAnimeList("full");
+    // RLS scopes the list to what this session is permitted to see.
+    animeList = await getAnimeList();
     // TODO: remove after confirming browse page works
     console.log("[BrowsePage] fetched anime count:", animeList.length);
   } catch (err) {

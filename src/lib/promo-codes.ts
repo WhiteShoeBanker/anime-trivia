@@ -1,6 +1,15 @@
 import { createClient } from "@/lib/supabase/client";
 import { trackPromoCodeRedeemed } from "@/lib/track-actions";
-import type { PromoCode, PromoCodeType } from "@/types";
+import type { PromoCodeType } from "@/types";
+
+export type RedeemErrorCode =
+  | "invalid"
+  | "expired"
+  | "exhausted"
+  | "already_redeemed"
+  | "already_pro"
+  | "unauthenticated"
+  | "internal";
 
 interface RedeemSuccess {
   success: true;
@@ -11,113 +20,96 @@ interface RedeemSuccess {
 interface RedeemError {
   success: false;
   error: string;
+  errorCode: RedeemErrorCode;
 }
 
 type RedeemResult = RedeemSuccess | RedeemError;
 
-const getProExpiration = (type: PromoCodeType): string | null => {
-  const now = new Date();
-  switch (type) {
-    case "pro_monthly":
-      now.setMonth(now.getMonth() + 1);
-      return now.toISOString();
-    case "pro_yearly":
-      now.setFullYear(now.getFullYear() + 1);
-      return now.toISOString();
-    case "pro_lifetime":
-      return null;
-  }
+// One canonical mapping from machine error_code → user-facing string.
+// Keep in sync with the error_code values returned by the
+// redeem_promo_code() PL/pgSQL function (migration 017).
+const ERROR_MESSAGES: Record<RedeemErrorCode, string> = {
+  invalid: "That code isn't valid. Please check and try again.",
+  expired: "This code has expired.",
+  exhausted: "This code has already been fully redeemed.",
+  already_redeemed: "You've already redeemed this code.",
+  already_pro: "You already have Pro — no need to redeem.",
+  unauthenticated: "Please sign in to redeem a code.",
+  internal: "Something went wrong. Please try again.",
 };
 
+interface RpcSuccessPayload {
+  success: true;
+  tier: PromoCodeType;
+  code_id: string;
+  expires_at: string | null;
+}
+
+interface RpcErrorPayload {
+  success: false;
+  error_code: RedeemErrorCode;
+}
+
+type RpcPayload = RpcSuccessPayload | RpcErrorPayload;
+
 export const redeemPromoCode = async (
-  userId: string,
   codeString: string
 ): Promise<RedeemResult> => {
-  const supabase = createClient();
-  const trimmed = codeString.trim().toUpperCase();
+  const trimmed = codeString.trim();
 
   if (!trimmed) {
-    return { success: false, error: "Please enter a promo code." };
+    return {
+      success: false,
+      error: "Please enter a promo code.",
+      errorCode: "invalid",
+    };
   }
 
-  // 1. Look up the code
-  const { data: codeData, error: codeError } = await supabase
-    .from("promo_codes")
-    .select("*")
-    .eq("code", trimmed)
-    .single();
+  const supabase = createClient();
 
-  if (codeError || !codeData) {
-    return { success: false, error: "Code not found. Please check and try again." };
+  // Single atomic call. The RPC locks the promo_codes row, validates,
+  // inserts the redemption, bumps current_uses, and upgrades the user
+  // profile — all in one transaction running as the function owner.
+  const { data, error } = await supabase.rpc("redeem_promo_code", {
+    p_code: trimmed,
+  });
+
+  if (error || data == null) {
+    return {
+      success: false,
+      error: ERROR_MESSAGES.internal,
+      errorCode: "internal",
+    };
   }
 
-  const promo = codeData as PromoCode;
+  const payload = data as RpcPayload;
 
-  // 2. Check expiration
-  if (promo.expires_at && new Date(promo.expires_at) < new Date()) {
-    return { success: false, error: "This code has expired." };
+  if (!payload.success) {
+    const code: RedeemErrorCode = payload.error_code ?? "internal";
+    return {
+      success: false,
+      error: ERROR_MESSAGES[code] ?? ERROR_MESSAGES.internal,
+      errorCode: code,
+    };
   }
 
-  // 3. Check max uses
-  if (promo.current_uses >= promo.max_uses) {
-    return { success: false, error: "This code has already been fully redeemed." };
-  }
-
-  // 4. Check if user already redeemed this code
-  const { data: existing } = await supabase
-    .from("promo_redemptions")
-    .select("id")
-    .eq("user_id", userId)
-    .eq("promo_code_id", promo.id)
-    .single();
-
-  if (existing) {
-    return { success: false, error: "You've already redeemed this code." };
-  }
-
-  // 5. Calculate expiration date
-  const expiresAt = getProExpiration(promo.type);
-
-  // 6. Insert redemption
-  const { error: redemptionError } = await supabase
-    .from("promo_redemptions")
-    .insert({
-      user_id: userId,
-      promo_code_id: promo.id,
-    });
-
-  if (redemptionError) {
-    return { success: false, error: "Something went wrong. Please try again." };
-  }
-
-  // 7. Update user profile to pro
-  const { error: profileError } = await supabase
-    .from("user_profiles")
-    .update({
-      subscription_tier: "pro",
-      subscription_source: "promo_code",
-      pro_expires_at: expiresAt,
+  // Fire-and-forget analytics. Derive userId from the session, not a client
+  // parameter — caller shouldn't be trusted with identity on a Pro grant.
+  supabase.auth
+    .getUser()
+    .then(({ data: { user } }) => {
+      if (user) {
+        trackPromoCodeRedeemed(user.id, {
+          code_type: payload.tier,
+          code_id: payload.code_id,
+        }).catch(() => {});
+      }
     })
-    .eq("id", userId);
-
-  if (profileError) {
-    return { success: false, error: "Something went wrong. Please try again." };
-  }
-
-  // 8. Increment code uses
-  await supabase
-    .from("promo_codes")
-    .update({ current_uses: promo.current_uses + 1 })
-    .eq("id", promo.id);
-
-  trackPromoCodeRedeemed(userId, {
-    code_type: promo.type,
-    code_id: promo.id,
-  }).catch(() => {});
+    .catch(() => {});
 
   return {
     success: true,
-    type: promo.type,
-    expiresAt,
+    type: payload.tier,
+    expiresAt: payload.expires_at,
   };
 };
