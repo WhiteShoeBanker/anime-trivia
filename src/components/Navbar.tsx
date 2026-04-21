@@ -54,8 +54,10 @@ const Navbar = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [emblem, setEmblem] = useState<Badge | null>(null);
   const [pendingDuelCount, setPendingDuelCount] = useState(0);
-  const { user, profile, ageGroup, signOut } = useAuth();
+  const { user, profile, ageGroup, signOut, forceSignOut } = useAuth();
   const reducedMotion = useReducedMotion();
+  const [signOutError, setSignOutError] = useState<string | null>(null);
+  const [signOutAttempts, setSignOutAttempts] = useState(0);
 
   // Fetch emblem when user/profile changes
   useEffect(() => {
@@ -92,8 +94,21 @@ const Navbar = () => {
   };
 
   const handleSignOut = async () => {
-    await signOut();
+    setSignOutError(null);
+    const { error } = await signOut();
+    if (error) {
+      setSignOutError(error);
+      setSignOutAttempts((n) => n + 1);
+      return;
+    }
+    setSignOutAttempts(0);
     router.push("/");
+  };
+
+  const handleForceSignOut = async () => {
+    setSignOutError(null);
+    await forceSignOut();
+    // forceSignOut hard-reloads the page; this line shouldn't run.
   };
 
   const displayInitial =
@@ -308,6 +323,51 @@ const Navbar = () => {
                   </button>
                 )}
               </motion.div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Sign-out failure overlay. Surfaces server-side signOut errors and
+          offers a force-sign-out path after a second failed attempt — never
+          show a fake logged-out UI when the cookies might still be valid. */}
+      <AnimatePresence>
+        {signOutError && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[60] bg-black/60 flex items-center justify-center p-4"
+            role="alertdialog"
+            aria-labelledby="signout-error-title"
+          >
+            <div className="bg-surface border border-accent/30 rounded-2xl p-6 max-w-sm w-full">
+              <h3 id="signout-error-title" className="text-lg font-bold mb-2">
+                Couldn&apos;t sign you out
+              </h3>
+              <p className="text-sm text-white/70 mb-4">{signOutError}</p>
+              <div className="flex flex-col gap-2">
+                <button
+                  onClick={handleSignOut}
+                  className="px-4 py-2 text-sm font-semibold rounded-lg bg-primary text-white hover:bg-primary/90 transition-colors min-h-[44px]"
+                >
+                  Try Again
+                </button>
+                {signOutAttempts >= 2 && (
+                  <button
+                    onClick={handleForceSignOut}
+                    className="px-4 py-2 text-sm font-semibold rounded-lg bg-accent text-white hover:bg-accent/90 transition-colors min-h-[44px]"
+                  >
+                    Force Sign Out (reload page)
+                  </button>
+                )}
+                <button
+                  onClick={() => setSignOutError(null)}
+                  className="px-4 py-2 text-sm font-semibold rounded-lg bg-white/10 text-white hover:bg-white/20 transition-colors min-h-[44px]"
+                >
+                  Cancel
+                </button>
+              </div>
             </div>
           </motion.div>
         )}

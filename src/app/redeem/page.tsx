@@ -31,15 +31,28 @@ const RedeemPage = () => {
     setState("submitting");
     setErrorMsg("");
 
-    const result = await redeemPromoCode(code);
+    // Wrap the entire flow so any throw/hang exits the "Redeeming" state.
+    // Prior bug: an uncaught throw in redeemPromoCode (e.g. transient network
+    // failure or auth client error) left the button frozen at "Redeeming"
+    // because no setState ran. Try/catch + a bounded refreshProfile keeps
+    // the button responsive even if Supabase or AuthContext misbehaves.
+    try {
+      const result = await redeemPromoCode(code);
 
-    if (result.success) {
-      setSuccessType(result.type);
-      setExpiresAt(result.expiresAt);
-      setState("success");
-      await refreshProfile();
-    } else {
-      setErrorMsg(result.error);
+      if (result.success) {
+        setSuccessType(result.type);
+        setExpiresAt(result.expiresAt);
+        setState("success");
+        // refreshProfile is internally bounded (~8s) and never throws.
+        // Don't await — let the success UI render immediately. Profile
+        // refresh races in the background; navigating away is fine too.
+        refreshProfile().catch(() => {});
+      } else {
+        setErrorMsg(result.error);
+        setState("error");
+      }
+    } catch {
+      setErrorMsg("Something went wrong. Please try again.");
       setState("error");
     }
   };

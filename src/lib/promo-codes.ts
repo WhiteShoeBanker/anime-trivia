@@ -70,9 +70,18 @@ export const redeemPromoCode = async (
   // Single atomic call. The RPC locks the promo_codes row, validates,
   // inserts the redemption, bumps current_uses, and upgrades the user
   // profile — all in one transaction running as the function owner.
-  const { data, error } = await supabase.rpc("redeem_promo_code", {
-    p_code: trimmed,
-  });
+  // Wrap in try/catch so a transport-layer throw (auth client misconfig,
+  // offline, etc.) returns a structured error instead of rejecting — the
+  // redeem page used to freeze its loading state on rejection.
+  let data: unknown;
+  let error: unknown;
+  try {
+    const result = await supabase.rpc("redeem_promo_code", { p_code: trimmed });
+    data = result.data;
+    error = result.error;
+  } catch (e) {
+    error = e;
+  }
 
   if (error || data == null) {
     return {

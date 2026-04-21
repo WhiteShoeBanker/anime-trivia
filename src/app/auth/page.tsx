@@ -145,31 +145,31 @@ const AuthPageContent = () => {
           return;
         }
 
+        // Profile fields go through options.data → raw_user_meta_data, where
+        // the handle_new_user trigger reads them and inserts a complete
+        // user_profiles row in the same transaction. No second round-trip,
+        // no "session not yet ready" race, no silent loss on email-confirm.
+        const signUpMetadata: Record<string, unknown> = {};
+        if (ageData) {
+          signUpMetadata.birth_year = ageData.birthYear;
+          signUpMetadata.age_group = ageData.ageGroup;
+          if (parentEmail) signUpMetadata.parent_email = parentEmail;
+          if (isJunior && username) signUpMetadata.username = username;
+        }
+
         const { error: signUpError } = await supabase.auth.signUp({
           email,
           password,
-          options: { emailRedirectTo: redirectTo },
+          options: {
+            emailRedirectTo: redirectTo,
+            data: signUpMetadata,
+          },
         });
 
         if (signUpError) {
           setError(signUpError.message);
           setIsSubmitting(false);
           return;
-        }
-
-        // Update profile with age data
-        if (ageData) {
-          const result = await updateProfileAfterSignup({
-            birthYear: ageData.birthYear,
-            ageGroup: ageData.ageGroup,
-            parentEmail: parentEmail || undefined,
-            username: isJunior ? username : undefined,
-          });
-          if (result.error) {
-            setError(result.error);
-            setIsSubmitting(false);
-            return;
-          }
         }
 
         await refreshProfile();
@@ -204,7 +204,22 @@ const AuthPageContent = () => {
     }
 
     setIsSubmitting(true);
-    const { error } = await supabase.auth.signInWithOtp({ phone });
+
+    // Same trigger-based path as email signup: hand age data to Supabase via
+    // options.data so handle_new_user can populate it atomically. For sign-in
+    // (existing user), the metadata is ignored — the trigger only fires on
+    // user creation.
+    const otpMetadata: Record<string, unknown> = {};
+    if (mode === "sign-up" && ageData) {
+      otpMetadata.birth_year = ageData.birthYear;
+      otpMetadata.age_group = ageData.ageGroup;
+      if (parentEmail) otpMetadata.parent_email = parentEmail;
+    }
+
+    const { error } = await supabase.auth.signInWithOtp({
+      phone,
+      options: { data: otpMetadata },
+    });
     setIsSubmitting(false);
 
     if (error) {
@@ -243,14 +258,8 @@ const AuthPageContent = () => {
       return;
     }
 
-    if (mode === "sign-up" && ageData) {
-      await updateProfileAfterSignup({
-        birthYear: ageData.birthYear,
-        ageGroup: ageData.ageGroup,
-        parentEmail: parentEmail || undefined,
-      });
-    }
-
+    // Profile is already populated by handle_new_user from the metadata we
+    // passed at signInWithOtp time. No second round-trip needed.
     await refreshProfile();
     setIsSubmitting(false);
     router.push("/browse");
