@@ -55,9 +55,16 @@ using Capacitor.
   ANBU(5000), Kage(10000), Hokage(25000) XP thresholds
 
 ## Testing
-- Vitest for unit tests
-- Test files co-located: Component.test.tsx near Component.tsx
-- Thoroughly test scoring logic and quiz state transitions
+- **Unit tests**: Vitest. Co-located *.test.tsx / *.test.ts files under src/.
+- **E2E tests**: Playwright. .spec.ts files under e2e/ (never .test.ts — that
+  extension belongs to Vitest, and vitest.config.ts excludes **/e2e/**).
+- **Selectors**: always getByRole / getByLabel / getByText. Never CSS selectors.
+- **Test accounts**: e2e-junior@otakuquiz.test, e2e-teen@otakuquiz.test,
+  e2e-full@otakuquiz.test (password E2ETestPass123!) — one per age tier.
+- **Seed/reset**: e2e/fixtures/seed-users.ts. Run seedUsers() once to create
+  the accounts, resetUsers() before any stateful test to restore the baseline
+  (daily_quiz_count=0, subscription_tier='free', current_streak=0).
+- Thoroughly test scoring logic and quiz state transitions.
 
 ## Git Conventions
 - Conventional commits: feat:, fix:, refactor:, test:, docs:
