@@ -2,8 +2,17 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { createServerClient } from "@supabase/ssr";
 import { profileNeedsCompletion } from "@/lib/profile-completeness";
+import {
+  NEXT_PUBLIC_SUPABASE_URL,
+  NEXT_PUBLIC_SUPABASE_ANON_KEY,
+} from "@/lib/env/client-env";
+import { ADMIN_EMAILS } from "@/lib/env/server-env";
 
 const PROTECTED_ROUTES = ["/profile", "/leagues", "/badges", "/stats", "/grand-prix", "/duels"];
+
+// Matches the body of Next's default 404 page closely enough that an
+// unauthorized /admin URL is indistinguishable from a non-existent route.
+const notFoundResponse = () => new NextResponse("Not Found", { status: 404 });
 
 export async function middleware(request: NextRequest) {
   const response = NextResponse.next();
@@ -12,8 +21,8 @@ export async function middleware(request: NextRequest) {
 
   try {
     const supabase = createServerClient(
-      process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+      NEXT_PUBLIC_SUPABASE_URL,
+      NEXT_PUBLIC_SUPABASE_ANON_KEY,
       {
         cookies: {
           getAll() {
@@ -64,19 +73,15 @@ export async function middleware(request: NextRequest) {
     // Supabase unavailable — continue without auth
   }
 
-  // Admin route guard
+  // Admin route guard. ADMIN_EMAILS unset is a valid state meaning
+  // "no admin access"; in that case every /admin URL returns 404,
+  // identical to the response a non-allowlisted user gets.
   if (request.nextUrl.pathname.startsWith("/admin")) {
-    const adminEmails = (process.env.ADMIN_EMAILS ?? "")
-      .split(",")
-      .map((e) => e.trim())
-      .filter(Boolean);
-
-    if (adminEmails.length === 0) {
-      return NextResponse.rewrite(new URL("/__admin_guard", request.url));
+    if (ADMIN_EMAILS.length === 0) {
+      return notFoundResponse();
     }
-
-    if (!user || !adminEmails.includes(user.email ?? "")) {
-      return NextResponse.rewrite(new URL("/__admin_guard", request.url));
+    if (!user || !ADMIN_EMAILS.includes((user.email ?? "").toLowerCase())) {
+      return notFoundResponse();
     }
   }
 
