@@ -26,14 +26,11 @@ export const fetchDailyChallengeQuestions = async (
   const { data: animeList } = await animeQuery;
   if (!animeList || animeList.length === 0) return [];
 
-  // Shuffle anime to spread questions across series
-  const shuffledAnime = [...animeList];
-  for (let i = shuffledAnime.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [shuffledAnime[i], shuffledAnime[j]] = [shuffledAnime[j], shuffledAnime[i]];
-  }
+  const allowedAnimeIds = (animeList as Array<{ id: string }>).map((a) => a.id);
 
-  // Mix of difficulties from admin config
+  // TODO(daily-bug-4): daily_challenge_mix is a single admin_config value
+  // applied to all age groups. Junior spec calls for 5E+5M; add an
+  // age-keyed override when that requirement lands.
   const mixConfig = await getDailyChallengeMix();
   const difficultyMix: Array<{ difficulty: string; count: number }> = Object.entries(
     mixConfig
@@ -45,7 +42,8 @@ export const fetchDailyChallengeQuestions = async (
     let questionsQuery = supabase
       .from("questions")
       .select("*")
-      .eq("difficulty", difficulty);
+      .eq("difficulty", difficulty)
+      .in("anime_id", allowedAnimeIds);
 
     if (ageGroup === "junior") {
       questionsQuery = questionsQuery.eq("kid_safe", true);
@@ -166,7 +164,12 @@ export const saveDailyChallengeResult = async (
     })
     .eq("id", userId);
 
-  // Update total XP and rank
+  // TODO(daily-bug-2): streak is idempotent on same-day repeat calls
+  // (priorDate === today branch above) but total_xp is not — xpEarned
+  // is re-added on every call. Combined with the purely-client-side
+  // "already played" gate in DailyContent.tsx, this is a double-play
+  // exploit surface. Guard on priorDate === today before the XP update.
+  // Fix scheduled for Session 4D.
   const { data: profile } = await supabase
     .from("user_profiles")
     .select("total_xp")
