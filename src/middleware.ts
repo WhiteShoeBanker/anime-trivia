@@ -8,14 +8,29 @@ import {
 } from "@/lib/env/client-env";
 import { ADMIN_EMAILS } from "@/lib/env/server-env";
 
-const PROTECTED_ROUTES = ["/profile", "/leagues", "/badges", "/stats", "/grand-prix", "/duels"];
+// Routes reachable without an authenticated session. Everything else redirects
+// to /auth. The matcher already excludes _next/static, _next/image, favicon,
+// and image asset extensions, so this list only governs application routes.
+const PUBLIC_PATHS = ["/", "/privacy"];
+const PUBLIC_PREFIXES = ["/auth", "/api/", "/_next/"];
+
+const isPublicPath = (pathname: string): boolean => {
+  if (PUBLIC_PATHS.includes(pathname)) return true;
+  return PUBLIC_PREFIXES.some(
+    (prefix) => pathname === prefix.replace(/\/$/, "") || pathname.startsWith(prefix)
+  );
+};
 
 // Matches the body of Next's default 404 page closely enough that an
 // unauthorized /admin URL is indistinguishable from a non-existent route.
 const notFoundResponse = () => new NextResponse("Not Found", { status: 404 });
 
 export async function middleware(request: NextRequest) {
-  const response = NextResponse.next();
+  // Canonical @supabase/ssr Next.js middleware pattern: build a single
+  // response that wraps `request`, and propagate refreshed Supabase cookies
+  // to BOTH request.cookies (so downstream Server Components see them via
+  // next/headers) and the outgoing response (so the browser persists them).
+  let supabaseResponse = NextResponse.next({ request });
 
   let user = null;
 
@@ -29,8 +44,12 @@ export async function middleware(request: NextRequest) {
             return request.cookies.getAll();
           },
           setAll(cookiesToSet) {
+            cookiesToSet.forEach(({ name, value }) => {
+              request.cookies.set(name, value);
+            });
+            supabaseResponse = NextResponse.next({ request });
             cookiesToSet.forEach(({ name, value, options }) => {
-              response.cookies.set(name, value, options);
+              supabaseResponse.cookies.set(name, value, options);
             });
           },
         },
@@ -41,13 +60,10 @@ export async function middleware(request: NextRequest) {
     const { data } = await supabase.auth.getUser();
     user = data.user;
 
-    // Protected routes: require auth
     const pathname = request.nextUrl.pathname;
-    const isProtected = PROTECTED_ROUTES.some((route) =>
-      pathname.startsWith(route)
-    );
 
-    if (isProtected && !user) {
+    // Auth-required by default: any non-public route requires a session.
+    if (!user && !isPublicPath(pathname)) {
       return NextResponse.redirect(new URL("/auth", request.url));
     }
 
@@ -85,7 +101,7 @@ export async function middleware(request: NextRequest) {
     }
   }
 
-  return response;
+  return supabaseResponse;
 }
 
 export const config = {
