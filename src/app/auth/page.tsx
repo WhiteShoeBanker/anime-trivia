@@ -173,6 +173,8 @@ const AuthPageContent = () => {
         }
 
         await refreshProfile();
+        // Purge the Router Cache's 307→/auth entries cached from Navbar's pre-auth Link prefetches.
+        router.refresh();
         router.push("/browse");
       } else {
         const { error: signInError } = await supabase.auth.signInWithPassword({
@@ -187,6 +189,8 @@ const AuthPageContent = () => {
         }
 
         await refreshProfile();
+        // Purge the Router Cache's 307→/auth entries cached from Navbar's pre-auth Link prefetches.
+        router.refresh();
         router.push("/browse");
       }
     } catch {
@@ -262,6 +266,8 @@ const AuthPageContent = () => {
     // passed at signInWithOtp time. No second round-trip needed.
     await refreshProfile();
     setIsSubmitting(false);
+    // Purge the Router Cache's 307→/auth entries cached from Navbar's pre-auth Link prefetches.
+    router.refresh();
     router.push("/browse");
   };
 
