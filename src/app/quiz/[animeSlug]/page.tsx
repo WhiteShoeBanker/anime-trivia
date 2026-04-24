@@ -23,9 +23,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   // Neutral when anime is null — covers both "slug does not exist" and
   // "RLS filtered this anime out of the viewer's session" uniformly.
   // Do NOT return the anime's real title: that would leak M-rated titles
-  // into the <title> tag for junior/teen sessions.
+  // into the <title> tag for junior/teen sessions. `absolute` bypasses
+  // the root layout's "%s | OtakuQuiz" template so the rendered <title>
+  // is just "OtakuQuiz", not "OtakuQuiz | OtakuQuiz".
   if (!anime) {
-    return { title: "OtakuQuiz" };
+    return { title: { absolute: "OtakuQuiz" } };
   }
 
   return {

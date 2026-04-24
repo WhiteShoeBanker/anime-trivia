@@ -59,7 +59,7 @@ describe("generateMetadata — no title leak for RLS-filtered anime", () => {
     const serialized = JSON.stringify(metadata);
     expect(serialized).not.toContain("Death Note");
     expect(serialized).not.toContain("death-note");
-    expect(metadata.title).toBe("OtakuQuiz");
+    expect(metadata.title).toEqual({ absolute: "OtakuQuiz" });
     expect(metadata.description).toBeUndefined();
   });
 
@@ -78,7 +78,7 @@ describe("generateMetadata — no title leak for RLS-filtered anime", () => {
     const metadata = await generateMetadata({
       params: Promise.resolve({ animeSlug: "no-such-thing" }),
     });
-    expect(metadata.title).toBe("OtakuQuiz");
+    expect(metadata.title).toEqual({ absolute: "OtakuQuiz" });
   });
 
   it("DB error → neutral metadata, does not crash or throw", async () => {
@@ -94,6 +94,6 @@ describe("generateMetadata — no title leak for RLS-filtered anime", () => {
     const metadata = await generateMetadata({
       params: Promise.resolve({ animeSlug: "death-note" }),
     });
-    expect(metadata.title).toBe("OtakuQuiz");
+    expect(metadata.title).toEqual({ absolute: "OtakuQuiz" });
   });
 });
