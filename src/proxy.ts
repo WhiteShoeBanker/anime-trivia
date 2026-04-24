@@ -25,7 +25,7 @@ const isPublicPath = (pathname: string): boolean => {
 // unauthorized /admin URL is indistinguishable from a non-existent route.
 const notFoundResponse = () => new NextResponse("Not Found", { status: 404 });
 
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   // Canonical @supabase/ssr Next.js middleware pattern: build a single
   // response that wraps `request`, and propagate refreshed Supabase cookies
   // to BOTH request.cookies (so downstream Server Components see them via

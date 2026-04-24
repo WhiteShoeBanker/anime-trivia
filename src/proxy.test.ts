@@ -11,7 +11,7 @@ vi.mock("@supabase/ssr", () => ({
   })),
 }));
 
-import { middleware } from "./middleware";
+import { proxy } from "./proxy";
 
 const mockProfileQuery = (result: {
   data: { age_group: string | null } | null;
@@ -29,14 +29,14 @@ const mockProfileQuery = (result: {
 const makeRequest = (pathname: string) =>
   new NextRequest(`https://example.com${pathname}`);
 
-describe("middleware — age-verification invariant", () => {
+describe("proxy — age-verification invariant", () => {
   beforeEach(() => {
     vi.clearAllMocks();
   });
 
   it("unauthenticated user on a protected route → /auth", async () => {
     mockGetUser.mockResolvedValue({ data: { user: null } });
-    const res = await middleware(makeRequest("/profile"));
+    const res = await proxy(makeRequest("/profile"));
     expect(res.headers.get("location")).toContain("/auth");
   });
 
@@ -45,7 +45,7 @@ describe("middleware — age-verification invariant", () => {
       data: { user: { id: "u1", email: "a@b.com" } },
     });
     mockProfileQuery({ data: { age_group: null }, error: null });
-    const res = await middleware(makeRequest("/browse"));
+    const res = await proxy(makeRequest("/browse"));
     expect(res.headers.get("location")).toContain(
       "/auth?complete_profile=true"
     );
@@ -56,7 +56,7 @@ describe("middleware — age-verification invariant", () => {
       data: { user: { id: "u1", email: "a@b.com" } },
     });
     mockProfileQuery({ data: null, error: null });
-    const res = await middleware(makeRequest("/browse"));
+    const res = await proxy(makeRequest("/browse"));
     expect(res.headers.get("location")).toContain(
       "/auth?complete_profile=true"
     );
@@ -67,7 +67,7 @@ describe("middleware — age-verification invariant", () => {
       data: { user: { id: "u1", email: "a@b.com" } },
     });
     mockProfileQuery({ data: { age_group: "full" }, error: null });
-    const res = await middleware(makeRequest("/browse"));
+    const res = await proxy(makeRequest("/browse"));
     expect(res.headers.get("location")).toBeNull();
   });
 
@@ -76,7 +76,7 @@ describe("middleware — age-verification invariant", () => {
       data: { user: { id: "u1", email: "a@b.com" } },
     });
     mockProfileQuery({ data: { age_group: "teen" }, error: null });
-    const res = await middleware(makeRequest("/browse"));
+    const res = await proxy(makeRequest("/browse"));
     expect(res.headers.get("location")).toBeNull();
   });
 
@@ -85,7 +85,7 @@ describe("middleware — age-verification invariant", () => {
       data: { user: { id: "u1", email: "a@b.com" } },
     });
     mockProfileQuery({ data: { age_group: null }, error: null });
-    const res = await middleware(makeRequest("/auth?complete_profile=true"));
+    const res = await proxy(makeRequest("/auth?complete_profile=true"));
     expect(res.headers.get("location")).toBeNull();
   });
 
@@ -94,7 +94,7 @@ describe("middleware — age-verification invariant", () => {
       data: { user: { id: "u1", email: "a@b.com" } },
     });
     mockProfileQuery({ data: null, error: { message: "db down" } });
-    const res = await middleware(makeRequest("/browse"));
+    const res = await proxy(makeRequest("/browse"));
     expect(res.headers.get("location")).toBeNull();
   });
 });
