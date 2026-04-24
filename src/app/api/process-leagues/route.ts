@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { createServiceClient } from "@/lib/supabase/service";
-import { getPromotionRequirements } from "@/lib/league-xp";
+import { getPromotionRequirements, resolveMemberFate } from "@/lib/league-xp";
 import { trackEvent } from "@/lib/analytics";
 import type { LeagueTier } from "@/types";
 
@@ -166,6 +166,10 @@ export async function processLeagueGroups(groupIds?: string[]) {
             league.tier as LeagueTier
           );
 
+          // TODO(league-bug-1): requiresHard and requiresImpossible from
+          // getPromotionRequirements are not enforced here — only minAnime is.
+          // See Session 1 audit notes.
+
           const { data: nextLeague } = await supabase
             .from("leagues")
             .select("*")
@@ -181,37 +185,16 @@ export async function processLeagueGroups(groupIds?: string[]) {
           for (let i = 0; i < members.length; i++) {
             const member = members[i];
             const rank = i + 1;
-            let result: "promoted" | "stayed" | "demoted" | "missed_promotion";
-            let newLeagueId = league.id;
-            let newTier = league.tier;
 
-            const meetsAnimeReq =
-              promotionReqs.minAnime === 0 ||
-              member.unique_anime_count >= promotionReqs.minAnime;
-
-            if (rank <= league.promotion_slots && nextLeague) {
-              if (meetsAnimeReq) {
-                result = "promoted";
-                newLeagueId = nextLeague.id;
-                newTier = nextLeague.tier;
-              } else {
-                result = "missed_promotion";
-              }
-            } else if (
-              league.demotion_slots > 0 &&
-              rank > members.length - league.demotion_slots &&
-              prevLeague
-            ) {
-              if (league.tier === 1) {
-                result = "stayed";
-              } else {
-                result = "demoted";
-                newLeagueId = prevLeague.id;
-                newTier = prevLeague.tier;
-              }
-            } else {
-              result = "stayed";
-            }
+            const fate = resolveMemberFate({
+              rank,
+              totalMembers: members.length,
+              uniqueAnimeCount: member.unique_anime_count,
+              league,
+              nextLeague: nextLeague ?? null,
+              prevLeague: prevLeague ?? null,
+              promotionReqs,
+            });
 
             await supabase.from("league_history").insert({
               user_id: member.user_id,
@@ -221,12 +204,12 @@ export async function processLeagueGroups(groupIds?: string[]) {
               final_rank: rank,
               weekly_xp: member.weekly_xp,
               unique_anime_count: member.unique_anime_count,
-              result,
+              result: fate.result,
             });
 
             userNewLeagues.set(member.user_id, {
-              leagueId: newLeagueId,
-              tier: newTier,
+              leagueId: fate.newLeagueId,
+              tier: fate.newTier,
             });
           }
 
@@ -244,6 +227,10 @@ export async function processLeagueGroups(groupIds?: string[]) {
     }
 
     // All groups processed — create new week groups + reset anime plays
+    // TODO(league-bug-2): the old-group deactivation (is_active=false) above and
+    // the new-group creation below are not wrapped in a transaction. A crash
+    // between the two leaves users with no active membership.
+    // See Session 1 audit notes.
     // Timeout check before post-processing
     if (Date.now() - startTime > TIMEOUT_MS) {
       await updateStatus(supabase, {

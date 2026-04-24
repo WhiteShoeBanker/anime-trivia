@@ -1,6 +1,6 @@
 import { createClient } from "@/lib/supabase/client";
 import { getDiminishingReturns } from "@/lib/config-actions";
-import type { LeagueTier, LeagueXpResult, PromotionRequirements } from "@/types";
+import type { LeagueResult, LeagueTier, LeagueXpResult, PromotionRequirements } from "@/types";
 
 // ── Diminishing Returns ─────────────────────────────────────
 
@@ -49,7 +49,9 @@ export const calculateLeagueXp = async (
   let playCount: number;
 
   if (existing) {
-    // Increment play_count
+    // TODO(league-bug-3): read-modify-write on play_count is not atomic.
+    // Concurrent quiz completions can both read play_count=N and both write N+1,
+    // losing an increment. See Session 1 audit notes.
     playCount = existing.play_count + 1;
     await supabase
       .from("weekly_anime_plays")
@@ -162,6 +164,75 @@ export const getPromotionRequirements = (
     default:
       return { minAnime: 0, requiresHard: false, requiresImpossible: 0 };
   }
+};
+
+// ── Resolve Member Fate (pure, extracted from cron) ─────────
+
+export interface MemberFateInput {
+  rank: number;
+  totalMembers: number;
+  uniqueAnimeCount: number;
+  league: {
+    id: string;
+    tier: number;
+    promotion_slots: number;
+    demotion_slots: number;
+  };
+  nextLeague: { id: string; tier: number } | null;
+  prevLeague: { id: string; tier: number } | null;
+  promotionReqs: PromotionRequirements;
+}
+
+export interface MemberFate {
+  result: LeagueResult;
+  newLeagueId: string;
+  newTier: number;
+}
+
+export const resolveMemberFate = (input: MemberFateInput): MemberFate => {
+  const {
+    rank,
+    totalMembers,
+    uniqueAnimeCount,
+    league,
+    nextLeague,
+    prevLeague,
+    promotionReqs,
+  } = input;
+
+  let result: LeagueResult;
+  let newLeagueId = league.id;
+  let newTier = league.tier;
+
+  const meetsAnimeReq =
+    promotionReqs.minAnime === 0 ||
+    uniqueAnimeCount >= promotionReqs.minAnime;
+
+  if (rank <= league.promotion_slots && nextLeague) {
+    if (meetsAnimeReq) {
+      result = "promoted";
+      newLeagueId = nextLeague.id;
+      newTier = nextLeague.tier;
+    } else {
+      result = "missed_promotion";
+    }
+  } else if (
+    league.demotion_slots > 0 &&
+    rank > totalMembers - league.demotion_slots &&
+    prevLeague
+  ) {
+    if (league.tier === 1) {
+      result = "stayed";
+    } else {
+      result = "demoted";
+      newLeagueId = prevLeague.id;
+      newTier = prevLeague.tier;
+    }
+  } else {
+    result = "stayed";
+  }
+
+  return { result, newLeagueId, newTier };
 };
 
 // ── Get User's Current League Info ──────────────────────────
