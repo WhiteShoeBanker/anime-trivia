@@ -130,12 +130,39 @@ export const saveDailyChallengeResult = async (
   const supabase = createClient();
   const today = new Date().toISOString().split("T")[0];
 
+  // Compute new daily_challenge_streak. Previous date = yesterday (UTC) → +1;
+  // previous date = today → idempotent no-op (keep prior streak); otherwise reset
+  // to 1. Replaces the total_quizzes fallback in the badge checker.
+  const { data: prior } = await supabase
+    .from("user_profiles")
+    .select("daily_challenge_date, daily_challenge_streak")
+    .eq("id", userId)
+    .single();
+
+  const yesterday = new Date(Date.now() - 24 * 60 * 60 * 1000)
+    .toISOString()
+    .split("T")[0];
+  const priorDate = (prior as { daily_challenge_date: string | null } | null)
+    ?.daily_challenge_date ?? null;
+  const priorStreak = (prior as { daily_challenge_streak: number } | null)
+    ?.daily_challenge_streak ?? 0;
+
+  let newStreak: number;
+  if (priorDate === today) {
+    newStreak = priorStreak || 1;
+  } else if (priorDate === yesterday) {
+    newStreak = priorStreak + 1;
+  } else {
+    newStreak = 1;
+  }
+
   // Update daily challenge result
   await supabase
     .from("user_profiles")
     .update({
       daily_challenge_date: today,
       daily_challenge_score: score,
+      daily_challenge_streak: newStreak,
     })
     .eq("id", userId);
 

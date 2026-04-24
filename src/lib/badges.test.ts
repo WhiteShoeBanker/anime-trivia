@@ -552,6 +552,91 @@ describe("checkAndAwardBadges", () => {
       expect(result[0].slug).toBe("rivalry");
     });
 
+  });
+
+  // ── Daily Challenge Streak ────────────────────────────────────
+  // Regression: previously used a total_quizzes fallback (wrongly awarded the
+  // Daily Devotee badge to any user with N+ total quizzes). Now reads
+  // user_profiles.daily_challenge_streak directly.
+
+  describe("daily challenge streak badge", () => {
+    const DAILY_7_BADGE = {
+      id: "daily-7",
+      slug: "daily-7",
+      name: "Daily Devotee",
+      description: "Complete daily challenges 7 days in a row",
+      category: "daily",
+      icon_name: "CalendarCheck",
+      icon_color: "#00D1B2",
+      requirement_type: "daily_challenge_streak",
+      requirement_value: { days: 7 },
+      rarity: "rare",
+      created_at: "2024-01-01",
+    };
+
+    it("awards daily-7 when daily_challenge_streak >= 7 (even with low totalQuizzes)", async () => {
+      let callCount = 0;
+      mockFrom.mockImplementation((table: string) => {
+        callCount++;
+        if (table === "badges") return chain([DAILY_7_BADGE]);
+        if (table === "user_badges" && callCount <= 3) return chain([]);
+        if (table === "user_profiles") {
+          return chain({
+            current_streak: 0,
+            longest_streak: 0,
+            total_xp: 100,
+            created_at: "2024-01-01",
+            daily_challenge_streak: 7,
+          });
+        }
+        if (table === "quiz_sessions") return chain([], 3); // only 3 total quizzes
+        if (table === "anime_series") return chain(null, 10);
+        if (table === "league_history") return chain(null, 0);
+        if (table === "league_memberships") return chain({ leagues: { tier: 1 } });
+        if (table === "grand_prix_matches") return chain(null, 0);
+        if (table === "grand_prix_tournaments") return chain(null, 0);
+        if (table === "duel_stats") return chain({ wins: 0, giant_kills: 0, win_streak: 0, best_win_streak: 0 });
+        return chain(null);
+      });
+
+      const result = await checkAndAwardBadges({ userId: "user-1" });
+      expect(result.length).toBe(1);
+      expect(result[0].slug).toBe("daily-7");
+    });
+
+    it("does NOT award daily-7 when daily_challenge_streak < 7 (even with high totalQuizzes)", async () => {
+      // The old fallback would have awarded this (total_quizzes=50 >= 7).
+      // The fixed checker reads daily_challenge_streak=2 and rejects.
+      let callCount = 0;
+      mockFrom.mockImplementation((table: string) => {
+        callCount++;
+        if (table === "badges") return chain([DAILY_7_BADGE]);
+        if (table === "user_badges" && callCount <= 3) return chain([]);
+        if (table === "user_profiles") {
+          return chain({
+            current_streak: 0,
+            longest_streak: 0,
+            total_xp: 100,
+            created_at: "2024-01-01",
+            daily_challenge_streak: 2,
+          });
+        }
+        if (table === "quiz_sessions") return chain([], 50); // 50 total quizzes — would trigger old fallback
+        if (table === "anime_series") return chain(null, 10);
+        if (table === "league_history") return chain(null, 0);
+        if (table === "league_memberships") return chain({ leagues: { tier: 1 } });
+        if (table === "grand_prix_matches") return chain(null, 0);
+        if (table === "grand_prix_tournaments") return chain(null, 0);
+        if (table === "duel_stats") return chain({ wins: 0, giant_kills: 0, win_streak: 0, best_win_streak: 0 });
+        return chain(null);
+      });
+
+      const result = await checkAndAwardBadges({ userId: "user-1" });
+      expect(result.length).toBe(0);
+    });
+  });
+
+  describe("duel badges: undefeated", () => {
     it("does not award Undefeated badge if best_win_streak < required count", async () => {
       let callCount = 0;
       mockFrom.mockImplementation((table: string) => {

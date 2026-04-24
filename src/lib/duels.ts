@@ -701,12 +701,40 @@ export const declineDuel = async (
 
 // ═══════════════════════════════════════════════════════════════
 // Friendship Functions
+//
+// COPPA enforcement: every function below calls assertNonJunior() as its
+// first step. The UI hides the Friends tab for junior users, but the
+// backend must not trust the UI — a junior bypassing the client (devtools,
+// direct fetch, third-party caller) would otherwise interact with the
+// friend graph. Do not remove these guards without replacing them with an
+// equivalent server-side check. Age_group == "junior" is the block trigger.
 // ═══════════════════════════════════════════════════════════════
+
+export class JuniorBlockedError extends Error {
+  code = "JUNIOR_BLOCKED" as const;
+  constructor(message = "This feature is not available for your account") {
+    super(message);
+    this.name = "JuniorBlockedError";
+  }
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const assertNonJunior = async (supabase: any, userId: string): Promise<void> => {
+  const { data } = await supabase
+    .from("user_profiles")
+    .select("age_group")
+    .eq("id", userId)
+    .single();
+  if (data?.age_group === "junior") {
+    throw new JuniorBlockedError();
+  }
+};
 
 export const getFriends = async (
   userId: string
 ): Promise<FriendshipWithProfile[]> => {
   const supabase = createClient();
+  await assertNonJunior(supabase, userId);
 
   // Get accepted friendships where user is requester
   const { data: asRequester } = await supabase
@@ -742,6 +770,7 @@ export const getPendingFriendRequests = async (
   userId: string
 ): Promise<FriendshipWithProfile[]> => {
   const supabase = createClient();
+  await assertNonJunior(supabase, userId);
 
   const { data } = await supabase
     .from("friendships")
@@ -762,6 +791,7 @@ export const sendFriendRequest = async (
   toId: string
 ): Promise<boolean> => {
   const supabase = createClient();
+  await assertNonJunior(supabase, fromId);
 
   // Check if friendship already exists in either direction
   const { data: existing } = await supabase
@@ -794,6 +824,7 @@ export const acceptFriendRequest = async (
   userId: string
 ): Promise<boolean> => {
   const supabase = createClient();
+  await assertNonJunior(supabase, userId);
 
   // Only the recipient can accept
   const { error } = await supabase
@@ -815,6 +846,7 @@ export const removeFriend = async (
   userId: string
 ): Promise<boolean> => {
   const supabase = createClient();
+  await assertNonJunior(supabase, userId);
 
   // Either participant can remove
   const { error } = await supabase
@@ -834,6 +866,7 @@ export const getHeadToHeadMap = async (
 ): Promise<Record<string, { wins: number; losses: number; draws: number }>> => {
   if (opponentIds.length === 0) return {};
   const supabase = createClient();
+  await assertNonJunior(supabase, userId);
 
   const { data } = await supabase
     .from("duel_matches")

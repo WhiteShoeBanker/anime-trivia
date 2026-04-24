@@ -25,6 +25,10 @@ import {
   sendFriendRequest,
   acceptFriendRequest,
   removeFriend,
+  getFriends,
+  getPendingFriendRequests,
+  getHeadToHeadMap,
+  JuniorBlockedError,
 } from "./duels";
 
 const chain = (resolvedData: unknown, error?: unknown) => {
@@ -220,6 +224,109 @@ describe("Friend System", () => {
 
       const result = await removeFriend("friendship-1", "user-a");
       expect(result).toBe(false);
+    });
+  });
+
+  // ── COPPA age-gate: backend must reject juniors ──────────────
+  // Defense-in-depth for the UI filter on src/app/duels/page.tsx. Without
+  // this, a junior bypassing the client (devtools, direct fetch) would
+  // interact with the friend graph. Each of the six exported friend
+  // functions must throw JuniorBlockedError when the caller's age_group
+  // is "junior", and proceed normally for "teen" / "full".
+
+  describe("junior age-gate (COPPA)", () => {
+    const mockAgeGroup = (ageGroup: string) => {
+      mockFrom.mockImplementation(() => chain({ age_group: ageGroup }));
+    };
+
+    it("sendFriendRequest rejects a junior caller", async () => {
+      mockAgeGroup("junior");
+      await expect(sendFriendRequest("junior-user", "friend-b")).rejects.toBeInstanceOf(
+        JuniorBlockedError
+      );
+    });
+
+    it("acceptFriendRequest rejects a junior caller", async () => {
+      mockAgeGroup("junior");
+      await expect(acceptFriendRequest("friendship-1", "junior-user")).rejects.toBeInstanceOf(
+        JuniorBlockedError
+      );
+    });
+
+    it("removeFriend rejects a junior caller", async () => {
+      mockAgeGroup("junior");
+      await expect(removeFriend("friendship-1", "junior-user")).rejects.toBeInstanceOf(
+        JuniorBlockedError
+      );
+    });
+
+    it("getFriends rejects a junior caller", async () => {
+      mockAgeGroup("junior");
+      await expect(getFriends("junior-user")).rejects.toBeInstanceOf(JuniorBlockedError);
+    });
+
+    it("getPendingFriendRequests rejects a junior caller", async () => {
+      mockAgeGroup("junior");
+      await expect(getPendingFriendRequests("junior-user")).rejects.toBeInstanceOf(
+        JuniorBlockedError
+      );
+    });
+
+    it("getHeadToHeadMap rejects a junior caller", async () => {
+      mockAgeGroup("junior");
+      await expect(
+        getHeadToHeadMap("junior-user", ["opp-1"])
+      ).rejects.toBeInstanceOf(JuniorBlockedError);
+    });
+
+    it("getFriends allows a teen caller (no throw)", async () => {
+      // age_group check returns "teen", then the actual friendships query
+      // resolves to empty. getFriends should complete normally.
+      let call = 0;
+      mockFrom.mockImplementation(() => {
+        call++;
+        if (call === 1) return chain({ age_group: "teen" });
+        return chain([]);
+      });
+      await expect(getFriends("teen-user")).resolves.toEqual([]);
+    });
+
+    it("sendFriendRequest allows a full caller (no throw)", async () => {
+      let call = 0;
+      let insertedData: unknown = null;
+      mockFrom.mockImplementation(() => {
+        call++;
+        if (call === 1) return chain({ age_group: "full" }); // age-gate
+        if (call === 2) return chain(null, { code: "PGRST116" }); // existence check: not found
+        // insert path
+        const builder: Record<string, unknown> = {};
+        const proxy: unknown = new Proxy(builder, {
+          get(_t, prop: string) {
+            if (prop === "then") {
+              return (resolve: (v: unknown) => void) =>
+                resolve({ data: null, error: null });
+            }
+            if (prop === "insert") {
+              return (data: unknown) => {
+                insertedData = data;
+                return proxy;
+              };
+            }
+            if (!builder[prop]) {
+              builder[prop] = vi.fn().mockReturnValue(proxy);
+            }
+            return builder[prop];
+          },
+        });
+        return proxy;
+      });
+      const result = await sendFriendRequest("full-user", "friend-b");
+      expect(result).toBe(true);
+      expect(insertedData).toEqual({
+        requester_id: "full-user",
+        recipient_id: "friend-b",
+        status: "pending",
+      });
     });
   });
 });

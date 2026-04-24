@@ -86,6 +86,7 @@ interface UserStats {
   duelGiantKills: number;
   duelWinStreak: number;
   duelBestWinStreak: number;
+  dailyChallengeStreak: number;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -211,6 +212,7 @@ const gatherUserStats = async (userId: string, supabase: any): Promise<UserStats
     duelGiantKills: duelStatsRow?.giant_kills ?? 0,
     duelWinStreak: duelStatsRow?.win_streak ?? 0,
     duelBestWinStreak: duelStatsRow?.best_win_streak ?? 0,
+    dailyChallengeStreak: profile?.daily_challenge_streak ?? 0,
   };
 };
 
@@ -267,9 +269,7 @@ const checkBadge = async (
       );
 
     case "daily_challenge_streak":
-      // TODO: Implement full consecutive-day tracking for daily challenge streaks
-      // For now, check if user completed today's challenge as a basic signal
-      return stats.totalQuizzes >= (val.days as number);
+      return stats.dailyChallengeStreak >= (val.days as number);
 
     case "league_tier":
       return stats.leagueTier >= (val.tier as number);
