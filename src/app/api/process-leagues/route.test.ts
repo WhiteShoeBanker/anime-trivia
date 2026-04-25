@@ -351,7 +351,7 @@ describe("processLeagueGroups — new-week reset (Gap 5)", () => {
     }
   });
 
-  it("marks the processed league_group as is_active=false", async () => {
+  it("marks all processed league_groups as is_active=false in a single bulk update", async () => {
     const league = makeLeague();
     const group = makeGroup(league);
     const members = makeMembers(3, group.id);
@@ -364,11 +364,38 @@ describe("processLeagueGroups — new-week reset (Gap 5)", () => {
     const updateOp = updateQuery!.ops.find((op) => op.method === "update");
     expect(updateOp!.args[0]).toEqual({ is_active: false });
 
-    // Scoped by group id
-    const eqOp = updateQuery!.ops.find(
-      (op) => op.method === "eq" && op.args[0] === "id"
+    // Scoped to a list of processed group ids (bulk deactivate, league-bug-2)
+    const inOp = updateQuery!.ops.find(
+      (op) => op.method === "in" && op.args[0] === "id"
     );
-    expect(eqOp).toBeDefined();
-    expect(eqOp!.args[1]).toBe(group.id);
+    expect(inOp).toBeDefined();
+    expect(inOp!.args[1]).toEqual(expect.arrayContaining([group.id]));
+  });
+
+  it("defers old-group deactivation until after new memberships are inserted (league-bug-2)", async () => {
+    const league = makeLeague();
+    const group = makeGroup(league);
+    const members = makeMembers(3, group.id);
+    const queries = installSupabase(defaultResponder({ league, members, activeGroups: [group] }));
+
+    await processLeagueGroups();
+
+    // Assumes installSupabase captures queries in temporal from() call
+    // order — if that ever changes, this test could pass for the wrong
+    // reason. Update the helper's contract or this assertion together.
+    const firstMembershipsInsertIdx = queries.findIndex(
+      (q) =>
+        q.table === "league_memberships" &&
+        q.ops.some((op) => op.method === "insert")
+    );
+    const deactivateIdx = queries.findIndex(
+      (q) =>
+        q.table === "league_groups" &&
+        q.ops.some((op) => op.method === "update")
+    );
+
+    expect(firstMembershipsInsertIdx).toBeGreaterThan(-1);
+    expect(deactivateIdx).toBeGreaterThan(-1);
+    expect(deactivateIdx).toBeGreaterThan(firstMembershipsInsertIdx);
   });
 });

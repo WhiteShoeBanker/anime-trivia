@@ -103,6 +103,7 @@ export async function processLeagueGroups(groupIds?: string[]) {
     const userNewLeagues: Map<string, { leagueId: string; tier: number }> =
       new Map();
     let groupsProcessed = 0;
+    const processedGroupIds: string[] = [];
     const failedGroupIds: string[] = [];
 
     // Process groups in batches
@@ -213,11 +214,11 @@ export async function processLeagueGroups(groupIds?: string[]) {
             });
           }
 
-          await supabase
-            .from("league_groups")
-            .update({ is_active: false })
-            .eq("id", group.id);
-
+          // Defer the is_active=false write until after new groups +
+          // memberships exist (league-bug-2). Deactivating in-line
+          // creates a window where a crash before phase 2 leaves users
+          // pointing at an inactive group with no replacement membership.
+          processedGroupIds.push(group.id as string);
           groupsProcessed++;
         } catch (groupError) {
           console.error(`Failed to process group ${group.id}:`, groupError);
@@ -227,10 +228,6 @@ export async function processLeagueGroups(groupIds?: string[]) {
     }
 
     // All groups processed — create new week groups + reset anime plays
-    // TODO(league-bug-2): the old-group deactivation (is_active=false) above and
-    // the new-group creation below are not wrapped in a transaction. A crash
-    // between the two leaves users with no active membership.
-    // See Session 1 audit notes.
     // Timeout check before post-processing
     if (Date.now() - startTime > TIMEOUT_MS) {
       await updateStatus(supabase, {
@@ -300,6 +297,21 @@ export async function processLeagueGroups(groupIds?: string[]) {
       .from("weekly_anime_plays")
       .delete()
       .lt("week_start", newWeekStart);
+
+    // Final write of the cron: deactivate the processed old groups in
+    // a single bulk update. Deferring this until after new groups +
+    // memberships + plays reset means a crash upstream leaves old
+    // groups active and users still see correct standings via the
+    // existing "most-recent membership by joined_at" reads. Once this
+    // completes, each migrated user has a new active membership
+    // (newer joined_at); the deactivated old group is harmless
+    // backfill (closes league-bug-2).
+    if (processedGroupIds.length > 0) {
+      await supabase
+        .from("league_groups")
+        .update({ is_active: false })
+        .in("id", processedGroupIds);
+    }
 
     const elapsed = Date.now() - startTime;
 
