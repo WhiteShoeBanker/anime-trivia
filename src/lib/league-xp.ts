@@ -37,38 +37,24 @@ export const calculateLeagueXp = async (
   const supabase = createClient();
   const weekStart = getCurrentWeekStart();
 
-  // 1. Try to get existing weekly_anime_plays row
-  const { data: existing } = await supabase
-    .from("weekly_anime_plays")
-    .select("id, play_count")
-    .eq("user_id", userId)
-    .eq("anime_id", animeId)
-    .eq("week_start", weekStart)
-    .single();
+  // Atomic upsert+increment via RPC (migration 022). Backed by the
+  // UNIQUE (user_id, anime_id, week_start) constraint, so concurrent
+  // callers serialize on the row-level lock and the returned count is
+  // always consistent. Replaces a read-modify-write that dropped
+  // increments under concurrency (league-bug-3).
+  const { data: incrementedCount, error } = await supabase.rpc(
+    "increment_weekly_anime_play",
+    {
+      p_user_id: userId,
+      p_anime_id: animeId,
+      p_week_start: weekStart,
+    }
+  );
 
-  let playCount: number;
+  const playCount =
+    !error && typeof incrementedCount === "number" ? incrementedCount : 1;
 
-  if (existing) {
-    // TODO(league-bug-3): read-modify-write on play_count is not atomic.
-    // Concurrent quiz completions can both read play_count=N and both write N+1,
-    // losing an increment. See Session 1 audit notes.
-    playCount = existing.play_count + 1;
-    await supabase
-      .from("weekly_anime_plays")
-      .update({ play_count: playCount })
-      .eq("id", existing.id);
-  } else {
-    // Create new row
-    playCount = 1;
-    await supabase.from("weekly_anime_plays").insert({
-      user_id: userId,
-      anime_id: animeId,
-      week_start: weekStart,
-      play_count: 1,
-    });
-  }
-
-  // 2. Calculate multiplied XP (using config-driven multipliers)
+  // Calculate multiplied XP (using config-driven multipliers)
   const multipliers = await getDiminishingReturns();
   const multiplier = getLeagueXpMultiplier(playCount, multipliers);
   const leagueXp = Math.round(baseXp * multiplier);

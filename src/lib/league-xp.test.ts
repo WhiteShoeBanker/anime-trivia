@@ -4,8 +4,9 @@ import type { PromotionRequirements } from "@/types";
 // ── Mocks for calculateLeagueXp ──────────────────────────────
 
 const mockFrom = vi.fn();
+const mockRpc = vi.fn();
 vi.mock("@/lib/supabase/client", () => ({
-  createClient: () => ({ from: mockFrom }),
+  createClient: () => ({ from: mockFrom, rpc: mockRpc }),
 }));
 
 const mockGetDiminishingReturns = vi.fn();
@@ -324,19 +325,22 @@ describe("resolveMemberFate — breadth gate (Gap 4)", () => {
 });
 
 // ── calculateLeagueXp (Gaps 8 + 9) ───────────────────────────
-
-// Supabase chainable mock for calculateLeagueXp. The function calls:
-//   1. from("weekly_anime_plays").select("id, play_count").eq(...).eq(...).eq(...).single()
-//   2. either .update({ play_count }).eq("id", ...) OR .insert({...})
 //
-// Per test, we configure responses for (select→single) and (insert/update).
+// Post-Session 4D: calculateLeagueXp now delegates increment to the
+// `increment_weekly_anime_play` Postgres RPC (migration 022, atomic
+// INSERT ... ON CONFLICT ... DO UPDATE). The function no longer issues
+// a SELECT/UPDATE pair against weekly_anime_plays from the client.
+//
+// Tests stub `mockRpc` with the post-increment count and assert on
+// the returned LeagueXpResult plus the RPC call shape. The negative
+// assertion at the end of the Gap 9 block locks in the fix: a future
+// regression to the read-modify-write pattern would make mockFrom
+// receive weekly_anime_plays SELECT or UPDATE calls and that test
+// would fire.
 
 type QueryOp = { method: string; args: unknown[] };
-type QueryResult = { data?: unknown; error?: unknown };
 
-const setupWeeklyAnimePlaysMock = (options: {
-  existing: { id: string; play_count: number } | null;
-}) => {
+const captureFromOps = () => {
   const operations: { table: string; ops: QueryOp[] }[] = [];
   mockFrom.mockImplementation((table: string) => {
     const ops: QueryOp[] = [];
@@ -344,12 +348,8 @@ const setupWeeklyAnimePlaysMock = (options: {
     const handler: ProxyHandler<object> = {
       get(_t, prop) {
         if (prop === "then") {
-          let result: QueryResult = { data: null, error: null };
-          const opNames = ops.map((o) => o.method);
-          if (opNames.includes("single")) {
-            result = { data: options.existing, error: null };
-          }
-          return (resolve: (v: QueryResult) => void) => resolve(result);
+          return (resolve: (v: { data: unknown; error: unknown }) => void) =>
+            resolve({ data: null, error: null });
         }
         return (...args: unknown[]) => {
           ops.push({ method: String(prop), args });
@@ -365,12 +365,14 @@ const setupWeeklyAnimePlaysMock = (options: {
 describe("calculateLeagueXp — diminishing returns applied (Gap 8)", () => {
   beforeEach(() => {
     mockFrom.mockReset();
+    mockRpc.mockReset();
     mockGetDiminishingReturns.mockReset();
     mockGetDiminishingReturns.mockResolvedValue([1.0, 0.75, 0.5, 0.25, 0.1]);
   });
 
-  it("applies 1.0 multiplier to baseXp on first play (no existing row)", async () => {
-    setupWeeklyAnimePlaysMock({ existing: null });
+  it("applies 1.0 multiplier to baseXp on first play (RPC returns 1)", async () => {
+    captureFromOps();
+    mockRpc.mockResolvedValue({ data: 1, error: null });
     const result = await calculateLeagueXp(100, "anime-1", "user-1");
     expect(result.playCount).toBe(1);
     expect(result.multiplier).toBe(1.0);
@@ -378,95 +380,92 @@ describe("calculateLeagueXp — diminishing returns applied (Gap 8)", () => {
     expect(result.nudge).toBe(false);
   });
 
-  it("applies 0.75 multiplier on second play", async () => {
-    setupWeeklyAnimePlaysMock({ existing: { id: "wap-1", play_count: 1 } });
+  it("applies 0.75 multiplier on second play (RPC returns 2)", async () => {
+    captureFromOps();
+    mockRpc.mockResolvedValue({ data: 2, error: null });
     const result = await calculateLeagueXp(100, "anime-1", "user-1");
     expect(result.playCount).toBe(2);
     expect(result.multiplier).toBe(0.75);
     expect(result.leagueXp).toBe(75);
   });
 
-  it("applies 0.1 multiplier on fifth play and beyond", async () => {
-    setupWeeklyAnimePlaysMock({ existing: { id: "wap-1", play_count: 4 } });
+  it("applies 0.1 multiplier on fifth play and beyond (RPC returns 5)", async () => {
+    captureFromOps();
+    mockRpc.mockResolvedValue({ data: 5, error: null });
     const result = await calculateLeagueXp(100, "anime-1", "user-1");
     expect(result.playCount).toBe(5);
     expect(result.multiplier).toBe(0.1);
     expect(result.leagueXp).toBe(10);
   });
 
-  it("sets nudge=true when multiplier <= 0.5 (third play)", async () => {
-    setupWeeklyAnimePlaysMock({ existing: { id: "wap-1", play_count: 2 } });
+  it("sets nudge=true when multiplier <= 0.5 (RPC returns 3)", async () => {
+    captureFromOps();
+    mockRpc.mockResolvedValue({ data: 3, error: null });
     const result = await calculateLeagueXp(100, "anime-1", "user-1");
     expect(result.multiplier).toBe(0.5);
     expect(result.nudge).toBe(true);
   });
 
   it("respects admin-config multipliers (custom schedule)", async () => {
+    captureFromOps();
     mockGetDiminishingReturns.mockResolvedValue([1.0, 0.5, 0.1]);
-    setupWeeklyAnimePlaysMock({ existing: { id: "wap-1", play_count: 1 } });
+    mockRpc.mockResolvedValue({ data: 2, error: null });
     const result = await calculateLeagueXp(100, "anime-1", "user-1");
     expect(result.playCount).toBe(2);
     expect(result.multiplier).toBe(0.5);
     expect(result.leagueXp).toBe(50);
   });
+
+  it("falls back to playCount=1 when the RPC errors (no XP loss / no double-XP)", async () => {
+    captureFromOps();
+    mockRpc.mockResolvedValue({
+      data: null,
+      error: { message: "rpc unavailable" },
+    });
+    const result = await calculateLeagueXp(100, "anime-1", "user-1");
+    expect(result.playCount).toBe(1);
+    expect(result.multiplier).toBe(1.0);
+    expect(result.leagueXp).toBe(100);
+  });
 });
 
-describe("calculateLeagueXp — play-count tracking (Gap 9)", () => {
+describe("calculateLeagueXp — atomic increment delegation (Gap 9)", () => {
   beforeEach(() => {
     mockFrom.mockReset();
+    mockRpc.mockReset();
     mockGetDiminishingReturns.mockReset();
     mockGetDiminishingReturns.mockResolvedValue([1.0, 0.75, 0.5, 0.25, 0.1]);
   });
 
-  it("inserts a weekly_anime_plays row with play_count=1 on first play", async () => {
-    const ops = setupWeeklyAnimePlaysMock({ existing: null });
+  it("calls the increment_weekly_anime_play RPC with (user_id, anime_id, week_start)", async () => {
+    captureFromOps();
+    mockRpc.mockResolvedValue({ data: 1, error: null });
     await calculateLeagueXp(50, "anime-42", "user-42");
 
-    // Find the insert call
-    const insertOp = ops
-      .flatMap((o) => o.ops.map((op) => ({ table: o.table, ...op })))
-      .find((op) => op.table === "weekly_anime_plays" && op.method === "insert");
-    expect(insertOp).toBeDefined();
-    const payload = insertOp!.args[0] as {
-      user_id: string;
-      anime_id: string;
-      week_start: string;
-      play_count: number;
-    };
-    expect(payload.user_id).toBe("user-42");
-    expect(payload.anime_id).toBe("anime-42");
-    expect(payload.play_count).toBe(1);
-    expect(payload.week_start).toMatch(/^\d{4}-\d{2}-\d{2}$/);
-  });
-
-  it("updates existing weekly_anime_plays row with play_count = N+1", async () => {
-    const ops = setupWeeklyAnimePlaysMock({
-      existing: { id: "wap-existing", play_count: 2 },
+    expect(mockRpc).toHaveBeenCalledTimes(1);
+    const [fnName, args] = mockRpc.mock.calls[0];
+    expect(fnName).toBe("increment_weekly_anime_play");
+    expect(args).toEqual({
+      p_user_id: "user-42",
+      p_anime_id: "anime-42",
+      p_week_start: expect.stringMatching(/^\d{4}-\d{2}-\d{2}$/),
     });
-    await calculateLeagueXp(50, "anime-42", "user-42");
-
-    const updateOp = ops
-      .flatMap((o) => o.ops.map((op) => ({ table: o.table, ...op })))
-      .find((op) => op.table === "weekly_anime_plays" && op.method === "update");
-    expect(updateOp).toBeDefined();
-    const payload = updateOp!.args[0] as { play_count: number };
-    expect(payload.play_count).toBe(3);
   });
 
-  it("scopes lookup to (user_id, anime_id, week_start)", async () => {
-    const ops = setupWeeklyAnimePlaysMock({ existing: null });
+  // ── Negative regression guard ──────────────────────────────
+  // If a future change reintroduces the read-modify-write pattern, it
+  // would issue SELECT or UPDATE against weekly_anime_plays from the
+  // client. This assertion fires on that regression while still allowing
+  // unrelated future operations on the table (cleanup, archival, etc.).
+  it("does NOT issue read-modify-write SELECT/UPDATE on weekly_anime_plays", async () => {
+    const ops = captureFromOps();
+    mockRpc.mockResolvedValue({ data: 3, error: null });
     await calculateLeagueXp(50, "anime-42", "user-42");
 
-    const selectQuery = ops.find(
-      (o) =>
-        o.table === "weekly_anime_plays" &&
-        o.ops.some((op) => op.method === "select")
-    );
-    expect(selectQuery).toBeDefined();
-    const eqCalls = selectQuery!.ops.filter((op) => op.method === "eq");
-    const eqKeys = eqCalls.map((op) => op.args[0]);
-    expect(eqKeys).toEqual(
-      expect.arrayContaining(["user_id", "anime_id", "week_start"])
-    );
+    const offendingOps = ops
+      .filter((o) => o.table === "weekly_anime_plays")
+      .flatMap((o) => o.ops)
+      .filter((op) => op.method === "select" || op.method === "update");
+    expect(offendingOps).toHaveLength(0);
   });
 });
