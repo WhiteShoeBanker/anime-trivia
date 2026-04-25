@@ -164,12 +164,16 @@ export const saveDailyChallengeResult = async (
     })
     .eq("id", userId);
 
-  // TODO(daily-bug-2): streak is idempotent on same-day repeat calls
-  // (priorDate === today branch above) but total_xp is not — xpEarned
-  // is re-added on every call. Combined with the purely-client-side
-  // "already played" gate in DailyContent.tsx, this is a double-play
-  // exploit surface. Guard on priorDate === today before the XP update.
-  // Fix scheduled for Session 4D.
+  // daily-bug-2: skip the XP block on same-day repeats. The streak
+  // update above is already idempotent when priorDate === today
+  // (line 150 keeps the prior streak); without this guard, total_xp
+  // would still get incremented by xpEarned on every repeat call —
+  // a double-play exploit surface, since the "already played" gate
+  // in DailyContent.tsx is purely client-side.
+  if (priorDate === today) {
+    return;
+  }
+
   const { data: profile } = await supabase
     .from("user_profiles")
     .select("total_xp")

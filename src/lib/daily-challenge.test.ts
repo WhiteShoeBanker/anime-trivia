@@ -328,13 +328,12 @@ describe("saveDailyChallengeResult — streak & idempotency", () => {
     expect(updates[0].daily_challenge_streak).toBe(1);
   });
 
-  it("TODO(daily-bug-2): re-adds xpEarned on same-day repeat (double-play exploit)", async () => {
-    // Documents current buggy behavior: when priorDate === today, the
-    // streak stays idempotent but total_xp still gets incremented by
-    // xpEarned on every call. The intended behavior (and the Session 4D
-    // fix) is to skip the XP update entirely when priorDate === today.
-    // This test should FAIL once the fix lands, which is the signal to
-    // rewrite it as a positive "xp is idempotent on same-day repeat" test.
+  it("does NOT re-add xpEarned on same-day repeat (closes daily-bug-2)", async () => {
+    // Same-day repeat must be idempotent on BOTH streak and XP. The
+    // streak-only idempotency was insufficient because total_xp was
+    // still being incremented on every call — a double-play exploit
+    // since the "already played" gate in DailyContent.tsx is purely
+    // client-side. Fixed in Session 4D.
     const { responder, updates } = captureProfileUpdates(
       { daily_challenge_date: todayUtc(), daily_challenge_streak: 3 },
       1000
@@ -343,11 +342,11 @@ describe("saveDailyChallengeResult — streak & idempotency", () => {
 
     await saveDailyChallengeResult("user-1", 7, 50);
 
-    // Two updates: (1) streak/date/score, (2) total_xp/rank/last_played_at
-    expect(updates.length).toBe(2);
-    const xpUpdate = updates[1];
-    // Bug: total_xp = 1000 + 50 = 1050 even though priorDate === today.
-    // Ideal: second update should be skipped entirely.
-    expect(xpUpdate.total_xp).toBe(1050);
+    // Only the first (streak/date/score) update runs. The XP/rank/
+    // last_played_at second update must be skipped on same-day repeat.
+    expect(updates).toHaveLength(1);
+    for (const u of updates) {
+      expect(u).not.toHaveProperty("total_xp");
+    }
   });
 });
