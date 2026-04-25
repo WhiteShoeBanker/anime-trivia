@@ -147,6 +147,10 @@ const defaultResponder = (opts: {
     if (q.table === "weekly_anime_plays") {
       return {}; // delete
     }
+    if (q.table === "quiz_sessions") {
+      // Default: no hard/impossible plays for any member
+      return { data: [] };
+    }
     return {};
   };
 };
@@ -397,5 +401,51 @@ describe("processLeagueGroups — new-week reset (Gap 5)", () => {
     expect(firstMembershipsInsertIdx).toBeGreaterThan(-1);
     expect(deactivateIdx).toBeGreaterThan(-1);
     expect(deactivateIdx).toBeGreaterThan(firstMembershipsInsertIdx);
+  });
+});
+
+// ═══════════════════════════════════════════════════════════════
+// league-bug-1 — hard / impossible promotion gate enforcement
+// ═══════════════════════════════════════════════════════════════
+
+describe("processLeagueGroups — hard/impossible bulk fetch (league-bug-1)", () => {
+  beforeEach(() => {
+    serviceFrom.mockReset();
+  });
+
+  it("queries quiz_sessions for hard/impossible plays scoped to the just-ended week", async () => {
+    const league = makeLeague();
+    const group = makeGroup(league);
+    const members = makeMembers(3, group.id);
+    const queries = installSupabase(defaultResponder({ league, members, activeGroups: [group] }));
+
+    await processLeagueGroups();
+
+    const qsCall = findCall(queries, "quiz_sessions", "select");
+    expect(qsCall).toBeDefined();
+
+    // Filtered to the relevant difficulties
+    const inDifficulty = qsCall!.ops.find(
+      (op) => op.method === "in" && op.args[0] === "difficulty"
+    );
+    expect(inDifficulty?.args[1]).toEqual(["hard", "impossible"]);
+
+    // Filtered to the group's member ids (bulk fetch, not per-member)
+    const inUserId = qsCall!.ops.find(
+      (op) => op.method === "in" && op.args[0] === "user_id"
+    );
+    expect(inUserId?.args[1]).toEqual(
+      expect.arrayContaining(members.map((m) => m.user_id))
+    );
+
+    // Week-bounded with a 7-day span on completed_at
+    const gteOp = qsCall!.ops.find((op) => op.method === "gte");
+    const ltOp = qsCall!.ops.find((op) => op.method === "lt");
+    expect(gteOp?.args[0]).toBe("completed_at");
+    expect(ltOp?.args[0]).toBe("completed_at");
+    const spanMs =
+      new Date(ltOp!.args[1] as string).getTime() -
+      new Date(gteOp!.args[1] as string).getTime();
+    expect(spanMs).toBe(7 * 24 * 60 * 60 * 1000);
   });
 });

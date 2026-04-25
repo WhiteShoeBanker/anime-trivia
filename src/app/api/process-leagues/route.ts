@@ -167,9 +167,46 @@ export async function processLeagueGroups(groupIds?: string[]) {
             league.tier as LeagueTier
           );
 
-          // TODO(league-bug-1): requiresHard and requiresImpossible from
-          // getPromotionRequirements are not enforced here — only minAnime is.
-          // See Session 1 audit notes.
+          // Bulk-fetch hard/impossible play counts for this group's
+          // members, scoped to the just-ended week, so resolveMemberFate
+          // can enforce promotionReqs.requiresHard / requiresImpossible
+          // (closes league-bug-1). One query per group, not per member,
+          // to keep the cron under its 45s timeout. Daily challenges
+          // and duels do not write to quiz_sessions, so this naturally
+          // counts only regular quiz plays.
+          const memberIds = members.map((m) => m.user_id);
+          const justEndedWeekStartDate = new Date(endedWeekStart);
+          justEndedWeekStartDate.setUTCDate(
+            justEndedWeekStartDate.getUTCDate() - 7
+          );
+          const justEndedWeekStartISO = justEndedWeekStartDate.toISOString();
+          const endedWeekStartISO = new Date(endedWeekStart).toISOString();
+
+          const { data: difficultyPlays } = await supabase
+            .from("quiz_sessions")
+            .select("user_id, difficulty")
+            .in("user_id", memberIds)
+            .in("difficulty", ["hard", "impossible"])
+            .gte("completed_at", justEndedWeekStartISO)
+            .lt("completed_at", endedWeekStartISO);
+
+          const hardPlaysByUser = new Map<string, number>();
+          const impossiblePlaysByUser = new Map<string, number>();
+          for (const row of (difficultyPlays as
+            | { user_id: string; difficulty: string }[]
+            | null) ?? []) {
+            if (row.difficulty === "hard") {
+              hardPlaysByUser.set(
+                row.user_id,
+                (hardPlaysByUser.get(row.user_id) ?? 0) + 1
+              );
+            } else if (row.difficulty === "impossible") {
+              impossiblePlaysByUser.set(
+                row.user_id,
+                (impossiblePlaysByUser.get(row.user_id) ?? 0) + 1
+              );
+            }
+          }
 
           const { data: nextLeague } = await supabase
             .from("leagues")
@@ -191,6 +228,8 @@ export async function processLeagueGroups(groupIds?: string[]) {
               rank,
               totalMembers: members.length,
               uniqueAnimeCount: member.unique_anime_count,
+              hardPlays: hardPlaysByUser.get(member.user_id) ?? 0,
+              impossiblePlays: impossiblePlaysByUser.get(member.user_id) ?? 0,
               league,
               nextLeague: nextLeague ?? null,
               prevLeague: prevLeague ?? null,

@@ -324,6 +324,112 @@ describe("resolveMemberFate — breadth gate (Gap 4)", () => {
   });
 });
 
+// Gap 4b — Hard / Impossible promotion gates (league-bug-1)
+const PLATINUM = { id: "L-platinum", tier: 4, promotion_slots: 10, demotion_slots: 10 };
+const DIAMOND = { id: "L-diamond", tier: 5, promotion_slots: 10, demotion_slots: 10 };
+const PLATINUM_GATE: PromotionRequirements = {
+  minAnime: 5,
+  requiresHard: true,
+  requiresImpossible: 0,
+};
+const DIAMOND_GATE: PromotionRequirements = {
+  minAnime: 6,
+  requiresHard: false,
+  requiresImpossible: 2,
+};
+
+describe("resolveMemberFate — hard/impossible gates (league-bug-1)", () => {
+  it("missed_promotion at tier 4 when requiresHard but hardPlays=0", () => {
+    const fate = resolveMemberFate({
+      rank: 1,
+      totalMembers: 30,
+      uniqueAnimeCount: 5, // breadth ok
+      hardPlays: 0,
+      league: PLATINUM,
+      nextLeague: DIAMOND,
+      prevLeague: GOLD,
+      promotionReqs: PLATINUM_GATE,
+    });
+    expect(fate.result).toBe("missed_promotion");
+    expect(fate.newTier).toBe(4);
+  });
+
+  it("promoted at tier 4 when requiresHard and hardPlays>=1", () => {
+    const fate = resolveMemberFate({
+      rank: 1,
+      totalMembers: 30,
+      uniqueAnimeCount: 5,
+      hardPlays: 1,
+      league: PLATINUM,
+      nextLeague: DIAMOND,
+      prevLeague: GOLD,
+      promotionReqs: PLATINUM_GATE,
+    });
+    expect(fate.result).toBe("promoted");
+    expect(fate.newTier).toBe(5);
+  });
+
+  it("missed_promotion at tier 5 when impossiblePlays<2 (only 1)", () => {
+    const fate = resolveMemberFate({
+      rank: 1,
+      totalMembers: 30,
+      uniqueAnimeCount: 6,
+      impossiblePlays: 1, // one short of the gate
+      league: DIAMOND,
+      nextLeague: { id: "L-champion", tier: 6, promotion_slots: 0, demotion_slots: 5 },
+      prevLeague: PLATINUM,
+      promotionReqs: DIAMOND_GATE,
+    });
+    expect(fate.result).toBe("missed_promotion");
+    expect(fate.newTier).toBe(5);
+  });
+
+  it("promoted at tier 5 when impossiblePlays>=2", () => {
+    const fate = resolveMemberFate({
+      rank: 1,
+      totalMembers: 30,
+      uniqueAnimeCount: 6,
+      impossiblePlays: 2,
+      league: DIAMOND,
+      nextLeague: { id: "L-champion", tier: 6, promotion_slots: 0, demotion_slots: 5 },
+      prevLeague: PLATINUM,
+      promotionReqs: DIAMOND_GATE,
+    });
+    expect(fate.result).toBe("promoted");
+    expect(fate.newTier).toBe(6);
+  });
+
+  it("missed_promotion when both gates fail (breadth + hard at tier 4)", () => {
+    const fate = resolveMemberFate({
+      rank: 1,
+      totalMembers: 30,
+      uniqueAnimeCount: 4, // < 5, fails breadth
+      hardPlays: 0,        // also fails hard
+      league: PLATINUM,
+      nextLeague: DIAMOND,
+      prevLeague: GOLD,
+      promotionReqs: PLATINUM_GATE,
+    });
+    expect(fate.result).toBe("missed_promotion");
+  });
+
+  it("missing optional fields default to 0 — promotes when requirement is off (back-compat)", () => {
+    // SILVER_GATE has requiresHard=false, requiresImpossible=0 — defaults
+    // are fine and existing call sites that omit these fields still work.
+    const fate = resolveMemberFate({
+      rank: 1,
+      totalMembers: 30,
+      uniqueAnimeCount: 5,
+      // hardPlays / impossiblePlays not passed
+      league: SILVER,
+      nextLeague: GOLD,
+      prevLeague: BRONZE,
+      promotionReqs: SILVER_GATE,
+    });
+    expect(fate.result).toBe("promoted");
+  });
+});
+
 // ── calculateLeagueXp (Gaps 8 + 9) ───────────────────────────
 //
 // Post-Session 4D: calculateLeagueXp now delegates increment to the

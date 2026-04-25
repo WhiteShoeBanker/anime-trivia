@@ -158,6 +158,8 @@ export interface MemberFateInput {
   rank: number;
   totalMembers: number;
   uniqueAnimeCount: number;
+  hardPlays?: number;
+  impossiblePlays?: number;
   league: {
     id: string;
     tier: number;
@@ -180,6 +182,8 @@ export const resolveMemberFate = (input: MemberFateInput): MemberFate => {
     rank,
     totalMembers,
     uniqueAnimeCount,
+    hardPlays = 0,
+    impossiblePlays = 0,
     league,
     nextLeague,
     prevLeague,
@@ -193,9 +197,19 @@ export const resolveMemberFate = (input: MemberFateInput): MemberFate => {
   const meetsAnimeReq =
     promotionReqs.minAnime === 0 ||
     uniqueAnimeCount >= promotionReqs.minAnime;
+  // league-bug-1: enforce the hard / impossible gates that
+  // getPromotionRequirements has always returned but the cron never
+  // checked. Tier 4 → Diamond needs ≥1 hard play; tier 5 → Champion
+  // needs ≥2 impossible plays.
+  const meetsHardReq = !promotionReqs.requiresHard || hardPlays >= 1;
+  const meetsImpossibleReq =
+    promotionReqs.requiresImpossible === 0 ||
+    impossiblePlays >= promotionReqs.requiresImpossible;
+  const meetsAllPromotionReqs =
+    meetsAnimeReq && meetsHardReq && meetsImpossibleReq;
 
   if (rank <= league.promotion_slots && nextLeague) {
-    if (meetsAnimeReq) {
+    if (meetsAllPromotionReqs) {
       result = "promoted";
       newLeagueId = nextLeague.id;
       newTier = nextLeague.tier;
