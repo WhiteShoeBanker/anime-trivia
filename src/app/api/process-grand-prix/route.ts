@@ -28,6 +28,27 @@ const EMBLEM_ICONS = [
 
 const ROUND_LABELS = ["Round of 16", "Quarterfinals", "Semifinals", "Final"];
 
+const QUESTIONS_PER_MATCH = 10;
+
+const pickQuestionIds = async (
+  supabase: ReturnType<typeof createServiceClient>,
+  animeId: string | null
+): Promise<string[] | null> => {
+  if (!animeId) return null;
+  const { data } = await supabase
+    .from("questions")
+    .select("id")
+    .eq("anime_id", animeId)
+    .eq("difficulty", "hard");
+  if (!data || data.length < QUESTIONS_PER_MATCH) return null;
+  const ids = data.map((q) => q.id as string);
+  for (let i = ids.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [ids[i], ids[j]] = [ids[j], ids[i]];
+  }
+  return ids.slice(0, QUESTIONS_PER_MATCH);
+};
+
 interface CronStatus {
   state: "idle" | "in_progress" | "completed" | "failed" | "partial";
   started_at?: string;
@@ -219,6 +240,8 @@ export async function processGrandPrix(skipPhases?: string[]) {
                   const p2Id = p2.userId === "bye" ? null : p2.userId;
 
                   const isBye = !p1Id || !p2Id;
+                  const animeId = isBye ? null : pickAnime();
+                  const questionIds = await pickQuestionIds(supabase, animeId);
 
                   await supabase.from("grand_prix_matches").insert({
                     tournament_id: tournament.id,
@@ -227,7 +250,8 @@ export async function processGrandPrix(skipPhases?: string[]) {
                     player1_id: p1Id,
                     player2_id: p2Id,
                     winner_id: isBye ? (p1Id ?? p2Id) : null,
-                    anime_id: isBye ? null : pickAnime(),
+                    anime_id: animeId,
+                    question_ids: questionIds,
                     status: isBye ? "completed" : "pending",
                     deadline_at: isBye ? null : deadline,
                   });
@@ -493,13 +517,17 @@ export async function processGrandPrix(skipPhases?: string[]) {
             const m2 = sortedMatches[i + 1];
             if (!m1 || !m2) continue;
 
+            const animeId = pickAnime();
+            const questionIds = await pickQuestionIds(supabase, animeId);
+
             await supabase.from("grand_prix_matches").insert({
               tournament_id: tournament.id,
               round: nextRound,
               match_number: Math.floor(i / 2) + 1,
               player1_id: m1.winner_id,
               player2_id: m2.winner_id,
-              anime_id: pickAnime(),
+              anime_id: animeId,
+              question_ids: questionIds,
               status: "pending",
               deadline_at: deadline,
             });

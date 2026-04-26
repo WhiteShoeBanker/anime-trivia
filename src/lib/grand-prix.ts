@@ -98,84 +98,30 @@ export const getTournamentEmblem = async (
 };
 
 // ── Submit Match Score ─────────────────────────────────────────
+//
+// Thin wrapper that POSTs to /api/grand-prix/submit-score. The server
+// re-derives the score from the trusted answer key and clamps the
+// total time, so direct client writes to grand_prix_matches are no
+// longer accepted (RLS update policy was dropped in migration 024).
+
+export interface SubmitMatchAnswer {
+  questionId: string;
+  selectedOption: number;
+  timeMs: number;
+}
 
 export const submitMatchScore = async (
   matchId: string,
-  userId: string,
-  score: number,
-  totalTimeMs: number
+  answers: SubmitMatchAnswer[]
 ): Promise<GrandPrixMatch | null> => {
-  const supabase = createClient();
-
-  // Fetch current match state
-  const { data: match } = await supabase
-    .from("grand_prix_matches")
-    .select("*")
-    .eq("id", matchId)
-    .single();
-
-  if (!match) return null;
-
-  const isPlayer1 = match.player1_id === userId;
-  const isPlayer2 = match.player2_id === userId;
-
-  if (!isPlayer1 && !isPlayer2) return null;
-
-  // Build update payload
-  const update: Record<string, unknown> = {};
-
-  if (isPlayer1) {
-    update.player1_score = score;
-    update.player1_time_ms = totalTimeMs;
-    if (match.status === "pending") {
-      update.status = "player1_done";
-    } else if (match.status === "player2_done") {
-      update.status = "completed";
-      update.played_at = new Date().toISOString();
-    }
-  } else {
-    update.player2_score = score;
-    update.player2_time_ms = totalTimeMs;
-    if (match.status === "pending") {
-      update.status = "player2_done";
-    } else if (match.status === "player1_done") {
-      update.status = "completed";
-      update.played_at = new Date().toISOString();
-    }
-  }
-
-  // If match just completed, determine winner
-  if (update.status === "completed") {
-    const p1Score = isPlayer1 ? score : match.player1_score;
-    const p2Score = isPlayer2 ? score : match.player2_score;
-    const p1Time = isPlayer1 ? totalTimeMs : match.player1_time_ms;
-    const p2Time = isPlayer2 ? totalTimeMs : match.player2_time_ms;
-
-    if (p1Score !== null && p2Score !== null) {
-      if (p1Score > p2Score) {
-        update.winner_id = match.player1_id;
-      } else if (p2Score > p1Score) {
-        update.winner_id = match.player2_id;
-      } else {
-        // Tiebreaker: faster time wins
-        if (p1Time !== null && p2Time !== null) {
-          update.winner_id = p1Time <= p2Time ? match.player1_id : match.player2_id;
-        } else {
-          // Higher seed (player1) advances on tie
-          update.winner_id = match.player1_id;
-        }
-      }
-    }
-  }
-
-  const { data: updated } = await supabase
-    .from("grand_prix_matches")
-    .update(update)
-    .eq("id", matchId)
-    .select()
-    .single();
-
-  return (updated as GrandPrixMatch) ?? null;
+  const res = await fetch("/api/grand-prix/submit-score", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ matchId, answers }),
+  });
+  if (!res.ok) return null;
+  const { match } = (await res.json()) as { match: GrandPrixMatch | null };
+  return match ?? null;
 };
 
 // ── Get User's Pending Match ───────────────────────────────────

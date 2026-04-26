@@ -59,30 +59,26 @@ export const useGrandPrixStore = create<GPQuizState & GPQuizActions>((set, get) 
     try {
       const supabase = createClient();
 
-      if (!match.anime_id) {
+      if (!match.anime_id || !match.question_ids?.length) {
         set({ quizStatus: "idle" });
         return;
       }
 
-      const { data: allQuestions, error } = await supabase
+      const { data: rows, error } = await supabase
         .from("questions")
         .select("*")
-        .eq("anime_id", match.anime_id)
-        .eq("difficulty", "hard");
+        .in("id", match.question_ids);
 
-      if (error || !allQuestions) {
+      if (error || !rows || rows.length === 0) {
         set({ quizStatus: "idle" });
         return;
       }
 
-      // Fisher-Yates shuffle
-      const questions = [...(allQuestions as Question[])];
-      for (let i = questions.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [questions[i], questions[j]] = [questions[j], questions[i]];
-      }
-
-      const selected = questions.slice(0, 10);
+      // Preserve server-assigned order
+      const byId = new Map((rows as Question[]).map((q) => [q.id, q]));
+      const selected = match.question_ids
+        .map((id) => byId.get(id))
+        .filter((q): q is Question => q !== undefined);
 
       if (selected.length === 0) {
         set({ quizStatus: "idle" });
@@ -176,17 +172,18 @@ export const useGrandPrixStore = create<GPQuizState & GPQuizActions>((set, get) 
     }
   },
 
-  submitResults: async (userId) => {
+  submitResults: async (_userId) => {
     const state = get();
     if (!state.match) return;
 
     try {
-      const totalTimeMs = state.answers.reduce((sum, a) => sum + a.timeMs, 0);
       const updated = await submitMatchScore(
         state.match.id,
-        userId,
-        state.score,
-        totalTimeMs
+        state.answers.map((a) => ({
+          questionId: a.questionId,
+          selectedOption: a.selectedOption,
+          timeMs: a.timeMs,
+        }))
       );
 
       set({ quizStatus: "submitted", submittedMatch: updated });

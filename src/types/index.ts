@@ -307,6 +307,7 @@ export interface GrandPrixMatch {
   deadline_at: string | null;
   played_at: string | null;
   created_at: string;
+  question_ids: string[] | null;
 }
 
 export interface GrandPrixEmblem {
