@@ -54,3 +54,6 @@ playwright-report/
 test-results/
 /e2e/.auth/
 playwright/.cache/
+
+# local scratch (review dumps, ad-hoc notes)
+.scratch/
