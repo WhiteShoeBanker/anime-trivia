@@ -17,6 +17,7 @@ const DEFAULTS: Record<string, unknown> = {
   announcement_banner: "",
   ad_visibility: true,
   daily_challenge_mix: { easy: 3, medium: 3, hard: 3, impossible: 1 },
+  daily_challenge_mix_junior: { easy: 5, medium: 5 },
 };
 
 export const getConfig = async <T>(key: string): Promise<T> => {

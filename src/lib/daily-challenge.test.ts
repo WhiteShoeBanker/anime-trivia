@@ -7,8 +7,11 @@ vi.mock("@/lib/supabase/client", () => ({
 }));
 
 const mockGetDailyChallengeMix = vi.fn();
+const mockGetDailyChallengeMixForAge = vi.fn();
 vi.mock("@/lib/config-actions", () => ({
   getDailyChallengeMix: () => mockGetDailyChallengeMix(),
+  getDailyChallengeMixForAge: (ageGroup: string) =>
+    mockGetDailyChallengeMixForAge(ageGroup),
 }));
 
 import {
@@ -57,6 +60,9 @@ beforeEach(() => {
     hard: 3,
     impossible: 1,
   });
+  // Default: no age-specific override → callers fall back to base mix.
+  // Tests that exercise the junior override re-set this per-test.
+  mockGetDailyChallengeMixForAge.mockResolvedValue(null);
 });
 
 // ═══════════════════════════════════════════════════════════════
@@ -348,5 +354,98 @@ describe("saveDailyChallengeResult — streak & idempotency", () => {
     for (const u of updates) {
       expect(u).not.toHaveProperty("total_xp");
     }
+  });
+});
+
+// ═══════════════════════════════════════════════════════════════
+// daily-bug-4 — Age-specific daily challenge mix (junior override)
+// ═══════════════════════════════════════════════════════════════
+
+describe("fetchDailyChallengeQuestions — age-specific mix override (daily-bug-4)", () => {
+  it("uses the junior override (5 easy + 5 medium) when configured", async () => {
+    mockGetDailyChallengeMixForAge.mockResolvedValue({ easy: 5, medium: 5 });
+
+    const animeList = [makeAnime("a-e1", "E"), makeAnime("a-e2", "E")];
+    const easyQs = Array.from({ length: 20 }, (_, i) =>
+      makeQuestion(`q-easy-${i}`, animeList[i % 2].id, "easy")
+    );
+    const mediumQs = Array.from({ length: 20 }, (_, i) =>
+      makeQuestion(`q-medium-${i}`, animeList[i % 2].id, "medium")
+    );
+
+    installSupabaseResponder(mockFrom, (q) => {
+      if (q.table === "anime_series") return { data: animeList };
+      if (q.table === "questions") {
+        const diff = q.ops.find(
+          (op) => op.method === "eq" && op.args[0] === "difficulty"
+        )?.args[1] as string;
+        if (diff === "easy") return { data: easyQs };
+        if (diff === "medium") return { data: mediumQs };
+        return { data: [] };
+      }
+      return { data: null };
+    });
+
+    const result = await fetchDailyChallengeQuestions("junior");
+
+    expect(result).toHaveLength(10);
+    const difficulties = result.map((q) => q.difficulty);
+    expect(difficulties.filter((d) => d === "easy")).toHaveLength(5);
+    expect(difficulties.filter((d) => d === "medium")).toHaveLength(5);
+    expect(difficulties).not.toContain("hard");
+    expect(difficulties).not.toContain("impossible");
+  });
+
+  it("junior falls back to base mix when no override is configured (returns null)", async () => {
+    mockGetDailyChallengeMixForAge.mockResolvedValue(null);
+    // Base mix from beforeEach: {easy:3, medium:3, hard:3, impossible:1}
+
+    const animeList = [makeAnime("a-e1", "E")];
+    installSupabaseResponder(mockFrom, (q) => {
+      if (q.table === "anime_series") return { data: animeList };
+      if (q.table === "questions") {
+        const diff = q.ops.find(
+          (op) => op.method === "eq" && op.args[0] === "difficulty"
+        )?.args[1] as string;
+        return {
+          data: Array.from({ length: 10 }, (_, i) =>
+            makeQuestion(`q-${diff}-${i}`, "a-e1", diff)
+          ),
+        };
+      }
+      return { data: null };
+    });
+
+    const result = await fetchDailyChallengeQuestions("junior");
+    expect(result).toHaveLength(10); // 3+3+3+1 = base mix applied
+  });
+
+  it("teen consults getDailyChallengeMixForAge but always lands on the base mix", async () => {
+    // The function is called for every age, but the production
+    // implementation in config-actions.ts only returns a non-null
+    // override for "junior". For teen/full the wrapper returns null,
+    // callers fall back to base. The mock is null here to mirror that
+    // production behavior; the assertion locks in that the call site
+    // does pass the ageGroup through.
+    mockGetDailyChallengeMixForAge.mockResolvedValue(null);
+
+    const animeList = [makeAnime("a-e1", "E"), makeAnime("a-t1", "T")];
+    installSupabaseResponder(mockFrom, (q) => {
+      if (q.table === "anime_series") return { data: animeList };
+      if (q.table === "questions") {
+        const diff = q.ops.find(
+          (op) => op.method === "eq" && op.args[0] === "difficulty"
+        )?.args[1] as string;
+        return {
+          data: Array.from({ length: 5 }, (_, i) =>
+            makeQuestion(`q-${diff}-${i}`, "a-e1", diff)
+          ),
+        };
+      }
+      return { data: null };
+    });
+
+    await fetchDailyChallengeQuestions("teen");
+    expect(mockGetDailyChallengeMixForAge).toHaveBeenCalledWith("teen");
   });
 });

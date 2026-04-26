@@ -1,5 +1,8 @@
 import { createClient } from "@/lib/supabase/client";
-import { getDailyChallengeMix } from "@/lib/config-actions";
+import {
+  getDailyChallengeMix,
+  getDailyChallengeMixForAge,
+} from "@/lib/config-actions";
 import type { Question, AgeGroup } from "@/types";
 
 /**
@@ -28,10 +31,12 @@ export const fetchDailyChallengeQuestions = async (
 
   const allowedAnimeIds = (animeList as Array<{ id: string }>).map((a) => a.id);
 
-  // TODO(daily-bug-4): daily_challenge_mix is a single admin_config value
-  // applied to all age groups. Junior spec calls for 5E+5M; add an
-  // age-keyed override when that requirement lands.
-  const mixConfig = await getDailyChallengeMix();
+  // Age-aware mix lookup (closes daily-bug-4). Juniors use the
+  // junior-specific override when one is configured; otherwise fall
+  // back to the base mix used by teen / full.
+  const mixConfig =
+    (await getDailyChallengeMixForAge(ageGroup)) ??
+    (await getDailyChallengeMix());
   const difficultyMix: Array<{ difficulty: string; count: number }> = Object.entries(
     mixConfig
   ).map(([difficulty, count]) => ({ difficulty, count }));
