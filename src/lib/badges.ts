@@ -1,3 +1,24 @@
+// ─────────────────────────────────────────────────────────────
+// TODO(badge-bug-2): Client-side trust boundary
+//
+// All badge awarding in this module runs in the browser.
+// `checkAndAwardBadges` accepts an arbitrary BadgeCheckContext
+// (quizScore, quizTotal, isDuel, etc.) and inserts directly
+// into `user_badges` via the Supabase browser client. RLS only
+// enforces `auth.uid() = user_id` — it does NOT verify that
+// the context reflects a real game outcome. A user can call
+// this from devtools and self-award any context-driven badge
+// (e.g. perfect-duel, hard-perfect, lightning-hard) without
+// playing.
+//
+// Time-based checkers (hour_before / hour_after) additionally
+// trust the device clock; OS-clock manipulation works.
+//
+// Resolution requires moving badge awards to a server-side
+// route or Supabase RPC with trusted inputs. Deferred to
+// Session 4G.
+// ─────────────────────────────────────────────────────────────
+
 import { createClient } from "@/lib/supabase/client";
 import type { Badge, BadgeCheckContext, Difficulty } from "@/types";
 
@@ -328,8 +349,19 @@ const checkTimeBeforeBadge = (hour: number): boolean => {
   return localHour < hour;
 };
 
+// `hour_after` badges describe a "late-night window." For
+// thresholds at or after 8 PM (hour >= 20), the window wraps
+// past midnight and stays open until EARLY_MORNING_CUTOFF
+// local time so that someone playing at 1 AM still satisfies
+// "Complete a quiz after 11 PM." For thresholds before 8 PM,
+// no wraparound — a strict same-day `>=` comparison.
+const EARLY_MORNING_CUTOFF = 5;
+
 const checkTimeAfterBadge = (hour: number): boolean => {
   const localHour = new Date().getHours();
+  if (hour >= 20) {
+    return localHour >= hour || localHour < EARLY_MORNING_CUTOFF;
+  }
   return localHour >= hour;
 };
 

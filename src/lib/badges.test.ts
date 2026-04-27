@@ -676,4 +676,85 @@ describe("checkAndAwardBadges", () => {
       expect(result.length).toBe(0);
     });
   });
+
+  // ── hour_after wraparound (bug-3 fix) ──────────────────────
+  // Verifies the late-night-window wraparound: for hour >= 20,
+  // the badge awards in early-morning hours up to (but not
+  // including) the EARLY_MORNING_CUTOFF (5 AM local).
+
+  describe("hour_after wraparound (bug-3 fix)", () => {
+    const NIGHT_OWL_BADGE = {
+      id: "night-owl",
+      slug: "night-owl",
+      name: "Night Owl",
+      description: "Complete a quiz after 11 PM local time",
+      category: "time",
+      icon_name: "Moon",
+      icon_color: "#6366F1",
+      requirement_type: "hour_after",
+      requirement_value: { hour: 23 },
+      rarity: "uncommon",
+      created_at: "2024-01-01",
+    };
+
+    beforeEach(() => {
+      vi.useFakeTimers();
+    });
+    afterEach(() => {
+      vi.useRealTimers();
+    });
+
+    it("awards night-owl badge in early-morning hours up to 5 AM cutoff", async () => {
+      // 4:30 AM the morning after — wraps into the late-night window.
+      vi.setSystemTime(new Date(2026, 3, 27, 4, 30, 0));
+
+      let callCount = 0;
+      mockFrom.mockImplementation((table: string) => {
+        callCount++;
+        if (table === "badges") return chain([NIGHT_OWL_BADGE]);
+        if (table === "user_badges" && callCount <= 3) return chain([]);
+        if (table === "user_profiles") {
+          return chain({ current_streak: 0, longest_streak: 0, total_xp: 100, created_at: "2024-01-01" });
+        }
+        if (table === "quiz_sessions") return chain([], 0);
+        if (table === "anime_series") return chain(null, 10);
+        if (table === "league_history") return chain(null, 0);
+        if (table === "league_memberships") return chain({ leagues: { tier: 1 } });
+        if (table === "grand_prix_matches") return chain(null, 0);
+        if (table === "grand_prix_tournaments") return chain(null, 0);
+        if (table === "duel_stats") return chain({ wins: 0, giant_kills: 0, win_streak: 0, best_win_streak: 0 });
+        return chain(null);
+      });
+
+      const result = await checkAndAwardBadges({ userId: "user-1" });
+      expect(result.length).toBe(1);
+      expect(result[0].slug).toBe("night-owl");
+    });
+
+    it("does not award night-owl badge at 5 AM cutoff", async () => {
+      // 5:00 AM exactly — outside the wraparound window (strict <).
+      vi.setSystemTime(new Date(2026, 3, 27, 5, 0, 0));
+
+      let callCount = 0;
+      mockFrom.mockImplementation((table: string) => {
+        callCount++;
+        if (table === "badges") return chain([NIGHT_OWL_BADGE]);
+        if (table === "user_badges" && callCount <= 3) return chain([]);
+        if (table === "user_profiles") {
+          return chain({ current_streak: 0, longest_streak: 0, total_xp: 100, created_at: "2024-01-01" });
+        }
+        if (table === "quiz_sessions") return chain([], 0);
+        if (table === "anime_series") return chain(null, 10);
+        if (table === "league_history") return chain(null, 0);
+        if (table === "league_memberships") return chain({ leagues: { tier: 1 } });
+        if (table === "grand_prix_matches") return chain(null, 0);
+        if (table === "grand_prix_tournaments") return chain(null, 0);
+        if (table === "duel_stats") return chain({ wins: 0, giant_kills: 0, win_streak: 0, best_win_streak: 0 });
+        return chain(null);
+      });
+
+      const result = await checkAndAwardBadges({ userId: "user-1" });
+      expect(result.length).toBe(0);
+    });
+  });
 });
