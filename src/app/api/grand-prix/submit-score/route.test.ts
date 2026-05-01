@@ -328,3 +328,82 @@ describe("POST /api/grand-prix/submit-score", () => {
     expect(update.winner_id).toBe(PLAYER1);
   });
 });
+
+// ═══════════════════════════════════════════════════════════════
+// gp-bug-6 fix: read-then-write race between near-simultaneous
+// submissions. The route now adds .eq("status", match.status) to
+// the UPDATE chain — a concurrent writer that already advanced
+// status causes zero rows to match, and the route returns 409.
+// ═══════════════════════════════════════════════════════════════
+
+describe("submit-score conditional UPDATE (gp-bug-6 fix)", () => {
+  beforeEach(() => {
+    serviceFrom.mockReset();
+    mockGetUser.mockReset();
+  });
+
+  it("returns 409 when conditional UPDATE matches zero rows (concurrent writer already advanced status)", async () => {
+    mockGetUser.mockResolvedValue({ data: { user: { id: PLAYER1 } } });
+
+    // Discriminate SELECT vs UPDATE on grand_prix_matches: SELECT
+    // returns the match (route reads status, identifies player,
+    // computes the would-be transition); UPDATE returns null
+    // because the .eq("status", match.status) WHERE clause
+    // matched zero rows — a concurrent writer already moved
+    // status past "pending".
+    const matchRow = buildMatch();
+    const concurrentResponder: Responder = (q) => {
+      if (q.table === "grand_prix_matches") {
+        const isUpdate = q.ops.some((op) => op.method === "update");
+        return { data: isUpdate ? null : matchRow };
+      }
+      if (q.table === "questions") {
+        return { data: buildQuestions() };
+      }
+      return { data: null };
+    };
+    installSupabaseResponder(serviceFrom, concurrentResponder);
+
+    const res = await POST(
+      makeRequest({ matchId: MATCH_ID, answers: buildAnswers(0) })
+    );
+
+    expect(res.status).toBe(409);
+    const body = await res.json();
+    expect(body.error).toBe("Concurrent submission");
+  });
+
+  it("happy path: conditional WHERE applied, normal submission still works (regression guard)", async () => {
+    mockGetUser.mockResolvedValue({ data: { user: { id: PLAYER1 } } });
+    const queries = installSupabaseResponder(
+      serviceFrom,
+      responder({ match: buildMatch() })
+    );
+
+    const res = await POST(
+      makeRequest({ matchId: MATCH_ID, answers: buildAnswers(0) })
+    );
+    expect(res.status).toBe(200);
+    const body = await res.json();
+    expect(body.match).not.toBeNull();
+
+    // Regression check: the conditional WHERE was applied — the
+    // captured update query has eq("status", "pending") *in
+    // addition* to eq("id", MATCH_ID).
+    const updateCalls = findAllCalls(queries, "grand_prix_matches", "update");
+    expect(updateCalls).toHaveLength(1);
+    const eqCalls = updateCalls[0].ops.filter((op) => op.method === "eq");
+    expect(
+      eqCalls.some((op) => op.args[0] === "id" && op.args[1] === MATCH_ID)
+    ).toBe(true);
+    expect(
+      eqCalls.some((op) => op.args[0] === "status" && op.args[1] === "pending")
+    ).toBe(true);
+
+    // And the update payload itself is what the existing happy-path
+    // tests already cover — first-submitter goes to player1_done.
+    const updateOp = updateCalls[0].ops.find((op) => op.method === "update");
+    const payload = updateOp!.args[0] as Record<string, unknown>;
+    expect(payload.status).toBe("player1_done");
+  });
+});

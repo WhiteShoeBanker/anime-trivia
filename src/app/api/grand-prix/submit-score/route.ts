@@ -5,14 +5,6 @@
 // against a trusted answer key (questions.options[].isCorrect) and
 // clamps total time to a sane range so totalTimeMs:1 cannot
 // short-circuit the tiebreaker.
-//
-// TODO(gp-bug-6): read-then-write race between near-simultaneous
-// submissions. Two POSTs that both read status="pending" before
-// either writes will each compute a "_done" transition; the loser
-// overwrites the winner's transition and the match can stall in
-// player1_done or player2_done until the 48h forfeit cron resolves
-// it. Real fix is a conditional UPDATE with status in the WHERE
-// clause (or a Postgres function). Deferred to a later session.
 // ═══════════════════════════════════════════════════════════════
 
 import { NextResponse } from "next/server";
@@ -168,8 +160,16 @@ export async function POST(request: Request) {
     .from("grand_prix_matches")
     .update(update)
     .eq("id", body.matchId)
+    .eq("status", match.status)
     .select()
     .single();
+
+  if (!updated) {
+    return NextResponse.json(
+      { error: "Concurrent submission" },
+      { status: 409 }
+    );
+  }
 
   return NextResponse.json({ match: updated });
 }
