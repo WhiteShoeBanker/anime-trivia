@@ -570,7 +570,7 @@ describe("processGrandPrix — bye propagation (Gap 3, gp-bug-2)", () => {
     vi.useRealTimers();
   });
 
-  it("with 2 real qualifiers and 14 byes, R1 matches m=3..8 are inserted with both players null and status=completed", async () => {
+  it("2 qualifiers produces a 2-player bracket: 1 R1 final, zero bye padding (gp-bug-2 fix)", async () => {
     const members = makeMembers(2);
     const queries = installSupabaseResponder(
       serviceFrom,
@@ -584,18 +584,22 @@ describe("processGrandPrix — bye propagation (Gap 3, gp-bug-2)", () => {
     await processGrandPrix();
 
     const matchInserts = findInsertPayloads(queries, "grand_prix_matches");
-    expect(matchInserts).toHaveLength(8);
+    expect(matchInserts).toHaveLength(1);
 
-    // m=1 and m=2 (match_number) are real-vs-bye (one player non-null, completed)
-    // m=3..8 are bye-vs-bye (both null, winner=null, completed)
-    const byeVsBye = matchInserts.filter(
-      (p) =>
-        p.player1_id === null &&
-        p.player2_id === null &&
-        p.winner_id === null &&
-        p.status === "completed"
-    );
-    expect(byeVsBye).toHaveLength(6);
+    const finalMatch = matchInserts[0];
+    expect(finalMatch.round).toBe(1);
+    expect(finalMatch.status).toBe("pending");
+    expect(finalMatch.player1_id).toBe("u-1");
+    expect(finalMatch.player2_id).toBe("u-2");
+    expect(finalMatch.winner_id).toBe(null);
+
+    // bracket_data records this as a 1-round bracket with label "Final"
+    const tInsert = findInsertPayloads(queries, "grand_prix_tournaments")[0];
+    const bracketData = tInsert.bracket_data as {
+      rounds: Array<{ round: number; label: string }>;
+    };
+    expect(bracketData.rounds).toHaveLength(1);
+    expect(bracketData.rounds[0].label).toBe("Final");
   });
 
   it("R2 insert with one feeder winner=null produces a pending match with player2_id=null", async () => {
@@ -695,34 +699,27 @@ describe("processGrandPrix — tournament completion (Gap 4)", () => {
     ).toBe(true);
   });
 
-  it("R4 with winner_id=null leaves tournament in_progress; running cron a second time does not transition either (gp-bug-2 × Gap 4 permanent stuck state)", async () => {
-    const opts: ResponderOpts = {
-      activeTournaments: [{ id: "T-1" }],
-      allMatches: [
-        {
-          round: 4,
-          match_number: 1,
-          status: "completed",
-          winner_id: null,
-          player1_id: null,
-          player2_id: null,
-        },
-      ],
-    };
+  it("gp-bug-2 invariant: with 2 qualifiers, no R1 match is inserted with both player IDs null (variable bracket size eliminates the bye-vs-bye precondition for the stuck-state)", async () => {
+    // Override outer beforeEach (date 15) to enter Phase 1 (qualification).
+    vi.setSystemTime(new Date("2026-04-01T00:00:00Z"));
 
-    // Run #1
-    serviceFrom.mockReset();
-    const queries1 = installSupabaseResponder(serviceFrom, defaultResponder(opts));
-    await processGrandPrix(["qualify"]);
-    expect(findUpdatePayloads(queries1, "grand_prix_tournaments")).toHaveLength(0);
-    expect(findUpsertPayloads(queries1, "user_emblems")).toHaveLength(0);
+    const members = makeMembers(2);
+    const queries = installSupabaseResponder(
+      serviceFrom,
+      defaultResponder({
+        championMembers: members,
+        xpData: makeXpDataFromMembers(members),
+        profiles: members.map((m) => ({ id: m.user_id, display_name: m.user_id })),
+      })
+    );
 
-    // Run #2 — same input, should still not transition
-    serviceFrom.mockReset();
-    const queries2 = installSupabaseResponder(serviceFrom, defaultResponder(opts));
-    await processGrandPrix(["qualify"]);
-    expect(findUpdatePayloads(queries2, "grand_prix_tournaments")).toHaveLength(0);
-    expect(findUpsertPayloads(queries2, "user_emblems")).toHaveLength(0);
+    await processGrandPrix();
+
+    const matchInserts = findInsertPayloads(queries, "grand_prix_matches");
+    const byeVsBye = matchInserts.filter(
+      (p) => p.player1_id === null && p.player2_id === null
+    );
+    expect(byeVsBye).toHaveLength(0);
   });
 
   it("triple-crown — winCount >= 3 also upserts gp-3-wins badge", async () => {
@@ -927,5 +924,159 @@ describe("processGrandPrix — timeout / partial state (Gap 5)", () => {
     // Phase names must lead the array (the retry route filters tournament IDs out)
     expect(partial?.remaining_ids?.[0]).toBe("advance_bracket");
     expect(partial?.remaining_ids).toContain("cleanup_qualifying");
+  });
+});
+
+// ═══════════════════════════════════════════════════════════════
+// Variable bracket size (gp-bug-2 fix). The bracket size is now
+// next-power-of-2 of the qualifier count, capped at 16. So 8
+// qualifiers produce an 8-player bracket (NOT a 16-player bracket
+// padded with 8 byes), which eliminates the bye-vs-bye R1 cascade
+// that would otherwise stall the tournament in_progress forever.
+// ═══════════════════════════════════════════════════════════════
+
+describe("processGrandPrix — variable bracket size (gp-bug-2 fix)", () => {
+  beforeEach(() => {
+    serviceFrom.mockReset();
+    vi.useFakeTimers();
+    vi.setSystemTime(new Date("2026-04-01T00:00:00Z"));
+  });
+
+  afterEach(() => {
+    vi.useRealTimers();
+  });
+
+  it("8 qualifiers produces an 8-player bracket (NOT a 16-player bracket with 8 byes)", async () => {
+    const members = makeMembers(8);
+    const queries = installSupabaseResponder(
+      serviceFrom,
+      defaultResponder({
+        championMembers: members,
+        xpData: makeXpDataFromMembers(members),
+        profiles: members.map((m) => ({ id: m.user_id, display_name: m.user_id })),
+      })
+    );
+
+    await processGrandPrix();
+
+    const matchInserts = findInsertPayloads(queries, "grand_prix_matches");
+    expect(matchInserts).toHaveLength(4);
+    for (const match of matchInserts) {
+      expect(match.player1_id).not.toBe(null);
+      expect(match.player2_id).not.toBe(null);
+      expect(match.status).toBe("pending");
+    }
+
+    const tInsert = findInsertPayloads(queries, "grand_prix_tournaments")[0];
+    const bracketData = tInsert.bracket_data as {
+      rounds: Array<{ round: number; label: string }>;
+    };
+    expect(bracketData.rounds.map((r) => r.label)).toEqual([
+      "Quarterfinals",
+      "Semifinals",
+      "Final",
+    ]);
+  });
+
+  it("4 qualifiers produces a 4-player bracket: 2 R1 matches, both real-vs-real", async () => {
+    const members = makeMembers(4);
+    const queries = installSupabaseResponder(
+      serviceFrom,
+      defaultResponder({
+        championMembers: members,
+        xpData: makeXpDataFromMembers(members),
+        profiles: members.map((m) => ({ id: m.user_id, display_name: m.user_id })),
+      })
+    );
+
+    await processGrandPrix();
+
+    const matchInserts = findInsertPayloads(queries, "grand_prix_matches");
+    expect(matchInserts).toHaveLength(2);
+    for (const match of matchInserts) {
+      expect(match.player1_id).not.toBe(null);
+      expect(match.player2_id).not.toBe(null);
+      expect(match.status).toBe("pending");
+    }
+
+    const tInsert = findInsertPayloads(queries, "grand_prix_tournaments")[0];
+    const bracketData = tInsert.bracket_data as {
+      rounds: Array<{ round: number; label: string }>;
+    };
+    expect(bracketData.rounds.map((r) => r.label)).toEqual([
+      "Semifinals",
+      "Final",
+    ]);
+  });
+
+  it("5 qualifiers produces an 8-player bracket with 3 byes: 4 R1 inserts (3 bye-completed + 1 real-vs-real, no bye-vs-bye)", async () => {
+    const members = makeMembers(5);
+    const queries = installSupabaseResponder(
+      serviceFrom,
+      defaultResponder({
+        championMembers: members,
+        xpData: makeXpDataFromMembers(members),
+        profiles: members.map((m) => ({ id: m.user_id, display_name: m.user_id })),
+      })
+    );
+
+    await processGrandPrix();
+
+    const matchInserts = findInsertPayloads(queries, "grand_prix_matches");
+    expect(matchInserts).toHaveLength(4);
+
+    const completedBye = matchInserts.filter((p) => p.status === "completed");
+    expect(completedBye).toHaveLength(3);
+    for (const m of completedBye) {
+      expect(m.player1_id === null || m.player2_id === null).toBe(true);
+      expect(m.winner_id).not.toBe(null);
+    }
+
+    const realVsReal = matchInserts.filter((p) => p.status === "pending");
+    expect(realVsReal).toHaveLength(1);
+    expect(realVsReal[0].player1_id).not.toBe(null);
+    expect(realVsReal[0].player2_id).not.toBe(null);
+
+    // No bye-vs-bye (the gp-bug-2 precondition)
+    const byeVsBye = matchInserts.filter(
+      (p) => p.player1_id === null && p.player2_id === null
+    );
+    expect(byeVsBye).toHaveLength(0);
+  });
+
+  it("3 qualifiers produces a 4-player bracket with 1 bye: 2 R1 inserts (1 bye-completed + 1 real-vs-real)", async () => {
+    const members = makeMembers(3);
+    const queries = installSupabaseResponder(
+      serviceFrom,
+      defaultResponder({
+        championMembers: members,
+        xpData: makeXpDataFromMembers(members),
+        profiles: members.map((m) => ({ id: m.user_id, display_name: m.user_id })),
+      })
+    );
+
+    await processGrandPrix();
+
+    const matchInserts = findInsertPayloads(queries, "grand_prix_matches");
+    expect(matchInserts).toHaveLength(2);
+
+    const completedBye = matchInserts.filter((p) => p.status === "completed");
+    expect(completedBye).toHaveLength(1);
+    expect(
+      completedBye[0].player1_id === null || completedBye[0].player2_id === null
+    ).toBe(true);
+    expect(completedBye[0].winner_id).not.toBe(null);
+
+    const realVsReal = matchInserts.filter((p) => p.status === "pending");
+    expect(realVsReal).toHaveLength(1);
+
+    const tInsert = findInsertPayloads(queries, "grand_prix_tournaments")[0];
+    const bracketData = tInsert.bracket_data as {
+      rounds: Array<{ round: number; label: string }>;
+    };
+    expect(bracketData.rounds.map((r) => r.label)).toEqual([
+      "Semifinals",
+      "Final",
+    ]);
   });
 });

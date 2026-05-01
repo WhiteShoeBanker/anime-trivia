@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { createServiceClient } from "@/lib/supabase/service";
 import { trackEvent } from "@/lib/analytics";
+import type { BracketData } from "@/types";
 
 // Vercel Cron: runs every 6 hours for bracket advancement
 // Configured in vercel.json
@@ -29,6 +30,13 @@ const EMBLEM_ICONS = [
 const ROUND_LABELS = ["Round of 16", "Quarterfinals", "Semifinals", "Final"];
 
 const QUESTIONS_PER_MATCH = 10;
+
+const BRACKET_SIZE_CAP = 16;
+
+const nextPowerOfTwo = (n: number): number => {
+  if (n <= 1) return 1;
+  return Math.pow(2, Math.ceil(Math.log2(n)));
+};
 
 const pickQuestionIds = async (
   supabase: ReturnType<typeof createServiceClient>,
@@ -164,10 +172,15 @@ export async function processGrandPrix(skipPhases?: string[]) {
 
             const ranked = Array.from(xpMap.entries())
               .sort((a, b) => b[1] - a[1])
-              .slice(0, 16);
+              .slice(0, BRACKET_SIZE_CAP);
+
+            const bracketSize = Math.min(
+              BRACKET_SIZE_CAP,
+              nextPowerOfTwo(Math.max(2, ranked.length))
+            );
 
             if (ranked.length >= 2) {
-              while (ranked.length < 16) {
+              while (ranked.length < bracketSize) {
                 ranked.push(["bye", 0]);
               }
 
@@ -188,15 +201,17 @@ export async function processGrandPrix(skipPhases?: string[]) {
                 username: userId === "bye" ? "BYE" : (profileMap.get(userId) ?? "Player"),
               }));
 
-              const rounds = ROUND_LABELS.map((label, idx) => {
-                const matchCount = 8 / Math.pow(2, idx);
+              const totalRounds = Math.log2(bracketSize);
+              const labels = ROUND_LABELS.slice(-totalRounds);
+              const rounds = labels.map((label, idx) => {
+                const matchCount = (bracketSize / 2) / Math.pow(2, idx);
                 const matchRefs = [];
                 for (let m = 0; m < matchCount; m++) {
                   if (idx === 0) {
                     matchRefs.push({
                       matchNumber: m + 1,
                       player1Seed: m + 1,
-                      player2Seed: 16 - m,
+                      player2Seed: bracketSize - m,
                     });
                   } else {
                     matchRefs.push({
@@ -232,9 +247,9 @@ export async function processGrandPrix(skipPhases?: string[]) {
 
                 const deadline = new Date(now.getTime() + 48 * 60 * 60 * 1000).toISOString();
 
-                for (let m = 0; m < 8; m++) {
+                for (let m = 0; m < bracketSize / 2; m++) {
                   const p1 = seeds[m];
-                  const p2 = seeds[15 - m];
+                  const p2 = seeds[bracketSize - 1 - m];
 
                   const p1Id = p1.userId === "bye" ? null : p1.userId;
                   const p2Id = p2.userId === "bye" ? null : p2.userId;
@@ -424,8 +439,12 @@ export async function processGrandPrix(skipPhases?: string[]) {
             continue;
           }
 
-          // If this was the final (4th round), complete the tournament
-          if (maxRound >= 4) {
+          // Bracket can be any of {2,4,8,16}-player; totalRounds is
+          // derived from the persisted bracket_data. The ?? 4 fallback
+          // covers legacy in-flight rows that pre-date the variable-size fix.
+          const bracketData = tournament.bracket_data as BracketData | null;
+          const totalRoundsForTournament = bracketData?.rounds.length ?? 4;
+          if (maxRound >= totalRoundsForTournament) {
             const finalMatch = currentRoundMatches[0];
             if (finalMatch?.winner_id) {
               await supabase
