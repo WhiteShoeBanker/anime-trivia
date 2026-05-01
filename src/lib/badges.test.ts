@@ -1,12 +1,11 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 
-// Mock Supabase before importing badges module
+// Engine doesn't import the supabase client — the test passes
+// `mockSupabase` explicitly to every runBadgeChecks call.
 const mockFrom = vi.fn();
-vi.mock("@/lib/supabase/client", () => ({
-  createClient: () => ({ from: mockFrom }),
-}));
+const mockSupabase = { from: mockFrom };
 
-import { checkAndAwardBadges } from "./badges";
+import { runBadgeChecks } from "./badges-engine";
 
 // Helper to build a chainable query mock
 const chain = (resolvedData: unknown, count?: number | null) => {
@@ -93,7 +92,7 @@ describe("checkAndAwardBadges", () => {
         return chain(null);
       });
 
-      const result = await checkAndAwardBadges({ userId: "user-1" });
+      const result = await runBadgeChecks({ userId: "user-1" }, mockSupabase);
       expect(result.length).toBe(1);
       expect(result[0].id).toBe(badgeId);
     });
@@ -144,7 +143,7 @@ describe("checkAndAwardBadges", () => {
         return chain(null);
       });
 
-      const result = await checkAndAwardBadges({ userId: "user-1" });
+      const result = await runBadgeChecks({ userId: "user-1" }, mockSupabase);
       if (isWeekend) {
         expect(result.length).toBe(1);
       } else {
@@ -195,7 +194,7 @@ describe("checkAndAwardBadges", () => {
         return chain(null);
       });
 
-      const result = await checkAndAwardBadges({ userId: "user-1" });
+      const result = await runBadgeChecks({ userId: "user-1" }, mockSupabase);
       expect(result.length).toBe(1);
       expect(result[0].id).toBe("early-bird");
     });
@@ -239,12 +238,12 @@ describe("checkAndAwardBadges", () => {
         return chain(null);
       });
 
-      const result = await checkAndAwardBadges({
+      const result = await runBadgeChecks({
         userId: "user-1",
         quizScore: 9,
         quizTotal: 10,
         difficulty: "hard",
-      });
+      }, mockSupabase);
       expect(result.length).toBe(1);
       expect(result[0].id).toBe("hard-ace");
     });
@@ -284,12 +283,12 @@ describe("checkAndAwardBadges", () => {
         return chain(null);
       });
 
-      const result = await checkAndAwardBadges({
+      const result = await runBadgeChecks({
         userId: "user-1",
         quizScore: 10,
         quizTotal: 10,
         difficulty: "easy", // not hard
-      });
+      }, mockSupabase);
       expect(result.length).toBe(0);
     });
   });
@@ -332,7 +331,7 @@ describe("checkAndAwardBadges", () => {
         return chain(null);
       });
 
-      const result = await checkAndAwardBadges({ userId: "user-1", isDuel: true });
+      const result = await runBadgeChecks({ userId: "user-1", isDuel: true }, mockSupabase);
       expect(result.length).toBe(1);
       expect(result[0].slug).toBe("first-blood");
     });
@@ -372,7 +371,7 @@ describe("checkAndAwardBadges", () => {
         return chain(null);
       });
 
-      const result = await checkAndAwardBadges({ userId: "user-1", isDuel: true });
+      const result = await runBadgeChecks({ userId: "user-1", isDuel: true }, mockSupabase);
       expect(result.length).toBe(1);
       expect(result[0].slug).toBe("giant-slayer");
     });
@@ -412,7 +411,7 @@ describe("checkAndAwardBadges", () => {
         return chain(null);
       });
 
-      const result = await checkAndAwardBadges({ userId: "user-1", isDuel: true });
+      const result = await runBadgeChecks({ userId: "user-1", isDuel: true }, mockSupabase);
       expect(result.length).toBe(1);
       expect(result[0].slug).toBe("duel-master");
     });
@@ -452,12 +451,12 @@ describe("checkAndAwardBadges", () => {
         return chain(null);
       });
 
-      const result = await checkAndAwardBadges({
+      const result = await runBadgeChecks({
         userId: "user-1",
         isDuel: true,
         quizScore: 10,
         quizTotal: 10,
-      });
+      }, mockSupabase);
       expect(result.length).toBe(1);
       expect(result[0].slug).toBe("perfect-duel");
     });
@@ -497,12 +496,12 @@ describe("checkAndAwardBadges", () => {
         return chain(null);
       });
 
-      const result = await checkAndAwardBadges({
+      const result = await runBadgeChecks({
         userId: "user-1",
         isDuel: false, // not a duel
         quizScore: 10,
         quizTotal: 10,
-      });
+      }, mockSupabase);
       expect(result.length).toBe(0);
     });
 
@@ -543,11 +542,11 @@ describe("checkAndAwardBadges", () => {
         return chain(null);
       });
 
-      const result = await checkAndAwardBadges({
+      const result = await runBadgeChecks({
         userId: "user-1",
         isDuel: true,
         duelOpponentId: "opponent-1",
-      });
+      }, mockSupabase);
       expect(result.length).toBe(1);
       expect(result[0].slug).toBe("rivalry");
     });
@@ -599,7 +598,7 @@ describe("checkAndAwardBadges", () => {
         return chain(null);
       });
 
-      const result = await checkAndAwardBadges({ userId: "user-1" });
+      const result = await runBadgeChecks({ userId: "user-1" }, mockSupabase);
       expect(result.length).toBe(1);
       expect(result[0].slug).toBe("daily-7");
     });
@@ -631,7 +630,7 @@ describe("checkAndAwardBadges", () => {
         return chain(null);
       });
 
-      const result = await checkAndAwardBadges({ userId: "user-1" });
+      const result = await runBadgeChecks({ userId: "user-1" }, mockSupabase);
       expect(result.length).toBe(0);
     });
   });
@@ -672,7 +671,7 @@ describe("checkAndAwardBadges", () => {
         return chain(null);
       });
 
-      const result = await checkAndAwardBadges({ userId: "user-1", isDuel: true });
+      const result = await runBadgeChecks({ userId: "user-1", isDuel: true }, mockSupabase);
       expect(result.length).toBe(0);
     });
   });
@@ -741,7 +740,7 @@ describe("checkAndAwardBadges", () => {
         return chain(null);
       });
 
-      const result = await checkAndAwardBadges({ userId: "user-1" });
+      const result = await runBadgeChecks({ userId: "user-1" }, mockSupabase);
       expect(result.length).toBe(1);
       expect(result[0].slug).toBe("weekend-warrior");
     });
@@ -775,7 +774,7 @@ describe("checkAndAwardBadges", () => {
         return chain(null);
       });
 
-      const result = await checkAndAwardBadges({ userId: "user-1" });
+      const result = await runBadgeChecks({ userId: "user-1" }, mockSupabase);
       expect(result.length).toBe(0);
     });
   });
@@ -829,7 +828,7 @@ describe("checkAndAwardBadges", () => {
         return chain(null);
       });
 
-      const result = await checkAndAwardBadges({ userId: "user-1" });
+      const result = await runBadgeChecks({ userId: "user-1" }, mockSupabase);
       expect(result.length).toBe(1);
       expect(result[0].slug).toBe("night-owl");
     });
@@ -856,7 +855,7 @@ describe("checkAndAwardBadges", () => {
         return chain(null);
       });
 
-      const result = await checkAndAwardBadges({ userId: "user-1" });
+      const result = await runBadgeChecks({ userId: "user-1" }, mockSupabase);
       expect(result.length).toBe(0);
     });
   });
@@ -912,7 +911,7 @@ describe("checkAndAwardBadges", () => {
         return chain(null);
       });
 
-      const result = await checkAndAwardBadges({ userId: "user-1" });
+      const result = await runBadgeChecks({ userId: "user-1" }, mockSupabase);
       expect(result.length).toBe(1);
       expect(result[0].slug).toBe("night-owl");
     });
@@ -938,7 +937,7 @@ describe("checkAndAwardBadges", () => {
         return chain(null);
       });
 
-      const result = await checkAndAwardBadges({ userId: "user-1" });
+      const result = await runBadgeChecks({ userId: "user-1" }, mockSupabase);
       expect(result.length).toBe(0);
     });
   });
@@ -988,7 +987,7 @@ describe("checkAndAwardBadges", () => {
         return chain(null);
       });
 
-      const result = await checkAndAwardBadges({ userId: "user-1" });
+      const result = await runBadgeChecks({ userId: "user-1" }, mockSupabase);
       expect(result.length).toBe(0);
     });
 
@@ -1013,7 +1012,7 @@ describe("checkAndAwardBadges", () => {
         return chain(null);
       });
 
-      const result = await checkAndAwardBadges({ userId: "user-1" });
+      const result = await runBadgeChecks({ userId: "user-1" }, mockSupabase);
       expect(result.length).toBe(0);
     });
   });
@@ -1065,7 +1064,7 @@ describe("checkAndAwardBadges", () => {
         return chain(null);
       });
 
-      const result = await checkAndAwardBadges({ userId: "user-1" });
+      const result = await runBadgeChecks({ userId: "user-1" }, mockSupabase);
       expect(result.length).toBe(0);
     });
   });
@@ -1111,7 +1110,7 @@ describe("checkAndAwardBadges", () => {
         return chain(null);
       });
 
-      const result = await checkAndAwardBadges({ userId: "user-1" });
+      const result = await runBadgeChecks({ userId: "user-1" }, mockSupabase);
       expect(result.length).toBe(1);
       expect(result[0].slug).toBe("og-player");
     });
@@ -1138,7 +1137,7 @@ describe("checkAndAwardBadges", () => {
         return chain(null);
       });
 
-      const result = await checkAndAwardBadges({ userId: "user-1" });
+      const result = await runBadgeChecks({ userId: "user-1" }, mockSupabase);
       expect(result.length).toBe(0);
     });
 
@@ -1164,7 +1163,7 @@ describe("checkAndAwardBadges", () => {
         return chain(null);
       });
 
-      const result = await checkAndAwardBadges({ userId: "user-1" });
+      const result = await runBadgeChecks({ userId: "user-1" }, mockSupabase);
       expect(result.length).toBe(0);
     });
   });
@@ -1210,10 +1209,10 @@ describe("checkAndAwardBadges", () => {
         return chain(null);
       });
 
-      const result = await checkAndAwardBadges({
+      const result = await runBadgeChecks({
         userId: "user-1",
         duelOpponentId: "opp-1",
-      });
+      }, mockSupabase);
       expect(result.length).toBe(0);
     });
 
@@ -1237,10 +1236,10 @@ describe("checkAndAwardBadges", () => {
         return chain(null);
       });
 
-      const result = await checkAndAwardBadges({
+      const result = await runBadgeChecks({
         userId: "user-1",
         isDuel: true,
-      });
+      }, mockSupabase);
       expect(result.length).toBe(0);
     });
 
@@ -1264,11 +1263,11 @@ describe("checkAndAwardBadges", () => {
         return chain(null);
       });
 
-      const result = await checkAndAwardBadges({
+      const result = await runBadgeChecks({
         userId: "user-1",
         isDuel: true,
         duelOpponentId: "opp-1",
-      });
+      }, mockSupabase);
       expect(result.length).toBe(0);
     });
   });
@@ -1309,12 +1308,12 @@ describe("checkAndAwardBadges", () => {
         return chain(null);
       });
 
-      const result = await checkAndAwardBadges({
+      const result = await runBadgeChecks({
         userId: "user-1",
         isDuel: true,
         quizScore: 9,
         quizTotal: 10,
-      });
+      }, mockSupabase);
       expect(result.length).toBe(0);
     });
 
@@ -1337,11 +1336,11 @@ describe("checkAndAwardBadges", () => {
         return chain(null);
       });
 
-      const result = await checkAndAwardBadges({
+      const result = await runBadgeChecks({
         userId: "user-1",
         isDuel: true,
         quizTotal: 10,
-      });
+      }, mockSupabase);
       expect(result.length).toBe(0);
     });
   });
