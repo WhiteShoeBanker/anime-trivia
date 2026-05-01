@@ -860,4 +860,489 @@ describe("checkAndAwardBadges", () => {
       expect(result.length).toBe(0);
     });
   });
+
+  // ── HIGH-risk audit gap coverage (commit 3) ────────────────
+  // Six gaps surfaced by the badge-checker audit. Each describe
+  // block targets a single gap; tests are single-behavior and
+  // negative-path-heavy since the existing suite already covers
+  // the happy paths.
+
+  // Gap 1: hour_after equality and below-required boundary.
+
+  describe("hour_after boundary (gap-1)", () => {
+    const NIGHT_OWL_BADGE = {
+      id: "night-owl",
+      slug: "night-owl",
+      name: "Night Owl",
+      description: "Complete a quiz after 11 PM local time",
+      category: "time",
+      icon_name: "Moon",
+      icon_color: "#6366F1",
+      requirement_type: "hour_after",
+      requirement_value: { hour: 23 },
+      rarity: "uncommon",
+      created_at: "2024-01-01",
+    };
+
+    beforeEach(() => {
+      vi.useFakeTimers();
+    });
+    afterEach(() => {
+      vi.useRealTimers();
+    });
+
+    it("awards night-owl badge when current hour equals required hour (>= boundary)", async () => {
+      vi.setSystemTime(new Date(2026, 3, 26, 23, 0, 0));
+
+      let callCount = 0;
+      mockFrom.mockImplementation((table: string) => {
+        callCount++;
+        if (table === "badges") return chain([NIGHT_OWL_BADGE]);
+        if (table === "user_badges" && callCount <= 3) return chain([]);
+        if (table === "user_profiles") {
+          return chain({ current_streak: 0, longest_streak: 0, total_xp: 100, created_at: "2024-01-01" });
+        }
+        if (table === "quiz_sessions") return chain([], 0);
+        if (table === "anime_series") return chain(null, 10);
+        if (table === "league_history") return chain(null, 0);
+        if (table === "league_memberships") return chain({ leagues: { tier: 1 } });
+        if (table === "grand_prix_matches") return chain(null, 0);
+        if (table === "grand_prix_tournaments") return chain(null, 0);
+        if (table === "duel_stats") return chain({ wins: 0, giant_kills: 0, win_streak: 0, best_win_streak: 0 });
+        return chain(null);
+      });
+
+      const result = await checkAndAwardBadges({ userId: "user-1" });
+      expect(result.length).toBe(1);
+      expect(result[0].slug).toBe("night-owl");
+    });
+
+    it("does not award night-owl badge when current hour is below required hour", async () => {
+      vi.setSystemTime(new Date(2026, 3, 26, 22, 30, 0));
+
+      let callCount = 0;
+      mockFrom.mockImplementation((table: string) => {
+        callCount++;
+        if (table === "badges") return chain([NIGHT_OWL_BADGE]);
+        if (table === "user_badges" && callCount <= 3) return chain([]);
+        if (table === "user_profiles") {
+          return chain({ current_streak: 0, longest_streak: 0, total_xp: 100, created_at: "2024-01-01" });
+        }
+        if (table === "quiz_sessions") return chain([], 0);
+        if (table === "anime_series") return chain(null, 10);
+        if (table === "league_history") return chain(null, 0);
+        if (table === "league_memberships") return chain({ leagues: { tier: 1 } });
+        if (table === "grand_prix_matches") return chain(null, 0);
+        if (table === "grand_prix_tournaments") return chain(null, 0);
+        if (table === "duel_stats") return chain({ wins: 0, giant_kills: 0, win_streak: 0, best_win_streak: 0 });
+        return chain(null);
+      });
+
+      const result = await checkAndAwardBadges({ userId: "user-1" });
+      expect(result.length).toBe(0);
+    });
+  });
+
+  // Gap 2: hour_before strict-less-than boundary.
+
+  describe("hour_before boundary (gap-2)", () => {
+    const EARLY_BIRD_BADGE = {
+      id: "early-bird",
+      slug: "early-bird",
+      name: "Early Bird",
+      description: "Complete a quiz before 8 AM local time",
+      category: "time",
+      icon_name: "Sunrise",
+      icon_color: "#FFD700",
+      requirement_type: "hour_before",
+      requirement_value: { hour: 8 },
+      rarity: "uncommon",
+      created_at: "2024-01-01",
+    };
+
+    beforeEach(() => {
+      vi.useFakeTimers();
+    });
+    afterEach(() => {
+      vi.useRealTimers();
+    });
+
+    it("does not award early-bird badge when current hour equals required hour (strict <)", async () => {
+      vi.setSystemTime(new Date(2026, 3, 26, 8, 0, 0));
+
+      let callCount = 0;
+      mockFrom.mockImplementation((table: string) => {
+        callCount++;
+        if (table === "badges") return chain([EARLY_BIRD_BADGE]);
+        if (table === "user_badges" && callCount <= 3) return chain([]);
+        if (table === "user_profiles") {
+          return chain({ current_streak: 0, longest_streak: 0, total_xp: 100, created_at: "2024-01-01" });
+        }
+        if (table === "quiz_sessions") return chain([], 0);
+        if (table === "anime_series") return chain(null, 10);
+        if (table === "league_history") return chain(null, 0);
+        if (table === "league_memberships") return chain({ leagues: { tier: 1 } });
+        if (table === "grand_prix_matches") return chain(null, 0);
+        if (table === "grand_prix_tournaments") return chain(null, 0);
+        if (table === "duel_stats") return chain({ wins: 0, giant_kills: 0, win_streak: 0, best_win_streak: 0 });
+        return chain(null);
+      });
+
+      const result = await checkAndAwardBadges({ userId: "user-1" });
+      expect(result.length).toBe(0);
+    });
+
+    it("does not award early-bird badge when current hour is above required hour", async () => {
+      vi.setSystemTime(new Date(2026, 3, 26, 14, 0, 0));
+
+      let callCount = 0;
+      mockFrom.mockImplementation((table: string) => {
+        callCount++;
+        if (table === "badges") return chain([EARLY_BIRD_BADGE]);
+        if (table === "user_badges" && callCount <= 3) return chain([]);
+        if (table === "user_profiles") {
+          return chain({ current_streak: 0, longest_streak: 0, total_xp: 100, created_at: "2024-01-01" });
+        }
+        if (table === "quiz_sessions") return chain([], 0);
+        if (table === "anime_series") return chain(null, 10);
+        if (table === "league_history") return chain(null, 0);
+        if (table === "league_memberships") return chain({ leagues: { tier: 1 } });
+        if (table === "grand_prix_matches") return chain(null, 0);
+        if (table === "grand_prix_tournaments") return chain(null, 0);
+        if (table === "duel_stats") return chain({ wins: 0, giant_kills: 0, win_streak: 0, best_win_streak: 0 });
+        return chain(null);
+      });
+
+      const result = await checkAndAwardBadges({ userId: "user-1" });
+      expect(result.length).toBe(0);
+    });
+  });
+
+  // Gap 3: weekend_both_days on a weekday with no qualifying
+  // history. The 5th quiz_sessions call (the weekend check)
+  // returns no rows, so the DOW set stays empty.
+
+  describe("weekend_both_days weekday no-history (gap-3)", () => {
+    const WEEKEND_BADGE = {
+      id: "weekend-warrior",
+      slug: "weekend-warrior",
+      name: "Weekend Warrior",
+      description: "Play on both Saturday and Sunday in the same weekend",
+      category: "weekend",
+      icon_name: "Calendar",
+      icon_color: "#00D1B2",
+      requirement_type: "weekend_both_days",
+      requirement_value: {},
+      rarity: "uncommon",
+      created_at: "2024-01-01",
+    };
+
+    beforeEach(() => {
+      vi.useFakeTimers();
+      // Wednesday April 22, 2026, noon local.
+      vi.setSystemTime(new Date(2026, 3, 22, 12, 0, 0));
+    });
+    afterEach(() => {
+      vi.useRealTimers();
+    });
+
+    it("does not award weekend badge on a weekday with no weekend sessions in window", async () => {
+      let callCount = 0;
+      mockFrom.mockImplementation((table: string) => {
+        callCount++;
+        if (table === "badges") return chain([WEEKEND_BADGE]);
+        if (table === "user_badges" && callCount <= 3) return chain([]);
+        if (table === "user_profiles") {
+          return chain({ current_streak: 0, longest_streak: 0, total_xp: 100, created_at: "2024-01-01" });
+        }
+        if (table === "quiz_sessions") return chain([], 0);
+        if (table === "anime_series") return chain(null, 10);
+        if (table === "league_history") return chain(null, 0);
+        if (table === "league_memberships") return chain({ leagues: { tier: 1 } });
+        if (table === "grand_prix_matches") return chain(null, 0);
+        if (table === "grand_prix_tournaments") return chain(null, 0);
+        if (table === "duel_stats") return chain({ wins: 0, giant_kills: 0, win_streak: 0, best_win_streak: 0 });
+        return chain(null);
+      });
+
+      const result = await checkAndAwardBadges({ userId: "user-1" });
+      expect(result.length).toBe(0);
+    });
+  });
+
+  // Gap 4: joined_before strict-less-than boundary. Slug
+  // verified against supabase/migrations/006_badges.sql:146
+  // (og-player, threshold "2026-04-01").
+
+  describe("joined_before boundary (gap-4)", () => {
+    const OG_PLAYER_BADGE = {
+      id: "og-player",
+      slug: "og-player",
+      name: "OG Player",
+      description: "Joined OtakuQuiz in the first month",
+      category: "special",
+      icon_name: "Shield",
+      icon_color: "#FF6B35",
+      requirement_type: "joined_before",
+      requirement_value: { date: "2026-04-01" },
+      rarity: "epic",
+      created_at: "2024-01-01",
+    };
+
+    it("awards og-player badge when user joined before threshold date", async () => {
+      let callCount = 0;
+      mockFrom.mockImplementation((table: string) => {
+        callCount++;
+        if (table === "badges") return chain([OG_PLAYER_BADGE]);
+        if (table === "user_badges" && callCount <= 3) return chain([]);
+        if (table === "user_profiles") {
+          return chain({
+            current_streak: 0, longest_streak: 0, total_xp: 100,
+            created_at: "2024-01-15T00:00:00Z",
+          });
+        }
+        if (table === "quiz_sessions") return chain([], 0);
+        if (table === "anime_series") return chain(null, 10);
+        if (table === "league_history") return chain(null, 0);
+        if (table === "league_memberships") return chain({ leagues: { tier: 1 } });
+        if (table === "grand_prix_matches") return chain(null, 0);
+        if (table === "grand_prix_tournaments") return chain(null, 0);
+        if (table === "duel_stats") return chain({ wins: 0, giant_kills: 0, win_streak: 0, best_win_streak: 0 });
+        return chain(null);
+      });
+
+      const result = await checkAndAwardBadges({ userId: "user-1" });
+      expect(result.length).toBe(1);
+      expect(result[0].slug).toBe("og-player");
+    });
+
+    it("does not award og-player badge when joined date equals threshold (strict <)", async () => {
+      let callCount = 0;
+      mockFrom.mockImplementation((table: string) => {
+        callCount++;
+        if (table === "badges") return chain([OG_PLAYER_BADGE]);
+        if (table === "user_badges" && callCount <= 3) return chain([]);
+        if (table === "user_profiles") {
+          return chain({
+            current_streak: 0, longest_streak: 0, total_xp: 100,
+            created_at: "2026-04-01T00:00:00Z",
+          });
+        }
+        if (table === "quiz_sessions") return chain([], 0);
+        if (table === "anime_series") return chain(null, 10);
+        if (table === "league_history") return chain(null, 0);
+        if (table === "league_memberships") return chain({ leagues: { tier: 1 } });
+        if (table === "grand_prix_matches") return chain(null, 0);
+        if (table === "grand_prix_tournaments") return chain(null, 0);
+        if (table === "duel_stats") return chain({ wins: 0, giant_kills: 0, win_streak: 0, best_win_streak: 0 });
+        return chain(null);
+      });
+
+      const result = await checkAndAwardBadges({ userId: "user-1" });
+      expect(result.length).toBe(0);
+    });
+
+    it("does not award og-player badge when joined date is after threshold", async () => {
+      let callCount = 0;
+      mockFrom.mockImplementation((table: string) => {
+        callCount++;
+        if (table === "badges") return chain([OG_PLAYER_BADGE]);
+        if (table === "user_badges" && callCount <= 3) return chain([]);
+        if (table === "user_profiles") {
+          return chain({
+            current_streak: 0, longest_streak: 0, total_xp: 100,
+            created_at: "2026-06-15T00:00:00Z",
+          });
+        }
+        if (table === "quiz_sessions") return chain([], 0);
+        if (table === "anime_series") return chain(null, 10);
+        if (table === "league_history") return chain(null, 0);
+        if (table === "league_memberships") return chain({ leagues: { tier: 1 } });
+        if (table === "grand_prix_matches") return chain(null, 0);
+        if (table === "grand_prix_tournaments") return chain(null, 0);
+        if (table === "duel_stats") return chain({ wins: 0, giant_kills: 0, win_streak: 0, best_win_streak: 0 });
+        return chain(null);
+      });
+
+      const result = await checkAndAwardBadges({ userId: "user-1" });
+      expect(result.length).toBe(0);
+    });
+  });
+
+  // Gap 5: duel_rivalry negative paths. Mock slug "rivalry"
+  // matches the surrounding suite's existing rivalry test
+  // (file convention; the migration's actual slug is
+  // "duel-rivalry" in 010_duel_system.sql but that doesn't
+  // affect the assertion since we only check length === 0).
+
+  describe("duel_rivalry negative paths (gap-5)", () => {
+    const RIVALRY_BADGE = {
+      id: "rivalry",
+      slug: "rivalry",
+      name: "Rivalry",
+      description: "Duel the same opponent 5 times",
+      category: "duel",
+      icon_name: "users",
+      icon_color: "#E94560",
+      requirement_type: "duel_rivalry",
+      requirement_value: { count: 5 },
+      rarity: "uncommon",
+      created_at: "2024-01-01",
+    };
+
+    it("does not award rivalry badge when isDuel is false", async () => {
+      let callCount = 0;
+      mockFrom.mockImplementation((table: string) => {
+        callCount++;
+        if (table === "badges") return chain([RIVALRY_BADGE]);
+        if (table === "user_badges" && callCount <= 3) return chain([]);
+        if (table === "user_profiles") {
+          return chain({ current_streak: 0, longest_streak: 0, total_xp: 100, created_at: "2024-01-01" });
+        }
+        if (table === "quiz_sessions") return chain([], 0);
+        if (table === "anime_series") return chain(null, 10);
+        if (table === "league_history") return chain(null, 0);
+        if (table === "league_memberships") return chain({ leagues: { tier: 1 } });
+        if (table === "grand_prix_matches") return chain(null, 0);
+        if (table === "grand_prix_tournaments") return chain(null, 0);
+        if (table === "duel_stats") return chain({ wins: 0, giant_kills: 0, win_streak: 0, best_win_streak: 0 });
+        if (table === "duel_matches") return chain(null, 10);
+        return chain(null);
+      });
+
+      const result = await checkAndAwardBadges({
+        userId: "user-1",
+        duelOpponentId: "opp-1",
+      });
+      expect(result.length).toBe(0);
+    });
+
+    it("does not award rivalry badge when duelOpponentId is missing", async () => {
+      let callCount = 0;
+      mockFrom.mockImplementation((table: string) => {
+        callCount++;
+        if (table === "badges") return chain([RIVALRY_BADGE]);
+        if (table === "user_badges" && callCount <= 3) return chain([]);
+        if (table === "user_profiles") {
+          return chain({ current_streak: 0, longest_streak: 0, total_xp: 100, created_at: "2024-01-01" });
+        }
+        if (table === "quiz_sessions") return chain([], 0);
+        if (table === "anime_series") return chain(null, 10);
+        if (table === "league_history") return chain(null, 0);
+        if (table === "league_memberships") return chain({ leagues: { tier: 1 } });
+        if (table === "grand_prix_matches") return chain(null, 0);
+        if (table === "grand_prix_tournaments") return chain(null, 0);
+        if (table === "duel_stats") return chain({ wins: 0, giant_kills: 0, win_streak: 0, best_win_streak: 0 });
+        if (table === "duel_matches") return chain(null, 10);
+        return chain(null);
+      });
+
+      const result = await checkAndAwardBadges({
+        userId: "user-1",
+        isDuel: true,
+      });
+      expect(result.length).toBe(0);
+    });
+
+    it("does not award rivalry badge when duel_matches count is below required", async () => {
+      let callCount = 0;
+      mockFrom.mockImplementation((table: string) => {
+        callCount++;
+        if (table === "badges") return chain([RIVALRY_BADGE]);
+        if (table === "user_badges" && callCount <= 3) return chain([]);
+        if (table === "user_profiles") {
+          return chain({ current_streak: 0, longest_streak: 0, total_xp: 100, created_at: "2024-01-01" });
+        }
+        if (table === "quiz_sessions") return chain([], 0);
+        if (table === "anime_series") return chain(null, 10);
+        if (table === "league_history") return chain(null, 0);
+        if (table === "league_memberships") return chain({ leagues: { tier: 1 } });
+        if (table === "grand_prix_matches") return chain(null, 0);
+        if (table === "grand_prix_tournaments") return chain(null, 0);
+        if (table === "duel_stats") return chain({ wins: 0, giant_kills: 0, win_streak: 0, best_win_streak: 0 });
+        if (table === "duel_matches") return chain(null, 3);
+        return chain(null);
+      });
+
+      const result = await checkAndAwardBadges({
+        userId: "user-1",
+        isDuel: true,
+        duelOpponentId: "opp-1",
+      });
+      expect(result.length).toBe(0);
+    });
+  });
+
+  // Gap 6: duel_perfect negative paths.
+
+  describe("duel_perfect negative paths (gap-6)", () => {
+    const PERFECT_DUEL_BADGE = {
+      id: "perfect-duel",
+      slug: "perfect-duel",
+      name: "Perfect Duel",
+      description: "Get every answer right in a duel",
+      category: "duel",
+      icon_name: "sparkles",
+      icon_color: "#FFD93D",
+      requirement_type: "duel_perfect",
+      requirement_value: {},
+      rarity: "epic",
+      created_at: "2024-01-01",
+    };
+
+    it("does not award perfect-duel when quiz score is below total", async () => {
+      let callCount = 0;
+      mockFrom.mockImplementation((table: string) => {
+        callCount++;
+        if (table === "badges") return chain([PERFECT_DUEL_BADGE]);
+        if (table === "user_badges" && callCount <= 3) return chain([]);
+        if (table === "user_profiles") {
+          return chain({ current_streak: 0, longest_streak: 0, total_xp: 100, created_at: "2024-01-01" });
+        }
+        if (table === "quiz_sessions") return chain([], 0);
+        if (table === "anime_series") return chain(null, 10);
+        if (table === "league_history") return chain(null, 0);
+        if (table === "league_memberships") return chain({ leagues: { tier: 1 } });
+        if (table === "grand_prix_matches") return chain(null, 0);
+        if (table === "grand_prix_tournaments") return chain(null, 0);
+        if (table === "duel_stats") return chain({ wins: 0, giant_kills: 0, win_streak: 0, best_win_streak: 0 });
+        return chain(null);
+      });
+
+      const result = await checkAndAwardBadges({
+        userId: "user-1",
+        isDuel: true,
+        quizScore: 9,
+        quizTotal: 10,
+      });
+      expect(result.length).toBe(0);
+    });
+
+    it("does not award perfect-duel when quizScore is missing", async () => {
+      let callCount = 0;
+      mockFrom.mockImplementation((table: string) => {
+        callCount++;
+        if (table === "badges") return chain([PERFECT_DUEL_BADGE]);
+        if (table === "user_badges" && callCount <= 3) return chain([]);
+        if (table === "user_profiles") {
+          return chain({ current_streak: 0, longest_streak: 0, total_xp: 100, created_at: "2024-01-01" });
+        }
+        if (table === "quiz_sessions") return chain([], 0);
+        if (table === "anime_series") return chain(null, 10);
+        if (table === "league_history") return chain(null, 0);
+        if (table === "league_memberships") return chain({ leagues: { tier: 1 } });
+        if (table === "grand_prix_matches") return chain(null, 0);
+        if (table === "grand_prix_tournaments") return chain(null, 0);
+        if (table === "duel_stats") return chain({ wins: 0, giant_kills: 0, win_streak: 0, best_win_streak: 0 });
+        return chain(null);
+      });
+
+      const result = await checkAndAwardBadges({
+        userId: "user-1",
+        isDuel: true,
+        quizTotal: 10,
+      });
+      expect(result.length).toBe(0);
+    });
+  });
 });
