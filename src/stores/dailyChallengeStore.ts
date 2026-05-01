@@ -6,7 +6,6 @@ import {
   saveDailyChallengeResult,
 } from "@/lib/daily-challenge";
 import { calculateLeagueXp, updateLeagueMembershipXp } from "@/lib/league-xp";
-import { checkAndAwardBadges } from "@/lib/badges";
 import { trackDailyChallengeCompleted, trackBadgeEarned } from "@/lib/track-actions";
 
 interface DailyAnswer {
@@ -162,6 +161,18 @@ export const useDailyChallengeStore = create<
     }
   },
 
+  // TODO(daily-bug-N) [HIGH, competitive integrity]:
+  // The daily challenge result row (user_profiles.daily_challenge_*
+  // columns) is written from the browser via the anon Supabase
+  // client. A user can fabricate a daily_challenge_score=10 update
+  // from devtools and then call /api/badges/check, which trusts the
+  // row as authoritative and awards daily-streak / volume badges
+  // based on the fabricated data. badge-bug-2 (Session 4G) closed
+  // the direct-trust attack but does not close the row-fabrication
+  // attack for context-driven badges. Full mitigation requires
+  // moving daily submission to a server route with server-derived
+  // score (analogous to gp-bug-5 / submit-score for Grand Prix).
+  // Deferred to Session 4J.
   completeDailyChallenge: async (userId) => {
     const state = get();
     try {
@@ -192,23 +203,20 @@ export const useDailyChallengeStore = create<
         // League XP failed — non-critical
       }
 
-      // Badge checks
+      // Badge checks via /api/badges/check — see badge-bug-2.
       try {
-        const badgeContext = {
-          userId,
-          quizScore: state.score,
-          quizTotal: state.questions.length,
-          answers: state.answers.map((a) => ({
-            isCorrect: a.isCorrect,
-            timeMs: a.timeMs,
-          })),
-          xpEarned: state.xpEarned,
-        };
-        const newBadges = await checkAndAwardBadges(badgeContext);
-        if (newBadges.length > 0) {
-          set({ newBadges });
-          for (const badge of newBadges) {
-            trackBadgeEarned(userId, { badge_slug: badge.slug, badge_name: badge.name }).catch(() => {});
+        const res = await fetch("/api/badges/check", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ kind: "daily_challenge" }),
+        });
+        if (res.ok) {
+          const { newBadges } = (await res.json()) as { newBadges: Badge[] };
+          if (newBadges.length > 0) {
+            set({ newBadges });
+            for (const badge of newBadges) {
+              trackBadgeEarned(userId, { badge_slug: badge.slug, badge_name: badge.name }).catch(() => {});
+            }
           }
         }
       } catch {

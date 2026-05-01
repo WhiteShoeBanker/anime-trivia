@@ -3,7 +3,6 @@ import { createClient } from "@/lib/supabase/client";
 import type { AnimeSeries, Question, Difficulty, AgeGroup, LeagueXpResult, Badge } from "@/types";
 import { calculateQuestionXP } from "@/lib/scoring";
 import { calculateLeagueXp, updateLeagueMembershipXp } from "@/lib/league-xp";
-import { checkAndAwardBadges } from "@/lib/badges";
 import { trackQuizStarted, trackQuizCompleted, trackBadgeEarned } from "@/lib/track-actions";
 
 interface QuizAnswer {
@@ -217,6 +216,18 @@ export const useQuizStore = create<QuizState & QuizActions>((set, get) => ({
     }
   },
 
+  // TODO(quiz-bug-N) [HIGH, competitive integrity]:
+  // quiz_sessions and user_answers are written from the browser via
+  // the anon Supabase client. A user can fabricate a (score=10,
+  // total=10, difficulty='hard') row from devtools and then call
+  // /api/badges/check, which trusts the row as authoritative and
+  // legitimately awards hard-perfect because the trusted source of
+  // truth is the fabricated row. badge-bug-2 (Session 4G) closed
+  // the direct-trust attack but does not close the row-fabrication
+  // attack for context-driven badges. Full mitigation requires
+  // moving quiz submission to a server route with server-derived
+  // score (analogous to gp-bug-5 / submit-score for Grand Prix).
+  // Deferred to Session 4H.
   completeQuiz: async (userId) => {
     if (!userId) return;
 
@@ -345,25 +356,20 @@ export const useQuizStore = create<QuizState & QuizActions>((set, get) => ({
         // League XP calculation failed — non-critical
       }
 
-      // Badge checks
+      // Badge checks via /api/badges/check — see badge-bug-2.
       try {
-        const badgeContext = {
-          userId,
-          quizScore: state.score,
-          quizTotal: state.questions.length,
-          difficulty: state.difficulty,
-          animeId: state.currentAnime.id,
-          answers: state.answers.map((a) => ({
-            isCorrect: a.isCorrect,
-            timeMs: a.timeMs,
-          })),
-          xpEarned: state.xpEarned,
-        };
-        const newBadges = await checkAndAwardBadges(badgeContext);
-        if (newBadges.length > 0) {
-          set({ newBadges });
-          for (const badge of newBadges) {
-            trackBadgeEarned(userId, { badge_slug: badge.slug, badge_name: badge.name }).catch(() => {});
+        const res = await fetch("/api/badges/check", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ kind: "quiz_session", id: session.id }),
+        });
+        if (res.ok) {
+          const { newBadges } = (await res.json()) as { newBadges: Badge[] };
+          if (newBadges.length > 0) {
+            set({ newBadges });
+            for (const badge of newBadges) {
+              trackBadgeEarned(userId, { badge_slug: badge.slug, badge_name: badge.name }).catch(() => {});
+            }
           }
         }
       } catch {

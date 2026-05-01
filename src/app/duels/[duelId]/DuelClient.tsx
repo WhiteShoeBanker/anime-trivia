@@ -11,7 +11,6 @@ import { useDuelStore } from "@/stores/duelStore";
 import { createDuel } from "@/lib/duels";
 import { getUserLeagueInfo } from "@/lib/league-xp";
 import { createClient } from "@/lib/supabase/client";
-import { checkAndAwardBadges } from "@/lib/badges";
 import ProgressBar from "@/components/ProgressBar";
 import QuizCard from "@/components/QuizCard";
 import DuelResults from "@/components/DuelResults";
@@ -143,31 +142,26 @@ const DuelClient = ({
       .single();
     if (data) {
       setLatestDuel(data as DuelMatch);
-      // Check for new badges when duel completes
+      // Check for new badges when duel completes — see badge-bug-2.
       if (data.status === "completed" && newBadges.length === 0) {
         try {
-          const awarded = await checkAndAwardBadges({
-            userId,
-            quizScore: score,
-            quizTotal: initialDuel.question_count,
-            answers: answers.map((a) => ({
-              isCorrect: a.isCorrect,
-              timeMs: a.timeMs,
-            })),
-            isDuel: true,
-            duelOpponentId: isChallenger
-              ? initialDuel.opponent_id ?? undefined
-              : initialDuel.challenger_id,
+          const res = await fetch("/api/badges/check", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ kind: "duel_match", id: initialDuel.id }),
           });
-          if (awarded && awarded.length > 0) {
-            setNewBadges(awarded);
+          if (res.ok) {
+            const { newBadges: awarded } = (await res.json()) as { newBadges: Badge[] };
+            if (awarded.length > 0) {
+              setNewBadges(awarded);
+            }
           }
         } catch {
           // Badge check failed silently
         }
       }
     }
-  }, [initialDuel.id, initialDuel.question_count, initialDuel.opponent_id, initialDuel.challenger_id, isChallenger, userId, score, answers, newBadges.length]);
+  }, [initialDuel.id, newBadges.length]);
 
   useEffect(() => {
     if (quizStatus !== "submitted") return;

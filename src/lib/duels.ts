@@ -1,7 +1,6 @@
 import { createClient } from "@/lib/supabase/client";
 import { getUserLeagueInfo, getCurrentWeekStart, updateLeagueMembershipXp } from "@/lib/league-xp";
 import { calculateQuestionXP } from "@/lib/scoring";
-import { checkAndAwardBadges } from "@/lib/badges";
 import { getDuelMaxPerOpponentWeekly } from "@/lib/config-actions";
 import {
   trackDuelCreated,
@@ -15,6 +14,7 @@ import type {
   DuelStats,
   Difficulty,
   FriendshipWithProfile,
+  Badge,
 } from "@/types";
 
 // ── Question Selection ─────────────────────────────────────────
@@ -242,6 +242,17 @@ interface DuelAnswer {
   timeMs: number;
 }
 
+// TODO(duel-bug-N) [HIGH, competitive integrity]:
+// duel_matches rows are written from the browser via the anon
+// Supabase client. A user can fabricate challenger_correct or
+// opponent_correct (and the answers JSONB) from devtools and the
+// /api/badges/check route will trust the row as authoritative —
+// awarding duel_perfect, lightning, etc. based on fabricated data.
+// badge-bug-2 (Session 4G) closed the direct-trust attack but
+// does not close the row-fabrication attack for context-driven
+// badges. Full mitigation requires moving duel submission to a
+// server route with server-derived score (analogous to gp-bug-5
+// / submit-score for Grand Prix). Deferred to Session 4I.
 export const submitDuelResults = async (
   duelId: string,
   userId: string,
@@ -395,35 +406,25 @@ export const submitDuelResults = async (
       update.winner_id as string | null
     );
 
-    // Check badges for both players
-    const challengerBadges = await checkAndAwardBadges({
-      userId: duel.challenger_id,
-      quizScore: cCorrect ?? 0,
-      quizTotal: duel.question_count,
-      answers: challengerAnswers.map((a) => ({
-        isCorrect: a.isCorrect,
-        timeMs: a.timeMs,
-      })),
-      isDuel: true,
-      duelOpponentId: duel.opponent_id,
-    });
-    for (const badge of challengerBadges) {
-      trackBadgeEarned(duel.challenger_id, { badge_slug: badge.slug, badge_name: badge.name }).catch(() => {});
-    }
-
-    const opponentBadges = await checkAndAwardBadges({
-      userId: duel.opponent_id,
-      quizScore: oCorrect ?? 0,
-      quizTotal: duel.question_count,
-      answers: opponentAnswers.map((a) => ({
-        isCorrect: a.isCorrect,
-        timeMs: a.timeMs,
-      })),
-      isDuel: true,
-      duelOpponentId: duel.challenger_id,
-    });
-    for (const badge of opponentBadges) {
-      trackBadgeEarned(duel.opponent_id, { badge_slug: badge.slug, badge_name: badge.name }).catch(() => {});
+    // Badge check for the calling user only. The /api/badges/check
+    // route is auth-enforced and can only award badges to the
+    // calling user; the opponent's badges are awarded the next time
+    // the opponent's client polls the completed duel and triggers
+    // its own check (DuelClient.tsx).
+    try {
+      const res = await fetch("/api/badges/check", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ kind: "duel_match", id: duel.id }),
+      });
+      if (res.ok) {
+        const { newBadges } = (await res.json()) as { newBadges: Badge[] };
+        for (const badge of newBadges) {
+          trackBadgeEarned(userId, { badge_slug: badge.slug, badge_name: badge.name }).catch(() => {});
+        }
+      }
+    } catch {
+      // Badge check failed — non-critical
     }
   } else {
     update.status = "in_progress";
