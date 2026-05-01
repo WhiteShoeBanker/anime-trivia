@@ -7,10 +7,13 @@ import { defineConfig, devices } from '@playwright/test';
 export default defineConfig({
   testDir: './e2e',
   testMatch: /.*\.spec\.ts$/,
-  fullyParallel: true,
+  // These specs share a real Supabase project + a small pool of seeded
+  // users. Running them in parallel races on profile state (e.g. one
+  // test NULLing age_group while another expects it set). Serialize.
+  fullyParallel: false,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 2 : 0,
-  workers: process.env.CI ? 1 : undefined,
+  workers: 1,
   reporter: 'html',
   use: {
     baseURL: 'http://localhost:3000',
