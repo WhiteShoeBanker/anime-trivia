@@ -677,6 +677,109 @@ describe("checkAndAwardBadges", () => {
     });
   });
 
+  // ── weekend_both_days last-7-days check (bug-1 fix) ────────
+  // Verifies the bug-1 fix: checkWeekendBadge now queries
+  // quiz_sessions over the last 7 days and awards only if the
+  // user's distinct DOW set contains both Saturday (6) and
+  // Sunday (0). Mock routing follows the file's inline-chain
+  // call-count pattern: the weekend check is the 5th
+  // quiz_sessions call (after gatherUserStats's 4).
+
+  describe("weekend_both_days last-7-days check (bug-1 fix)", () => {
+    const WEEKEND_BADGE = {
+      id: "weekend-warrior",
+      slug: "weekend-warrior",
+      name: "Weekend Warrior",
+      description: "Play on both Saturday and Sunday in the same weekend",
+      category: "weekend",
+      icon_name: "Calendar",
+      icon_color: "#00D1B2",
+      requirement_type: "weekend_both_days",
+      requirement_value: {},
+      rarity: "uncommon",
+      created_at: "2024-01-01",
+    };
+
+    beforeEach(() => {
+      vi.useFakeTimers();
+      // Saturday April 25, 2026, noon local. Sliding 7-day
+      // window covers [Apr 18 12:00, Apr 25 12:00] local time.
+      vi.setSystemTime(new Date(2026, 3, 25, 12, 0, 0));
+    });
+    afterEach(() => {
+      vi.useRealTimers();
+    });
+
+    it("awards weekend-warrior when user has played on both Saturday and Sunday in the last 7 days", async () => {
+      let callCount = 0;
+      let qsCallCount = 0;
+      mockFrom.mockImplementation((table: string) => {
+        callCount++;
+        if (table === "badges") return chain([WEEKEND_BADGE]);
+        if (table === "user_badges" && callCount <= 3) return chain([]);
+        if (table === "user_profiles") {
+          return chain({ current_streak: 0, longest_streak: 0, total_xp: 100, created_at: "2024-01-01" });
+        }
+        if (table === "quiz_sessions") {
+          qsCallCount++;
+          if (qsCallCount === 5) {
+            return chain([
+              // Saturday Apr 25 — DOW 6, in window.
+              { created_at: new Date(2026, 3, 25, 9, 0, 0).toISOString() },
+              // Sunday Apr 19 — DOW 0, in window.
+              { created_at: new Date(2026, 3, 19, 14, 0, 0).toISOString() },
+            ]);
+          }
+          return chain([], 0);
+        }
+        if (table === "anime_series") return chain(null, 10);
+        if (table === "league_history") return chain(null, 0);
+        if (table === "league_memberships") return chain({ leagues: { tier: 1 } });
+        if (table === "grand_prix_matches") return chain(null, 0);
+        if (table === "grand_prix_tournaments") return chain(null, 0);
+        if (table === "duel_stats") return chain({ wins: 0, giant_kills: 0, win_streak: 0, best_win_streak: 0 });
+        return chain(null);
+      });
+
+      const result = await checkAndAwardBadges({ userId: "user-1" });
+      expect(result.length).toBe(1);
+      expect(result[0].slug).toBe("weekend-warrior");
+    });
+
+    it("does not award weekend-warrior when user has only played on Saturday in the last 7 days", async () => {
+      let callCount = 0;
+      let qsCallCount = 0;
+      mockFrom.mockImplementation((table: string) => {
+        callCount++;
+        if (table === "badges") return chain([WEEKEND_BADGE]);
+        if (table === "user_badges" && callCount <= 3) return chain([]);
+        if (table === "user_profiles") {
+          return chain({ current_streak: 0, longest_streak: 0, total_xp: 100, created_at: "2024-01-01" });
+        }
+        if (table === "quiz_sessions") {
+          qsCallCount++;
+          if (qsCallCount === 5) {
+            return chain([
+              // Saturday only — DOW 6. Sunday absent.
+              { created_at: new Date(2026, 3, 25, 9, 0, 0).toISOString() },
+            ]);
+          }
+          return chain([], 0);
+        }
+        if (table === "anime_series") return chain(null, 10);
+        if (table === "league_history") return chain(null, 0);
+        if (table === "league_memberships") return chain({ leagues: { tier: 1 } });
+        if (table === "grand_prix_matches") return chain(null, 0);
+        if (table === "grand_prix_tournaments") return chain(null, 0);
+        if (table === "duel_stats") return chain({ wins: 0, giant_kills: 0, win_streak: 0, best_win_streak: 0 });
+        return chain(null);
+      });
+
+      const result = await checkAndAwardBadges({ userId: "user-1" });
+      expect(result.length).toBe(0);
+    });
+  });
+
   // ── hour_after wraparound (bug-3 fix) ──────────────────────
   // Verifies the late-night-window wraparound: for hour >= 20,
   // the badge awards in early-morning hours up to (but not

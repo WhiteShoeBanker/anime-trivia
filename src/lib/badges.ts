@@ -253,7 +253,7 @@ const checkBadge = async (
       return checkStreakBadge(stats.currentStreak, val.days as number);
 
     case "weekend_both_days":
-      return checkWeekendBadge();
+      return await checkWeekendBadge(context.userId, supabase);
 
     case "hour_before":
       return checkTimeBeforeBadge(val.hour as number);
@@ -336,12 +336,32 @@ const checkStreakBadge = (currentStreak: number, requiredDays: number): boolean 
   return currentStreak >= requiredDays;
 };
 
-const checkWeekendBadge = (): boolean => {
-  const now = new Date();
-  const day = now.getDay();
-  // Award if it's Sunday and they played yesterday (Saturday)
-  // or if it's Saturday — we check after quiz completion
-  return day === 0 || day === 6;
+// Award the Weekend Warrior badge only if the user has played
+// quiz_sessions on BOTH Saturday and Sunday within the last 7
+// days (a sliding 7-day window, not "this calendar weekend").
+// Day-of-week is derived client-side via
+// `new Date(created_at).getDay()`, matching the existing trust
+// model. Server-side enforcement is part of badge-bug-2
+// (deferred to Session 4G).
+const checkWeekendBadge = async (
+  userId: string,
+  supabase: ReturnType<typeof createClient>
+): Promise<boolean> => {
+  const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
+  const { data: rows, error } = await supabase
+    .from("quiz_sessions")
+    .select("created_at")
+    .eq("user_id", userId)
+    .gte("created_at", sevenDaysAgo.toISOString());
+
+  if (error || !rows) return false;
+
+  const dayOfWeekSet = new Set<number>();
+  for (const row of rows) {
+    dayOfWeekSet.add(new Date(row.created_at).getDay());
+  }
+
+  return dayOfWeekSet.has(0) && dayOfWeekSet.has(6);
 };
 
 const checkTimeBeforeBadge = (hour: number): boolean => {
