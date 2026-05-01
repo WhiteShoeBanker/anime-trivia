@@ -25,7 +25,7 @@ const chain = (resolvedData: unknown, count?: number | null) => {
   return proxy;
 };
 
-describe("checkAndAwardBadges", () => {
+describe("runBadgeChecks", () => {
   beforeEach(() => {
     vi.clearAllMocks();
   });

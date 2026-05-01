@@ -17,10 +17,6 @@ vi.mock("@/lib/scoring", () => ({
   calculateQuestionXP: vi.fn().mockReturnValue(25),
 }));
 
-vi.mock("@/lib/badges", () => ({
-  checkAndAwardBadges: vi.fn().mockResolvedValue([]),
-}));
-
 import {
   sendFriendRequest,
   acceptFriendRequest,

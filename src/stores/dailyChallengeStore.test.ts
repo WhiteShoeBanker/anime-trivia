@@ -23,10 +23,6 @@ vi.mock("@/lib/league-xp", () => ({
   }),
 }));
 
-vi.mock("@/lib/badges", () => ({
-  checkAndAwardBadges: vi.fn().mockResolvedValue([]),
-}));
-
 vi.mock("@/lib/track-actions", () => ({
   trackDailyChallengeCompleted: vi.fn().mockResolvedValue(undefined),
   trackBadgeEarned: vi.fn().mockResolvedValue(undefined),

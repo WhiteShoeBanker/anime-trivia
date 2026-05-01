@@ -22,10 +22,6 @@ vi.mock("@/lib/scoring", () => ({
   calculateQuestionXP: vi.fn().mockReturnValue(25),
 }));
 
-vi.mock("@/lib/badges", () => ({
-  checkAndAwardBadges: vi.fn().mockResolvedValue([]),
-}));
-
 vi.mock("@/lib/track-actions", () => ({
   trackDuelCreated: vi.fn().mockResolvedValue(undefined),
   trackFriendRequestSent: vi.fn().mockResolvedValue(undefined),

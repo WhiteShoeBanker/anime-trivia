@@ -27,10 +27,6 @@ vi.mock("@/lib/league-xp", () => ({
   }),
 }));
 
-vi.mock("@/lib/badges", () => ({
-  checkAndAwardBadges: vi.fn().mockResolvedValue([]),
-}));
-
 import { useQuizStore } from "./quizStore";
 
 // Build a chainable Supabase mock
