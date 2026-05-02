@@ -1,4 +1,5 @@
 import { createClient } from "@/lib/supabase/server";
+import { deriveRankFromXp } from "@/lib/ranks";
 import type {
   AnimeSeries,
   Question,
@@ -170,8 +171,7 @@ export const updateUserXP = async (
   const currentXp = (profile as { total_xp: number }).total_xp;
   const newXp = currentXp + xpEarned;
 
-  // Determine rank based on XP thresholds
-  const rank = getRankForXP(newXp);
+  const rank = deriveRankFromXp(newXp);
 
   const { error: updateError } = await supabase
     .from("user_profiles")
@@ -231,20 +231,3 @@ export const getCosmetics = async (): Promise<Cosmetic[]> => {
   return data as Cosmetic[];
 };
 
-// ── Helpers ──────────────────────────────────────────────────
-
-const RANK_THRESHOLDS: [number, string][] = [
-  [25000, "Hokage"],
-  [10000, "Kage"],
-  [5000, "ANBU"],
-  [2000, "Jonin"],
-  [500, "Chunin"],
-  [0, "Genin"],
-];
-
-const getRankForXP = (xp: number): string => {
-  for (const [threshold, rank] of RANK_THRESHOLDS) {
-    if (xp >= threshold) return rank;
-  }
-  return "Genin";
-};

@@ -216,18 +216,6 @@ export const useQuizStore = create<QuizState & QuizActions>((set, get) => ({
     }
   },
 
-  // TODO(quiz-bug-N) [HIGH, competitive integrity]:
-  // quiz_sessions and user_answers are written from the browser via
-  // the anon Supabase client. A user can fabricate a (score=10,
-  // total=10, difficulty='hard') row from devtools and then call
-  // /api/badges/check, which trusts the row as authoritative and
-  // legitimately awards hard-perfect because the trusted source of
-  // truth is the fabricated row. badge-bug-2 (Session 4G) closed
-  // the direct-trust attack but does not close the row-fabrication
-  // attack for context-driven badges. Full mitigation requires
-  // moving quiz submission to a server route with server-derived
-  // score (analogous to gp-bug-5 / submit-score for Grand Prix).
-  // Deferred to Session 4H.
   completeQuiz: async (userId) => {
     if (!userId) return;
 
@@ -235,103 +223,61 @@ export const useQuizStore = create<QuizState & QuizActions>((set, get) => ({
     if (!state.currentAnime) return;
 
     try {
-      const supabase = createClient();
-
-      // Backstop: ask the server whether this user is currently entitled
-      // to record a quiz result. submit_quiz() rejects when the gating
-      // counter is in an impossible state (e.g., > free_quiz_limit), the
-      // single signature of a client that bypassed start_quiz. On
-      // rejection we abort BEFORE inserting quiz_session or awarding XP.
-      const { data: gateData, error: gateError } = await supabase.rpc(
-        "submit_quiz"
-      );
-      if (gateError || !gateData) {
-        // Server unreachable — fail closed, no XP.
-        return;
-      }
-      const gate = gateData as { success: boolean; error_code?: string };
-      if (!gate.success) return;
-
-      const totalTimeMs = state.answers.reduce((sum, a) => sum + a.timeMs, 0);
-
-      const { data: session, error: sessionError } = await supabase
-        .from("quiz_sessions")
-        .insert({
-          user_id: userId,
-          anime_id: state.currentAnime.id,
+      // Server-trusted submission. Migration 026 dropped client
+      // INSERT on quiz_sessions / user_answers and trigger-
+      // protected user_profiles total_xp / rank, so /api/quiz/
+      // submit is the only legitimate path. The route re-derives
+      // score, correctness per answer, time-taken, and XP from
+      // questions.options[].isCorrect; quiz_sessions and
+      // user_answers rows are inserted server-side; total_xp and
+      // rank are updated server-side. submit_quiz() daily-cap
+      // backstop is invoked inside the route.
+      const submitRes = await fetch("/api/quiz/submit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          animeId: state.currentAnime.id,
           difficulty: state.difficulty,
-          score: state.score,
-          total_questions: state.questions.length,
-          correct_answers: state.score,
-          time_taken_seconds: Math.round(totalTimeMs / 1000),
-          xp_earned: state.xpEarned,
-        })
-        .select()
-        .single();
+          answers: state.answers.map((a) => ({
+            questionId: a.questionId,
+            selectedOption: a.selectedOption,
+            timeMs: a.timeMs,
+          })),
+        }),
+      });
+      if (!submitRes.ok) return;
 
-      if (sessionError || !session) return;
+      const submitResult = (await submitRes.json()) as {
+        sessionId: string;
+        score: number;
+        correctAnswers: number;
+        totalQuestions: number;
+        xpEarned: number;
+        timeTakenSeconds: number;
+      };
 
-      const userAnswers = state.answers.map((a) => ({
-        session_id: session.id,
-        question_id: a.questionId,
-        selected_option: a.selectedOption === -1 ? null : a.selectedOption,
-        is_correct: a.isCorrect,
-        time_taken_ms: a.timeMs,
-      }));
+      // Replace the during-quiz client guesses with the server-
+      // trusted numbers on the result screen.
+      set({
+        score: submitResult.score,
+        xpEarned: submitResult.xpEarned,
+      });
 
-      await supabase.from("user_answers").insert(userAnswers);
-
-      // Update user XP and rank
-      const { data: profile } = await supabase
-        .from("user_profiles")
-        .select("total_xp")
-        .eq("id", userId)
-        .single();
-
-      if (profile) {
-        const newXP =
-          (profile as { total_xp: number }).total_xp + state.xpEarned;
-
-        const rankThresholds: [number, string][] = [
-          [25000, "Hokage"],
-          [10000, "Kage"],
-          [5000, "ANBU"],
-          [2000, "Jonin"],
-          [500, "Chunin"],
-          [0, "Genin"],
-        ];
-
-        let rank = "Genin";
-        for (const [threshold, rankName] of rankThresholds) {
-          if (newXP >= threshold) {
-            rank = rankName;
-            break;
-          }
-        }
-
-        await supabase
-          .from("user_profiles")
-          .update({
-            total_xp: newXP,
-            rank,
-            last_played_at: new Date().toISOString(),
-          })
-          .eq("id", userId);
-      }
-
-      // Track quiz completion
       trackQuizCompleted(userId, {
         anime_slug: state.currentAnime.slug,
         difficulty: state.difficulty,
-        score: state.score,
-        total: state.questions.length,
-        xp_earned: state.xpEarned,
+        score: submitResult.score,
+        total: submitResult.totalQuestions,
+        xp_earned: submitResult.xpEarned,
       }).catch(() => {});
 
-      // League XP with diminishing returns
+      // League XP with diminishing returns. Uses server-trusted
+      // xpEarned. increment_weekly_anime_play (migration 022) is
+      // SECURITY DEFINER so the per-anime play counter is also
+      // server-authoritative.
       try {
         const leagueXpResult = await calculateLeagueXp(
-          state.xpEarned,
+          submitResult.xpEarned,
           state.currentAnime.id,
           userId
         );
@@ -358,17 +304,25 @@ export const useQuizStore = create<QuizState & QuizActions>((set, get) => ({
 
       // Badge checks via /api/badges/check — see badge-bug-2.
       try {
-        const res = await fetch("/api/badges/check", {
+        const badgeRes = await fetch("/api/badges/check", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ kind: "quiz_session", id: session.id }),
+          body: JSON.stringify({
+            kind: "quiz_session",
+            id: submitResult.sessionId,
+          }),
         });
-        if (res.ok) {
-          const { newBadges } = (await res.json()) as { newBadges: Badge[] };
+        if (badgeRes.ok) {
+          const { newBadges } = (await badgeRes.json()) as {
+            newBadges: Badge[];
+          };
           if (newBadges.length > 0) {
             set({ newBadges });
             for (const badge of newBadges) {
-              trackBadgeEarned(userId, { badge_slug: badge.slug, badge_name: badge.name }).catch(() => {});
+              trackBadgeEarned(userId, {
+                badge_slug: badge.slug,
+                badge_name: badge.name,
+              }).catch(() => {});
             }
           }
         }
