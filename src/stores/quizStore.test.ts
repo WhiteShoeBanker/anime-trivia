@@ -27,6 +27,16 @@ vi.mock("@/lib/league-xp", () => ({
   }),
 }));
 
+// trackQuizStarted / trackQuizCompleted / trackBadgeEarned are
+// "use server" actions that dispatch to the analytics endpoint
+// via global fetch. Mock them so they don't pollute mockFetch
+// when the completeQuiz tests stub global fetch.
+vi.mock("@/lib/track-actions", () => ({
+  trackQuizStarted: vi.fn().mockResolvedValue(undefined),
+  trackQuizCompleted: vi.fn().mockResolvedValue(undefined),
+  trackBadgeEarned: vi.fn().mockResolvedValue(undefined),
+}));
+
 import { useQuizStore } from "./quizStore";
 
 // Build a chainable Supabase mock
@@ -347,5 +357,163 @@ describe("quizStore", () => {
     expect(state.questions).toEqual([]);
     expect(state.answers).toEqual([]);
     expect(state.currentAnime).toBeNull();
+  });
+});
+
+// ─────────────────────────────────────────────────────────────
+// completeQuiz — fetch-based flow (Session 4H, quiz-bug-N).
+//
+// completeQuiz no longer writes quiz_sessions / user_answers /
+// user_profiles directly. It POSTs to /api/quiz/submit, lifts
+// the server-trusted score / xpEarned into state, and calls
+// /api/badges/check with the returned sessionId. These tests
+// exercise the fetch contract and the state transitions; the
+// route's own server-side logic is covered by
+// src/app/api/quiz/submit/route.test.ts.
+// ─────────────────────────────────────────────────────────────
+
+const mockFetch = vi.fn();
+vi.stubGlobal("fetch", mockFetch);
+
+const seedPlayingState = async () => {
+  mockFrom.mockImplementation((table: string) => {
+    if (table === "anime_series") return chain(mockAnime);
+    if (table === "questions") return chain(mockQuestions);
+    return chain(null);
+  });
+  await useQuizStore.getState().startQuiz("naruto", "easy");
+  // Answer both questions so state.answers is populated.
+  useQuizStore.getState().selectAnswer(0); // correct
+  useQuizStore.getState().confirmAnswer(2000);
+  useQuizStore.getState().nextQuestion();
+  useQuizStore.getState().selectAnswer(1); // wrong
+  useQuizStore.getState().confirmAnswer(3000);
+  useQuizStore.getState().nextQuestion();
+};
+
+const jsonResponse = (
+  body: unknown,
+  init: { ok?: boolean; status?: number } = {}
+) => ({
+  ok: init.ok ?? true,
+  status: init.status ?? 200,
+  json: () => Promise.resolve(body),
+});
+
+describe("quizStore.completeQuiz", () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+    useQuizStore.getState().resetQuiz();
+  });
+
+  it("posts to /api/quiz/submit with body derived from local state", async () => {
+    await seedPlayingState();
+
+    mockFetch.mockResolvedValueOnce(
+      jsonResponse({
+        sessionId: "session-1",
+        score: 1,
+        correctAnswers: 1,
+        totalQuestions: 2,
+        xpEarned: 15,
+        timeTakenSeconds: 5,
+      })
+    );
+    mockFetch.mockResolvedValueOnce(jsonResponse({ newBadges: [] }));
+
+    await useQuizStore.getState().completeQuiz("user-a");
+
+    const submitCall = mockFetch.mock.calls[0];
+    expect(submitCall[0]).toBe("/api/quiz/submit");
+    const init = submitCall[1] as { method: string; body: string };
+    expect(init.method).toBe("POST");
+    const body = JSON.parse(init.body) as {
+      animeId: string;
+      difficulty: string;
+      answers: Array<{ questionId: string; selectedOption: number; timeMs: number }>;
+    };
+    expect(body.animeId).toBe(mockAnime.id);
+    expect(body.difficulty).toBe("easy");
+    expect(body.answers).toHaveLength(2);
+    expect(body.answers[0]).toEqual({
+      questionId: "q1",
+      selectedOption: 0,
+      timeMs: 2000,
+    });
+    expect(body.answers[1]).toEqual({
+      questionId: "q2",
+      selectedOption: 1,
+      timeMs: 3000,
+    });
+  });
+
+  it("returns early without /api/badges/check when /api/quiz/submit responds non-ok (rate limited)", async () => {
+    await seedPlayingState();
+
+    mockFetch.mockResolvedValueOnce(
+      jsonResponse(
+        { error: "Daily limit reached", error_code: "rate_limited" },
+        { ok: false, status: 429 }
+      )
+    );
+
+    await useQuizStore.getState().completeQuiz("user-a");
+
+    expect(mockFetch).toHaveBeenCalledTimes(1);
+    expect(mockFetch.mock.calls[0][0]).toBe("/api/quiz/submit");
+    // No /api/badges/check fetch.
+    expect(
+      mockFetch.mock.calls.some((c) => c[0] === "/api/badges/check")
+    ).toBe(false);
+    // newBadges stays empty.
+    expect(useQuizStore.getState().newBadges).toEqual([]);
+  });
+
+  it("happy path: lifts server-trusted score/xpEarned into state and POSTs sessionId to /api/badges/check", async () => {
+    await seedPlayingState();
+
+    // Local state from confirmAnswer() will have score=1
+    // (one correct, one wrong) and a small xpEarned. Server
+    // returns DIFFERENT numbers — we assert the state lifts
+    // the server values, not the local guesses.
+    const SERVER_SCORE = 7;
+    const SERVER_XP = 333;
+    const SERVER_SESSION_ID = "session-server-trusted";
+
+    mockFetch.mockResolvedValueOnce(
+      jsonResponse({
+        sessionId: SERVER_SESSION_ID,
+        score: SERVER_SCORE,
+        correctAnswers: SERVER_SCORE,
+        totalQuestions: 2,
+        xpEarned: SERVER_XP,
+        timeTakenSeconds: 5,
+      })
+    );
+    mockFetch.mockResolvedValueOnce(jsonResponse({ newBadges: [] }));
+
+    await useQuizStore.getState().completeQuiz("user-a");
+
+    const state = useQuizStore.getState();
+    expect(state.score).toBe(SERVER_SCORE);
+    expect(state.xpEarned).toBe(SERVER_XP);
+
+    expect(mockFetch).toHaveBeenCalledTimes(2);
+    const badgeCall = mockFetch.mock.calls[1];
+    expect(badgeCall[0]).toBe("/api/badges/check");
+    const badgeInit = badgeCall[1] as { method: string; body: string };
+    expect(badgeInit.method).toBe("POST");
+    expect(JSON.parse(badgeInit.body)).toEqual({
+      kind: "quiz_session",
+      id: SERVER_SESSION_ID,
+    });
+  });
+
+  it("returns early without any fetch when no userId is provided", async () => {
+    await seedPlayingState();
+
+    await useQuizStore.getState().completeQuiz(undefined);
+
+    expect(mockFetch).not.toHaveBeenCalled();
   });
 });
