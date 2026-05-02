@@ -6,7 +6,6 @@ import type {
   QuizSession,
   UserProfile,
   Difficulty,
-  UserAnswer,
   Cosmetic,
   AgeGroup,
 } from "@/types";
@@ -84,20 +83,6 @@ export const getQuestions = async (
 
 // ── Quiz Sessions ────────────────────────────────────────────
 
-export const saveQuizSession = async (
-  data: Omit<QuizSession, "id" | "completed_at">
-): Promise<QuizSession> => {
-  const supabase = await createClient();
-  const { data: session, error } = await supabase
-    .from("quiz_sessions")
-    .insert(data)
-    .select()
-    .single();
-
-  if (error) throw error;
-  return session as QuizSession;
-};
-
 export const getUserQuizHistory = async (
   userId: string
 ): Promise<QuizSession[]> => {
@@ -110,17 +95,6 @@ export const getUserQuizHistory = async (
 
   if (error) throw error;
   return data as QuizSession[];
-};
-
-// ── User Answers ─────────────────────────────────────────────
-
-export const saveUserAnswers = async (
-  answers: Omit<UserAnswer, "id">[]
-): Promise<void> => {
-  const supabase = await createClient();
-  const { error } = await supabase.from("user_answers").insert(answers);
-
-  if (error) throw error;
 };
 
 // ── User Profiles & Leaderboard ──────────────────────────────
