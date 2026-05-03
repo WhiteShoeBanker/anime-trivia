@@ -1,11 +1,7 @@
 import { create } from "zustand";
 import type { Question, AgeGroup, Badge } from "@/types";
 import { calculateQuestionXP } from "@/lib/scoring";
-import {
-  fetchDailyChallengeQuestions,
-  saveDailyChallengeResult,
-} from "@/lib/daily-challenge";
-import { calculateLeagueXp, updateLeagueMembershipXp } from "@/lib/league-xp";
+import { fetchDailyChallengeQuestions } from "@/lib/daily-challenge";
 import { trackDailyChallengeCompleted, trackBadgeEarned } from "@/lib/track-actions";
 
 interface DailyAnswer {
@@ -161,69 +157,68 @@ export const useDailyChallengeStore = create<
     }
   },
 
-  // TODO(daily-bug-N) [HIGH, competitive integrity]:
-  // The daily challenge result row (user_profiles.daily_challenge_*
-  // columns) is written from the browser via the anon Supabase
-  // client. A user can fabricate a daily_challenge_score=10 update
-  // from devtools and then call /api/badges/check, which trusts the
-  // row as authoritative and awards daily-streak / volume badges
-  // based on the fabricated data. badge-bug-2 (Session 4G) closed
-  // the direct-trust attack but does not close the row-fabrication
-  // attack for context-driven badges. Full mitigation requires
-  // moving daily submission to a server route with server-derived
-  // score (analogous to gp-bug-5 / submit-score for Grand Prix).
-  // Deferred to Session 4J.
+  // Daily-challenge submission goes through /api/daily-challenge/submit
+  // (Session 4J, daily-bug-N fix). The route re-derives score / XP from
+  // the questions answer key, writes the daily_challenge_* columns and
+  // total_xp / rank under service-role (bypassing the migration-028
+  // and 026 triggers), and inlines the league-XP increment that the
+  // pre-migration path called via calculateLeagueXp /
+  // updateLeagueMembershipXp. The store's local score / xpEarned are
+  // kept for UI display — the response is consulted only to decide
+  // whether to fire the downstream /api/badges/check.
   completeDailyChallenge: async (userId) => {
     const state = get();
+    if (state.questions.length === 0) return;
+
+    let submitOk = false;
     try {
-      await saveDailyChallengeResult(userId, state.score, state.xpEarned);
+      const res = await fetch("/api/daily-challenge/submit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          animeId: state.questions[0].anime_id,
+          answers: state.answers.map((a) => ({
+            questionId: a.questionId,
+            selectedOption: a.selectedOption,
+            timeMs: a.timeMs,
+          })),
+        }),
+      });
+      // 200 OK and 409 (already played) both mean "row is server-trusted
+      // for today" — fire the badge check downstream in either case.
+      // Other non-OK responses are silent failures (results still shown
+      // locally), matching the pre-migration save-fail behavior.
+      submitOk = res.ok || res.status === 409;
+    } catch {
+      // Network failure — results still shown locally
+    }
 
-      trackDailyChallengeCompleted(userId, {
-        score: state.score,
-        total: state.questions.length,
-        xp_earned: state.xpEarned,
-      }).catch(() => {});
+    if (!submitOk) return;
 
-      // League XP — pick the first question's anime for tracking
-      try {
-        if (state.questions.length > 0) {
-          const animeId = state.questions[0].anime_id;
-          const leagueXpResult = await calculateLeagueXp(
-            state.xpEarned,
-            animeId,
-            userId
-          );
-          await updateLeagueMembershipXp(
-            userId,
-            leagueXpResult.leagueXp,
-            animeId
-          );
-        }
-      } catch {
-        // League XP failed — non-critical
-      }
+    trackDailyChallengeCompleted(userId, {
+      score: state.score,
+      total: state.questions.length,
+      xp_earned: state.xpEarned,
+    }).catch(() => {});
 
-      // Badge checks via /api/badges/check — see badge-bug-2.
-      try {
-        const res = await fetch("/api/badges/check", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ kind: "daily_challenge" }),
-        });
-        if (res.ok) {
-          const { newBadges } = (await res.json()) as { newBadges: Badge[] };
-          if (newBadges.length > 0) {
-            set({ newBadges });
-            for (const badge of newBadges) {
-              trackBadgeEarned(userId, { badge_slug: badge.slug, badge_name: badge.name }).catch(() => {});
-            }
+    // Badge checks via /api/badges/check — see badge-bug-2.
+    try {
+      const res = await fetch("/api/badges/check", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ kind: "daily_challenge" }),
+      });
+      if (res.ok) {
+        const { newBadges } = (await res.json()) as { newBadges: Badge[] };
+        if (newBadges.length > 0) {
+          set({ newBadges });
+          for (const badge of newBadges) {
+            trackBadgeEarned(userId, { badge_slug: badge.slug, badge_name: badge.name }).catch(() => {});
           }
         }
-      } catch {
-        // Badge check failed — non-critical
       }
     } catch {
-      // Save failed — results still shown locally
+      // Badge check failed — non-critical
     }
   },
 
