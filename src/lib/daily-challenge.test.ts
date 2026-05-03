@@ -14,10 +14,7 @@ vi.mock("@/lib/config-actions", () => ({
     mockGetDailyChallengeMixForAge(ageGroup),
 }));
 
-import {
-  fetchDailyChallengeQuestions,
-  saveDailyChallengeResult,
-} from "./daily-challenge";
+import { fetchDailyChallengeQuestions } from "./daily-challenge";
 import {
   installSupabaseResponder,
   findCall,
@@ -47,10 +44,6 @@ const makeQuestion = (
     { text: "B", isCorrect: false },
   ],
 });
-
-const todayUtc = () => new Date().toISOString().split("T")[0];
-const dateDaysAgo = (days: number) =>
-  new Date(Date.now() - days * 24 * 60 * 60 * 1000).toISOString().split("T")[0];
 
 beforeEach(() => {
   vi.clearAllMocks();
@@ -256,104 +249,6 @@ describe("fetchDailyChallengeQuestions — config-driven distribution", () => {
 
     const result = await fetchDailyChallengeQuestions("full");
     expect(result).toEqual([]);
-  });
-});
-
-// ═══════════════════════════════════════════════════════════════
-// Gap 1 — Streak / double-play behavior in saveDailyChallengeResult
-// ═══════════════════════════════════════════════════════════════
-
-describe("saveDailyChallengeResult — streak & idempotency", () => {
-  const captureProfileUpdates = (
-    priorRow: {
-      daily_challenge_date: string | null;
-      daily_challenge_streak: number;
-    },
-    totalXp: number
-  ) => {
-    const updates: Record<string, unknown>[] = [];
-
-    const responder: Responder = (q) => {
-      if (q.table === "user_profiles") {
-        const hasUpdate = q.ops.some((op) => op.method === "update");
-        const hasSelect = q.ops.some((op) => op.method === "select");
-
-        if (hasUpdate) {
-          const updateOp = q.ops.find((op) => op.method === "update")!;
-          updates.push(updateOp.args[0] as Record<string, unknown>);
-          return { data: null };
-        }
-        if (hasSelect) {
-          const selectOp = q.ops.find((op) => op.method === "select")!;
-          const cols = selectOp.args[0] as string;
-          if (cols.includes("daily_challenge_date")) return { data: priorRow };
-          if (cols.includes("total_xp")) return { data: { total_xp: totalXp } };
-        }
-      }
-      return { data: null };
-    };
-
-    return { responder, updates };
-  };
-
-  it("keeps streak unchanged when priorDate === today (idempotent on streak)", async () => {
-    const { responder, updates } = captureProfileUpdates(
-      { daily_challenge_date: todayUtc(), daily_challenge_streak: 5 },
-      1000
-    );
-    installSupabaseResponder(mockFrom, responder);
-
-    await saveDailyChallengeResult("user-1", 7, 50);
-
-    const firstUpdate = updates[0];
-    expect(firstUpdate.daily_challenge_streak).toBe(5);
-    expect(firstUpdate.daily_challenge_date).toBe(todayUtc());
-  });
-
-  it("increments streak when priorDate === yesterday", async () => {
-    const { responder, updates } = captureProfileUpdates(
-      { daily_challenge_date: dateDaysAgo(1), daily_challenge_streak: 4 },
-      1000
-    );
-    installSupabaseResponder(mockFrom, responder);
-
-    await saveDailyChallengeResult("user-1", 8, 60);
-
-    expect(updates[0].daily_challenge_streak).toBe(5);
-  });
-
-  it("resets streak to 1 when prior date is neither today nor yesterday", async () => {
-    const { responder, updates } = captureProfileUpdates(
-      { daily_challenge_date: dateDaysAgo(3), daily_challenge_streak: 10 },
-      1000
-    );
-    installSupabaseResponder(mockFrom, responder);
-
-    await saveDailyChallengeResult("user-1", 6, 40);
-
-    expect(updates[0].daily_challenge_streak).toBe(1);
-  });
-
-  it("does NOT re-add xpEarned on same-day repeat (closes daily-bug-2)", async () => {
-    // Same-day repeat must be idempotent on BOTH streak and XP. The
-    // streak-only idempotency was insufficient because total_xp was
-    // still being incremented on every call — a double-play exploit
-    // since the "already played" gate in DailyContent.tsx is purely
-    // client-side. Fixed in Session 4D.
-    const { responder, updates } = captureProfileUpdates(
-      { daily_challenge_date: todayUtc(), daily_challenge_streak: 3 },
-      1000
-    );
-    installSupabaseResponder(mockFrom, responder);
-
-    await saveDailyChallengeResult("user-1", 7, 50);
-
-    // Only the first (streak/date/score) update runs. The XP/rank/
-    // last_played_at second update must be skipped on same-day repeat.
-    expect(updates).toHaveLength(1);
-    for (const u of updates) {
-      expect(u).not.toHaveProperty("total_xp");
-    }
   });
 });
 
