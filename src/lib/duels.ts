@@ -1,20 +1,15 @@
 import { createClient } from "@/lib/supabase/client";
-import { getUserLeagueInfo, getCurrentWeekStart, updateLeagueMembershipXp } from "@/lib/league-xp";
-import { calculateQuestionXP } from "@/lib/scoring";
-import { getDuelMaxPerOpponentWeekly } from "@/lib/config-actions";
+import { getUserLeagueInfo } from "@/lib/league-xp";
 import {
   trackDuelCreated,
   trackFriendRequestSent,
   trackFriendRequestAccepted,
-  trackBadgeEarned,
 } from "@/lib/track-actions";
 import type {
   DuelMatch,
   DuelCreateOptions,
   DuelStats,
-  Difficulty,
   FriendshipWithProfile,
-  Badge,
 } from "@/types";
 
 // ── Question Selection ─────────────────────────────────────────
@@ -242,379 +237,42 @@ interface DuelAnswer {
   timeMs: number;
 }
 
-// TODO(duel-bug-N) [HIGH, competitive integrity]:
-// duel_matches rows are written from the browser via the anon
-// Supabase client. A user can fabricate challenger_correct or
-// opponent_correct (and the answers JSONB) from devtools and the
-// /api/badges/check route will trust the row as authoritative —
-// awarding duel_perfect, lightning, etc. based on fabricated data.
-// badge-bug-2 (Session 4G) closed the direct-trust attack but
-// does not close the row-fabrication attack for context-driven
-// badges. Full mitigation requires moving duel submission to a
-// server route with server-derived score (analogous to gp-bug-5
-// / submit-score for Grand Prix). Deferred to Session 4I.
+// Thin wrapper around POST /api/duels/submit. The server route
+// is the trust boundary — it identifies caller as challenger or
+// opponent via auth.uid(), re-derives isCorrect / score / XP from
+// the questions answer key, writes duel_matches / duel_stats /
+// user_profiles via the service-role client (bypassing the
+// migration-027 trigger that locks score/answer/winner columns
+// from authenticated and anon roles), and runs a two-pass UPDATE
+// to handle concurrent both-submit races.
+//
+// Caller-passed isCorrect / totalTimeMs values are not forwarded
+// to the route. The route derives them server-side, ignoring any
+// client-claimed correctness. See duel-bug-N (Session 4I).
 export const submitDuelResults = async (
   duelId: string,
-  userId: string,
+  _userId: string, // server reads identity from auth.getUser()
   answers: DuelAnswer[],
-  totalTimeMs: number
+  _totalTimeMs: number // server derives from clamped per-answer times
 ): Promise<DuelMatch | null> => {
-  const supabase = createClient();
-
-  // Fetch current duel state
-  const { data: duel } = await supabase
-    .from("duel_matches")
-    .select("*")
-    .eq("id", duelId)
-    .single();
-
-  if (!duel) return null;
-
-  const isChallenger = duel.challenger_id === userId;
-  const isOpponent = duel.opponent_id === userId;
-  if (!isChallenger && !isOpponent) return null;
-
-  // Calculate score
-  const correctCount = answers.filter((a) => a.isCorrect).length;
-  let totalScore = 0;
-  let streak = 0;
-
-  for (const answer of answers) {
-    if (answer.isCorrect) {
-      const questionXp = calculateQuestionXP(
-        (duel.difficulty === "mixed" ? "medium" : duel.difficulty) as Difficulty,
-        streak,
-        answer.timeMs,
-        30000
-      );
-      totalScore += questionXp;
-      streak++;
-    } else {
-      streak = 0;
-    }
-  }
-
-  // Build update payload
-  const update: Record<string, unknown> = {};
-
-  if (isChallenger) {
-    update.challenger_score = totalScore;
-    update.challenger_correct = correctCount;
-    update.challenger_time_ms = totalTimeMs;
-    update.challenger_answers = answers;
-    update.challenger_completed_at = new Date().toISOString();
-  } else {
-    update.opponent_score = totalScore;
-    update.opponent_correct = correctCount;
-    update.opponent_time_ms = totalTimeMs;
-    update.opponent_answers = answers;
-    update.opponent_completed_at = new Date().toISOString();
-  }
-
-  // Check if both players have completed
-  const challengerDone = isChallenger || duel.challenger_completed_at !== null;
-  const opponentDone = isOpponent || duel.opponent_completed_at !== null;
-
-  if (challengerDone && opponentDone) {
-    // Both complete — determine winner
-    const cScore = isChallenger ? totalScore : duel.challenger_score;
-    const oScore = isOpponent ? totalScore : duel.opponent_score;
-    const cTime = isChallenger ? totalTimeMs : duel.challenger_time_ms;
-    const oTime = isOpponent ? totalTimeMs : duel.opponent_time_ms;
-    const cCorrect = isChallenger ? correctCount : duel.challenger_correct;
-    const oCorrect = isOpponent ? correctCount : duel.opponent_correct;
-
-    // Helper: longest consecutive correct streak from answers
-    const longestStreak = (ans: DuelAnswer[]): number => {
-      let best = 0;
-      let cur = 0;
-      for (const a of ans) {
-        if (a.isCorrect) { cur++; best = Math.max(best, cur); }
-        else { cur = 0; }
-      }
-      return best;
-    };
-
-    const challengerAnswers = isChallenger
-      ? answers
-      : (duel.challenger_answers as DuelAnswer[] | null) ?? [];
-    const opponentAnswers = isOpponent
-      ? answers
-      : (duel.opponent_answers as DuelAnswer[] | null) ?? [];
-    const cStreak = longestStreak(challengerAnswers);
-    const oStreak = longestStreak(opponentAnswers);
-
-    if (cCorrect !== null && oCorrect !== null) {
-      // 1. Highest correct count wins
-      if (cCorrect > oCorrect) {
-        update.winner_id = duel.challenger_id;
-      } else if (oCorrect > cCorrect) {
-        update.winner_id = duel.opponent_id;
-      } else if (cTime !== null && oTime !== null && cTime !== oTime) {
-        // 2. Tiebreaker: faster total time
-        if (cTime < oTime) {
-          update.winner_id = duel.challenger_id;
-        } else {
-          update.winner_id = duel.opponent_id;
-        }
-      } else if (cStreak !== oStreak) {
-        // 3. Tiebreaker: longest correct streak
-        if (cStreak > oStreak) {
-          update.winner_id = duel.challenger_id;
-        } else {
-          update.winner_id = duel.opponent_id;
-        }
-      }
-      // 4. All equal — draw (winner_id stays null)
-    }
-
-    update.status = "completed";
-
-    // Calculate XP for both players
-    const { challengerXp, opponentXp } = await calculateDuelXp(
-      duel.challenger_id,
-      duel.opponent_id,
-      update.winner_id as string | null
-    );
-
-    update.challenger_xp_earned = challengerXp;
-    update.opponent_xp_earned = opponentXp;
-
-    // Update duel stats for both players
-    await updateDuelStats(
-      duel.challenger_id,
-      duel.opponent_id,
-      update.winner_id as string | null,
-      challengerXp,
-      opponentXp
-    );
-
-    // Award XP to user profiles
-    await awardDuelXp(duel.challenger_id, challengerXp);
-    await awardDuelXp(duel.opponent_id, opponentXp);
-
-    // Update league membership XP if applicable
-    if (duel.anime_id) {
-      await updateLeagueMembershipXp(duel.challenger_id, challengerXp, duel.anime_id);
-      await updateLeagueMembershipXp(duel.opponent_id, opponentXp, duel.anime_id);
-    }
-
-    // Check giant kill
-    await checkGiantKill(
-      duel.challenger_id,
-      duel.opponent_id,
-      update.winner_id as string | null
-    );
-
-    // Badge check for the calling user only. The /api/badges/check
-    // route is auth-enforced and can only award badges to the
-    // calling user; the opponent's badges are awarded the next time
-    // the opponent's client polls the completed duel and triggers
-    // its own check (DuelClient.tsx).
-    try {
-      const res = await fetch("/api/badges/check", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ kind: "duel_match", id: duel.id }),
-      });
-      if (res.ok) {
-        const { newBadges } = (await res.json()) as { newBadges: Badge[] };
-        for (const badge of newBadges) {
-          trackBadgeEarned(userId, { badge_slug: badge.slug, badge_name: badge.name }).catch(() => {});
-        }
-      }
-    } catch {
-      // Badge check failed — non-critical
-    }
-  } else {
-    update.status = "in_progress";
-  }
-
-  const { data: updated } = await supabase
-    .from("duel_matches")
-    .update(update)
-    .eq("id", duelId)
-    .select()
-    .single();
-
-  return (updated as DuelMatch) ?? null;
-};
-
-// ── XP Calculation with Tier Multiplier ────────────────────────
-
-const calculateDuelXp = async (
-  challengerId: string,
-  opponentId: string,
-  winnerId: string | null
-): Promise<{ challengerXp: number; opponentXp: number }> => {
-  const supabase = createClient();
-
-  // Base XP by result
-  const WIN_XP = 50;
-  const DRAW_XP = 20;
-  const LOSS_XP = 10;
-
-  // Get league tiers for both players
-  const challengerLeague = await getUserLeagueInfo(challengerId);
-  const opponentLeague = await getUserLeagueInfo(opponentId);
-  const challengerTier = challengerLeague?.league?.tier ?? 1;
-  const opponentTier = opponentLeague?.league?.tier ?? 1;
-
-  // Tier-diff multiplier (from winner's perspective vs opponent's tier)
-  const getTierMultiplier = (tierDiff: number): number => {
-    if (tierDiff >= 2) return 3.0;   // Beat opponent 2+ tiers above
-    if (tierDiff === 1) return 2.0;  // Beat opponent 1 tier above
-    if (tierDiff === 0) return 1.0;  // Same tier
-    if (tierDiff === -1) return 0.75; // Beat opponent 1 tier below
-    return 0.5;                       // Beat opponent 2+ tiers below
-  };
-
-  // Check diminishing returns (configurable max duels vs same opponent/week at full XP)
-  const maxPerOpponentWeekly = await getDuelMaxPerOpponentWeekly();
-  const weekStart = getCurrentWeekStart();
-  const { count: duelsThisWeek } = await supabase
-    .from("duel_matches")
-    .select("*", { count: "exact", head: true })
-    .eq("status", "completed")
-    .or(
-      `and(challenger_id.eq.${challengerId},opponent_id.eq.${opponentId}),` +
-      `and(challenger_id.eq.${opponentId},opponent_id.eq.${challengerId})`
-    )
-    .gte("created_at", weekStart);
-
-  const diminishingFactor = (duelsThisWeek ?? 0) >= maxPerOpponentWeekly ? 0.25 : 1.0;
-
-  let challengerXp: number;
-  let opponentXp: number;
-
-  if (winnerId === challengerId) {
-    const tierDiff = opponentTier - challengerTier;
-    challengerXp = Math.round(WIN_XP * getTierMultiplier(tierDiff) * diminishingFactor);
-    opponentXp = Math.round(LOSS_XP * getTierMultiplier(challengerTier - opponentTier) * diminishingFactor);
-  } else if (winnerId === opponentId) {
-    const tierDiff = challengerTier - opponentTier;
-    opponentXp = Math.round(WIN_XP * getTierMultiplier(tierDiff) * diminishingFactor);
-    challengerXp = Math.round(LOSS_XP * getTierMultiplier(opponentTier - challengerTier) * diminishingFactor);
-  } else {
-    // Draw — both get draw base XP with tier multiplier
-    challengerXp = Math.round(DRAW_XP * getTierMultiplier(opponentTier - challengerTier) * diminishingFactor);
-    opponentXp = Math.round(DRAW_XP * getTierMultiplier(challengerTier - opponentTier) * diminishingFactor);
-  }
-
-  return { challengerXp, opponentXp };
-};
-
-// ── Award XP to User Profile ───────────────────────────────────
-
-const awardDuelXp = async (userId: string, xp: number): Promise<void> => {
-  if (xp <= 0) return;
-  const supabase = createClient();
-
-  const { data: profile } = await supabase
-    .from("user_profiles")
-    .select("total_xp")
-    .eq("id", userId)
-    .single();
-
-  if (!profile) return;
-
-  await supabase
-    .from("user_profiles")
-    .update({ total_xp: profile.total_xp + xp })
-    .eq("id", userId);
-};
-
-// ── Update Duel Stats ──────────────────────────────────────────
-
-const updateDuelStats = async (
-  challengerId: string,
-  opponentId: string,
-  winnerId: string | null,
-  challengerXpEarned: number,
-  opponentXpEarned: number
-): Promise<void> => {
-  const supabase = createClient();
-
-  const updatePlayerStats = async (
-    playerId: string,
-    won: boolean,
-    isDraw: boolean,
-    xpEarned: number
-  ) => {
-    // Fetch current stats
-    const { data: existing } = await supabase
-      .from("duel_stats")
-      .select("*")
-      .eq("user_id", playerId)
-      .single();
-
-    if (existing) {
-      const newWinStreak = won ? existing.win_streak + 1 : 0;
-      const newBestStreak = Math.max(existing.best_win_streak, newWinStreak);
-
-      await supabase
-        .from("duel_stats")
-        .update({
-          total_duels: existing.total_duels + 1,
-          wins: existing.wins + (won ? 1 : 0),
-          losses: existing.losses + (!won && !isDraw ? 1 : 0),
-          draws: existing.draws + (isDraw ? 1 : 0),
-          win_streak: newWinStreak,
-          best_win_streak: newBestStreak,
-          duel_xp_total: existing.duel_xp_total + xpEarned,
-        })
-        .eq("user_id", playerId);
-    } else {
-      await supabase.from("duel_stats").insert({
-        user_id: playerId,
-        total_duels: 1,
-        wins: won ? 1 : 0,
-        losses: !won && !isDraw ? 1 : 0,
-        draws: isDraw ? 1 : 0,
-        win_streak: won ? 1 : 0,
-        best_win_streak: won ? 1 : 0,
-        duel_xp_total: xpEarned,
-      });
-    }
-  };
-
-  const isDraw = winnerId === null;
-  await updatePlayerStats(challengerId, winnerId === challengerId, isDraw, challengerXpEarned);
-  await updatePlayerStats(opponentId, winnerId === opponentId, isDraw, opponentXpEarned);
-};
-
-// ── Giant Kill Check ───────────────────────────────────────────
-
-const checkGiantKill = async (
-  challengerId: string,
-  opponentId: string,
-  winnerId: string | null
-): Promise<void> => {
-  if (!winnerId) return;
-
-  const supabase = createClient();
-  const loserId = winnerId === challengerId ? opponentId : challengerId;
-
-  // Get both players' league tiers
-  const winnerLeague = await getUserLeagueInfo(winnerId);
-  const loserLeague = await getUserLeagueInfo(loserId);
-  const winnerTier = winnerLeague?.league?.tier ?? 1;
-  const loserTier = loserLeague?.league?.tier ?? 1;
-
-  // Giant kill: winner was 2+ tiers below the loser
-  if (loserTier - winnerTier >= 2) {
-    const { data: stats } = await supabase
-      .from("duel_stats")
-      .select("giant_kills")
-      .eq("user_id", winnerId)
-      .single();
-
-    if (stats) {
-      await supabase
-        .from("duel_stats")
-        .update({ giant_kills: stats.giant_kills + 1 })
-        .eq("user_id", winnerId);
-    }
+  try {
+    const res = await fetch("/api/duels/submit", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        duelId,
+        answers: answers.map((a) => ({
+          questionId: a.questionId,
+          selectedOption: a.selectedOption,
+          timeMs: a.timeMs,
+        })),
+      }),
+    });
+    if (!res.ok) return null;
+    const data = (await res.json()) as { duel: DuelMatch | null };
+    return data.duel ?? null;
+  } catch {
+    return null;
   }
 };
 

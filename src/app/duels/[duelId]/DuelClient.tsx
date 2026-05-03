@@ -11,6 +11,7 @@ import { useDuelStore } from "@/stores/duelStore";
 import { createDuel } from "@/lib/duels";
 import { getUserLeagueInfo } from "@/lib/league-xp";
 import { createClient } from "@/lib/supabase/client";
+import { trackBadgeEarned } from "@/lib/track-actions";
 import ProgressBar from "@/components/ProgressBar";
 import QuizCard from "@/components/QuizCard";
 import DuelResults from "@/components/DuelResults";
@@ -154,6 +155,14 @@ const DuelClient = ({
             const { newBadges: awarded } = (await res.json()) as { newBadges: Badge[] };
             if (awarded.length > 0) {
               setNewBadges(awarded);
+              // Analytics fire — preserves the per-badge tracking that
+              // src/lib/duels.ts:submitDuelResults handled pre-Session-4I.
+              for (const badge of awarded) {
+                trackBadgeEarned(userId, {
+                  badge_slug: badge.slug,
+                  badge_name: badge.name,
+                }).catch(() => {});
+              }
             }
           }
         } catch {
@@ -161,7 +170,7 @@ const DuelClient = ({
         }
       }
     }
-  }, [initialDuel.id, newBadges.length]);
+  }, [initialDuel.id, newBadges.length, userId]);
 
   useEffect(() => {
     if (quizStatus !== "submitted") return;
