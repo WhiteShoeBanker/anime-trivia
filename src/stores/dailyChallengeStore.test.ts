@@ -7,20 +7,6 @@ import { describe, it, expect, vi, beforeEach } from "vitest";
 
 vi.mock("@/lib/daily-challenge", () => ({
   fetchDailyChallengeQuestions: vi.fn(),
-  saveDailyChallengeResult: vi.fn().mockResolvedValue(undefined),
-}));
-
-vi.mock("@/lib/league-xp", () => ({
-  calculateLeagueXp: vi.fn().mockResolvedValue({
-    leagueXp: 0,
-    multiplier: 1.0,
-    playCount: 1,
-    nudge: false,
-  }),
-  updateLeagueMembershipXp: vi.fn().mockResolvedValue({
-    previousRank: 1,
-    newRank: 1,
-  }),
 }));
 
 vi.mock("@/lib/track-actions", () => ({
@@ -32,10 +18,7 @@ vi.mock("@/lib/track-actions", () => ({
 // XP_MULTIPLIER round-trip against the production scoring formula.
 
 import { useDailyChallengeStore } from "./dailyChallengeStore";
-import {
-  fetchDailyChallengeQuestions,
-  saveDailyChallengeResult,
-} from "@/lib/daily-challenge";
+import { fetchDailyChallengeQuestions } from "@/lib/daily-challenge";
 import { calculateQuestionXP } from "@/lib/scoring";
 import type { Question } from "@/types";
 
@@ -119,36 +102,129 @@ describe("dailyChallengeStore — XP 1.5x multiplier round-trip", () => {
     expect(state.score).toBe(0); // not incremented
   });
 
-  it("completeDailyChallenge: passes accumulated xpEarned verbatim to saveDailyChallengeResult", async () => {
+});
+
+// ═══════════════════════════════════════════════════════════════
+// completeDailyChallenge — Session 4J caller migration
+//
+// Verifies the store now POSTs to /api/daily-challenge/submit
+// (no body `difficulty` field), treats 409 as success (server
+// row trusted either way), and silently fails on 500.
+// ═══════════════════════════════════════════════════════════════
+
+describe("dailyChallengeStore.completeDailyChallenge — server route caller", () => {
+  const fetchMock = vi.fn();
+
+  beforeEach(() => {
+    fetchMock.mockReset();
+    vi.stubGlobal("fetch", fetchMock);
+  });
+
+  const jsonResponse = (
+    body: unknown,
+    init: { ok?: boolean; status?: number } = {}
+  ) => ({
+    ok: init.ok ?? true,
+    status: init.status ?? 200,
+    json: () => Promise.resolve(body),
+  });
+
+  const seedCompletedState = async () => {
     const questions = [
       makeQuestion("q1", "easy"),
       makeQuestion("q2", "medium"),
     ];
     vi.mocked(fetchDailyChallengeQuestions).mockResolvedValueOnce(questions);
-
     const store = useDailyChallengeStore;
     await store.getState().startDailyChallenge("full");
-
-    // Simulate two correct answers at fast time
     store.getState().selectAnswer(0);
     store.getState().confirmAnswer(1000);
     store.getState().nextQuestion();
     store.getState().selectAnswer(0);
-    store.getState().confirmAnswer(1000);
+    store.getState().confirmAnswer(2000);
+  };
 
-    const accumulated = store.getState().xpEarned;
-    expect(accumulated).toBeGreaterThan(0);
+  it("POSTs /api/daily-challenge/submit with body shape derived from local state", async () => {
+    await seedCompletedState();
 
-    await store.getState().completeDailyChallenge("user-1");
-
-    expect(vi.mocked(saveDailyChallengeResult)).toHaveBeenCalledTimes(1);
-    // Third arg is xpEarned; must equal the store's accumulated value.
-    // If anyone accidentally multiplied by 1.5 again at save time,
-    // this would fail.
-    expect(vi.mocked(saveDailyChallengeResult)).toHaveBeenCalledWith(
-      "user-1",
-      expect.any(Number),
-      accumulated
+    fetchMock.mockResolvedValueOnce(
+      jsonResponse({
+        score: 2,
+        correctAnswers: 2,
+        totalQuestions: 2,
+        xpEarned: 50,
+        timeTakenSeconds: 3,
+        streak: 1,
+      })
     );
+    fetchMock.mockResolvedValueOnce(jsonResponse({ newBadges: [] }));
+
+    await useDailyChallengeStore.getState().completeDailyChallenge("user-1");
+
+    const submitCall = fetchMock.mock.calls[0];
+    expect(submitCall[0]).toBe("/api/daily-challenge/submit");
+    const init = submitCall[1] as { method: string; body: string };
+    expect(init.method).toBe("POST");
+
+    const body = JSON.parse(init.body) as {
+      animeId: string;
+      answers: Array<{
+        questionId: string;
+        selectedOption: number;
+        timeMs: number;
+      }>;
+    };
+    // animeId comes from the first question; no `difficulty` field
+    // on this body (asymmetric from /api/quiz/submit).
+    expect(body.animeId).toBe("anime-q1");
+    expect(body).not.toHaveProperty("difficulty");
+    expect(body.answers).toHaveLength(2);
+    expect(body.answers[0]).toMatchObject({
+      questionId: "q1",
+      selectedOption: 0,
+    });
+    expect(body.answers[1]).toMatchObject({
+      questionId: "q2",
+      selectedOption: 0,
+    });
+  });
+
+  it("treats 409 already-played as success — still fires /api/badges/check", async () => {
+    await seedCompletedState();
+
+    fetchMock.mockResolvedValueOnce(
+      jsonResponse({ error: "Already played today" }, { ok: false, status: 409 })
+    );
+    fetchMock.mockResolvedValueOnce(jsonResponse({ newBadges: [] }));
+
+    await useDailyChallengeStore.getState().completeDailyChallenge("user-1");
+
+    expect(fetchMock).toHaveBeenCalledTimes(2);
+    expect(fetchMock.mock.calls[0][0]).toBe("/api/daily-challenge/submit");
+    expect(fetchMock.mock.calls[1][0]).toBe("/api/badges/check");
+  });
+
+  it("silently skips badge check when /api/daily-challenge/submit responds 500", async () => {
+    await seedCompletedState();
+
+    fetchMock.mockResolvedValueOnce(
+      jsonResponse({ error: "boom" }, { ok: false, status: 500 })
+    );
+
+    await useDailyChallengeStore.getState().completeDailyChallenge("user-1");
+
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+    expect(
+      fetchMock.mock.calls.some((c) => c[0] === "/api/badges/check")
+    ).toBe(false);
+  });
+
+  it("returns early without fetching when there are no questions in state", async () => {
+    // Fresh store, no startDailyChallenge call → questions array empty.
+    useDailyChallengeStore.getState().reset();
+
+    await useDailyChallengeStore.getState().completeDailyChallenge("user-1");
+
+    expect(fetchMock).not.toHaveBeenCalled();
   });
 });
