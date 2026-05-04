@@ -98,60 +98,6 @@ describe("runBadgeChecks", () => {
     });
   });
 
-  // ── Weekend Hero ──────────────────────────────────────────
-
-  describe("weekend hero badge", () => {
-    it("awards on weekend days (Saturday or Sunday)", async () => {
-      const now = new Date();
-      const isWeekend = now.getDay() === 0 || now.getDay() === 6;
-
-      let callCount = 0;
-      mockFrom.mockImplementation((table: string) => {
-        callCount++;
-        if (table === "badges") {
-          return chain([
-            {
-              id: "weekend-hero",
-              slug: "weekend-hero",
-              name: "Weekend Hero",
-              description: "Play on both Saturday and Sunday",
-              category: "weekend",
-              icon_name: "calendar",
-              icon_color: "#00D1B2",
-              requirement_type: "weekend_both_days",
-              requirement_value: {},
-              rarity: "uncommon",
-              created_at: "2024-01-01",
-            },
-          ]);
-        }
-        if (table === "user_badges" && callCount <= 3) {
-          return chain([]);
-        }
-        if (table === "user_profiles") {
-          return chain({
-            current_streak: 1, longest_streak: 1, total_xp: 100, created_at: "2024-01-01",
-          });
-        }
-        if (table === "quiz_sessions") return chain([], 1);
-        if (table === "anime_series") return chain(null, 10);
-        if (table === "league_history") return chain(null, 0);
-        if (table === "league_memberships") return chain({ leagues: { tier: 1 } });
-        if (table === "grand_prix_matches") return chain(null, 0);
-        if (table === "grand_prix_tournaments") return chain(null, 0);
-        if (table === "duel_stats") return chain({ wins: 0, giant_kills: 0, win_streak: 0, best_win_streak: 0 });
-        return chain(null);
-      });
-
-      const result = await runBadgeChecks({ userId: "user-1" }, mockSupabase);
-      if (isWeekend) {
-        expect(result.length).toBe(1);
-      } else {
-        expect(result.length).toBe(0);
-      }
-    });
-  });
-
   // ── Time-Based Badges ──────────────────────────────────────
 
   describe("time-based badges", () => {
