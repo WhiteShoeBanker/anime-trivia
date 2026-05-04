@@ -89,6 +89,7 @@ const QuizClient = ({
     selectAnswer,
     confirmAnswer,
     nextQuestion,
+    completeQuiz,
     resetQuiz,
   } = useQuizStore();
 
@@ -157,9 +158,14 @@ const QuizClient = ({
     return () => resetQuiz();
   }, [resetQuiz]);
 
-  // Track quiz completion and show badge celebration
+  // Persist + track quiz completion, show badge celebration.
+  // completeQuiz POSTs to /api/quiz/submit (Session 4H route);
+  // the store's `submitted` flag makes the call idempotent so
+  // re-firing this effect (StrictMode dev, fast-refresh) does
+  // not produce duplicate rows.
   useEffect(() => {
-    if (quizStatus === "completed") {
+    if (quizStatus === "completed" && userId) {
+      completeQuiz(userId);
       const correctCount = answers.filter((a) => a.isCorrect).length;
       trackClientEvent("quiz_completed", undefined, {
         anime: anime.slug,
@@ -172,7 +178,7 @@ const QuizClient = ({
         setShowBadgeCelebration(true);
       }
     }
-  }, [quizStatus]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [quizStatus, userId, completeQuiz]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleStartQuiz = async () => {
     setNoQuestions(false);

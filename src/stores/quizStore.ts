@@ -36,6 +36,13 @@ interface QuizState {
   isRevealed: boolean;
   leagueResult: LeagueResultInfo | null;
   newBadges: Badge[];
+  // True once completeQuiz has begun submission for the current
+  // session. Closes the double-fire window where React StrictMode
+  // (dev) or any quizStatus oscillation would otherwise trigger
+  // two /api/quiz/submit POSTs and produce duplicate quiz_sessions /
+  // user_answers rows. Set synchronously before the await so
+  // concurrent calls bail at the guard. Reset by resetQuiz.
+  submitted: boolean;
 }
 
 interface QuizActions {
@@ -69,6 +76,7 @@ const initialState: QuizState = {
   isRevealed: false,
   leagueResult: null,
   newBadges: [],
+  submitted: false,
 };
 
 export const useQuizStore = create<QuizState & QuizActions>((set, get) => ({
@@ -221,6 +229,14 @@ export const useQuizStore = create<QuizState & QuizActions>((set, get) => ({
 
     const state = get();
     if (!state.currentAnime) return;
+    // Idempotency guard. /api/quiz/submit does not enforce
+    // session-level uniqueness, so a double-fire (React
+    // StrictMode in dev, fast-refresh, or any caller-side
+    // race) would produce duplicate quiz_sessions and
+    // user_answers rows. Synchronous set() before any await
+    // closes the window.
+    if (state.submitted) return;
+    set({ submitted: true });
 
     try {
       // Server-trusted submission. Migration 026 dropped client

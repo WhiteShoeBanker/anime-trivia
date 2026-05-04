@@ -20,16 +20,22 @@ vi.mock("@/lib/supabase/client", () => ({
   }),
 }));
 
-// Spy: fail loudly if the quiz store actually tries to load questions
+// Spies: fail loudly if the quiz store actually tries to load questions
 // when the gate refused. The store calls supabase.from(...) — the mock
 // above returns an empty chain, but the assertion is "startQuiz never
 // got called" because handleStartQuiz returns before invoking it.
+// completeQuizSpy + mockQuizStatus drive the Session 4K integration
+// test that proves QuizClient invokes completeQuiz when status flips
+// to "completed".
 const startQuizSpy = vi.fn();
+const completeQuizSpy = vi.fn();
+let mockQuizStatus: "idle" | "loading" | "playing" | "reviewing" | "completed" =
+  "idle";
 vi.mock("@/stores/quizStore", () => ({
   useQuizStore: Object.assign(
     (selector?: (s: unknown) => unknown) => {
       const state = {
-        quizStatus: "idle" as const,
+        quizStatus: mockQuizStatus,
         difficulty: "medium" as const,
         questions: [],
         currentQuestionIndex: 0,
@@ -44,11 +50,12 @@ vi.mock("@/stores/quizStore", () => ({
         selectAnswer: vi.fn(),
         confirmAnswer: vi.fn(),
         nextQuestion: vi.fn(),
+        completeQuiz: completeQuizSpy,
         resetQuiz: vi.fn(),
       };
       return selector ? selector(state) : state;
     },
-    { getState: () => ({ quizStatus: "idle" }) }
+    { getState: () => ({ quizStatus: mockQuizStatus }) }
   ),
 }));
 
@@ -108,6 +115,8 @@ const anime: AnimeSeries = {
 beforeEach(() => {
   rpcMock.mockReset();
   startQuizSpy.mockReset();
+  completeQuizSpy.mockReset();
+  mockQuizStatus = "idle";
   localStorage.clear();
 });
 
@@ -300,5 +309,35 @@ describe("QuizClient gating — Pro user", () => {
 
     expect(screen.queryByText(/Daily Limit Reached/i)).toBeNull();
     expect(startQuizSpy).toHaveBeenCalled();
+  });
+});
+
+// ─────────────────────────────────────────────────────────────
+// Session 4K — completion wiring
+//
+// Locks the contract that QuizClient invokes completeQuiz with
+// the prop userId once the store transitions to "completed".
+// This integration test is the missing surface that hid the
+// bug for 2.5 months: tests against the store function alone
+// passed (route + mock fetch shape) while the UI never invoked
+// it. Pinning here stops a future caller migration from
+// silently severing the wire again.
+// ─────────────────────────────────────────────────────────────
+describe("QuizClient completion wiring", () => {
+  it("calls completeQuiz with the userId prop when quizStatus === 'completed'", () => {
+    mockQuizStatus = "completed";
+
+    render(<QuizClient anime={anime} freeQuizLimit={10} userId="user-1" />);
+
+    expect(completeQuizSpy).toHaveBeenCalledTimes(1);
+    expect(completeQuizSpy).toHaveBeenCalledWith("user-1");
+  });
+
+  it("does NOT call completeQuiz when userId prop is absent (anonymous play)", () => {
+    mockQuizStatus = "completed";
+
+    render(<QuizClient anime={anime} freeQuizLimit={10} />);
+
+    expect(completeQuizSpy).not.toHaveBeenCalled();
   });
 });
