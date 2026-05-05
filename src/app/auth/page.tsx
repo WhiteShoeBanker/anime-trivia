@@ -157,7 +157,7 @@ const AuthPageContent = () => {
           if (isJunior && username) signUpMetadata.username = username;
         }
 
-        const { error: signUpError } = await supabase.auth.signUp({
+        const { data, error: signUpError } = await supabase.auth.signUp({
           email,
           password,
           options: {
@@ -172,10 +172,23 @@ const AuthPageContent = () => {
           return;
         }
 
-        await refreshProfile();
-        // Purge the Router Cache's 307→/auth entries cached from Navbar's pre-auth Link prefetches.
-        router.refresh();
-        router.push("/browse");
+        // No session means email confirmation is enabled in the Supabase
+        // project. Without a session, router.push("/browse") would land
+        // unauthenticated and the proxy would silently bounce to bare /auth.
+        // Surface the actual next step instead.
+        if (!data.session) {
+          setError(
+            "Check your email to confirm your account, then sign in."
+          );
+          setIsSubmitting(false);
+          return;
+        }
+
+        // Hard navigation so the next request hits the proxy with the auth
+        // cookie freshly set by signUp — router.push can race the cookie
+        // write and bounce the user back to /auth. replace() so Back doesn't
+        // return to the signup screen.
+        window.location.replace("/browse");
       } else {
         const { error: signInError } = await supabase.auth.signInWithPassword({
           email,
