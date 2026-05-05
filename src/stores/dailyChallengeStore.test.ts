@@ -1,4 +1,4 @@
-import { describe, it, expect, vi, beforeEach } from "vitest";
+import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 
 // ── Mocks ────────────────────────────────────────────────────
 // Stub everything the store calls into so the tests are pure — the
@@ -118,6 +118,12 @@ describe("dailyChallengeStore.completeDailyChallenge — server route caller", (
   beforeEach(() => {
     fetchMock.mockReset();
     vi.stubGlobal("fetch", fetchMock);
+  });
+
+  afterEach(() => {
+    // Release the stubbed fetch so it doesn't leak across
+    // test files (vitest doesn't auto-restore stubGlobal).
+    vi.unstubAllGlobals();
   });
 
   const jsonResponse = (

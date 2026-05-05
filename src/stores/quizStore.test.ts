@@ -1,4 +1,4 @@
-import { describe, it, expect, vi, beforeEach } from "vitest";
+import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 
 // Mock Supabase
 const mockFrom = vi.fn();
@@ -404,6 +404,15 @@ describe("quizStore.completeQuiz", () => {
   beforeEach(() => {
     vi.clearAllMocks();
     useQuizStore.getState().resetQuiz();
+    // Pin Math.random so the Fisher-Yates shuffle in
+    // quizStore.startQuiz never swaps — questions stay in
+    // input order and answer-ordering assertions below are
+    // deterministic regardless of prior Math.random state.
+    vi.spyOn(Math, "random").mockReturnValue(0.99);
+  });
+
+  afterEach(() => {
+    vi.restoreAllMocks();
   });
 
   it("posts to /api/quiz/submit with body derived from local state", async () => {
