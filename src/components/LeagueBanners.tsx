@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { TrendingUp, TrendingDown, Shield, AlertTriangle } from "lucide-react";
 import type { LeagueResult } from "@/types";
+import { confettiPalette } from "@/themes";
 
 interface LeagueBannerProps {
   result: LeagueResult;
@@ -18,9 +19,8 @@ const ConfettiParticle = ({ delay, x }: { delay: number; x: number }) => (
     style={{
       left: `${x}%`,
       top: "50%",
-      background: [
-        "#FF6B35", "#00D1B2", "#FFD700", "#E94560", "#B9F2FF",
-      ][Math.floor(Math.random() * 5)],
+      background:
+        confettiPalette[Math.floor(Math.random() * confettiPalette.length)],
     }}
     initial={{ y: 0, opacity: 1, scale: 1 }}
     animate={{

@@ -1,0 +1,124 @@
+/* Manga Ink theme — design tokens.
+ * Imported at the top of src/app/globals.css. All literal values for the active
+ * theme live here; components consume the @theme inline tokens via Tailwind
+ * utilities (bg-primary, text-success, font-display, etc.).
+ *
+ * Contract documented in src/themes/README.md.
+ */
+
+@theme inline {
+  /* ── Brand ─────────────────────────────────────────────────── */
+  --color-primary: #d4451d;
+  --color-secondary: #0c0a09;
+  --color-accent: #b91c1c;
+  --color-success: #16a34a;
+  --color-surface: #1c1917;
+
+  /* ── Text + structural ─────────────────────────────────────── */
+  --color-text: #ede9e0;
+  --color-text-muted: #a3a097;
+  --color-rule: #262626;
+
+  /* ── Status ────────────────────────────────────────────────── */
+  --color-warning: #d97706;
+  --color-error: #991b1b;
+
+  /* ── Paper-mode (prestige surfaces, applied in later phases) ─ */
+  --color-paper: #f7f3eb;
+  --color-ink: #0a0a0a;
+  --color-rule-paper: #d6d3d1;
+
+  /* ── Tier foils (Bronze → Champion) ────────────────────────── */
+  --color-tier-1: #a16207;
+  --color-tier-2: #94a3b8;
+  --color-tier-3: #eab308;
+  --color-tier-4: #cbd5e1;
+  --color-tier-5: #3b82f6;
+  --color-tier-6: #dc2626;
+
+  /* ── Typography ─────────────────────────────────────────────
+   * --font-display and --font-body are also set on <body> by next/font.
+   * Body's per-element values win at use-time; the @theme entries below
+   * are the :root-level fallback when next/font's className is missing.
+   */
+  --font-display: "Anton", "Helvetica Neue Condensed", sans-serif;
+  --font-body: "DM Sans", system-ui, sans-serif;
+  --font-sans: "DM Sans", system-ui, sans-serif;
+
+  /* ── Radii ─────────────────────────────────────────────────── */
+  --radius-sharp: 2px;
+  --radius-pill: 9999px;
+
+  /* ── Shadows ───────────────────────────────────────────────── */
+  --shadow-ink: 0 4px 0 0 rgba(0, 0, 0, 0.4);
+
+  /* ── Animation tokens ──────────────────────────────────────── */
+  --animate-fade-in: fade-in 0.3s ease-out;
+  --animate-slide-up: slide-up 0.4s ease-out;
+  --animate-slide-in-right: slide-in-right 0.4s ease-out;
+  --animate-pulse-slow: pulse-slow 2s ease-in-out infinite;
+  --animate-shake: shake 0.5s ease-in-out;
+  --animate-scale-up: scale-up 0.3s ease-out;
+  --animate-float: float 6s ease-in-out infinite;
+  --animate-count-pulse: count-pulse 1.5s ease-in-out;
+
+  @keyframes fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  @keyframes slide-up {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes slide-in-right {
+    from { opacity: 0; transform: translateX(20px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+
+  @keyframes pulse-slow {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.7; }
+  }
+
+  @keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    20% { transform: translateX(-8px); }
+    40% { transform: translateX(8px); }
+    60% { transform: translateX(-4px); }
+    80% { transform: translateX(4px); }
+  }
+
+  @keyframes scale-up {
+    from { opacity: 0; transform: scale(0.9); }
+    to { opacity: 1; transform: scale(1); }
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-20px); }
+  }
+
+  @keyframes count-pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+  }
+}
+
+/* ── Texture utilities ──────────────────────────────────────────
+ * Applied via className. The dots/grain inherit text color via
+ * currentColor, so wrapping in an element with a chosen text color
+ * tints the texture without extra CSS variables.
+ */
+
+.texture-halftone {
+  background-image: radial-gradient(circle, currentColor 1px, transparent 1px);
+  background-size: 4px 4px;
+  opacity: 0.15;
+}
+
+.texture-grain {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.4'/%3E%3C/svg%3E");
+  opacity: 0.08;
+}

@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import BadgeIcon from "@/components/BadgeIcon";
 import type { Badge, BadgeRarity } from "@/types";
 import useReducedMotion from "@/lib/use-reduced-motion";
+import { confettiPalette } from "@/themes";
 
 const RARITY_LABELS: Record<BadgeRarity, { text: string; color: string }> = {
   common: { text: "Common", color: "text-gray-400" },
@@ -25,10 +26,8 @@ const ConfettiParticle = ({ delay, x }: { delay: number; x: number }) => (
     style={{
       left: `${x}%`,
       top: "40%",
-      background: [
-        "#FF6B35", "#00D1B2", "#FFD700", "#E94560", "#B9F2FF",
-        "#6366F1", "#A855F7",
-      ][Math.floor(Math.random() * 7)],
+      background:
+        confettiPalette[Math.floor(Math.random() * confettiPalette.length)],
     }}
     initial={{ y: 0, opacity: 1, scale: 1 }}
     animate={{

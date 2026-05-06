@@ -28,6 +28,7 @@ import AnimeCard from "@/components/AnimeCard";
 import BadgeIcon from "@/components/BadgeIcon";
 import type { AnimeSeries, Badge } from "@/types";
 import useReducedMotion from "@/lib/use-reduced-motion";
+import { tierColors } from "@/themes";
 
 // ── Types ──────────────────────────────────────────────────────
 
@@ -52,14 +53,13 @@ const PRIVACY_POINTS = [
 
 // ── League Tiers ───────────────────────────────────────────────
 
-const LEAGUE_TIERS = [
-  { name: "Bronze", color: "#CD7F32", icon: "🥉" },
-  { name: "Silver", color: "#C0C0C0", icon: "🥈" },
-  { name: "Gold", color: "#FFD700", icon: "🥇" },
-  { name: "Platinum", color: "#E5E4E2", icon: "💠" },
-  { name: "Diamond", color: "#B9F2FF", icon: "💎" },
-  { name: "Champion", color: "#FF6B35", icon: "👑" },
-];
+const TIER_ICONS = ["🥉", "🥈", "🥇", "💠", "💎", "👑"];
+
+const LEAGUE_TIERS = tierColors.map((t, i) => ({
+  name: t.name,
+  color: t.color,
+  icon: TIER_ICONS[i],
+}));
 
 // ── Rank Icons ─────────────────────────────────────────────────
 

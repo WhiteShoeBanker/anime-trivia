@@ -13,17 +13,23 @@ import {
 } from "recharts";
 import { getLeagueDistribution } from "../actions";
 import type { LeagueData } from "../actions";
+import { tierColors } from "@/themes";
 
-const RANKS = [
-  { name: "Genin", threshold: 0, color: "#94a3b8" },
-  { name: "Chunin", threshold: 500, color: "#4ade80" },
-  { name: "Jonin", threshold: 2000, color: "#60a5fa" },
-  { name: "ANBU", threshold: 5000, color: "#a78bfa" },
-  { name: "Kage", threshold: 10000, color: "#facc15" },
-  { name: "Hokage", threshold: 25000, color: "#fb923c" },
+const RANK_THRESHOLDS = [
+  { name: "Genin", threshold: 0 },
+  { name: "Chunin", threshold: 500 },
+  { name: "Jonin", threshold: 2000 },
+  { name: "ANBU", threshold: 5000 },
+  { name: "Kage", threshold: 10000 },
+  { name: "Hokage", threshold: 25000 },
 ] as const;
 
-type RankName = (typeof RANKS)[number]["name"];
+const RANKS = RANK_THRESHOLDS.map((r, i) => ({
+  ...r,
+  color: tierColors[i].color,
+}));
+
+type RankName = (typeof RANK_THRESHOLDS)[number]["name"];
 
 interface RankChartData {
   name: string;

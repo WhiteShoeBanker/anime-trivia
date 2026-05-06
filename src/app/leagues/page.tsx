@@ -18,6 +18,7 @@ import {
 } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { createClient } from "@/lib/supabase/client";
+import { tierColors } from "@/themes";
 import {
   getUserLeagueInfo,
   getUserLeagueHistory,
@@ -261,10 +262,7 @@ const LeaguesPage = () => {
           <div className="flex gap-3 overflow-x-auto pb-4 px-2 mb-8 justify-center">
             {LEAGUE_NAMES.map((name, i) => {
               const Icon = LEAGUE_ICONS[i + 1] ?? Shield;
-              const colors = [
-                "#CD7F32", "#C0C0C0", "#FFD700",
-                "#E5E4E2", "#B9F2FF", "#FF6B35",
-              ];
+              const colors = tierColors.map((t) => t.color);
               return (
                 <div
                   key={name}

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Anton, DM_Sans } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -7,9 +7,16 @@ import AnnouncementBanner from "@/components/AnnouncementBanner";
 import ToastContainer from "@/components/ToastContainer";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { getConfig } from "@/lib/admin-config";
+import { palette } from "@/themes/manga-ink/palette";
 
-const inter = Inter({
-  variable: "--font-inter",
+const anton = Anton({
+  variable: "--font-display",
+  subsets: ["latin"],
+  weight: "400",
+});
+
+const dmSans = DM_Sans({
+  variable: "--font-body",
   subsets: ["latin"],
 });
 
@@ -56,7 +63,7 @@ export const metadata: Metadata = {
     apple: "/favicon.svg",
   },
   other: {
-    "theme-color": "#1A1A2E",
+    "theme-color": palette.secondary,
   },
 };
 
@@ -76,8 +83,8 @@ export default async function RootLayout({
   }
 
   return (
-    <html lang="en">
-      <body className={`${inter.variable} font-sans antialiased bg-secondary`}>
+    <html lang="en" data-theme="manga-ink">
+      <body className={`${anton.variable} ${dmSans.variable} font-body antialiased bg-secondary`}>
         <AuthProvider>
           {maintenanceMode ? (
             <div className="min-h-screen flex flex-col items-center justify-center px-4 text-center">

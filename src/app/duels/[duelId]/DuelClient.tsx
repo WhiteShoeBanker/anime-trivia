@@ -17,13 +17,14 @@ import QuizCard from "@/components/QuizCard";
 import DuelResults from "@/components/DuelResults";
 import ChallengeModal from "@/components/ChallengeModal";
 import type { DuelMatch, DuelDifficulty, Badge } from "@/types";
+import { tierColors } from "@/themes";
 
 const LEAGUE_ICONS: Record<number, typeof Shield> = {
   1: Shield, 2: Medal, 3: Star, 4: Award, 5: Gem, 6: Swords,
 };
-const LEAGUE_COLORS: Record<number, string> = {
-  1: "#CD7F32", 2: "#C0C0C0", 3: "#FFD700", 4: "#E5E4E2", 5: "#B9F2FF", 6: "#FF6B35",
-};
+const LEAGUE_COLORS: Record<number, string> = Object.fromEntries(
+  tierColors.map((t) => [t.tier, t.color])
+);
 
 interface DuelClientProps {
   duel: DuelMatch;
@@ -406,7 +407,7 @@ const DuelClient = ({
               return (
                 <LeagueIcon
                   size={12}
-                  style={{ color: LEAGUE_COLORS[opponentTier] ?? "#CD7F32" }}
+                  style={{ color: LEAGUE_COLORS[opponentTier] ?? tierColors[0].color }}
                 />
               );
             })()}
