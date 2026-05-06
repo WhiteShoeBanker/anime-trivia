@@ -300,7 +300,7 @@ const QuizClient = ({
           animate={{ opacity: 1, y: 0 }}
           className="text-center"
         >
-          <h1 className="text-3xl md:text-4xl font-bold mb-3">
+          <h1 className="text-3xl md:text-4xl font-bold mb-3 normal-case">
             {anime.title}
           </h1>
           {anime.description && (

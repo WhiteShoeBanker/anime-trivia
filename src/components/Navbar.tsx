@@ -7,6 +7,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, LogOut, Swords, ShoppingBag, BarChart3, Calendar } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import BadgeIcon from "@/components/BadgeIcon";
+import TierBadge, { tierFromXP } from "@/components/TierBadge";
 import type { Badge } from "@/types";
 import { getUserEmblem } from "@/lib/badges";
 import { createClient } from "@/lib/supabase/client";
@@ -33,14 +34,14 @@ const isActive = (pathname: string, href: string) => {
 const AgeBadge = ({ ageGroup }: { ageGroup: string }) => {
   if (ageGroup === "junior") {
     return (
-      <span className="px-1.5 py-0.5 text-[10px] font-bold rounded bg-emerald-500 text-white">
+      <span className="px-1.5 py-0.5 font-display uppercase text-[10px] tracking-tight bg-success text-black border-2 border-black">
         Jr
       </span>
     );
   }
   if (ageGroup === "teen") {
     return (
-      <span className="px-1.5 py-0.5 text-[10px] font-bold rounded bg-yellow-500 text-black">
+      <span className="px-1.5 py-0.5 font-display uppercase text-[10px] tracking-tight bg-warning text-black border-2 border-black">
         T
       </span>
     );
@@ -129,56 +130,65 @@ const Navbar = () => {
     setMobileOpen(false);
   }, [pathname]);
 
+  const userTier = profile ? tierFromXP(profile.total_xp) : null;
+
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 h-16 bg-secondary/80 backdrop-blur-lg border-b border-white/10">
+    <nav className="fixed top-0 left-0 right-0 z-50 h-16 bg-secondary border-b-2 border-rule">
       <div className="max-w-7xl mx-auto h-full px-4 flex items-center justify-between">
         {/* Brand */}
-        <Link href="/" className="text-xl font-bold text-primary">
-          OtakuQuiz
+        <Link
+          href="/"
+          className="font-display uppercase text-2xl text-text leading-none"
+          style={{ letterSpacing: "-0.03em" }}
+        >
+          OtakuQuiz<span className="text-primary">.</span>
         </Link>
 
         {/* Desktop nav */}
-        <div className="hidden md:flex items-center gap-6">
-          {NAV_LINKS.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              className="relative px-1 py-2 text-sm font-medium transition-colors hover:text-primary flex items-center gap-1.5"
-              aria-current={isActive(pathname, link.href) ? "page" : undefined}
-              style={{
-                color: isActive(pathname, link.href)
-                  ? "var(--color-primary)"
-                  : "rgba(255,255,255,0.7)",
-              }}
-            >
-              {link.href === "/daily" && <Calendar size={14} />}
-              {link.href === "/duels" && <Swords size={14} />}
-              {link.href === "/shop" && <ShoppingBag size={14} />}
-              {link.href === "/stats" && <BarChart3 size={14} />}
-              {link.label}
-              {link.href === "/duels" && pendingDuelCount > 0 && (
-                <span className="ml-0.5 w-4 h-4 rounded-full bg-accent text-white text-[10px] font-bold flex items-center justify-center">
-                  {pendingDuelCount}
-                </span>
-              )}
-              {isActive(pathname, link.href) && (
-                <motion.div
-                  layoutId="nav-underline"
-                  className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary rounded-full"
-                  transition={reducedMotion ? { duration: 0 } : { type: "spring", stiffness: 400, damping: 30 }}
-                />
-              )}
-            </Link>
-          ))}
+        <div className="hidden md:flex items-center gap-5">
+          {NAV_LINKS.map((link) => {
+            const active = isActive(pathname, link.href);
+            return (
+              <Link
+                key={link.href}
+                href={link.href}
+                className="relative px-0.5 py-3 font-display uppercase text-sm tracking-tight transition-colors flex items-center gap-1.5"
+                aria-current={active ? "page" : undefined}
+                style={{
+                  color: active
+                    ? "var(--color-text)"
+                    : "var(--color-text-muted)",
+                }}
+              >
+                {link.href === "/daily" && <Calendar size={14} aria-hidden="true" />}
+                {link.href === "/duels" && <Swords size={14} aria-hidden="true" />}
+                {link.href === "/shop" && <ShoppingBag size={14} aria-hidden="true" />}
+                {link.href === "/stats" && <BarChart3 size={14} aria-hidden="true" />}
+                {link.label}
+                {link.href === "/duels" && pendingDuelCount > 0 && (
+                  <span className="ml-0.5 min-w-[16px] h-4 px-1 bg-electric text-black text-[10px] font-mono font-bold flex items-center justify-center border border-black">
+                    {pendingDuelCount}
+                  </span>
+                )}
+                {active && (
+                  <motion.div
+                    layoutId="nav-underline"
+                    className="absolute bottom-1 left-0 right-0 h-[3px] bg-primary"
+                    transition={reducedMotion ? { duration: 0 } : { type: "spring", stiffness: 400, damping: 30 }}
+                  />
+                )}
+              </Link>
+            );
+          })}
         </div>
 
         {/* Desktop auth */}
-        <div className="hidden md:flex items-center gap-3">
+        <div className="hidden md:flex items-center gap-2.5">
           {user ? (
             <>
               {profile?.subscription_tier === "pro" && (
-                <span className="px-1.5 py-0.5 text-[10px] font-bold rounded bg-primary text-white">
-                  PRO
+                <span className="px-2 py-1 font-display uppercase text-[10px] tracking-tight bg-electric text-black border-2 border-black shadow-[2px_2px_0_0_#000]">
+                  Pro
                 </span>
               )}
               <AgeBadge ageGroup={ageGroup} />
@@ -191,12 +201,16 @@ const Navbar = () => {
                   earned
                 />
               )}
-              <div className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center text-sm font-bold text-primary">
+              {userTier && <TierBadge tier={userTier} size="sm" />}
+              <div
+                className="w-8 h-8 bg-primary text-white flex items-center justify-center font-display uppercase text-sm border-2 border-black shadow-[2px_2px_0_0_#000]"
+                aria-hidden="true"
+              >
                 {displayInitial}
               </div>
               <button
                 onClick={handleSignOut}
-                className="p-2 text-white/50 hover:text-white transition-colors"
+                className="p-2 text-text-muted hover:text-text transition-colors"
                 aria-label="Sign out"
               >
                 <LogOut size={18} />
@@ -205,7 +219,7 @@ const Navbar = () => {
           ) : (
             <button
               onClick={handleSignIn}
-              className="px-4 py-2 text-sm font-medium rounded-lg bg-primary text-white hover:bg-primary/90 transition-colors"
+              className="px-4 py-2 font-display uppercase text-sm tracking-tight bg-primary text-white border-2 border-black shadow-[2px_2px_0_0_#000] hover:shadow-[2px_2px_0_0_#dfff20] transition-shadow"
             >
               Sign In
             </button>
@@ -214,7 +228,7 @@ const Navbar = () => {
 
         {/* Mobile hamburger */}
         <button
-          className="md:hidden p-2"
+          className="md:hidden p-2 text-text"
           onClick={() => setMobileOpen(true)}
           aria-label="Open menu"
           aria-expanded={mobileOpen}
@@ -233,65 +247,78 @@ const Navbar = () => {
             transition={{ duration: reducedMotion ? 0 : 0.2 }}
             className="fixed inset-0 z-50 bg-secondary flex flex-col"
           >
-            <div className="flex items-center justify-between h-16 px-4">
-              <Link href="/" className="text-xl font-bold text-primary">
-                OtakuQuiz
+            <div className="flex items-center justify-between h-16 px-4 border-b-2 border-rule">
+              <Link
+                href="/"
+                className="font-display uppercase text-2xl text-text leading-none"
+                style={{ letterSpacing: "-0.03em" }}
+              >
+                OtakuQuiz<span className="text-primary">.</span>
               </Link>
               <button
                 onClick={() => setMobileOpen(false)}
-                className="p-2"
+                className="p-2 text-text"
                 aria-label="Close menu"
               >
                 <X size={24} />
               </button>
             </div>
 
-            <div className="flex flex-col items-center justify-center flex-1 gap-6">
-              {NAV_LINKS.map((link, i) => (
-                <motion.div
-                  key={link.href}
-                  initial={reducedMotion ? false : { opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={reducedMotion ? { duration: 0 } : { delay: i * 0.1 }}
-                >
-                  <Link
-                    href={link.href}
-                    className="text-2xl font-semibold transition-colors hover:text-primary flex items-center gap-2"
-                    aria-current={isActive(pathname, link.href) ? "page" : undefined}
-                    style={{
-                      color: isActive(pathname, link.href)
-                        ? "var(--color-primary)"
-                        : "white",
-                    }}
+            <div className="flex flex-col items-center justify-center flex-1 gap-5">
+              {NAV_LINKS.map((link, i) => {
+                const active = isActive(pathname, link.href);
+                return (
+                  <motion.div
+                    key={link.href}
+                    initial={reducedMotion ? false : { opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={reducedMotion ? { duration: 0 } : { delay: i * 0.05 }}
                   >
-                    {link.href === "/daily" && <Calendar size={22} />}
-                    {link.href === "/duels" && <Swords size={22} />}
-                    {link.href === "/shop" && <ShoppingBag size={22} />}
-                    {link.href === "/stats" && <BarChart3 size={22} />}
-                    {link.label}
-                    {link.href === "/duels" && pendingDuelCount > 0 && (
-                      <span className="w-5 h-5 rounded-full bg-accent text-white text-xs font-bold flex items-center justify-center">
-                        {pendingDuelCount}
-                      </span>
-                    )}
-                  </Link>
-                </motion.div>
-              ))}
+                    <Link
+                      href={link.href}
+                      className="relative font-display uppercase text-3xl tracking-tight transition-colors flex items-center gap-2.5"
+                      aria-current={active ? "page" : undefined}
+                      style={{
+                        color: active
+                          ? "var(--color-text)"
+                          : "var(--color-text-muted)",
+                      }}
+                    >
+                      {link.href === "/daily" && <Calendar size={22} aria-hidden="true" />}
+                      {link.href === "/duels" && <Swords size={22} aria-hidden="true" />}
+                      {link.href === "/shop" && <ShoppingBag size={22} aria-hidden="true" />}
+                      {link.href === "/stats" && <BarChart3 size={22} aria-hidden="true" />}
+                      {link.label}
+                      {link.href === "/duels" && pendingDuelCount > 0 && (
+                        <span className="min-w-[20px] h-5 px-1 bg-electric text-black text-xs font-mono font-bold flex items-center justify-center border border-black">
+                          {pendingDuelCount}
+                        </span>
+                      )}
+                      {active && (
+                        <span
+                          aria-hidden="true"
+                          className="absolute -bottom-1 left-0 right-0 h-[3px] bg-primary"
+                        />
+                      )}
+                    </Link>
+                  </motion.div>
+                );
+              })}
 
               <motion.div
                 initial={reducedMotion ? false : { opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={reducedMotion ? { duration: 0 } : { delay: NAV_LINKS.length * 0.1 }}
-                className="mt-4"
+                transition={reducedMotion ? { duration: 0 } : { delay: NAV_LINKS.length * 0.05 }}
+                className="mt-6"
               >
                 {user ? (
-                  <div className="flex flex-col items-center gap-3">
+                  <div className="flex flex-col items-center gap-4">
                     {profile?.subscription_tier === "pro" && (
-                      <span className="px-2 py-0.5 text-xs font-bold rounded bg-primary text-white">
-                        PRO
+                      <span className="px-3 py-1 font-display uppercase text-xs tracking-tight bg-electric text-black border-2 border-black shadow-[2px_2px_0_0_#000]">
+                        Pro · VIP Access
                       </span>
                     )}
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-3">
                       {emblem && (
                         <BadgeIcon
                           iconName={emblem.icon_name}
@@ -301,23 +328,27 @@ const Navbar = () => {
                           earned
                         />
                       )}
-                      <div className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center text-lg font-bold text-primary">
+                      {userTier && <TierBadge tier={userTier} size="sm" />}
+                      <div
+                        className="w-10 h-10 bg-primary text-white flex items-center justify-center font-display uppercase text-lg border-2 border-black shadow-[2px_2px_0_0_#000]"
+                        aria-hidden="true"
+                      >
                         {displayInitial}
                       </div>
                       <AgeBadge ageGroup={ageGroup} />
                     </div>
                     <button
                       onClick={handleSignOut}
-                      className="px-6 py-3 text-sm font-medium rounded-lg bg-white/10 text-white hover:bg-white/20 transition-colors flex items-center gap-2"
+                      className="px-6 py-3 font-display uppercase text-sm tracking-tight bg-surface text-text border-2 border-black shadow-[2px_2px_0_0_#000] hover:bg-electric hover:text-black transition-colors flex items-center gap-2"
                     >
-                      <LogOut size={16} />
+                      <LogOut size={16} aria-hidden="true" />
                       Sign Out
                     </button>
                   </div>
                 ) : (
                   <button
                     onClick={handleSignIn}
-                    className="px-6 py-3 text-sm font-medium rounded-lg bg-primary text-white hover:bg-primary/90 transition-colors"
+                    className="px-6 py-3 font-display uppercase text-sm tracking-tight bg-primary text-white border-2 border-black shadow-[2px_2px_0_0_#000] hover:shadow-[2px_2px_0_0_#dfff20] transition-shadow"
                   >
                     Sign In
                   </button>
@@ -337,33 +368,37 @@ const Navbar = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[60] bg-black/60 flex items-center justify-center p-4"
+            className="fixed inset-0 z-[60] bg-black/70 flex items-center justify-center p-4"
             role="alertdialog"
             aria-labelledby="signout-error-title"
           >
-            <div className="bg-surface border border-accent/30 rounded-2xl p-6 max-w-sm w-full">
-              <h3 id="signout-error-title" className="text-lg font-bold mb-2">
+            <div className="bg-surface border-[2.5px] border-black shadow-hard-lg p-6 max-w-sm w-full">
+              <h3
+                id="signout-error-title"
+                className="text-2xl text-text mb-2"
+                style={{ letterSpacing: "-0.02em" }}
+              >
                 Couldn&apos;t sign you out
               </h3>
-              <p className="text-sm text-white/70 mb-4">{signOutError}</p>
+              <p className="text-sm text-text-muted mb-4">{signOutError}</p>
               <div className="flex flex-col gap-2">
                 <button
                   onClick={handleSignOut}
-                  className="px-4 py-2 text-sm font-semibold rounded-lg bg-primary text-white hover:bg-primary/90 transition-colors min-h-[44px]"
+                  className="px-4 py-2 font-display uppercase text-sm tracking-tight bg-primary text-white border-2 border-black shadow-[2px_2px_0_0_#000] hover:shadow-[2px_2px_0_0_#dfff20] transition-shadow min-h-[44px]"
                 >
                   Try Again
                 </button>
                 {signOutAttempts >= 2 && (
                   <button
                     onClick={handleForceSignOut}
-                    className="px-4 py-2 text-sm font-semibold rounded-lg bg-accent text-white hover:bg-accent/90 transition-colors min-h-[44px]"
+                    className="px-4 py-2 font-display uppercase text-sm tracking-tight bg-electric text-black border-2 border-black shadow-[2px_2px_0_0_#000] hover:bg-primary hover:text-white transition-colors min-h-[44px]"
                   >
                     Force Sign Out (reload page)
                   </button>
                 )}
                 <button
                   onClick={() => setSignOutError(null)}
-                  className="px-4 py-2 text-sm font-semibold rounded-lg bg-white/10 text-white hover:bg-white/20 transition-colors min-h-[44px]"
+                  className="px-4 py-2 font-display uppercase text-sm tracking-tight bg-secondary text-text-muted border-2 border-rule hover:text-text transition-colors min-h-[44px]"
                 >
                   Cancel
                 </button>

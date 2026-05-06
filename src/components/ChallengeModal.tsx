@@ -110,7 +110,7 @@ const ChallengeModal = ({
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center gap-2">
                 <Swords size={18} className="text-primary" />
-                <h2 className="text-lg font-bold">Challenge {opponentName}</h2>
+                <h2 className="text-lg font-bold normal-case">Challenge {opponentName}</h2>
               </div>
               <button
                 onClick={onClose}

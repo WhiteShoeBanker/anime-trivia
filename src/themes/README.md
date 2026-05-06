@@ -1,10 +1,11 @@
 # Themes
 
-OtakuQuiz ships with a "Manga Ink" theme as the default. The architecture leaves
-a clean path for a future general-trivia app to register its own theme without
-touching component code: every consumer reads from semantic tokens (Tailwind
-utilities generated from `--color-*`, `--font-*`, etc.) or from a single TS
-registry (`src/themes/index.ts`) for the JS-only cases.
+OtakuQuiz ships with the "Heat Check" theme as the default (vermillion + chartreuse
+neobrutalism). The architecture leaves a clean path for a future general-trivia
+app to register its own theme without touching component code: every consumer
+reads from semantic tokens (Tailwind utilities generated from `--color-*`,
+`--font-*`, etc.) or from a single TS registry (`src/themes/index.ts`) for the
+JS-only cases.
 
 ## Directory layout
 
@@ -12,7 +13,7 @@ registry (`src/themes/index.ts`) for the JS-only cases.
 src/themes/
 ├── index.ts                # active-theme registry; JS-readable values
 ├── README.md               # this file
-└── manga-ink/
+└── heat-check/
     ├── palette.ts          # JS palette — mirrors tokens.css colors
     └── tokens.css          # CSS @theme inline + texture utilities
 ```
@@ -71,12 +72,12 @@ Tailwind v4 can generate the corresponding utilities (`bg-primary`,
 
 `palette.ts` exports a single `palette` object whose keys mirror the CSS
 custom properties one-to-one (camelCase: `--color-text-muted` → `textMuted`,
-`--color-tier-1` → `tier1`). The Manga Ink file is the canonical reference.
+`--color-tier-1` → `tier1`). The Heat Check file is the canonical reference.
 
 ### Optional CSS utilities
 
 Themes may define additional utility classes outside `@theme inline` for
-texture / decoration. Manga Ink ships:
+texture / decoration. Heat Check ships:
 - `.texture-halftone` — radial-dot pattern using `currentColor`
 - `.texture-grain` — SVG turbulence noise overlay
 
@@ -90,13 +91,13 @@ Two switches need to flip:
 1. **CSS:** the import at the top of `src/app/globals.css` selects the theme's
    `tokens.css`:
    ```css
-   @import "../themes/manga-ink/tokens.css";
+   @import "../themes/heat-check/tokens.css";
    ```
 
 2. **TS:** the import inside `src/themes/index.ts` selects the theme's
    `palette.ts`:
    ```ts
-   import { palette } from "./manga-ink/palette";
+   import { palette } from "./heat-check/palette";
    ```
 
 `process.env.NEXT_PUBLIC_THEME` is exposed via `activeThemeName` for any

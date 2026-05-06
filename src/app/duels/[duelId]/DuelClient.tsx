@@ -3,10 +3,7 @@
 import { useEffect, useRef, useState, useCallback } from "react";
 import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
-import {
-  Swords, User, Clock, Shield,
-  Medal, Star, Award, Gem,
-} from "lucide-react";
+import { Swords, User, Clock, Shield } from "lucide-react";
 import { useDuelStore } from "@/stores/duelStore";
 import { createDuel } from "@/lib/duels";
 import { getUserLeagueInfo } from "@/lib/league-xp";
@@ -16,15 +13,8 @@ import ProgressBar from "@/components/ProgressBar";
 import QuizCard from "@/components/QuizCard";
 import DuelResults from "@/components/DuelResults";
 import ChallengeModal from "@/components/ChallengeModal";
+import TierBadge, { type TierLevel } from "@/components/TierBadge";
 import type { DuelMatch, DuelDifficulty, Badge } from "@/types";
-import { tierColors } from "@/themes";
-
-const LEAGUE_ICONS: Record<number, typeof Shield> = {
-  1: Shield, 2: Medal, 3: Star, 4: Award, 5: Gem, 6: Swords,
-};
-const LEAGUE_COLORS: Record<number, string> = Object.fromEntries(
-  tierColors.map((t) => [t.tier, t.color])
-);
 
 interface DuelClientProps {
   duel: DuelMatch;
@@ -402,15 +392,9 @@ const DuelClient = ({
               {opponentName.charAt(0).toUpperCase()}
             </div>
             <span>{opponentName}</span>
-            {opponentTier && (() => {
-              const LeagueIcon = LEAGUE_ICONS[opponentTier] ?? Shield;
-              return (
-                <LeagueIcon
-                  size={12}
-                  style={{ color: LEAGUE_COLORS[opponentTier] ?? tierColors[0].color }}
-                />
-              );
-            })()}
+            {opponentTier && opponentTier >= 1 && opponentTier <= 6 && (
+              <TierBadge tier={opponentTier as TierLevel} size="sm" />
+            )}
           </div>
         </div>
         <div className="mb-6">

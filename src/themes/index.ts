@@ -9,10 +9,10 @@
 //
 // Contract: src/themes/README.md.
 
-import { palette } from "./manga-ink/palette";
+import { palette } from "./heat-check/palette";
 
 export const activeThemeName: string =
-  process.env.NEXT_PUBLIC_THEME ?? "manga-ink";
+  process.env.NEXT_PUBLIC_THEME ?? "heat-check";
 
 export type TierColor = { tier: number; name: string; color: string };
 
@@ -26,7 +26,7 @@ export const tierColors: TierColor[] = [
 ];
 
 // 8-color sequence for Recharts series. Distinct hues, all aligned with
-// Manga Ink's vermillion / jade / gold / cobalt / copper accent set.
+// Heat Check's vermillion / jade / gold / cobalt / copper accent set.
 //
 // TODO(theming): admin Recharts pages (admin/page.tsx, admin/duels/page.tsx,
 // admin/engagement/page.tsx, admin/leagues/page.tsx, admin/retention/page.tsx,

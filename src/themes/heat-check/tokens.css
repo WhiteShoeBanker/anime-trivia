@@ -1,40 +1,45 @@
-/* Manga Ink theme — design tokens.
+/* Heat Check theme — design tokens.
  * Imported at the top of src/app/globals.css. All literal values for the active
  * theme live here; components consume the @theme inline tokens via Tailwind
- * utilities (bg-primary, text-success, font-display, etc.).
+ * utilities (bg-primary, text-electric, font-display, shadow-hard, etc.).
+ *
+ * Direction: Persona 5's hot-color discipline (one commanding color),
+ * Splatoon's ink/paint energy, 2026 neobrutalism (sharp corners, hard offset
+ * shadows, thick borders), manga title-page composition.
  *
  * Contract documented in src/themes/README.md.
  */
 
 @theme inline {
   /* ── Brand ─────────────────────────────────────────────────── */
-  --color-primary: #d4451d;
-  --color-secondary: #0c0a09;
-  --color-accent: #b91c1c;
-  --color-success: #16a34a;
-  --color-surface: #1c1917;
+  --color-primary: #dc2828;       /* vermillion — the single commanding hot */
+  --color-secondary: #0a0a0a;     /* ink black, page */
+  --color-accent: #dc2828;        /* same as primary — single-hot discipline */
+  --color-success: #16a34a;       /* jade */
+  --color-surface: #1a1a1a;       /* raised card */
+  --color-electric: #dfff20;      /* the punch — chartreuse */
 
   /* ── Text + structural ─────────────────────────────────────── */
-  --color-text: #ede9e0;
-  --color-text-muted: #a3a097;
-  --color-rule: #262626;
+  --color-text: #f5f1e8;          /* bone */
+  --color-text-muted: #a8a29e;    /* washed bone */
+  --color-rule: #262626;          /* hairline borders */
 
   /* ── Status ────────────────────────────────────────────────── */
   --color-warning: #d97706;
   --color-error: #991b1b;
 
-  /* ── Paper-mode (prestige surfaces, applied in later phases) ─ */
-  --color-paper: #f7f3eb;
-  --color-ink: #0a0a0a;
+  /* ── Paper-mode (prestige surfaces) ────────────────────────── */
+  --color-paper: #f5f1e8;
+  --color-ink: #000000;
   --color-rule-paper: #d6d3d1;
 
   /* ── Tier foils (Bronze → Champion) ────────────────────────── */
-  --color-tier-1: #a16207;
-  --color-tier-2: #94a3b8;
-  --color-tier-3: #eab308;
-  --color-tier-4: #cbd5e1;
-  --color-tier-5: #3b82f6;
-  --color-tier-6: #dc2626;
+  --color-tier-1: #c87d3e;        /* warm copper */
+  --color-tier-2: #b8b8c2;        /* cool gunmetal pearl */
+  --color-tier-3: #f4c430;        /* bright sun gold */
+  --color-tier-4: #dde2e8;        /* platinum sheen */
+  --color-tier-5: #38bdf8;        /* electric cobalt */
+  --color-tier-6: #dc2828;        /* red foil champion */
 
   /* ── Typography ─────────────────────────────────────────────
    * --font-display and --font-body are also set on <body> by next/font.
@@ -44,15 +49,21 @@
   --font-display: "Anton", "Helvetica Neue Condensed", sans-serif;
   --font-body: "DM Sans", system-ui, sans-serif;
   --font-sans: "DM Sans", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
 
   /* ── Radii ─────────────────────────────────────────────────── */
-  --radius-sharp: 2px;
+  --radius-sharp: 0px;
   --radius-pill: 9999px;
 
-  /* ── Shadows ───────────────────────────────────────────────── */
-  --shadow-ink: 0 4px 0 0 rgba(0, 0, 0, 0.4);
+  /* ── Shadows — hard offset, no blur, neobrutalist ─────────── */
+  --shadow-hard: 4px 4px 0 0 #000;
+  --shadow-hard-lg: 6px 6px 0 0 #000;
+  --shadow-electric: 4px 4px 0 0 #dfff20;
+  --shadow-hot: 4px 4px 0 0 #dc2828;
+  /* Backwards-compat alias used by the Phase 0 token contract. */
+  --shadow-ink: 4px 4px 0 0 #000;
 
-  /* ── Animation tokens ──────────────────────────────────────── */
+  /* ── Animation tokens (preserved from Phase 0; heat-shimmer added) ── */
   --animate-fade-in: fade-in 0.3s ease-out;
   --animate-slide-up: slide-up 0.4s ease-out;
   --animate-slide-in-right: slide-in-right 0.4s ease-out;
@@ -61,6 +72,7 @@
   --animate-scale-up: scale-up 0.3s ease-out;
   --animate-float: float 6s ease-in-out infinite;
   --animate-count-pulse: count-pulse 1.5s ease-in-out;
+  --animate-heat-shimmer: heat-shimmer 4s ease-in-out infinite;
 
   @keyframes fade-in {
     from { opacity: 0; }
@@ -103,6 +115,14 @@
   @keyframes count-pulse {
     0%, 100% { transform: scale(1); }
     50% { transform: scale(1.05); }
+  }
+
+  /* Champion-tier shimmer: a chartreuse highlight sweep used by TierBadge
+   * tier 6 with animated=true. The global prefers-reduced-motion rule in
+   * globals.css neutralizes the iteration. */
+  @keyframes heat-shimmer {
+    0% { transform: translateX(-130%) skewX(-12deg); }
+    100% { transform: translateX(230%) skewX(-12deg); }
   }
 }
 

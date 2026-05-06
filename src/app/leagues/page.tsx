@@ -18,7 +18,6 @@ import {
 } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { createClient } from "@/lib/supabase/client";
-import { tierColors } from "@/themes";
 import {
   getUserLeagueInfo,
   getUserLeagueHistory,
@@ -28,6 +27,7 @@ import {
 import AnimeDiversityTracker from "@/components/AnimeDiversityTracker";
 import LeagueBanner from "@/components/LeagueBanners";
 import BadgeIcon from "@/components/BadgeIcon";
+import TierBadge, { type TierLevel } from "@/components/TierBadge";
 import type { League, LeagueTier, LeagueResult, Badge } from "@/types";
 
 // ── League Badge Icons ──────────────────────────────────────
@@ -258,28 +258,16 @@ const LeaguesPage = () => {
             to climb the ranks from Bronze to Champion!
           </p>
 
-          {/* League preview */}
-          <div className="flex gap-3 overflow-x-auto pb-4 px-2 mb-8 justify-center">
-            {LEAGUE_NAMES.map((name, i) => {
-              const Icon = LEAGUE_ICONS[i + 1] ?? Shield;
-              const colors = tierColors.map((t) => t.color);
-              return (
-                <div
-                  key={name}
-                  className="flex-shrink-0 w-20 flex flex-col items-center gap-1"
-                >
-                  <div
-                    className="w-14 h-14 rounded-2xl flex items-center justify-center border border-white/10"
-                    style={{ backgroundColor: `${colors[i]}20` }}
-                  >
-                    <Icon size={24} style={{ color: colors[i] }} />
-                  </div>
-                  <span className="text-xs font-semibold text-white/60">
-                    {name}
-                  </span>
-                </div>
-              );
-            })}
+          {/* League preview — six tiers as Heat Check materials */}
+          <div className="flex gap-4 overflow-x-auto pb-4 px-2 mb-8 justify-center">
+            {LEAGUE_NAMES.map((_, i) => (
+              <TierBadge
+                key={i}
+                tier={(i + 1) as TierLevel}
+                size="md"
+                showLabel
+              />
+            ))}
           </div>
 
           <Link
@@ -663,46 +651,29 @@ const LeaguesPage = () => {
         </motion.div>
       )}
 
-      {/* All Leagues Overview */}
+      {/* All Leagues Progression Strip — current tier in chartreuse hard offset */}
       {allLeagues.length > 0 && (
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.35 }}
         >
-          <h3 className="text-sm font-semibold text-white/50 mb-3">
+          <h3 className="font-display uppercase tracking-tight text-text-muted text-sm mb-3 pb-2 border-b border-rule">
             All Leagues
           </h3>
-          <div className="flex gap-3 overflow-x-auto pb-2 -mx-4 px-4">
+          <div className="flex gap-5 overflow-x-auto pb-2 -mx-4 px-4 md:justify-center md:px-0 md:mx-0">
             {allLeagues.map((l) => {
-              const Icon = LEAGUE_ICONS[l.tier] ?? Shield;
               const isCurrent = l.id === league.id;
               return (
-                <div
+                <TierBadge
                   key={l.id}
-                  className={`flex-shrink-0 w-20 flex flex-col items-center gap-1 ${
-                    isCurrent ? "opacity-100" : "opacity-40"
-                  }`}
-                >
-                  <div
-                    className={`w-14 h-14 rounded-2xl flex items-center justify-center border ${
-                      isCurrent ? "border-2" : "border-white/10"
-                    }`}
-                    style={{
-                      backgroundColor: `${l.color}20`,
-                      borderColor: isCurrent ? l.color : undefined,
-                    }}
-                  >
-                    <Icon size={24} style={{ color: l.color }} />
-                  </div>
-                  <span
-                    className={`text-xs font-semibold ${
-                      isCurrent ? "text-white" : "text-white/60"
-                    }`}
-                  >
-                    {l.name}
-                  </span>
-                </div>
+                  tier={l.tier as TierLevel}
+                  size="md"
+                  showLabel
+                  animated={isCurrent && l.tier === 6}
+                  highlightShadow={isCurrent ? "4px 4px 0 0 #dfff20" : undefined}
+                  className={isCurrent ? "" : "opacity-50"}
+                />
               );
             })}
           </div>

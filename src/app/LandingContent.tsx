@@ -12,12 +12,7 @@ import {
   BookOpen,
   Swords,
   Skull,
-  Calendar,
-  Flame,
-  Crown,
-  Star,
   CheckCircle,
-  Clock,
   ArrowRight,
 } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
@@ -182,181 +177,240 @@ const LandingContent = ({ topAnime, stats }: LandingContentProps) => {
     return `${hours}h ${minutes}m`;
   };
 
-  const getLeagueName = () => {
-    const xp = profile?.total_xp ?? 0;
-    if (xp >= 10000) return "Diamond";
-    if (xp >= 5000) return "Platinum";
-    if (xp >= 2000) return "Gold";
-    if (xp >= 500) return "Silver";
-    return "Bronze";
-  };
-
-  const getProMessage = () => {
-    if (!profile) return null;
-    if (profile.subscription_tier !== "pro") return null;
-    switch (profile.subscription_source) {
-      case "paid":
-        return "OtakuQuiz Pro — Unlimited quizzes, no ads";
-      case "promo_code":
-        return "OtakuQuiz Pro (Promo) — Unlimited access";
-      case "admin_grant":
-        return "OtakuQuiz Pro (Granted) — VIP access";
-      default:
-        return null;
-    }
-  };
+  // Derive league tier from total XP. Approximates the membership-based
+  // league system for the hero stat card; the authoritative tier on the
+  // /leagues page comes from a DB membership join.
+  const xp = profile?.total_xp ?? 0;
+  const tierInfo =
+    xp >= 25000
+      ? tierColors[5]
+      : xp >= 10000
+        ? tierColors[4]
+        : xp >= 5000
+          ? tierColors[3]
+          : xp >= 2000
+            ? tierColors[2]
+            : xp >= 500
+              ? tierColors[1]
+              : tierColors[0];
 
   return (
     <div>
       {/* ── HERO ─────────────────────────────────────────────── */}
-      <section className="relative flex flex-col items-center justify-center px-4 py-20 md:py-28 text-center overflow-hidden">
-        {/* Background floating shapes */}
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div
-            className="absolute w-64 h-64 rounded-full bg-primary/5 -top-20 -left-20"
-            style={{ animation: "float 6s ease-in-out infinite" }}
-          />
-          <div
-            className="absolute w-48 h-48 rounded-full bg-accent/5 top-1/3 -right-10"
-            style={{ animation: "float 8s ease-in-out infinite 2s" }}
-          />
-          <div
-            className="absolute w-32 h-32 rounded-full bg-success/5 bottom-10 left-1/4"
-            style={{ animation: "float 7s ease-in-out infinite 1s" }}
-          />
-        </div>
-
+      <section className="relative px-4 md:px-6 pt-10 pb-12 md:pt-14 md:pb-20 overflow-hidden">
         {user && profile && !isLoading ? (
-          /* ── Logged-in Hero ──────────────────────────────── */
+          /* ── Logged-in Hero — kinetic Heat Check ─────────── */
           <motion.div
-            initial={reducedMotion ? false : { opacity: 0, y: 20 }}
+            initial={reducedMotion ? false : { opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
-            className="relative z-10 w-full max-w-2xl"
+            className="relative z-10 max-w-6xl mx-auto"
           >
-            <h1 className="text-3xl sm:text-4xl font-extrabold mb-2">
-              Welcome back,{" "}
-              <span className="text-primary">
-                {profile.display_name ?? profile.username ?? "Otaku"}
-              </span>
-              !
-            </h1>
+            {/* Halftone decoration top-right */}
+            <div
+              aria-hidden="true"
+              className="absolute -top-4 right-0 w-72 h-72 texture-halftone text-primary opacity-40 pointer-events-none"
+            />
 
-            {/* Quick stats row */}
-            <div className="flex flex-wrap items-center justify-center gap-4 mt-4 mb-6">
-              <div className="flex items-center gap-1.5 bg-surface rounded-lg px-3 py-2 border border-white/10">
-                <Crown size={14} className="text-yellow-400" />
-                <span className="text-sm font-medium">{getLeagueName()}</span>
+            {/* PRO pill */}
+            {profile.subscription_tier === "pro" && (
+              <div className="inline-block bg-electric text-black border-2 border-black font-display uppercase text-xs tracking-tight px-3 py-1 mb-6 shadow-[2px_2px_0_0_#000]">
+                PRO · VIP ACCESS
               </div>
-              <div className="flex items-center gap-1.5 bg-surface rounded-lg px-3 py-2 border border-white/10">
-                <Flame size={14} className="text-orange-400" />
-                <span className="text-sm font-medium">
-                  {profile.current_streak} day streak
-                </span>
-              </div>
-              <div className="flex items-center gap-1.5 bg-surface rounded-lg px-3 py-2 border border-white/10">
-                <Star size={14} className="text-primary" />
-                <span className="text-sm font-medium">
-                  {profile.total_xp.toLocaleString()} XP
-                </span>
-              </div>
-            </div>
+            )}
 
-            {/* Daily Challenge shortcut */}
-            <div className="bg-surface rounded-xl border border-white/10 p-4 mb-4 max-w-sm mx-auto">
-              {dailyPlayed ? (
-                <div className="flex items-center gap-3">
-                  <CheckCircle size={20} className="text-success flex-shrink-0" />
-                  <div className="text-left flex-1">
-                    <p className="text-sm font-medium">
-                      Daily Challenge: <span className="text-primary">{dailyScore}/10</span>
+            {/* 2-column hero */}
+            <div className="grid grid-cols-1 md:grid-cols-[3fr_2fr] gap-8 md:gap-10 items-end">
+              {/* Left: title + CTA */}
+              <div>
+                <h1
+                  className="text-5xl sm:text-6xl md:text-7xl text-text"
+                  style={{ letterSpacing: "-0.04em", lineHeight: 0.88 }}
+                >
+                  Welcome back,
+                  <br />
+                  <span className="text-primary">
+                    {profile.display_name ?? profile.username ?? "Otaku"}.
+                  </span>
+                </h1>
+                <p className="mt-4 text-base text-text-muted max-w-md">
+                  Pick up where you left off.
+                </p>
+                <Link
+                  href="/daily"
+                  className="inline-block mt-6 bg-primary text-white border-[2.5px] border-black px-8 py-4 font-display uppercase text-2xl tracking-tight shadow-hard hover:shadow-electric hover:-translate-y-0.5 transition-[transform,box-shadow] duration-200"
+                >
+                  Play Daily
+                </Link>
+              </div>
+
+              {/* Right: stat cards */}
+              <div className="flex flex-col gap-3">
+                {/* Tier card */}
+                <div
+                  className="border-[2.5px] border-black p-4 shadow-hard"
+                  style={{ backgroundColor: tierInfo.color }}
+                >
+                  <p
+                    className="font-display uppercase text-3xl text-black leading-none"
+                    style={{ letterSpacing: "-0.02em" }}
+                  >
+                    {tierInfo.name}
+                  </p>
+                  <p className="font-mono text-[11px] text-black/70 mt-1">
+                    TIER {tierInfo.tier}
+                  </p>
+                </div>
+
+                {/* Streak card */}
+                <div className="bg-surface border-[2.5px] border-black p-4 shadow-hard relative overflow-hidden">
+                  <div
+                    aria-hidden="true"
+                    className="absolute left-0 top-0 bottom-0 w-1 bg-electric"
+                  />
+                  <div className="pl-3">
+                    <p className="font-mono text-4xl font-bold text-text leading-none">
+                      {profile.current_streak}
                     </p>
-                    <p className="text-xs text-white/40 flex items-center gap-1">
-                      <Clock size={10} /> Next in {getCountdown()}
+                    <p className="font-display uppercase text-[10px] tracking-tight text-text-muted mt-2">
+                      Day Streak
                     </p>
                   </div>
                 </div>
-              ) : (
-                <Link
-                  href="/daily"
-                  className="flex items-center gap-3 group"
-                >
-                  <Calendar size={20} className="text-primary flex-shrink-0" />
-                  <div className="text-left flex-1">
-                    <p className="text-sm font-medium group-hover:text-primary transition-colors">
-                      Play Today&apos;s Challenge
-                    </p>
-                    <p className="text-xs text-yellow-400 flex items-center gap-1">
-                      <Zap size={10} /> 1.5x XP Bonus
-                    </p>
-                  </div>
-                  <ArrowRight size={16} className="text-white/30 group-hover:text-primary transition-colors" />
-                </Link>
-              )}
+
+                {/* XP card */}
+                <div className="bg-surface border-[2.5px] border-black p-4 shadow-hard relative overflow-hidden">
+                  <p className="font-mono text-4xl font-bold text-text leading-none">
+                    {profile.total_xp.toLocaleString()}
+                  </p>
+                  <p className="font-display uppercase text-[10px] tracking-tight text-text-muted mt-2">
+                    XP Earned
+                  </p>
+                  <div
+                    aria-hidden="true"
+                    className="absolute left-0 right-0 bottom-0 h-[3px] bg-primary"
+                  />
+                </div>
+              </div>
             </div>
 
-            {/* Recent badge */}
-            {recentBadge && (
-              <div className="flex items-center justify-center gap-2 mb-4 text-sm text-white/50">
-                <BadgeIcon
-                  iconName={recentBadge.icon_name}
-                  iconColor={recentBadge.icon_color}
-                  rarity={recentBadge.rarity}
-                  size="sm"
-                  earned
-                />
-                <span>Recent: {recentBadge.name}</span>
+            {/* Daily Challenge — paper-flip prestige */}
+            <div className="relative mt-10 bg-paper border-[2.5px] border-black p-6 md:p-8 overflow-hidden shadow-hard-lg">
+              <div
+                aria-hidden="true"
+                className="absolute -top-6 -right-6 w-48 h-48 texture-halftone text-black opacity-30 pointer-events-none"
+              />
+              <div className="relative z-10 flex flex-col md:flex-row md:items-center md:justify-between gap-5">
+                <div className="md:max-w-md">
+                  <h2
+                    className="text-3xl md:text-5xl text-black"
+                    style={{ letterSpacing: "-0.03em", lineHeight: 0.88 }}
+                  >
+                    Today&apos;s Challenge
+                  </h2>
+                  <p className="mt-2 text-sm text-black/70">
+                    10 questions · mixed difficulty · 1.5x XP
+                    {!dailyPlayed && (
+                      <span className="block mt-0.5 font-mono text-xs text-black/50">
+                        Resets in {getCountdown()}
+                      </span>
+                    )}
+                  </p>
+                </div>
+                {dailyPlayed ? (
+                  <div className="inline-flex items-center gap-2 bg-black text-electric border-2 border-black font-display uppercase text-lg tracking-tight px-5 py-3 self-start md:self-auto">
+                    <CheckCircle size={18} aria-hidden="true" />
+                    <span>{dailyScore}/10</span>
+                  </div>
+                ) : (
+                  <Link
+                    href="/daily"
+                    className="inline-flex items-center gap-2 bg-black text-electric border-2 border-black font-display uppercase text-lg tracking-tight px-6 py-3 shadow-hot hover:bg-primary hover:text-white hover:shadow-hard transition-[background-color,color,box-shadow] duration-200 self-start md:self-auto"
+                  >
+                    Enter
+                    <ArrowRight size={18} aria-hidden="true" />
+                  </Link>
+                )}
+              </div>
+            </div>
+
+            {/* Side-info row: pending duels + recent badge */}
+            {(pendingDuelCount > 0 || recentBadge) && (
+              <div className="mt-6 flex flex-wrap items-center gap-4">
+                {pendingDuelCount > 0 && (
+                  <Link
+                    href="/duels"
+                    className="inline-flex items-center gap-2 bg-electric text-black border-[2.5px] border-black font-display uppercase text-sm tracking-tight px-4 py-2 shadow-[2px_2px_0_0_#000] hover:shadow-hot transition-shadow duration-200"
+                  >
+                    <Swords size={14} aria-hidden="true" />
+                    {pendingDuelCount} Pending Duel{pendingDuelCount > 1 ? "s" : ""}
+                  </Link>
+                )}
+                {recentBadge && (
+                  <div className="inline-flex items-center gap-2 text-sm font-mono text-text-muted">
+                    <BadgeIcon
+                      iconName={recentBadge.icon_name}
+                      iconColor={recentBadge.icon_color}
+                      rarity={recentBadge.rarity}
+                      size="sm"
+                      earned
+                    />
+                    <span>
+                      RECENT:{" "}
+                      <span className="text-text uppercase">{recentBadge.name}</span>
+                    </span>
+                  </div>
+                )}
               </div>
             )}
 
-            {/* Pending duels */}
-            {pendingDuelCount > 0 && (
-              <Link
-                href="/duels"
-                className="inline-flex items-center gap-2 bg-accent/10 border border-accent/30 rounded-lg px-4 py-2 text-sm font-medium text-accent hover:bg-accent/20 transition-colors mb-4"
-              >
-                <Swords size={14} />
-                {pendingDuelCount} pending duel{pendingDuelCount > 1 ? "s" : ""}
-              </Link>
+            {/* POPULAR QUIZZES carousel.
+             * Data source: topAnime (popular feed, not per-user history).
+             * TODO: when getRecentAnime(userId) lands, swap heading back to
+             * "Recently Played" and replace the data binding. */}
+            {topAnime.length > 0 && (
+              <div className="mt-12">
+                <div className="flex items-baseline justify-between border-b border-rule pb-2 mb-4">
+                  <h3 className="font-display uppercase tracking-tight text-text-muted text-sm">
+                    Popular Quizzes
+                  </h3>
+                  <Link
+                    href="/browse"
+                    className="font-display uppercase text-xs tracking-tight text-primary hover:text-electric transition-colors"
+                  >
+                    All Anime →
+                  </Link>
+                </div>
+                <div className="flex gap-4 overflow-x-auto pb-4 snap-x snap-mandatory scrollbar-hide md:grid md:grid-cols-4 md:overflow-visible">
+                  {topAnime.map((anime, i) => (
+                    <div
+                      key={anime.id}
+                      className="min-w-[280px] snap-start md:min-w-0"
+                    >
+                      <AnimeCard anime={anime} index={i} />
+                    </div>
+                  ))}
+                </div>
+              </div>
             )}
-
-            {/* Pro status */}
-            {getProMessage() && (
-              <p className="text-xs text-primary/70 mb-4">{getProMessage()}</p>
-            )}
-
-            <div className="flex flex-col sm:flex-row gap-3 justify-center">
-              <Link
-                href="/browse"
-                className="px-8 py-4 text-lg font-bold rounded-xl bg-primary text-white hover:bg-primary/90 transition-colors"
-              >
-                Start Playing
-              </Link>
-              <Link
-                href="/profile"
-                className="px-8 py-4 text-lg font-bold rounded-xl bg-white/10 text-white hover:bg-white/20 transition-colors"
-              >
-                View Profile
-              </Link>
-            </div>
           </motion.div>
         ) : (
           /* ── Visitor Hero ────────────────────────────────── */
-          <div className="relative z-10">
+          <div className="relative z-10 text-center max-w-3xl mx-auto py-6 md:py-12">
             <motion.h1
               initial={reducedMotion ? false : { opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight mb-4"
+              className="text-5xl sm:text-6xl md:text-7xl mb-4"
+              style={{ letterSpacing: "-0.04em", lineHeight: 0.88 }}
             >
-              <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-                OtakuQuiz
-              </span>
+              <span className="text-primary">OtakuQuiz</span>
+              <span className="text-electric">.</span>
             </motion.h1>
 
             <motion.p
               initial={reducedMotion ? false : { opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={reducedMotion ? { duration: 0 } : { delay: 0.1 }}
-              className="text-lg sm:text-xl text-white/60 max-w-lg mx-auto mb-3"
+              className="text-lg sm:text-xl text-text-muted max-w-lg mx-auto mb-3"
             >
               Test your anime knowledge with trivia questions across 50+ titles.
               Compete, rank up, and prove you&apos;re the ultimate otaku.
@@ -366,9 +420,9 @@ const LandingContent = ({ topAnime, stats }: LandingContentProps) => {
               initial={reducedMotion ? false : { opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={reducedMotion ? { duration: 0 } : { delay: 0.2 }}
-              className="text-sm text-white/40 mb-8"
+              className="text-sm text-text-muted/70 mb-8"
             >
-              From Genin to Hokage — climb the ranks!
+              From Genin to Hokage — climb the ranks.
             </motion.p>
 
             {/* Rank progression preview */}
@@ -376,15 +430,19 @@ const LandingContent = ({ topAnime, stats }: LandingContentProps) => {
               initial={reducedMotion ? false : { opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={reducedMotion ? { duration: 0 } : { delay: 0.3 }}
-              className="flex flex-wrap justify-center gap-3 mb-8"
+              className="flex flex-wrap justify-center gap-2 mb-8"
             >
               {RANK_ICONS.map((rank) => (
                 <div
                   key={rank.name}
-                  className="flex flex-col items-center bg-surface/50 rounded-lg px-3 py-2 border border-white/5"
+                  className="flex flex-col items-center bg-surface border-2 border-black px-3 py-2 shadow-[2px_2px_0_0_#000]"
                 >
-                  <span className="text-xs font-bold text-primary">{rank.name}</span>
-                  <span className="text-[10px] text-white/30">{rank.xp} XP</span>
+                  <span className="font-display uppercase text-sm text-primary tracking-tight">
+                    {rank.name}
+                  </span>
+                  <span className="font-mono text-[10px] text-text-muted">
+                    {rank.xp} XP
+                  </span>
                 </div>
               ))}
             </motion.div>
@@ -397,25 +455,23 @@ const LandingContent = ({ topAnime, stats }: LandingContentProps) => {
             >
               <Link
                 href="/browse"
-                className="px-8 py-4 text-lg font-bold rounded-xl bg-primary text-white hover:bg-primary/90 transition-colors"
+                className="bg-primary text-white border-[2.5px] border-black px-8 py-4 font-display uppercase text-2xl tracking-tight shadow-hard hover:shadow-electric transition-shadow duration-200"
               >
                 Start Playing
               </Link>
               <Link
                 href="/shop"
-                className="px-8 py-4 text-lg font-bold rounded-xl bg-white/10 text-white hover:bg-white/20 transition-colors"
+                className="bg-surface text-text border-[2.5px] border-black px-8 py-4 font-display uppercase text-2xl tracking-tight shadow-hard hover:bg-electric hover:text-black transition-colors duration-200"
               >
                 Swag Shop
               </Link>
             </motion.div>
-
-            <div className="mt-8 h-1 w-24 mx-auto rounded-full bg-accent" />
           </div>
         )}
       </section>
 
-      {/* ── POPULAR QUIZZES ────────────────────────────────── */}
-      {topAnime.length > 0 && (
+      {/* ── POPULAR QUIZZES (visitor-only — logged-in users see Recently Played in the hero) ── */}
+      {topAnime.length > 0 && !user && (
         <section className="max-w-6xl mx-auto px-4 py-16">
           <h2 className="text-2xl md:text-3xl font-bold text-center mb-8">
             Popular Quizzes

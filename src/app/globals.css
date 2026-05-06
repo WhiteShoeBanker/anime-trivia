@@ -1,5 +1,5 @@
 @import "tailwindcss";
-@import "../themes/manga-ink/tokens.css";
+@import "../themes/heat-check/tokens.css";
 
 html {
   scroll-behavior: smooth;
@@ -10,6 +10,28 @@ body {
   color: var(--color-text);
   font-family: var(--font-body), system-ui, sans-serif;
   overflow-x: hidden;
+}
+
+/* Heat Check display typography — Anton condensed at scale, ALL CAPS.
+ * h1/h2/h3 carry the brand voice; h4/h5/h6 are body-weighted utility
+ * headings that don't shout. Components can opt out by setting their own
+ * font-family inline (e.g. font-mono numerics on stat cards). */
+h1, h2, h3 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  line-height: 0.9;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+}
+
+h4, h5, h6 {
+  font-family: var(--font-body);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+button, .btn {
+  border-radius: var(--radius-sharp);
 }
 
 /* Focus-visible rings for accessibility */

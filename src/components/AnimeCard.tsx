@@ -58,7 +58,7 @@ const AnimeCard = ({ anime, index = 0, restricted }: AnimeCardProps) => {
         </span>
       )}
 
-      <h3 className="absolute bottom-4 left-4 right-4 text-xl font-bold text-white drop-shadow-lg">
+      <h3 className="absolute bottom-4 left-4 right-4 text-xl font-bold text-white drop-shadow-lg normal-case">
         {anime.title}
       </h3>
     </div>

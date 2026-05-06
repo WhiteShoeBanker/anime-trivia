@@ -13,6 +13,7 @@ import BadgeIcon from "@/components/BadgeIcon";
 import BadgeGrid from "@/components/BadgeGrid";
 import MonthlyEmblem from "@/components/MonthlyEmblem";
 import EmblemSelector from "@/components/EmblemSelector";
+import TierBadge, { tierFromXP } from "@/components/TierBadge";
 import type { Badge, UserEmblemWithDetails, DuelStats } from "@/types";
 
 const ProfilePage = () => {
@@ -94,15 +95,28 @@ const ProfilePage = () => {
 
   return (
     <div className="max-w-3xl mx-auto px-4 py-8 space-y-6">
-      {/* Profile header */}
+      {/* Profile header — TierBadge is the focal point */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         className="text-center"
       >
+        {/* Tier badge (large, with label, animated for Champion shimmer) */}
+        <div className="flex justify-center mb-5">
+          <TierBadge
+            tier={tierFromXP(profile.total_xp)}
+            size="lg"
+            showLabel
+            animated
+          />
+        </div>
+
         {/* Avatar + emblem */}
         <div className="relative inline-block mb-3">
-          <div className="w-20 h-20 rounded-full bg-primary/20 flex items-center justify-center text-3xl font-bold text-primary">
+          <div
+            className="w-20 h-20 bg-primary text-white flex items-center justify-center text-3xl font-display uppercase border-[2.5px] border-black shadow-hard"
+            aria-hidden="true"
+          >
             {initial}
           </div>
           {emblem && (
@@ -123,8 +137,12 @@ const ProfilePage = () => {
           )}
         </div>
 
-        <h1 className="text-2xl font-bold">{displayName}</h1>
-        <p className="text-sm text-white/40">{profile.rank}</p>
+        <h1 className="text-3xl text-text normal-case" style={{ letterSpacing: "-0.02em" }}>
+          {displayName}
+        </h1>
+        <p className="font-mono text-sm text-text-muted mt-1 uppercase tracking-tight">
+          Rank · {profile.rank}
+        </p>
       </motion.div>
 
       {/* Stats grid */}

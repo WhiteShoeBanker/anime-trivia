@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Anton, DM_Sans } from "next/font/google";
+import { Anton, DM_Sans, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -7,7 +7,7 @@ import AnnouncementBanner from "@/components/AnnouncementBanner";
 import ToastContainer from "@/components/ToastContainer";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { getConfig } from "@/lib/admin-config";
-import { palette } from "@/themes/manga-ink/palette";
+import { palette } from "@/themes/heat-check/palette";
 
 const anton = Anton({
   variable: "--font-display",
@@ -17,6 +17,11 @@ const anton = Anton({
 
 const dmSans = DM_Sans({
   variable: "--font-body",
+  subsets: ["latin"],
+});
+
+const jetbrainsMono = JetBrains_Mono({
+  variable: "--font-mono",
   subsets: ["latin"],
 });
 
@@ -83,8 +88,8 @@ export default async function RootLayout({
   }
 
   return (
-    <html lang="en" data-theme="manga-ink">
-      <body className={`${anton.variable} ${dmSans.variable} font-body antialiased bg-secondary`}>
+    <html lang="en" data-theme="heat-check">
+      <body className={`${anton.variable} ${dmSans.variable} ${jetbrainsMono.variable} font-body antialiased bg-secondary`}>
         <AuthProvider>
           {maintenanceMode ? (
             <div className="min-h-screen flex flex-col items-center justify-center px-4 text-center">
