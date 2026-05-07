@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Anton, DM_Sans, JetBrains_Mono } from "next/font/google";
+import { Rajdhani, DM_Sans, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -9,10 +9,10 @@ import { AuthProvider } from "@/contexts/AuthContext";
 import { getConfig } from "@/lib/admin-config";
 import { palette } from "@/themes/heat-check/palette";
 
-const anton = Anton({
+const rajdhani = Rajdhani({
   variable: "--font-display",
   subsets: ["latin"],
-  weight: "400",
+  weight: ["400", "500", "600", "700"],
 });
 
 const dmSans = DM_Sans({
@@ -89,7 +89,7 @@ export default async function RootLayout({
 
   return (
     <html lang="en" data-theme="heat-check">
-      <body className={`${anton.variable} ${dmSans.variable} ${jetbrainsMono.variable} font-body antialiased bg-secondary`}>
+      <body className={`${rajdhani.variable} ${dmSans.variable} ${jetbrainsMono.variable} font-body antialiased bg-secondary`}>
         <AuthProvider>
           {maintenanceMode ? (
             <div className="min-h-screen flex flex-col items-center justify-center px-4 text-center">

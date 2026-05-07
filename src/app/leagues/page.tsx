@@ -671,7 +671,7 @@ const LeaguesPage = () => {
                   size="md"
                   showLabel
                   animated={isCurrent && l.tier === 6}
-                  highlightShadow={isCurrent ? "4px 4px 0 0 #dfff20" : undefined}
+                  highlightShadow={isCurrent ? "4px 4px 0 0 #ea580c" : undefined}
                   className={isCurrent ? "" : "opacity-50"}
                 />
               );

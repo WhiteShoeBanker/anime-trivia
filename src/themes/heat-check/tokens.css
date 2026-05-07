@@ -1,23 +1,22 @@
-/* Heat Check theme — design tokens.
+/* Heat Check theme — design tokens (Arcade Edition).
  * Imported at the top of src/app/globals.css. All literal values for the active
  * theme live here; components consume the @theme inline tokens via Tailwind
- * utilities (bg-primary, text-electric, font-display, shadow-hard, etc.).
+ * utilities (bg-primary, font-display, shadow-hard, etc.).
  *
- * Direction: Persona 5's hot-color discipline (one commanding color),
- * Splatoon's ink/paint energy, 2026 neobrutalism (sharp corners, hard offset
- * shadows, thick borders), manga title-page composition.
+ * Direction: cyber-anime arcade — single hot color discipline (sunset
+ * vermillion #ea580c) on ink black, sci-fi notched panels, halftone
+ * radiating bursts, terminal-cursor accents, character anchor in hero.
  *
  * Contract documented in src/themes/README.md.
  */
 
 @theme inline {
   /* ── Brand ─────────────────────────────────────────────────── */
-  --color-primary: #dc2828;       /* vermillion — the single commanding hot */
+  --color-primary: #ea580c;       /* sunset vermillion — single hot */
   --color-secondary: #0a0a0a;     /* ink black, page */
-  --color-accent: #dc2828;        /* same as primary — single-hot discipline */
+  --color-accent: #ea580c;        /* same as primary — single-hot discipline */
   --color-success: #16a34a;       /* jade */
   --color-surface: #1a1a1a;       /* raised card */
-  --color-electric: #dfff20;      /* the punch — chartreuse */
 
   /* ── Text + structural ─────────────────────────────────────── */
   --color-text: #f5f1e8;          /* bone */
@@ -28,25 +27,20 @@
   --color-warning: #d97706;
   --color-error: #991b1b;
 
-  /* ── Paper-mode (prestige surfaces) ────────────────────────── */
-  --color-paper: #f5f1e8;
-  --color-ink: #000000;
-  --color-rule-paper: #d6d3d1;
-
   /* ── Tier foils (Bronze → Champion) ────────────────────────── */
   --color-tier-1: #c87d3e;        /* warm copper */
   --color-tier-2: #b8b8c2;        /* cool gunmetal pearl */
   --color-tier-3: #f4c430;        /* bright sun gold */
   --color-tier-4: #dde2e8;        /* platinum sheen */
   --color-tier-5: #38bdf8;        /* electric cobalt */
-  --color-tier-6: #dc2828;        /* red foil champion */
+  --color-tier-6: #ea580c;        /* orange foil champion */
 
   /* ── Typography ─────────────────────────────────────────────
    * --font-display and --font-body are also set on <body> by next/font.
    * Body's per-element values win at use-time; the @theme entries below
    * are the :root-level fallback when next/font's className is missing.
    */
-  --font-display: "Anton", "Helvetica Neue Condensed", sans-serif;
+  --font-display: "Rajdhani", "Saira Condensed", "Helvetica Neue Condensed", sans-serif;
   --font-body: "DM Sans", system-ui, sans-serif;
   --font-sans: "DM Sans", system-ui, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, monospace;
@@ -58,12 +52,11 @@
   /* ── Shadows — hard offset, no blur, neobrutalist ─────────── */
   --shadow-hard: 4px 4px 0 0 #000;
   --shadow-hard-lg: 6px 6px 0 0 #000;
-  --shadow-electric: 4px 4px 0 0 #dfff20;
-  --shadow-hot: 4px 4px 0 0 #dc2828;
+  --shadow-hot: 4px 4px 0 0 #ea580c;
   /* Backwards-compat alias used by the Phase 0 token contract. */
   --shadow-ink: 4px 4px 0 0 #000;
 
-  /* ── Animation tokens (preserved from Phase 0; heat-shimmer added) ── */
+  /* ── Animation tokens ──────────────────────────────────────── */
   --animate-fade-in: fade-in 0.3s ease-out;
   --animate-slide-up: slide-up 0.4s ease-out;
   --animate-slide-in-right: slide-in-right 0.4s ease-out;
@@ -117,8 +110,8 @@
     50% { transform: scale(1.05); }
   }
 
-  /* Champion-tier shimmer: a chartreuse highlight sweep used by TierBadge
-   * tier 6 with animated=true. The global prefers-reduced-motion rule in
+  /* Champion-tier shimmer: a bone highlight sweep used by TierBadge tier 6
+   * with animated=true. The global prefers-reduced-motion rule in
    * globals.css neutralizes the iteration. */
   @keyframes heat-shimmer {
     0% { transform: translateX(-130%) skewX(-12deg); }
@@ -141,4 +134,74 @@
 .texture-grain {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.4'/%3E%3C/svg%3E");
   opacity: 0.08;
+}
+
+/* ── Arcade Edition — sci-fi UI motifs ─────────────────────────
+ * Notched panels, terminal cursors, halftone bursts, tech-grid
+ * background. Used in the landing hero and prestige zones.
+ */
+
+/* Notched corner panels — all four corners cut */
+.clip-notch-corners {
+  clip-path: polygon(
+    14px 0%, calc(100% - 14px) 0%, 100% 14px,
+    100% calc(100% - 14px), calc(100% - 14px) 100%, 14px 100%,
+    0 calc(100% - 14px), 0 14px
+  );
+}
+
+/* Notched top-right + bottom-left only — diagonal sci-fi panel */
+.clip-notch-tr-bl {
+  clip-path: polygon(
+    0 0, calc(100% - 16px) 0, 100% 16px,
+    100% 100%, 16px 100%, 0 calc(100% - 16px)
+  );
+}
+
+/* Highlight box for inline keyword punches: <span class="hl-hot">WORKS?_</span> */
+.hl-hot {
+  background: var(--color-primary);
+  color: #000;
+  padding: 0 8px;
+  display: inline-block;
+  font-weight: 600;
+}
+
+/* Animated terminal cursor — append <span class="cursor"></span> after marquee text */
+.cursor::after {
+  content: "_";
+  display: inline-block;
+  margin-left: 0.1em;
+  animation: cursor-blink 1.1s steps(2, jump-none) infinite;
+  color: currentColor;
+}
+
+@keyframes cursor-blink {
+  0%, 50% { opacity: 1; }
+  50.01%, 100% { opacity: 0; }
+}
+
+/* Halftone burst — radial dot pattern fading outward, for hero focal points */
+.halftone-burst {
+  background-image:
+    radial-gradient(circle at center, rgba(234, 88, 12, 0.55) 0%, rgba(234, 88, 12, 0) 60%),
+    radial-gradient(circle, var(--color-primary) 1px, transparent 1.6px);
+  background-size: 100% 100%, 8px 8px;
+  background-position: center, 0 0;
+  background-repeat: no-repeat, repeat;
+}
+
+/* Subtle tech-grid wireframe for hero background */
+.tech-grid {
+  background-image:
+    linear-gradient(rgba(234, 88, 12, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(234, 88, 12, 0.05) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cursor::after {
+    animation: none;
+    opacity: 1;
+  }
 }

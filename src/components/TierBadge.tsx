@@ -4,11 +4,11 @@ import { Shield, Medal, Star, Award, Gem, Swords } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 
 // ──────────────────────────────────────────────────────────────
-// Heat Check tier badge — six distinct materials, not six shades.
-// Each tier escalates the frame: simple → inner-stroke → double →
-// triple-sandwich → iridescent gradient → vermillion+chartreuse
-// champion. Shared neobrutalist anchor: 4px hard ink-black offset
-// shadow on every wrapper; sharp corners.
+// Heat Check tier badge (Arcade Edition) — six distinct materials,
+// not six shades. Each tier escalates the frame: simple → inner-
+// stroke → double → triple-sandwich → iridescent cobalt-bone
+// gradient → orange foil champion. Shared neobrutalist anchor:
+// 4px hard ink-black offset shadow on every wrapper; sharp corners.
 // ──────────────────────────────────────────────────────────────
 
 export type TierLevel = 1 | 2 | 3 | 4 | 5 | 6;
@@ -21,7 +21,7 @@ interface TierBadgeProps {
   animated?: boolean;
   className?: string;
   /**
-   * Override the wrapper's hard offset shadow (e.g. electric chartreuse for
+   * Override the wrapper's hard offset shadow (e.g. orange hot-shadow for
    * a "current tier" highlight on the leagues progression strip). Defaults
    * to the standard ink-black 4px hard offset.
    */
@@ -44,8 +44,10 @@ const TIER_FOIL = {
   3: "#f4c430",
   4: "#dde2e8",
   5: "#38bdf8",
-  6: "#dc2828",
+  6: "#ea580c",
 } as const;
+
+const BONE = "#f5f1e8";
 
 const TIERS: Record<TierLevel, TierSpec> = {
   1: {
@@ -87,8 +89,8 @@ const TIERS: Record<TierLevel, TierSpec> = {
   5: {
     name: "Diamond",
     icon: Gem,
-    fill: `linear-gradient(135deg, ${TIER_FOIL[5]} 0%, #dfff20 50%, ${TIER_FOIL[5]} 100%)`,
-    iconColor: "#f5f1e8",
+    fill: `linear-gradient(135deg, ${TIER_FOIL[5]} 0%, ${BONE} 50%, ${TIER_FOIL[5]} 100%)`,
+    iconColor: BONE,
     outerBorder: `3px solid ${TIER_FOIL[5]}`,
     halftoneOpacity: 0.18,
     halftoneColor: "#000",
@@ -97,7 +99,7 @@ const TIERS: Record<TierLevel, TierSpec> = {
     name: "Champion",
     icon: Swords,
     fill: TIER_FOIL[6],
-    iconColor: "#dfff20",
+    iconColor: BONE,
     outerBorder: `2.5px solid ${TIER_FOIL[6]}`,
     halftoneOpacity: 0.2,
     halftoneColor: "#fff",
@@ -185,7 +187,7 @@ const TierBadge = ({
           <div
             aria-hidden="true"
             className="absolute inset-[2px] pointer-events-none"
-            style={{ border: "1px solid #dfff20" }}
+            style={{ border: `1px solid ${BONE}` }}
           />
         )}
 
@@ -206,7 +208,7 @@ const TierBadge = ({
           className="relative z-10"
         />
 
-        {/* Champion-tier shimmer sweep — chartreuse highlight every 4s. */}
+        {/* Champion-tier shimmer sweep — bone highlight every 4s. */}
         {tier === 6 && animated && (
           <div
             aria-hidden="true"
@@ -216,7 +218,7 @@ const TierBadge = ({
               className="absolute -inset-y-2 w-1/2"
               style={{
                 background:
-                  "linear-gradient(90deg, transparent 0%, rgba(223,255,32,0.45) 50%, transparent 100%)",
+                  "linear-gradient(90deg, transparent 0%, rgba(245,241,232,0.55) 50%, transparent 100%)",
                 animation: "heat-shimmer 4s ease-in-out infinite",
               }}
             />

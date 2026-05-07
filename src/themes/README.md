@@ -1,11 +1,13 @@
 # Themes
 
-OtakuQuiz ships with the "Heat Check" theme as the default (vermillion + chartreuse
-neobrutalism). The architecture leaves a clean path for a future general-trivia
-app to register its own theme without touching component code: every consumer
-reads from semantic tokens (Tailwind utilities generated from `--color-*`,
-`--font-*`, etc.) or from a single TS registry (`src/themes/index.ts`) for the
-JS-only cases.
+OtakuQuiz ships with the "Heat Check" theme as the default — Arcade Edition,
+single-hot-color discipline (sunset vermillion `#ea580c` on ink black) with
+sci-fi notched panels, halftone bursts, and terminal-cursor accents. The
+architecture leaves a clean path for a future general-trivia app to register
+its own theme without touching component code: every consumer reads from
+semantic tokens (Tailwind utilities generated from `--color-*`, `--font-*`,
+etc.) or from a single TS registry (`src/themes/index.ts`) for the JS-only
+cases.
 
 ## Directory layout
 
@@ -45,23 +47,25 @@ Tailwind v4 can generate the corresponding utilities (`bg-primary`,
 - `--color-warning`
 - `--color-error`
 
-**Paper mode (prestige surfaces — required even if the theme doesn't use them):**
-- `--color-paper`
-- `--color-ink`
-- `--color-rule-paper`
-
 **Tier foils (six-step ladder, Bronze → Champion equivalents):**
 - `--color-tier-1` … `--color-tier-6`
 
 **Typography:**
-- `--font-display`
-- `--font-body`
+- `--font-display` — Heat Check Arcade Edition uses **Rajdhani** (variable,
+  sci-fi geometric, designed for ALL CAPS legibility from 12px to 80px).
+  Replaced Anton after Round 1 smoke test feedback that condensed-display
+  ALL CAPS hurt readability.
+- `--font-body` — DM Sans
 - `--font-sans` (alias of `--font-body`, kept for backwards compatibility)
+- `--font-mono` — JetBrains Mono (used for terminal cursor accents and
+  numerics on stat cards)
 
 **Radii & shadows:**
 - `--radius-sharp`
 - `--radius-pill`
 - `--shadow-ink`
+- `--shadow-hot` — single-hot-color offset shadow (Heat Check: `4px 4px 0 0
+  #ea580c`); used for the "current tier" highlight and CTA hover states.
 
 **Animations** (must include keyframes inside the `@theme inline` block):
 - `--animate-fade-in`, `--animate-slide-up`, `--animate-slide-in-right`,
@@ -77,12 +81,43 @@ custom properties one-to-one (camelCase: `--color-text-muted` → `textMuted`,
 ### Optional CSS utilities
 
 Themes may define additional utility classes outside `@theme inline` for
-texture / decoration. Heat Check ships:
+texture / decoration. Heat Check Arcade Edition ships:
+
 - `.texture-halftone` — radial-dot pattern using `currentColor`
 - `.texture-grain` — SVG turbulence noise overlay
+- `.clip-notch-corners` — 8-point polygon clip-path notching all four corners
+  (sci-fi panel motif)
+- `.clip-notch-tr-bl` — diagonal clip notching top-right + bottom-left only
+  (used on CTA buttons and stat cards)
+- `.hl-hot` — inline keyword highlight box (`bg-primary text-black`, padded);
+  apply to a span around punch words inside body copy
+- `.cursor` — appends a blinking terminal underscore via `::after`. Pair with
+  `@keyframes cursor-blink` (1.1s steps animation). Honors
+  `prefers-reduced-motion` — animation disabled, cursor stays solid.
+- `.halftone-burst` — radial gradient orange wash plus a fine dot grid stacked
+  directly (not via `background-blend-mode: multiply`, which crushed dots
+  against the dark hero). Used behind hero focal points.
+- `.tech-grid` — subtle wireframe grid background for hero zones
 
 These are applied via `className` on individual elements and aren't part of
 the required contract. Other themes can ship different decorations.
+
+### Heading typography rule
+
+`globals.css` defines a deliberately restrained default for `h1`–`h6`:
+`font-family: var(--font-body); font-weight: 700; letter-spacing: -0.02em`.
+Headings render in DM Sans Bold sentence case by default.
+
+Marquee moments (hero greeting, prestige zone titles, tier badge labels)
+opt **into** Rajdhani uppercase via Tailwind classes:
+
+```tsx
+<h1 className="font-display uppercase tracking-tight">Welcome back,</h1>
+```
+
+This is intentional — Round 1 applied the display font globally to every
+heading, which the user rejected as "very hard to read." Apply marquee
+typography selectively, not globally.
 
 ## Activating a theme
 

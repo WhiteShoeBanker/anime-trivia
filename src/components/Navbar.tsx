@@ -166,7 +166,7 @@ const Navbar = () => {
                 {link.href === "/stats" && <BarChart3 size={14} aria-hidden="true" />}
                 {link.label}
                 {link.href === "/duels" && pendingDuelCount > 0 && (
-                  <span className="ml-0.5 min-w-[16px] h-4 px-1 bg-electric text-black text-[10px] font-mono font-bold flex items-center justify-center border border-black">
+                  <span className="ml-0.5 min-w-[16px] h-4 px-1 bg-primary text-black text-[10px] font-mono font-bold flex items-center justify-center border border-black">
                     {pendingDuelCount}
                   </span>
                 )}
@@ -187,7 +187,7 @@ const Navbar = () => {
           {user ? (
             <>
               {profile?.subscription_tier === "pro" && (
-                <span className="px-2 py-1 font-display uppercase text-[10px] tracking-tight bg-electric text-black border-2 border-black shadow-[2px_2px_0_0_#000]">
+                <span className="px-2 py-1 font-display uppercase text-[10px] tracking-tight bg-primary text-black border-2 border-black shadow-[2px_2px_0_0_#000]">
                   Pro
                 </span>
               )}
@@ -203,7 +203,7 @@ const Navbar = () => {
               )}
               {userTier && <TierBadge tier={userTier} size="sm" />}
               <div
-                className="w-8 h-8 bg-primary text-white flex items-center justify-center font-display uppercase text-sm border-2 border-black shadow-[2px_2px_0_0_#000]"
+                className="w-8 h-8 bg-primary text-black flex items-center justify-center font-display uppercase text-sm border-2 border-black shadow-[2px_2px_0_0_#000]"
                 aria-hidden="true"
               >
                 {displayInitial}
@@ -219,7 +219,7 @@ const Navbar = () => {
           ) : (
             <button
               onClick={handleSignIn}
-              className="px-4 py-2 font-display uppercase text-sm tracking-tight bg-primary text-white border-2 border-black shadow-[2px_2px_0_0_#000] hover:shadow-[2px_2px_0_0_#dfff20] transition-shadow"
+              className="px-4 py-2 font-display uppercase text-sm tracking-tight bg-primary text-black border-2 border-black shadow-[2px_2px_0_0_#000] hover:shadow-hot transition-shadow"
             >
               Sign In
             </button>
@@ -290,7 +290,7 @@ const Navbar = () => {
                       {link.href === "/stats" && <BarChart3 size={22} aria-hidden="true" />}
                       {link.label}
                       {link.href === "/duels" && pendingDuelCount > 0 && (
-                        <span className="min-w-[20px] h-5 px-1 bg-electric text-black text-xs font-mono font-bold flex items-center justify-center border border-black">
+                        <span className="min-w-[20px] h-5 px-1 bg-primary text-black text-xs font-mono font-bold flex items-center justify-center border border-black">
                           {pendingDuelCount}
                         </span>
                       )}
@@ -314,7 +314,7 @@ const Navbar = () => {
                 {user ? (
                   <div className="flex flex-col items-center gap-4">
                     {profile?.subscription_tier === "pro" && (
-                      <span className="px-3 py-1 font-display uppercase text-xs tracking-tight bg-electric text-black border-2 border-black shadow-[2px_2px_0_0_#000]">
+                      <span className="px-3 py-1 font-display uppercase text-xs tracking-tight bg-primary text-black border-2 border-black shadow-[2px_2px_0_0_#000]">
                         Pro · VIP Access
                       </span>
                     )}
@@ -330,7 +330,7 @@ const Navbar = () => {
                       )}
                       {userTier && <TierBadge tier={userTier} size="sm" />}
                       <div
-                        className="w-10 h-10 bg-primary text-white flex items-center justify-center font-display uppercase text-lg border-2 border-black shadow-[2px_2px_0_0_#000]"
+                        className="w-10 h-10 bg-primary text-black flex items-center justify-center font-display uppercase text-lg border-2 border-black shadow-[2px_2px_0_0_#000]"
                         aria-hidden="true"
                       >
                         {displayInitial}
@@ -339,7 +339,7 @@ const Navbar = () => {
                     </div>
                     <button
                       onClick={handleSignOut}
-                      className="px-6 py-3 font-display uppercase text-sm tracking-tight bg-surface text-text border-2 border-black shadow-[2px_2px_0_0_#000] hover:bg-electric hover:text-black transition-colors flex items-center gap-2"
+                      className="px-6 py-3 font-display uppercase text-sm tracking-tight bg-surface text-text border-2 border-black shadow-[2px_2px_0_0_#000] hover:bg-primary hover:text-black transition-colors flex items-center gap-2"
                     >
                       <LogOut size={16} aria-hidden="true" />
                       Sign Out
@@ -348,7 +348,7 @@ const Navbar = () => {
                 ) : (
                   <button
                     onClick={handleSignIn}
-                    className="px-6 py-3 font-display uppercase text-sm tracking-tight bg-primary text-white border-2 border-black shadow-[2px_2px_0_0_#000] hover:shadow-[2px_2px_0_0_#dfff20] transition-shadow"
+                    className="px-6 py-3 font-display uppercase text-sm tracking-tight bg-primary text-black border-2 border-black shadow-[2px_2px_0_0_#000] hover:shadow-hot transition-shadow"
                   >
                     Sign In
                   </button>
@@ -384,14 +384,14 @@ const Navbar = () => {
               <div className="flex flex-col gap-2">
                 <button
                   onClick={handleSignOut}
-                  className="px-4 py-2 font-display uppercase text-sm tracking-tight bg-primary text-white border-2 border-black shadow-[2px_2px_0_0_#000] hover:shadow-[2px_2px_0_0_#dfff20] transition-shadow min-h-[44px]"
+                  className="px-4 py-2 font-display uppercase text-sm tracking-tight bg-primary text-black border-2 border-black shadow-[2px_2px_0_0_#000] hover:shadow-hot transition-shadow min-h-[44px]"
                 >
                   Try Again
                 </button>
                 {signOutAttempts >= 2 && (
                   <button
                     onClick={handleForceSignOut}
-                    className="px-4 py-2 font-display uppercase text-sm tracking-tight bg-electric text-black border-2 border-black shadow-[2px_2px_0_0_#000] hover:bg-primary hover:text-white transition-colors min-h-[44px]"
+                    className="px-4 py-2 font-display uppercase text-sm tracking-tight bg-text text-black border-2 border-black shadow-[2px_2px_0_0_#000] hover:bg-primary transition-colors min-h-[44px]"
                   >
                     Force Sign Out (reload page)
                   </button>

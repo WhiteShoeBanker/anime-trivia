@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { motion } from "framer-motion";
 import {
   Shield,
@@ -196,190 +197,236 @@ const LandingContent = ({ topAnime, stats }: LandingContentProps) => {
 
   return (
     <div>
-      {/* ── HERO ─────────────────────────────────────────────── */}
-      <section className="relative px-4 md:px-6 pt-10 pb-12 md:pt-14 md:pb-20 overflow-hidden">
+      {/* ── HERO — Arcade Edition ───────────────────────────── */}
+      <section className="relative overflow-hidden">
         {user && profile && !isLoading ? (
-          /* ── Logged-in Hero — kinetic Heat Check ─────────── */
-          <motion.div
-            initial={reducedMotion ? false : { opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="relative z-10 max-w-6xl mx-auto"
-          >
-            {/* Halftone decoration top-right */}
-            <div
-              aria-hidden="true"
-              className="absolute -top-4 right-0 w-72 h-72 texture-halftone text-primary opacity-40 pointer-events-none"
-            />
-
-            {/* PRO pill */}
-            {profile.subscription_tier === "pro" && (
-              <div className="inline-block bg-electric text-black border-2 border-black font-display uppercase text-xs tracking-tight px-3 py-1 mb-6 shadow-[2px_2px_0_0_#000]">
-                PRO · VIP ACCESS
-              </div>
-            )}
-
-            {/* 2-column hero */}
-            <div className="grid grid-cols-1 md:grid-cols-[3fr_2fr] gap-8 md:gap-10 items-end">
-              {/* Left: title + CTA */}
-              <div>
-                <h1
-                  className="text-5xl sm:text-6xl md:text-7xl text-text"
-                  style={{ letterSpacing: "-0.04em", lineHeight: 0.88 }}
-                >
-                  Welcome back,
-                  <br />
-                  <span className="text-primary">
-                    {profile.display_name ?? profile.username ?? "Otaku"}.
-                  </span>
-                </h1>
-                <p className="mt-4 text-base text-text-muted max-w-md">
-                  Pick up where you left off.
-                </p>
-                <Link
-                  href="/daily"
-                  className="inline-block mt-6 bg-primary text-white border-[2.5px] border-black px-8 py-4 font-display uppercase text-2xl tracking-tight shadow-hard hover:shadow-electric hover:-translate-y-0.5 transition-[transform,box-shadow] duration-200"
-                >
-                  Play Daily
-                </Link>
-              </div>
-
-              {/* Right: stat cards */}
-              <div className="flex flex-col gap-3">
-                {/* Tier card */}
-                <div
-                  className="border-[2.5px] border-black p-4 shadow-hard"
-                  style={{ backgroundColor: tierInfo.color }}
-                >
-                  <p
-                    className="font-display uppercase text-3xl text-black leading-none"
-                    style={{ letterSpacing: "-0.02em" }}
-                  >
-                    {tierInfo.name}
-                  </p>
-                  <p className="font-mono text-[11px] text-black/70 mt-1">
-                    TIER {tierInfo.tier}
-                  </p>
-                </div>
-
-                {/* Streak card */}
-                <div className="bg-surface border-[2.5px] border-black p-4 shadow-hard relative overflow-hidden">
-                  <div
-                    aria-hidden="true"
-                    className="absolute left-0 top-0 bottom-0 w-1 bg-electric"
-                  />
-                  <div className="pl-3">
-                    <p className="font-mono text-4xl font-bold text-text leading-none">
-                      {profile.current_streak}
-                    </p>
-                    <p className="font-display uppercase text-[10px] tracking-tight text-text-muted mt-2">
-                      Day Streak
-                    </p>
-                  </div>
-                </div>
-
-                {/* XP card */}
-                <div className="bg-surface border-[2.5px] border-black p-4 shadow-hard relative overflow-hidden">
-                  <p className="font-mono text-4xl font-bold text-text leading-none">
-                    {profile.total_xp.toLocaleString()}
-                  </p>
-                  <p className="font-display uppercase text-[10px] tracking-tight text-text-muted mt-2">
-                    XP Earned
-                  </p>
-                  <div
-                    aria-hidden="true"
-                    className="absolute left-0 right-0 bottom-0 h-[3px] bg-primary"
-                  />
-                </div>
-              </div>
-            </div>
-
-            {/* Daily Challenge — paper-flip prestige */}
-            <div className="relative mt-10 bg-paper border-[2.5px] border-black p-6 md:p-8 overflow-hidden shadow-hard-lg">
+          /* ── Logged-in Hero ────────────────────────────── */
+          <>
+            <motion.div
+              initial={reducedMotion ? false : { opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="relative z-10 max-w-6xl mx-auto px-4 md:px-6 pt-10 pb-12 md:pt-14 md:pb-16"
+            >
+              {/* Tech-grid wireframe behind everything in the hero */}
               <div
                 aria-hidden="true"
-                className="absolute -top-6 -right-6 w-48 h-48 texture-halftone text-black opacity-30 pointer-events-none"
+                className="absolute inset-0 tech-grid pointer-events-none"
               />
-              <div className="relative z-10 flex flex-col md:flex-row md:items-center md:justify-between gap-5">
-                <div className="md:max-w-md">
-                  <h2
-                    className="text-3xl md:text-5xl text-black"
-                    style={{ letterSpacing: "-0.03em", lineHeight: 0.88 }}
-                  >
-                    Today&apos;s Challenge
-                  </h2>
-                  <p className="mt-2 text-sm text-black/70">
-                    10 questions · mixed difficulty · 1.5x XP
-                    {!dailyPlayed && (
-                      <span className="block mt-0.5 font-mono text-xs text-black/50">
-                        Resets in {getCountdown()}
-                      </span>
-                    )}
-                  </p>
-                </div>
-                {dailyPlayed ? (
-                  <div className="inline-flex items-center gap-2 bg-black text-electric border-2 border-black font-display uppercase text-lg tracking-tight px-5 py-3 self-start md:self-auto">
-                    <CheckCircle size={18} aria-hidden="true" />
-                    <span>{dailyScore}/10</span>
-                  </div>
-                ) : (
-                  <Link
-                    href="/daily"
-                    className="inline-flex items-center gap-2 bg-black text-electric border-2 border-black font-display uppercase text-lg tracking-tight px-6 py-3 shadow-hot hover:bg-primary hover:text-white hover:shadow-hard transition-[background-color,color,box-shadow] duration-200 self-start md:self-auto"
-                  >
-                    Enter
-                    <ArrowRight size={18} aria-hidden="true" />
-                  </Link>
-                )}
-              </div>
-            </div>
 
-            {/* Side-info row: pending duels + recent badge */}
-            {(pendingDuelCount > 0 || recentBadge) && (
-              <div className="mt-6 flex flex-wrap items-center gap-4">
-                {pendingDuelCount > 0 && (
-                  <Link
-                    href="/duels"
-                    className="inline-flex items-center gap-2 bg-electric text-black border-[2.5px] border-black font-display uppercase text-sm tracking-tight px-4 py-2 shadow-[2px_2px_0_0_#000] hover:shadow-hot transition-shadow duration-200"
-                  >
-                    <Swords size={14} aria-hidden="true" />
-                    {pendingDuelCount} Pending Duel{pendingDuelCount > 1 ? "s" : ""}
-                  </Link>
-                )}
-                {recentBadge && (
-                  <div className="inline-flex items-center gap-2 text-sm font-mono text-text-muted">
-                    <BadgeIcon
-                      iconName={recentBadge.icon_name}
-                      iconColor={recentBadge.icon_color}
-                      rarity={recentBadge.rarity}
-                      size="sm"
-                      earned
-                    />
-                    <span>
-                      RECENT:{" "}
-                      <span className="text-text uppercase">{recentBadge.name}</span>
+              {/* PRO · VIP pill (notched) */}
+              {profile.subscription_tier === "pro" && (
+                <div className="relative z-10 inline-block bg-primary text-black border-2 border-black font-display uppercase text-xs tracking-wider px-3 py-1 mb-6 clip-notch-tr-bl shadow-[2px_2px_0_0_#000]">
+                  <span className="cursor">PRO · VIP ACCESS</span>
+                </div>
+              )}
+
+              {/* 2-column hero — character anchor / text anchor */}
+              <div className="relative z-10 grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center">
+                {/* LEFT — character anchor */}
+                <div className="relative order-2 md:order-1">
+                  {/* Halftone burst behind character */}
+                  <div
+                    aria-hidden="true"
+                    className="absolute inset-0 halftone-burst opacity-70 pointer-events-none"
+                  />
+                  {/* OG PLAYER tag */}
+                  <div className="relative z-10 mb-3">
+                    <span className="inline-block bg-primary text-black border-2 border-black font-display uppercase text-[11px] tracking-wider px-2.5 py-1 shadow-[2px_2px_0_0_#000]">
+                      OG Player
                     </span>
                   </div>
-                )}
+                  <div className="relative z-10 max-w-[480px] mx-auto md:mx-0">
+                    <Image
+                      src="/images/naruto.png"
+                      alt=""
+                      width={480}
+                      height={480}
+                      priority
+                      className="w-full h-auto select-none pointer-events-none"
+                    />
+                  </div>
+                </div>
+
+                {/* RIGHT — text anchor */}
+                <div className="relative z-10 order-1 md:order-2">
+                  <h1
+                    className="font-display uppercase font-bold text-text text-5xl sm:text-6xl md:text-7xl leading-[0.92]"
+                    style={{ letterSpacing: "-0.02em" }}
+                  >
+                    <span className="block normal-case sr-only">
+                      Welcome back, {profile.display_name ?? profile.username ?? "Otaku"}.
+                    </span>
+                    <span aria-hidden="true" className="block">
+                      Welcome back,
+                    </span>
+                    <span aria-hidden="true" className="block text-primary">
+                      <span className="cursor">
+                        {profile.display_name ?? profile.username ?? "Otaku"}
+                      </span>
+                    </span>
+                  </h1>
+                  <p className="mt-5 text-base text-text-muted max-w-md">
+                    Pick up where you left off.
+                  </p>
+
+                  {/* Stat strip — three notched-corner cards */}
+                  <div className="mt-6 grid grid-cols-3 gap-3">
+                    {/* Tier */}
+                    <div
+                      className="clip-notch-tr-bl border-[2.5px] border-black p-3 shadow-hard"
+                      style={{ backgroundColor: tierInfo.color }}
+                    >
+                      <p
+                        className="font-display uppercase text-lg sm:text-xl text-black leading-none"
+                        style={{ letterSpacing: "-0.02em" }}
+                      >
+                        {tierInfo.name}
+                      </p>
+                      <p className="font-mono text-[10px] text-black/70 mt-1.5">
+                        TIER {tierInfo.tier}
+                      </p>
+                    </div>
+
+                    {/* Streak */}
+                    <div className="clip-notch-tr-bl bg-surface border-[2.5px] border-black p-3 shadow-hard relative overflow-hidden">
+                      <div
+                        aria-hidden="true"
+                        className="absolute left-0 top-0 bottom-0 w-1 bg-primary"
+                      />
+                      <div className="pl-2.5">
+                        <p className="font-mono text-2xl sm:text-3xl font-bold text-text leading-none">
+                          {profile.current_streak}
+                        </p>
+                        <p className="font-display uppercase text-[9px] tracking-wider text-text-muted mt-1.5">
+                          Day Streak
+                        </p>
+                      </div>
+                    </div>
+
+                    {/* XP */}
+                    <div className="clip-notch-tr-bl bg-surface border-[2.5px] border-black p-3 shadow-hard relative overflow-hidden">
+                      <p className="font-mono text-2xl sm:text-3xl font-bold text-text leading-none">
+                        {profile.total_xp.toLocaleString()}
+                      </p>
+                      <p className="font-display uppercase text-[9px] tracking-wider text-text-muted mt-1.5">
+                        XP Earned
+                      </p>
+                      <div
+                        aria-hidden="true"
+                        className="absolute left-0 right-0 bottom-0 h-[3px] bg-primary"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Primary CTA */}
+                  <Link
+                    href="/daily"
+                    className="inline-block mt-7 clip-notch-tr-bl bg-primary text-black border-2 border-black px-8 py-4 font-display uppercase text-2xl tracking-tight shadow-hard hover:shadow-hot hover:-translate-y-0.5 transition-[transform,box-shadow] duration-200"
+                  >
+                    Play Daily
+                  </Link>
+
+                  {/* Side-info row: pending duels + recent badge */}
+                  {(pendingDuelCount > 0 || recentBadge) && (
+                    <div className="mt-6 flex flex-wrap items-center gap-4">
+                      {pendingDuelCount > 0 && (
+                        <Link
+                          href="/duels"
+                          className="inline-flex items-center gap-2 bg-primary text-black border-[2.5px] border-black font-display uppercase text-sm tracking-tight px-4 py-2 shadow-[2px_2px_0_0_#000] hover:shadow-hot transition-shadow duration-200"
+                        >
+                          <Swords size={14} aria-hidden="true" />
+                          {pendingDuelCount} Pending Duel{pendingDuelCount > 1 ? "s" : ""}
+                        </Link>
+                      )}
+                      {recentBadge && (
+                        <div className="inline-flex items-center gap-2 text-sm font-mono text-text-muted">
+                          <BadgeIcon
+                            iconName={recentBadge.icon_name}
+                            iconColor={recentBadge.icon_color}
+                            rarity={recentBadge.rarity}
+                            size="sm"
+                            earned
+                          />
+                          <span>
+                            RECENT:{" "}
+                            <span className="text-text uppercase">{recentBadge.name}</span>
+                          </span>
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </div>
               </div>
-            )}
+            </motion.div>
+
+            {/* PRESTIGE ZONE — orange-wash today's challenge */}
+            <div className="relative bg-primary border-y-[2.5px] border-black overflow-hidden">
+              <div
+                aria-hidden="true"
+                className="absolute inset-0 texture-halftone text-black pointer-events-none"
+                style={{ opacity: 0.25 }}
+              />
+              <div
+                aria-hidden="true"
+                className="absolute -top-12 -right-12 w-56 h-56 halftone-burst opacity-60 pointer-events-none mix-blend-multiply"
+              />
+              <div className="relative z-10 max-w-6xl mx-auto px-4 md:px-6 py-8 md:py-12">
+                <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-5">
+                  <div className="md:max-w-md">
+                    <h2
+                      className="font-display uppercase font-bold text-3xl md:text-5xl text-black leading-[0.92]"
+                      style={{ letterSpacing: "-0.02em" }}
+                    >
+                      <span className="cursor">Today&apos;s Challenge</span>
+                    </h2>
+                    <p className="mt-2 text-sm text-black/80">
+                      10 questions · mixed difficulty · 1.5x XP
+                      {!dailyPlayed && (
+                        <span className="block mt-0.5 font-mono text-xs text-black/60">
+                          Resets in {getCountdown()}
+                        </span>
+                      )}
+                    </p>
+                  </div>
+                  {dailyPlayed ? (
+                    <div className="inline-flex items-center gap-2 bg-black text-primary border-2 border-black font-display uppercase text-lg tracking-tight px-5 py-3 self-start md:self-auto shadow-[6px_6px_0_0_#fff]">
+                      <CheckCircle size={18} aria-hidden="true" />
+                      <span>{dailyScore}/10</span>
+                    </div>
+                  ) : (
+                    <Link
+                      href="/daily"
+                      className="inline-flex items-center gap-2 bg-black text-primary border-2 border-black font-display uppercase text-lg tracking-tight px-6 py-3 shadow-[6px_6px_0_0_#fff] hover:bg-text hover:text-black hover:shadow-[4px_4px_0_0_#000] transition-[background-color,color,box-shadow] duration-200 self-start md:self-auto"
+                    >
+                      Enter
+                      <ArrowRight size={18} aria-hidden="true" />
+                    </Link>
+                  )}
+                </div>
+              </div>
+            </div>
 
             {/* POPULAR QUIZZES carousel.
              * Data source: topAnime (popular feed, not per-user history).
              * TODO: when getRecentAnime(userId) lands, swap heading back to
              * "Recently Played" and replace the data binding. */}
             {topAnime.length > 0 && (
-              <div className="mt-12">
-                <div className="flex items-baseline justify-between border-b border-rule pb-2 mb-4">
-                  <h3 className="font-display uppercase tracking-tight text-text-muted text-sm">
-                    Popular Quizzes
+              <div className="max-w-6xl mx-auto px-4 md:px-6 mt-12">
+                <div className="flex items-baseline justify-between mb-4">
+                  <h3 className="font-display uppercase tracking-tight text-text text-2xl">
+                    <span className="cursor">Popular Quizzes</span>
                   </h3>
                   <Link
                     href="/browse"
-                    className="font-display uppercase text-xs tracking-tight text-primary hover:text-electric transition-colors"
+                    className="font-display uppercase text-xs tracking-wider text-primary hover:text-text transition-colors"
                   >
                     All Anime →
                   </Link>
                 </div>
+                <div
+                  aria-hidden="true"
+                  className="h-px bg-primary/40 mb-4"
+                />
                 <div className="flex gap-4 overflow-x-auto pb-4 snap-x snap-mandatory scrollbar-hide md:grid md:grid-cols-4 md:overflow-visible">
                   {topAnime.map((anime, i) => (
                     <div
@@ -392,80 +439,86 @@ const LandingContent = ({ topAnime, stats }: LandingContentProps) => {
                 </div>
               </div>
             )}
-          </motion.div>
+          </>
         ) : (
-          /* ── Visitor Hero ────────────────────────────────── */
-          <div className="relative z-10 text-center max-w-3xl mx-auto py-6 md:py-12">
-            <motion.h1
-              initial={reducedMotion ? false : { opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="text-5xl sm:text-6xl md:text-7xl mb-4"
-              style={{ letterSpacing: "-0.04em", lineHeight: 0.88 }}
-            >
-              <span className="text-primary">OtakuQuiz</span>
-              <span className="text-electric">.</span>
-            </motion.h1>
+          /* ── Visitor Hero — lightly Heat-Checked ─────────── */
+          <div className="relative z-10 px-4 md:px-6 pt-10 pb-12 md:pt-14 md:pb-20">
+            <div
+              aria-hidden="true"
+              className="absolute inset-0 tech-grid pointer-events-none"
+            />
+            <div className="relative z-10 text-center max-w-3xl mx-auto py-6 md:py-12">
+              <motion.h1
+                initial={reducedMotion ? false : { opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="font-display uppercase font-bold text-5xl sm:text-6xl md:text-7xl mb-4 leading-[0.92]"
+                style={{ letterSpacing: "-0.02em" }}
+              >
+                <span className="text-text">OtakuQuiz</span>
+                <span className="text-primary">.</span>
+              </motion.h1>
 
-            <motion.p
-              initial={reducedMotion ? false : { opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={reducedMotion ? { duration: 0 } : { delay: 0.1 }}
-              className="text-lg sm:text-xl text-text-muted max-w-lg mx-auto mb-3"
-            >
-              Test your anime knowledge with trivia questions across 50+ titles.
-              Compete, rank up, and prove you&apos;re the ultimate otaku.
-            </motion.p>
+              <motion.p
+                initial={reducedMotion ? false : { opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={reducedMotion ? { duration: 0 } : { delay: 0.1 }}
+                className="text-lg sm:text-xl text-text-muted max-w-lg mx-auto mb-3"
+              >
+                Test your anime knowledge with trivia questions across 50+ titles.
+                Compete, rank up, and prove you&apos;re the ultimate otaku.
+              </motion.p>
 
-            <motion.p
-              initial={reducedMotion ? false : { opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={reducedMotion ? { duration: 0 } : { delay: 0.2 }}
-              className="text-sm text-text-muted/70 mb-8"
-            >
-              From Genin to Hokage — climb the ranks.
-            </motion.p>
+              <motion.p
+                initial={reducedMotion ? false : { opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={reducedMotion ? { duration: 0 } : { delay: 0.2 }}
+                className="text-sm text-text-muted/70 mb-8"
+              >
+                From Genin to Hokage — climb the ranks.
+              </motion.p>
 
-            {/* Rank progression preview */}
-            <motion.div
-              initial={reducedMotion ? false : { opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={reducedMotion ? { duration: 0 } : { delay: 0.3 }}
-              className="flex flex-wrap justify-center gap-2 mb-8"
-            >
-              {RANK_ICONS.map((rank) => (
-                <div
-                  key={rank.name}
-                  className="flex flex-col items-center bg-surface border-2 border-black px-3 py-2 shadow-[2px_2px_0_0_#000]"
+              {/* Rank progression preview */}
+              <motion.div
+                initial={reducedMotion ? false : { opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={reducedMotion ? { duration: 0 } : { delay: 0.3 }}
+                className="flex flex-wrap justify-center gap-2 mb-8"
+              >
+                {RANK_ICONS.map((rank) => (
+                  <div
+                    key={rank.name}
+                    className="flex flex-col items-center bg-surface border-2 border-black px-3 py-2 shadow-[2px_2px_0_0_#000]"
+                  >
+                    <span className="font-display uppercase text-sm text-primary tracking-tight">
+                      {rank.name}
+                    </span>
+                    <span className="font-mono text-[10px] text-text-muted">
+                      {rank.xp} XP
+                    </span>
+                  </div>
+                ))}
+              </motion.div>
+
+              <motion.div
+                initial={reducedMotion ? false : { opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={reducedMotion ? { duration: 0 } : { delay: 0.4 }}
+                className="flex flex-col sm:flex-row gap-3 justify-center"
+              >
+                <Link
+                  href="/browse"
+                  className="bg-primary text-black border-[2.5px] border-black px-8 py-4 font-display uppercase text-2xl tracking-tight shadow-hard hover:shadow-hot transition-shadow duration-200"
                 >
-                  <span className="font-display uppercase text-sm text-primary tracking-tight">
-                    {rank.name}
-                  </span>
-                  <span className="font-mono text-[10px] text-text-muted">
-                    {rank.xp} XP
-                  </span>
-                </div>
-              ))}
-            </motion.div>
-
-            <motion.div
-              initial={reducedMotion ? false : { opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={reducedMotion ? { duration: 0 } : { delay: 0.4 }}
-              className="flex flex-col sm:flex-row gap-3 justify-center"
-            >
-              <Link
-                href="/browse"
-                className="bg-primary text-white border-[2.5px] border-black px-8 py-4 font-display uppercase text-2xl tracking-tight shadow-hard hover:shadow-electric transition-shadow duration-200"
-              >
-                Start Playing
-              </Link>
-              <Link
-                href="/shop"
-                className="bg-surface text-text border-[2.5px] border-black px-8 py-4 font-display uppercase text-2xl tracking-tight shadow-hard hover:bg-electric hover:text-black transition-colors duration-200"
-              >
-                Swag Shop
-              </Link>
-            </motion.div>
+                  Start Playing
+                </Link>
+                <Link
+                  href="/shop"
+                  className="bg-surface text-text border-[2.5px] border-black px-8 py-4 font-display uppercase text-2xl tracking-tight shadow-hard hover:bg-primary hover:text-black transition-colors duration-200"
+                >
+                  Swag Shop
+                </Link>
+              </motion.div>
+            </div>
           </div>
         )}
       </section>

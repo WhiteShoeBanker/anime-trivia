@@ -12,22 +12,14 @@ body {
   overflow-x: hidden;
 }
 
-/* Heat Check display typography — Anton condensed at scale, ALL CAPS.
- * h1/h2/h3 carry the brand voice; h4/h5/h6 are body-weighted utility
- * headings that don't shout. Components can opt out by setting their own
- * font-family inline (e.g. font-mono numerics on stat cards). */
-h1, h2, h3 {
-  font-family: var(--font-display);
-  font-weight: 400;
-  line-height: 0.9;
-  letter-spacing: -0.02em;
-  text-transform: uppercase;
-}
-
-h4, h5, h6 {
+/* Heat Check Arcade Edition — restrained heading default. Sentence-case
+ * DM Sans Bold. Marquee moments (hero greeting, prestige zone titles, tier
+ * labels) opt into Rajdhani + uppercase + tight tracking via Tailwind
+ * classes (font-display uppercase tracking-tight) — never globally. */
+h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-body);
-  font-weight: 600;
-  letter-spacing: -0.01em;
+  font-weight: 700;
+  letter-spacing: -0.02em;
 }
 
 button, .btn {
