@@ -130,6 +130,7 @@ const Navbar = () => {
   }, [pathname]);
 
   return (
+    <>
     <nav className="fixed top-0 left-0 right-0 z-50 h-16 bg-secondary/80 backdrop-blur-lg border-b border-white/10">
       <div className="max-w-7xl mx-auto h-full px-4 flex items-center justify-between">
         {/* Brand */}
@@ -218,161 +219,186 @@ const Navbar = () => {
           onClick={() => setMobileOpen(true)}
           aria-label="Open menu"
           aria-expanded={mobileOpen}
+          aria-controls="mobile-menu"
         >
           <Menu size={24} />
         </button>
       </div>
+    </nav>
 
-      {/* Mobile overlay */}
-      <AnimatePresence>
-        {mobileOpen && (
-          <motion.div
-            initial={reducedMotion ? false : { opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: reducedMotion ? 0 : 0.2 }}
-            className="fixed inset-0 z-50 bg-secondary flex flex-col"
-          >
-            <div className="flex items-center justify-between h-16 px-4">
-              <Link href="/" className="text-xl font-bold text-primary">
-                OtakuQuiz
-              </Link>
-              <button
-                onClick={() => setMobileOpen(false)}
-                className="p-2"
-                aria-label="Close menu"
+    {/* Mobile overlay — rendered as a sibling of <nav> so its fixed
+        positioning is anchored to the viewport, not trapped by the
+        nav's backdrop-filter containing block. */}
+    <AnimatePresence>
+      {mobileOpen && (
+        <motion.div
+          initial={reducedMotion ? false : { opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: reducedMotion ? 0 : 0.2 }}
+          className="fixed inset-0 z-50 bg-secondary flex flex-col"
+          id="mobile-menu"
+          role="dialog"
+          aria-modal="true"
+          aria-label="Navigation menu"
+        >
+          {/* Top bar */}
+          <div className="flex-shrink-0 flex items-center justify-between h-16 px-4">
+            <Link href="/" className="text-xl font-bold text-primary">
+              OtakuQuiz
+            </Link>
+            <button
+              onClick={() => setMobileOpen(false)}
+              className="p-2"
+              aria-label="Close menu"
+            >
+              <X size={24} aria-hidden="true" />
+            </button>
+          </div>
+
+          {/* Scrollable link region — overscroll-contain prevents the
+              scroll chain from leaking to <body> when the user reaches
+              the top/bottom edge inside the overlay. */}
+          <div className="flex-1 overflow-y-auto overscroll-contain flex flex-col items-center justify-center gap-6 py-8 px-4">
+            {NAV_LINKS.map((link, i) => (
+              <motion.div
+                key={link.href}
+                initial={reducedMotion ? false : { opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={reducedMotion ? { duration: 0 } : { delay: i * 0.1 }}
               >
-                <X size={24} />
-              </button>
-            </div>
-
-            <div className="flex flex-col items-center justify-center flex-1 gap-6">
-              {NAV_LINKS.map((link, i) => (
-                <motion.div
-                  key={link.href}
-                  initial={reducedMotion ? false : { opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={reducedMotion ? { duration: 0 } : { delay: i * 0.1 }}
+                <Link
+                  href={link.href}
+                  className="text-2xl font-semibold transition-colors hover:text-primary flex items-center gap-2"
+                  aria-current={isActive(pathname, link.href) ? "page" : undefined}
+                  style={{
+                    color: isActive(pathname, link.href)
+                      ? "var(--color-primary)"
+                      : "white",
+                  }}
                 >
-                  <Link
-                    href={link.href}
-                    className="text-2xl font-semibold transition-colors hover:text-primary flex items-center gap-2"
-                    aria-current={isActive(pathname, link.href) ? "page" : undefined}
-                    style={{
-                      color: isActive(pathname, link.href)
-                        ? "var(--color-primary)"
-                        : "white",
-                    }}
-                  >
-                    {link.href === "/daily" && <Calendar size={22} />}
-                    {link.href === "/duels" && <Swords size={22} />}
-                    {link.href === "/shop" && <ShoppingBag size={22} />}
-                    {link.href === "/stats" && <BarChart3 size={22} />}
-                    {link.label}
-                    {link.href === "/duels" && pendingDuelCount > 0 && (
-                      <span className="w-5 h-5 rounded-full bg-accent text-white text-xs font-bold flex items-center justify-center">
-                        {pendingDuelCount}
-                      </span>
-                    )}
-                  </Link>
-                </motion.div>
-              ))}
+                  {link.href === "/daily" && <Calendar size={22} />}
+                  {link.href === "/duels" && <Swords size={22} />}
+                  {link.href === "/shop" && <ShoppingBag size={22} />}
+                  {link.href === "/stats" && <BarChart3 size={22} />}
+                  {link.label}
+                  {link.href === "/duels" && pendingDuelCount > 0 && (
+                    <span className="w-5 h-5 rounded-full bg-accent text-white text-xs font-bold flex items-center justify-center">
+                      {pendingDuelCount}
+                    </span>
+                  )}
+                </Link>
+              </motion.div>
+            ))}
 
+            {user ? (
+              <motion.div
+                initial={reducedMotion ? false : { opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={reducedMotion ? { duration: 0 } : { delay: NAV_LINKS.length * 0.1 }}
+                className="mt-4 flex flex-col items-center gap-3"
+              >
+                {profile?.subscription_tier === "pro" && (
+                  <span className="px-2 py-0.5 text-xs font-bold rounded bg-primary text-white">
+                    PRO
+                  </span>
+                )}
+                <div className="flex items-center gap-2">
+                  {emblem && (
+                    <BadgeIcon
+                      iconName={emblem.icon_name}
+                      iconColor={emblem.icon_color}
+                      rarity={emblem.rarity}
+                      size="sm"
+                      earned
+                    />
+                  )}
+                  <div className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center text-lg font-bold text-primary">
+                    {displayInitial}
+                  </div>
+                  <AgeBadge ageGroup={ageGroup} />
+                </div>
+              </motion.div>
+            ) : (
               <motion.div
                 initial={reducedMotion ? false : { opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={reducedMotion ? { duration: 0 } : { delay: NAV_LINKS.length * 0.1 }}
                 className="mt-4"
               >
-                {user ? (
-                  <div className="flex flex-col items-center gap-3">
-                    {profile?.subscription_tier === "pro" && (
-                      <span className="px-2 py-0.5 text-xs font-bold rounded bg-primary text-white">
-                        PRO
-                      </span>
-                    )}
-                    <div className="flex items-center gap-2">
-                      {emblem && (
-                        <BadgeIcon
-                          iconName={emblem.icon_name}
-                          iconColor={emblem.icon_color}
-                          rarity={emblem.rarity}
-                          size="sm"
-                          earned
-                        />
-                      )}
-                      <div className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center text-lg font-bold text-primary">
-                        {displayInitial}
-                      </div>
-                      <AgeBadge ageGroup={ageGroup} />
-                    </div>
-                    <button
-                      onClick={handleSignOut}
-                      className="px-6 py-3 text-sm font-medium rounded-lg bg-white/10 text-white hover:bg-white/20 transition-colors flex items-center gap-2"
-                    >
-                      <LogOut size={16} />
-                      Sign Out
-                    </button>
-                  </div>
-                ) : (
-                  <button
-                    onClick={handleSignIn}
-                    className="px-6 py-3 text-sm font-medium rounded-lg bg-primary text-white hover:bg-primary/90 transition-colors"
-                  >
-                    Sign In
-                  </button>
-                )}
+                <button
+                  onClick={handleSignIn}
+                  className="px-6 py-3 text-sm font-medium rounded-lg bg-primary text-white hover:bg-primary/90 transition-colors"
+                >
+                  Sign In
+                </button>
               </motion.div>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+            )}
+          </div>
 
-      {/* Sign-out failure overlay. Surfaces server-side signOut errors and
-          offers a force-sign-out path after a second failed attempt — never
-          show a fake logged-out UI when the cookies might still be valid. */}
-      <AnimatePresence>
-        {signOutError && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[60] bg-black/60 flex items-center justify-center p-4"
-            role="alertdialog"
-            aria-labelledby="signout-error-title"
-          >
-            <div className="bg-surface border border-accent/30 rounded-2xl p-6 max-w-sm w-full">
-              <h3 id="signout-error-title" className="text-lg font-bold mb-2">
-                Couldn&apos;t sign you out
-              </h3>
-              <p className="text-sm text-white/70 mb-4">{signOutError}</p>
-              <div className="flex flex-col gap-2">
+          {/* Footer — logout pinned at bottom when authenticated. */}
+          {user && (
+            <button
+              type="button"
+              onClick={() => {
+                setMobileOpen(false);
+                handleSignOut();
+              }}
+              className="flex-shrink-0 w-full px-6 py-4 flex items-center justify-center gap-3 text-text-muted hover:text-error border-t border-rule transition-colors min-h-[44px]"
+            >
+              <LogOut size={20} aria-hidden="true" />
+              <span className="text-sm font-medium">Log out</span>
+            </button>
+          )}
+        </motion.div>
+      )}
+    </AnimatePresence>
+
+    {/* Sign-out failure overlay. Surfaces server-side signOut errors and
+        offers a force-sign-out path after a second failed attempt — never
+        show a fake logged-out UI when the cookies might still be valid. */}
+    <AnimatePresence>
+      {signOutError && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          className="fixed inset-0 z-[60] bg-black/60 flex items-center justify-center p-4"
+          role="alertdialog"
+          aria-labelledby="signout-error-title"
+        >
+          <div className="bg-surface border border-accent/30 rounded-2xl p-6 max-w-sm w-full">
+            <h3 id="signout-error-title" className="text-lg font-bold mb-2">
+              Couldn&apos;t sign you out
+            </h3>
+            <p className="text-sm text-white/70 mb-4">{signOutError}</p>
+            <div className="flex flex-col gap-2">
+              <button
+                onClick={handleSignOut}
+                className="px-4 py-2 text-sm font-semibold rounded-lg bg-primary text-white hover:bg-primary/90 transition-colors min-h-[44px]"
+              >
+                Try Again
+              </button>
+              {signOutAttempts >= 2 && (
                 <button
-                  onClick={handleSignOut}
-                  className="px-4 py-2 text-sm font-semibold rounded-lg bg-primary text-white hover:bg-primary/90 transition-colors min-h-[44px]"
+                  onClick={handleForceSignOut}
+                  className="px-4 py-2 text-sm font-semibold rounded-lg bg-accent text-white hover:bg-accent/90 transition-colors min-h-[44px]"
                 >
-                  Try Again
+                  Force Sign Out (reload page)
                 </button>
-                {signOutAttempts >= 2 && (
-                  <button
-                    onClick={handleForceSignOut}
-                    className="px-4 py-2 text-sm font-semibold rounded-lg bg-accent text-white hover:bg-accent/90 transition-colors min-h-[44px]"
-                  >
-                    Force Sign Out (reload page)
-                  </button>
-                )}
-                <button
-                  onClick={() => setSignOutError(null)}
-                  className="px-4 py-2 text-sm font-semibold rounded-lg bg-white/10 text-white hover:bg-white/20 transition-colors min-h-[44px]"
-                >
-                  Cancel
-                </button>
-              </div>
+              )}
+              <button
+                onClick={() => setSignOutError(null)}
+                className="px-4 py-2 text-sm font-semibold rounded-lg bg-white/10 text-white hover:bg-white/20 transition-colors min-h-[44px]"
+              >
+                Cancel
+              </button>
             </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </nav>
+          </div>
+        </motion.div>
+      )}
+    </AnimatePresence>
+    </>
   );
 };
 
