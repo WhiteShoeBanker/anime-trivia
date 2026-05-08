@@ -8,7 +8,7 @@ Web-first (Next.js on Vercel), then wrapped for iOS/Android
 using Capacitor.
 
 ## Tech Stack
-- **Frontend**: Next.js 14 (App Router), TypeScript, Tailwind CSS
+- **Frontend**: Next.js 16 (App Router), TypeScript, Tailwind CSS
 - **UI Animation**: Framer Motion
 - **Icons**: Lucide React
 - **State**: Zustand for client-side quiz state
@@ -26,17 +26,29 @@ using Capacitor.
 - Mobile-first responsive design (min-width breakpoints)
 - Touch targets minimum 44px for mobile/tablet usability
 
-## Design System
-- Color palette:
-  - primary: '#FF6B35' (vibrant orange)
-  - secondary: '#1A1A2E' (dark navy background)
-  - accent: '#E94560' (red-pink highlights)
-  - success: '#00D1B2' (teal for correct answers)
-  - surface: '#16213E' (dark blue-gray cards)
-- Font: Inter (via next/font/google)
-- Dark theme by default
-- Anime-inspired energetic feel: Crunchyroll meets Duolingo
-- All animations via Framer Motion
+## Design system
+
+Visual design tokens (colors, typography, spacing, rounded, components) and design rationale live in **DESIGN.md** at the project root. This is the source of truth for all UI work. When implementing or refactoring components, read DESIGN.md first.
+
+The file follows the **Google Labs DESIGN.md spec** (https://github.com/google-labs-code/design.md), currently at `alpha`. Format: YAML front matter for machine-readable tokens, markdown body for rationale, in canonical section order (Overview, Colors, Typography, Layout, Elevation & Depth, Shapes, Components, Do's and Don'ts).
+
+Tooling:
+
+- Validate after edits: `design.md lint DESIGN.md`
+- Compare versions: `design.md diff old-DESIGN.md DESIGN.md`
+- Export to Tailwind: `design.md export --format tailwind DESIGN.md > tailwind.theme.json`
+- Export to W3C DTCG: `design.md export --format dtcg DESIGN.md > tokens.json`
+
+From Windows PowerShell, prefer `npx @google/design.md ...` to avoid `.md` file association. From Bash (including Claude Code's shell), `design.md` resolves correctly.
+
+Rules:
+
+- DESIGN.md is the spec. Tailwind config and CSS custom properties are derived from it. When values diverge, update DESIGN.md first, then propagate to implementation.
+- Run the linter after any DESIGN.md edit and resolve errors before committing.
+- The format is at `alpha` — expect schema changes. Pin tooling to the version that lints clean today; revisit on minor releases.
+- Component refactors should reference component tokens by name (e.g., `button-primary`, `pill-stock-in`) rather than re-deriving values inline.
+
+See `docs/design-workflow.md` for the audit-and-refactor workflow.
 
 ## Code Standards
 - TypeScript strict mode, NO 'any' types ever
