@@ -5,7 +5,6 @@ import { trackEvent } from "@/lib/analytics";
 import type { AgeGroup } from "@/types";
 
 interface ProfileData {
-  birthYear: number;
   ageGroup: AgeGroup;
   parentEmail?: string;
   username?: string;
@@ -23,7 +22,6 @@ export async function updateProfileAfterSignup(data: ProfileData) {
   }
 
   const updateData: Record<string, unknown> = {
-    birth_year: data.birthYear,
     age_group: data.ageGroup,
     is_junior: data.ageGroup === "junior",
   };

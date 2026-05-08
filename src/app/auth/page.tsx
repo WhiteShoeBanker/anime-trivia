@@ -38,13 +38,11 @@ const AuthPageContent = () => {
   }, [isCompleteProfile, user, profile?.age_group, router]);
 
   const [step, setStep] = useState<AuthStep>(
-    isCompleteProfile ? "age-gate" : "age-gate"
+    isCompleteProfile ? "age-gate" : "auth-form"
   );
-  const [mode, setMode] = useState<AuthMode>("sign-up");
+  const [mode, setMode] = useState<AuthMode>("sign-in");
   const [ageData, setAgeData] = useState<{
-    birthYear: number;
     ageGroup: AgeGroup;
-    age: number;
   } | null>(null);
   const [parentEmail, setParentEmail] = useState("");
   const [oauthJuniorBlocked, setOauthJuniorBlocked] = useState(false);
@@ -63,16 +61,12 @@ const AuthPageContent = () => {
 
   const isJunior = ageData?.ageGroup === "junior";
 
-  const handleAgeConfirmed = async (data: {
-    birthYear: number;
-    ageGroup: AgeGroup;
-    age: number;
-  }) => {
-    setAgeData(data);
+  const handleAgeConfirmed = async (ageGroup: AgeGroup) => {
+    setAgeData({ ageGroup });
 
     // OAuth user completing profile
     if (isCompleteProfile && user) {
-      if (data.ageGroup === "junior") {
+      if (ageGroup === "junior") {
         // Juniors can't use OAuth — sign them out
         await signOut();
         setOauthJuniorBlocked(true);
@@ -81,10 +75,7 @@ const AuthPageContent = () => {
 
       // 13+ OAuth user: save age data and redirect
       setIsSubmitting(true);
-      const result = await updateProfileAfterSignup({
-        birthYear: data.birthYear,
-        ageGroup: data.ageGroup,
-      });
+      const result = await updateProfileAfterSignup({ ageGroup });
       if (result.error) {
         setError(result.error);
         setIsSubmitting(false);
@@ -96,7 +87,7 @@ const AuthPageContent = () => {
       return;
     }
 
-    if (data.ageGroup === "junior") {
+    if (ageGroup === "junior") {
       setStep("parent-consent");
     } else {
       setStep("auth-form");
@@ -157,7 +148,6 @@ const AuthPageContent = () => {
         // no "session not yet ready" race, no silent loss on email-confirm.
         const signUpMetadata: Record<string, unknown> = {};
         if (ageData) {
-          signUpMetadata.birth_year = ageData.birthYear;
           signUpMetadata.age_group = ageData.ageGroup;
           if (parentEmail) signUpMetadata.parent_email = parentEmail;
           if (isJunior && username) signUpMetadata.username = username;
@@ -234,7 +224,6 @@ const AuthPageContent = () => {
     // user creation.
     const otpMetadata: Record<string, unknown> = {};
     if (mode === "sign-up" && ageData) {
-      otpMetadata.birth_year = ageData.birthYear;
       otpMetadata.age_group = ageData.ageGroup;
       if (parentEmail) otpMetadata.parent_email = parentEmail;
     }
@@ -320,17 +309,17 @@ const AuthPageContent = () => {
     );
   }
 
-  // Age gate step (complete_profile for OAuth or normal sign-up)
-  if (isCompleteProfile && user && step === "age-gate") {
+  // OAuth completion (forced flow — no pill toggle, just AgeGate)
+  if (isCompleteProfile && user) {
     return (
       <div className="max-w-2xl mx-auto px-4 py-12">
         <div className="text-center mb-6">
-          <h2 className="text-2xl font-bold mb-2">One More Step!</h2>
+          <h1 className="text-3xl font-bold mb-2">One More Step</h1>
           <p className="text-white/60">
             Tell us your age to personalize your experience
           </p>
         </div>
-        <AgeGate onAgeConfirmed={handleAgeConfirmed} />
+        <AgeGate onAgeGroupSelected={handleAgeConfirmed} />
         {isSubmitting && (
           <p className="text-center text-white/50 mt-4">Saving...</p>
         )}
@@ -343,77 +332,39 @@ const AuthPageContent = () => {
     );
   }
 
-  // Age gate step
-  if (step === "age-gate" && mode === "sign-up") {
-    return (
-      <div className="max-w-2xl mx-auto px-4 py-12">
-        <AgeGate onAgeConfirmed={handleAgeConfirmed} />
-        <div className="text-center mt-8">
-          <p className="text-sm text-white/50">
-            Already have an account?{" "}
-            <button
-              onClick={() => handleModeSwitch("sign-in")}
-              className="text-primary hover:underline font-medium"
-            >
-              Sign In
-            </button>
-          </p>
-        </div>
-      </div>
-    );
-  }
-
-  // Parent consent step
-  if (step === "parent-consent") {
-    return (
-      <div className="max-w-2xl mx-auto px-4 py-12">
-        <ParentConsentForm
-          onConsent={handleParentConsent}
-          onCancel={() => {
-            setStep("age-gate");
-            setAgeData(null);
-          }}
-        />
-      </div>
-    );
-  }
-
-  // Auth form step
+  // Standard sign-in / sign-up flow — pill toggle is always visible at the top
   return (
     <div className="max-w-md mx-auto px-4 py-12">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
       >
-        <h1 className="text-3xl font-bold text-center mb-2">
-          {mode === "sign-in" ? "Welcome Back!" : "Create Account"}
-        </h1>
-        <p className="text-white/60 text-center mb-8">
-          {mode === "sign-in"
-            ? "Sign in to continue your quiz journey"
-            : isJunior
-              ? "Set up your Junior Otaku account"
-              : "Join the anime trivia community"}
-        </p>
-
-        {/* Mode toggle */}
-        <div className="flex rounded-xl bg-surface border border-white/10 p-1 mb-6">
+        {/* Mode toggle — always rendered */}
+        <div
+          role="group"
+          aria-label="Sign in or sign up"
+          className="flex rounded-xl bg-surface border border-rule p-1 mb-6"
+        >
           <button
+            type="button"
+            aria-pressed={mode === "sign-in"}
             onClick={() => handleModeSwitch("sign-in")}
-            className={`flex-1 py-2.5 text-sm font-semibold rounded-lg transition-colors ${
+            className={`flex-1 py-2.5 min-h-[44px] text-sm font-semibold rounded-lg transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-secondary ${
               mode === "sign-in"
                 ? "bg-primary text-white"
-                : "text-white/50 hover:text-white"
+                : "text-text-muted hover:text-text"
             }`}
           >
             Sign In
           </button>
           <button
+            type="button"
+            aria-pressed={mode === "sign-up"}
             onClick={() => handleModeSwitch("sign-up")}
-            className={`flex-1 py-2.5 text-sm font-semibold rounded-lg transition-colors ${
+            className={`flex-1 py-2.5 min-h-[44px] text-sm font-semibold rounded-lg transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-secondary ${
               mode === "sign-up"
                 ? "bg-primary text-white"
-                : "text-white/50 hover:text-white"
+                : "text-text-muted hover:text-text"
             }`}
           >
             Sign Up
@@ -434,7 +385,42 @@ const AuthPageContent = () => {
           </div>
         )}
 
-        {/* OAuth buttons — hidden for junior */}
+        {/* Sign-up: age gate sub-step */}
+        {mode === "sign-up" && step === "age-gate" && (
+          <>
+            <h1 className="text-3xl font-bold text-center mb-6">
+              Create your account
+            </h1>
+            <AgeGate onAgeGroupSelected={handleAgeConfirmed} />
+          </>
+        )}
+
+        {/* Sign-up: parent consent sub-step */}
+        {mode === "sign-up" && step === "parent-consent" && (
+          <ParentConsentForm
+            onConsent={handleParentConsent}
+            onCancel={() => {
+              setStep("age-gate");
+              setAgeData(null);
+            }}
+          />
+        )}
+
+        {/* Auth form sub-step (sign-in always, sign-up after age gate) */}
+        {step === "auth-form" && (
+          <>
+            <h1 className="text-3xl font-bold text-center mb-2">
+              {mode === "sign-in" ? "Welcome back" : "Create your account"}
+            </h1>
+            <p className="text-white/60 text-center mb-8">
+              {mode === "sign-in"
+                ? "Sign in to continue your quiz journey"
+                : isJunior
+                  ? "Set up your Junior Otaku account"
+                  : "Join the anime trivia community"}
+            </p>
+
+            {/* OAuth buttons — hidden for junior */}
         {!isJunior && (
           <div className="space-y-3 mb-6">
             <button
@@ -647,31 +633,8 @@ const AuthPageContent = () => {
             )}
           </div>
         )}
-
-        {/* Toggle mode */}
-        <p className="text-center text-sm text-white/50 mt-6">
-          {mode === "sign-in" ? (
-            <>
-              Don&apos;t have an account?{" "}
-              <button
-                onClick={() => handleModeSwitch("sign-up")}
-                className="text-primary hover:underline font-medium"
-              >
-                Sign Up
-              </button>
-            </>
-          ) : (
-            <>
-              Already have an account?{" "}
-              <button
-                onClick={() => handleModeSwitch("sign-in")}
-                className="text-primary hover:underline font-medium"
-              >
-                Sign In
-              </button>
-            </>
-          )}
-        </p>
+          </>
+        )}
       </motion.div>
     </div>
   );

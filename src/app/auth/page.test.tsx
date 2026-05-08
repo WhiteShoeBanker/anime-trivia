@@ -47,20 +47,11 @@ vi.mock("./actions", () => ({
 
 vi.mock("@/components/AgeGate", () => ({
   default: ({
-    onAgeConfirmed,
+    onAgeGroupSelected,
   }: {
-    onAgeConfirmed: (d: {
-      birthYear: number;
-      ageGroup: "junior" | "teen" | "full";
-      age: number;
-    }) => void;
+    onAgeGroupSelected: (group: "junior" | "teen" | "full") => void;
   }) => (
-    <button
-      type="button"
-      onClick={() =>
-        onAgeConfirmed({ birthYear: 2000, ageGroup: "full", age: 26 })
-      }
-    >
+    <button type="button" onClick={() => onAgeGroupSelected("full")}>
       confirm-age
     </button>
   ),
@@ -96,6 +87,12 @@ beforeEach(() => {
 
 const advanceToAuthForm = async () => {
   render(<AuthPage />);
+  // Default state is sign-in + auth-form; flip to sign-up via the pill
+  // toggle, then advance through the AgeGate to reach the sign-up form.
+  const signUpPill = await screen.findByRole("button", { name: /^sign up$/i });
+  await act(async () => {
+    signUpPill.click();
+  });
   const ageButton = await screen.findByRole("button", {
     name: /confirm-age/i,
   });
