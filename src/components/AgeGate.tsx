@@ -1,89 +1,64 @@
 "use client";
 
-import { useState } from "react";
 import { motion } from "framer-motion";
+import useReducedMotion from "@/lib/use-reduced-motion";
 import type { AgeGroup } from "@/types";
 
 interface AgeGateProps {
-  onAgeConfirmed: (data: {
-    birthYear: number;
-    ageGroup: AgeGroup;
-    age: number;
-  }) => void;
+  onAgeGroupSelected: (group: AgeGroup) => void;
 }
 
-const AGE_OPTIONS = [
-  4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23,
-  24,
-];
+const AGE_RANGES: ReadonlyArray<{
+  group: AgeGroup;
+  label: string;
+  hint: string;
+}> = [
+  { group: "junior", label: "Under 13", hint: "Junior account" },
+  { group: "teen", label: "13–15", hint: "Teen account" },
+  { group: "full", label: "16+", hint: "Full access" },
+] as const satisfies ReadonlyArray<{
+  group: AgeGroup;
+  label: string;
+  hint: string;
+}>;
 
-const AgeGate = ({ onAgeConfirmed }: AgeGateProps) => {
-  const [tooYoung, setTooYoung] = useState(false);
+const AgeGate = ({ onAgeGroupSelected }: AgeGateProps) => {
+  const reducedMotion = useReducedMotion();
 
-  const handleAgeSelect = (age: number) => {
-    if (age < 6) {
-      setTooYoung(true);
-      return;
-    }
-
-    const currentYear = new Date().getFullYear();
-    const birthYear = currentYear - age;
-
-    let ageGroup: AgeGroup;
-    if (age <= 12) {
-      ageGroup = "junior";
-    } else if (age <= 15) {
-      ageGroup = "teen";
-    } else {
-      ageGroup = "full";
-    }
-
-    onAgeConfirmed({ birthYear, ageGroup, age });
-  };
-
-  if (tooYoung) {
-    return (
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="text-center max-w-md mx-auto"
-      >
-        <div className="text-6xl mb-4">&#127800;</div>
-        <h2 className="text-2xl font-bold mb-3">Come Back Later!</h2>
-        <p className="text-white/60">
-          OtakuQuiz is for kids 6 and up. Ask a grown-up to help you get
-          started!
-        </p>
-      </motion.div>
-    );
-  }
+  const motionProps = reducedMotion
+    ? { initial: false, animate: { opacity: 1, y: 0 } }
+    : { initial: { opacity: 0, y: 20 }, animate: { opacity: 1, y: 0 } };
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      className="text-center max-w-lg mx-auto"
-    >
-      <h1 className="text-3xl font-bold mb-2">Welcome to OtakuQuiz!</h1>
-      <p className="text-white/60 mb-8">How old are you?</p>
+    <motion.div {...motionProps} className="max-w-xl mx-auto text-center">
+      <h2 className="text-2xl sm:text-3xl font-bold text-text mb-3">
+        How old are you?
+      </h2>
+      <p className="text-text-muted mb-8 text-sm sm:text-base">
+        We use this to keep age-appropriate content and follow privacy rules.
+      </p>
 
-      <div className="grid grid-cols-4 sm:grid-cols-5 gap-3">
-        {AGE_OPTIONS.map((age) => (
+      <div
+        role="group"
+        aria-label="Select your age range"
+        className="flex flex-col sm:flex-row gap-3 sm:gap-4"
+      >
+        {AGE_RANGES.map(({ group, label, hint }) => (
           <button
-            key={age}
-            onClick={() => handleAgeSelect(age)}
-            className="min-h-[44px] min-w-[44px] px-3 py-3 rounded-xl bg-surface border border-white/10 text-white font-semibold hover:bg-primary hover:border-primary transition-colors"
+            key={group}
+            type="button"
+            aria-label={`${label} (${hint})`}
+            onClick={() => onAgeGroupSelected(group)}
+            className="flex-1 min-h-[44px] py-6 px-4 rounded-xl bg-surface border border-rule text-text text-lg font-semibold hover:bg-primary hover:border-primary hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-secondary transition-colors"
           >
-            {age}
+            {label}
           </button>
         ))}
-        <button
-          onClick={() => handleAgeSelect(25)}
-          className="min-h-[44px] min-w-[44px] px-3 py-3 rounded-xl bg-surface border border-white/10 text-white font-semibold hover:bg-primary hover:border-primary transition-colors"
-        >
-          25+
-        </button>
       </div>
+
+      <p className="text-text-muted text-sm mt-6">
+        If you&apos;re under 13, we&apos;ll need a parent&apos;s email next.
+      </p>
     </motion.div>
   );
 };
