@@ -74,6 +74,7 @@ typography:
     letterSpacing: 0.06em
 rounded:
   sharp: 2px
+  card: 12px
   pill: 9999px
 components:
   button-primary:
@@ -185,12 +186,13 @@ The Navbar's `backdrop-blur-lg + bg-secondary/80` glass treatment is the one exc
 
 ## Shapes
 
-The shape language is **sharp**. The two rounded tokens are intentionally extreme:
+The shape register has three values: two extremes and one mid-band. The default is **sharp** — soft corners are the exception, reached for only when a surface has a specific reason to read as a place to dwell rather than a thing to act on.
 
-- **rounded.sharp (2px):** Cards, buttons, inputs, modals — anything rectangular. Not zero, because absolute zero reads as "unfinished," but barely softened.
+- **rounded.sharp (2px):** Default for buttons, quiz answer tiles, navigation elements, inputs, label pills, table cells, modals, and any standard rectangular wrapper. Not zero, because absolute zero reads as "unfinished," but barely softened. Sharp corners reinforce the ink-and-paper aesthetic — pages that feel drawn rather than rendered.
+- **rounded.card (12px):** Reserved for elevated containers — achievement badge cards, emblem displays, prestige surfaces, and content cards that benefit from the softer container treatment. The threshold is semantic, not decorative: surfaces where the user is meant to **dwell and parse content** opt into `card`. Surfaces where the user **takes action** stay `sharp`. When in doubt, default to sharp.
 - **rounded.pill (9999px):** Avatar circles, status pills, score-bar caps, the Pro / age-tier chips. Reserved for tokens that semantically should be round-ended.
 
-There is no medium rounded value. The visual language alternates between sharp rectangles and full pills — not a smooth scale of softness. Mid-rounding (4–12px) would dilute both registers.
+The earlier two-token register (sharp + pill with a deliberate gap) was intentional but failed contact with implementation: the codebase organically picked a soft mid-band on dwelling surfaces, and the Phase 3 audit found 411 mid-rounded utility usages versus 2 sharp ones. The `card` token codifies that lesson — a third value with a strict semantic, not a smooth scale of softness. Nothing between `sharp` and `card` (3–11px), nothing between `card` and `pill` (13–9998px). Mid-rounding off these three values dilutes the register.
 
 ## Components
 
