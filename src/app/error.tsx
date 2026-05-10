@@ -1,7 +1,7 @@
 "use client";
 
 import { AlertTriangle } from "lucide-react";
-import Link from "next/link";
+import { Button } from "@/components/ui/Button";
 
 interface ErrorPageProps {
   error: Error & { digest?: string };
@@ -17,18 +17,10 @@ export default function ErrorPage({ error, reset }: ErrorPageProps) {
         {error.message || "An unexpected error occurred. Please try again."}
       </p>
       <div className="flex gap-3">
-        <button
-          onClick={reset}
-          className="px-6 py-3 rounded-xl bg-primary text-white font-bold hover:bg-primary/90 transition-colors"
-        >
-          Try Again
-        </button>
-        <Link
-          href="/"
-          className="px-6 py-3 rounded-xl bg-white/10 text-white font-bold hover:bg-white/20 transition-colors"
-        >
+        <Button onClick={reset}>Try Again</Button>
+        <Button href="/" variant="secondary">
           Go Home
-        </Link>
+        </Button>
       </div>
     </div>
   );

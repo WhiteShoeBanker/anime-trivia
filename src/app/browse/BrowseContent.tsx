@@ -7,6 +7,8 @@ import { Search, LogIn, X } from "lucide-react";
 import type { AnimeSeries } from "@/types";
 import { useAuth } from "@/contexts/AuthContext";
 import AnimeCard from "@/components/AnimeCard";
+import { Button } from "@/components/ui/Button";
+import { Card } from "@/components/ui/Card";
 
 interface BrowseContentProps {
   animeList: AnimeSeries[];
@@ -126,29 +128,32 @@ const BrowseContent = ({ animeList }: BrowseContentProps) => {
               initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.9, opacity: 0 }}
-              className="bg-surface border border-white/10 rounded-2xl p-6 max-w-sm w-full"
+              className="max-w-sm w-full"
               onClick={(e) => e.stopPropagation()}
             >
-              <div className="flex justify-between items-start mb-4">
-                <h3 className="text-lg font-bold">Sign In Required</h3>
-                <button
-                  onClick={() => setShowSignInPrompt(false)}
-                  className="text-white/40 hover:text-white/70 transition-colors"
+              <Card className="border border-white/10 p-6">
+                <div className="flex justify-between items-start mb-4">
+                  <h3 className="text-lg font-bold">Sign In Required</h3>
+                  <Button
+                    variant="icon"
+                    onClick={() => setShowSignInPrompt(false)}
+                    aria-label="Dismiss sign-in prompt"
+                  >
+                    <X size={20} />
+                  </Button>
+                </div>
+                <p className="text-white/60 text-sm mb-6">
+                  Sign in or create an account to access this anime quiz. Age
+                  verification helps us show you the right content.
+                </p>
+                <Button
+                  onClick={() => router.push("/auth")}
+                  className="w-full"
                 >
-                  <X size={20} />
-                </button>
-              </div>
-              <p className="text-white/60 text-sm mb-6">
-                Sign in or create an account to access this anime quiz. Age
-                verification helps us show you the right content.
-              </p>
-              <button
-                onClick={() => router.push("/auth")}
-                className="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-primary text-white font-semibold hover:bg-primary/90 transition-colors min-h-[44px]"
-              >
-                <LogIn size={18} />
-                Sign In / Sign Up
-              </button>
+                  <LogIn size={18} />
+                  Sign In / Sign Up
+                </Button>
+              </Card>
             </motion.div>
           </motion.div>
         )}

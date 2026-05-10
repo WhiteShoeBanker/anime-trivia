@@ -2,7 +2,6 @@
 
 import { useEffect, useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import Link from "next/link";
 import {
   Trophy,
   Crown,
@@ -29,6 +28,7 @@ import AnimeDiversityTracker from "@/components/AnimeDiversityTracker";
 import LeagueBanner from "@/components/LeagueBanners";
 import BadgeIcon from "@/components/BadgeIcon";
 import type { League, LeagueTier, LeagueResult, Badge } from "@/types";
+import { Button } from "@/components/ui/Button";
 
 // ── League Badge Icons ──────────────────────────────────────
 
@@ -282,12 +282,9 @@ const LeaguesPage = () => {
             })}
           </div>
 
-          <Link
-            href="/auth"
-            className="inline-block px-6 py-3 text-lg font-bold rounded-xl bg-primary text-white hover:bg-primary/90 transition-colors"
-          >
+          <Button href="/auth" className="text-lg">
             Sign Up to Compete
-          </Link>
+          </Button>
         </motion.div>
       </div>
     );
@@ -321,12 +318,7 @@ const LeaguesPage = () => {
             Complete your first quiz to join a league! You'll be placed in a
             Bronze group with 30 other players.
           </p>
-          <Link
-            href="/browse"
-            className="inline-block px-6 py-3 font-bold rounded-xl bg-primary text-white hover:bg-primary/90 transition-colors"
-          >
-            Start a Quiz
-          </Link>
+          <Button href="/browse">Start a Quiz</Button>
         </motion.div>
       </div>
     );

@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
+import { Button } from "@/components/ui/Button";
 
 interface ParentConsentFormProps {
   onConsent: (parentEmail: string) => void;
@@ -94,20 +95,20 @@ const ParentConsentForm = ({ onConsent, onCancel }: ParentConsentFormProps) => {
         </div>
 
         <div className="flex gap-3">
-          <button
-            type="button"
+          <Button
+            variant="secondary"
             onClick={onCancel}
-            className="flex-1 px-4 py-3 text-sm font-semibold rounded-xl bg-white/10 text-white hover:bg-white/20 transition-colors"
+            className="flex-1"
           >
             Back
-          </button>
-          <button
+          </Button>
+          <Button
             type="submit"
             disabled={!canSubmit}
-            className="flex-1 px-4 py-3 text-sm font-semibold rounded-xl bg-primary text-white hover:bg-primary/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            className="flex-1"
           >
             Continue
-          </button>
+          </Button>
         </div>
       </form>
     </motion.div>

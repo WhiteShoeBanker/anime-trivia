@@ -9,6 +9,7 @@ import { updateProfileAfterSignup } from "./actions";
 import AgeGate from "@/components/AgeGate";
 import ParentConsentForm from "@/components/ParentConsentForm";
 import type { AgeGroup } from "@/types";
+import { Button } from "@/components/ui/Button";
 
 type AuthStep = "age-gate" | "parent-consent" | "auth-form";
 type AuthMode = "sign-in" | "sign-up";
@@ -293,17 +294,16 @@ const AuthPageContent = () => {
             Junior accounts use email/password only for your safety. Please sign
             up with email instead.
           </p>
-          <button
+          <Button
             onClick={() => {
               setOauthJuniorBlocked(false);
               setAgeData(null);
               setStep("age-gate");
               setMode("sign-up");
             }}
-            className="px-6 py-3 rounded-xl bg-primary text-white font-semibold hover:bg-primary/90 transition-colors min-h-[44px]"
           >
             Sign Up with Email
-          </button>
+          </Button>
         </motion.div>
       </div>
     );
@@ -556,17 +556,17 @@ const AuthPageContent = () => {
             </div>
           )}
 
-          <button
+          <Button
             type="submit"
             disabled={isSubmitting}
-            className="w-full px-4 py-3 text-sm font-semibold rounded-xl bg-primary text-white hover:bg-primary/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed min-h-[44px]"
+            className="w-full"
           >
             {isSubmitting
               ? "Please wait..."
               : mode === "sign-in"
                 ? "Sign In"
                 : "Create Account"}
-          </button>
+          </Button>
         </form>
 
         {/* Phone OTP — hidden for junior */}
@@ -587,13 +587,13 @@ const AuthPageContent = () => {
                   placeholder="+1 234 567 8900"
                   className="flex-1 px-4 py-3 rounded-xl bg-surface border border-white/10 text-white placeholder:text-white/30 focus:outline-none focus:border-primary/50 transition-colors"
                 />
-                <button
+                <Button
+                  variant="secondary"
                   onClick={handlePhoneSendOtp}
                   disabled={isSubmitting}
-                  className="px-4 py-3 text-sm font-semibold rounded-xl bg-white/10 text-white hover:bg-white/20 transition-colors disabled:opacity-50 min-h-[44px]"
                 >
                   Send Code
-                </button>
+                </Button>
               </div>
             ) : (
               <form onSubmit={handlePhoneVerifyOtp} className="space-y-3">
@@ -611,23 +611,23 @@ const AuthPageContent = () => {
                   className="w-full px-4 py-3 rounded-xl bg-surface border border-white/10 text-white text-center text-2xl tracking-[0.5em] placeholder:text-white/30 focus:outline-none focus:border-primary/50 transition-colors font-mono"
                 />
                 <div className="flex gap-2">
-                  <button
-                    type="button"
+                  <Button
+                    variant="secondary"
                     onClick={handlePhoneSendOtp}
                     disabled={resendCooldown > 0 || isSubmitting}
-                    className="flex-1 px-4 py-3 text-sm font-semibold rounded-xl bg-white/10 text-white hover:bg-white/20 transition-colors disabled:opacity-50 min-h-[44px]"
+                    className="flex-1"
                   >
                     {resendCooldown > 0
                       ? `Resend (${resendCooldown}s)`
                       : "Resend Code"}
-                  </button>
-                  <button
+                  </Button>
+                  <Button
                     type="submit"
                     disabled={otpCode.length !== 6 || isSubmitting}
-                    className="flex-1 px-4 py-3 text-sm font-semibold rounded-xl bg-primary text-white hover:bg-primary/90 transition-colors disabled:opacity-50 min-h-[44px]"
+                    className="flex-1"
                   >
                     Verify
-                  </button>
+                  </Button>
                 </div>
               </form>
             )}

@@ -41,6 +41,7 @@ import type {
   FriendshipWithProfile,
   UserProfile,
 } from "@/types";
+import { Button } from "@/components/ui/Button";
 
 type Tab = "quick" | "friends" | "history";
 
@@ -477,12 +478,9 @@ const DuelsPage = () => {
                 <p className="text-sm text-white/50">
                   Searching for an opponent...
                 </p>
-                <button
-                  onClick={cancelSearch}
-                  className="px-6 py-2 text-sm font-medium rounded-xl bg-white/10 text-white/60 hover:bg-white/20 transition-colors"
-                >
+                <Button variant="secondary" onClick={cancelSearch}>
                   Cancel
-                </button>
+                </Button>
               </div>
             )}
 

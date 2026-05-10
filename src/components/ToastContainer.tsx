@@ -4,6 +4,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { X } from "lucide-react";
 import { useToastStore } from "@/stores/toastStore";
 import type { ToastType } from "@/stores/toastStore";
+import { Button } from "@/components/ui/Button";
 
 const TYPE_STYLES: Record<ToastType, string> = {
   success: "border-success bg-success/10 text-success",
@@ -31,13 +32,14 @@ const ToastContainer = () => {
             className={`pointer-events-auto flex items-center gap-3 px-4 py-3 rounded-xl border text-sm font-medium shadow-lg ${TYPE_STYLES[toast.type]}`}
           >
             <span className="flex-1">{toast.message}</span>
-            <button
+            <Button
+              variant="icon"
               onClick={() => removeToast(toast.id)}
-              className="flex-shrink-0 p-1 rounded-lg hover:bg-white/10 transition-colors"
               aria-label="Dismiss"
+              className="flex-shrink-0"
             >
               <X size={14} />
-            </button>
+            </Button>
           </motion.div>
         ))}
       </AnimatePresence>

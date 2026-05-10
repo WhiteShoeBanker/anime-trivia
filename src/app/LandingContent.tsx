@@ -29,6 +29,8 @@ import BadgeIcon from "@/components/BadgeIcon";
 import type { AnimeSeries, Badge } from "@/types";
 import useReducedMotion from "@/lib/use-reduced-motion";
 import { tierColors } from "@/themes";
+import { Button } from "@/components/ui/Button";
+import { Card } from "@/components/ui/Card";
 
 // ── Types ──────────────────────────────────────────────────────
 
@@ -325,18 +327,12 @@ const LandingContent = ({ topAnime, stats }: LandingContentProps) => {
             )}
 
             <div className="flex flex-col sm:flex-row gap-3 justify-center">
-              <Link
-                href="/browse"
-                className="px-8 py-4 text-lg font-bold rounded-xl bg-primary text-white hover:bg-primary/90 transition-colors"
-              >
+              <Button href="/browse" className="text-lg px-8 py-4">
                 Start Playing
-              </Link>
-              <Link
-                href="/profile"
-                className="px-8 py-4 text-lg font-bold rounded-xl bg-white/10 text-white hover:bg-white/20 transition-colors"
-              >
+              </Button>
+              <Button href="/profile" variant="secondary" className="text-lg px-8 py-4">
                 View Profile
-              </Link>
+              </Button>
             </div>
           </motion.div>
         ) : (
@@ -395,18 +391,12 @@ const LandingContent = ({ topAnime, stats }: LandingContentProps) => {
               transition={reducedMotion ? { duration: 0 } : { delay: 0.4 }}
               className="flex flex-col sm:flex-row gap-3 justify-center"
             >
-              <Link
-                href="/browse"
-                className="px-8 py-4 text-lg font-bold rounded-xl bg-primary text-white hover:bg-primary/90 transition-colors"
-              >
+              <Button href="/browse" className="text-lg px-8 py-4">
                 Start Playing
-              </Link>
-              <Link
-                href="/shop"
-                className="px-8 py-4 text-lg font-bold rounded-xl bg-white/10 text-white hover:bg-white/20 transition-colors"
-              >
+              </Button>
+              <Button href="/shop" variant="secondary" className="text-lg px-8 py-4">
                 Swag Shop
-              </Link>
+              </Button>
             </motion.div>
 
             <div className="mt-8 h-1 w-24 mx-auto rounded-full bg-accent" />
@@ -460,7 +450,7 @@ const LandingContent = ({ topAnime, stats }: LandingContentProps) => {
 
       {/* ── 1v1 DUELS ────────────────────────────────────── */}
       <section className="max-w-5xl mx-auto px-4 py-8">
-        <div className="bg-surface rounded-2xl border border-white/10 p-6 md:p-8 text-center">
+        <Card className="border border-white/10 p-6 md:p-8 text-center">
           <Swords size={40} className="mx-auto text-accent mb-4" />
           <h2 className="text-xl md:text-2xl font-bold mb-2">1v1 Duels</h2>
           <p className="text-sm text-white/50 max-w-md mx-auto mb-4">
@@ -473,7 +463,7 @@ const LandingContent = ({ topAnime, stats }: LandingContentProps) => {
           >
             Enter the Arena
           </Link>
-        </div>
+        </Card>
       </section>
 
       {/* ── LEAGUE PREVIEW ───────────────────────────────── */}
@@ -486,15 +476,15 @@ const LandingContent = ({ topAnime, stats }: LandingContentProps) => {
         </p>
         <div className="grid grid-cols-3 md:grid-cols-6 gap-3">
           {LEAGUE_TIERS.map((tier) => (
-            <div
+            <Card
               key={tier.name}
-              className="bg-surface rounded-xl border border-white/10 p-4 text-center"
+              className="border border-white/10 p-4 text-center"
             >
               <span className="text-2xl mb-2 block">{tier.icon}</span>
               <p className="text-xs font-bold" style={{ color: tier.color }}>
                 {tier.name}
               </p>
-            </div>
+            </Card>
           ))}
         </div>
         <div className="text-center mt-6">
@@ -539,7 +529,7 @@ const LandingContent = ({ topAnime, stats }: LandingContentProps) => {
 
       {/* ── GRAND PRIX ───────────────────────────────────── */}
       <section className="max-w-5xl mx-auto px-4 py-8">
-        <div className="bg-surface rounded-2xl border border-white/10 p-6 md:p-8 text-center">
+        <Card className="border border-white/10 p-6 md:p-8 text-center">
           <Trophy size={40} className="mx-auto text-yellow-400 mb-4" />
           <h2 className="text-xl md:text-2xl font-bold mb-2">Grand Prix</h2>
           <p className="text-sm text-white/50 max-w-md mx-auto mb-4">
@@ -552,7 +542,7 @@ const LandingContent = ({ topAnime, stats }: LandingContentProps) => {
           >
             View Grand Prix
           </Link>
-        </div>
+        </Card>
       </section>
 
       {/* ── STATS COUNTERS ───────────────────────────────── */}
@@ -595,14 +585,14 @@ const LandingContent = ({ topAnime, stats }: LandingContentProps) => {
                 "Earn XP, climb from Genin to Hokage, and unlock badges along the way.",
             },
           ].map((step) => (
-            <div
+            <Card
               key={step.title}
-              className="bg-surface rounded-2xl border border-white/10 p-6 text-center"
+              className="border border-white/10 p-6 text-center"
             >
               <step.icon size={32} className="mx-auto text-primary mb-4" />
               <h3 className="text-lg font-semibold mb-2">{step.title}</h3>
               <p className="text-sm text-white/50">{step.description}</p>
-            </div>
+            </Card>
           ))}
         </div>
       </section>
@@ -627,15 +617,15 @@ const LandingContent = ({ topAnime, stats }: LandingContentProps) => {
         </p>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {PRIVACY_POINTS.map((point) => (
-            <div
+            <Card
               key={point.text}
-              className="bg-surface rounded-2xl border border-white/10 p-6 flex flex-col items-center text-center"
+              className="border border-white/10 p-6 flex flex-col items-center text-center"
             >
               <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mb-4">
                 <point.icon size={24} className="text-primary" />
               </div>
               <p className="font-medium text-white/80">{point.text}</p>
-            </div>
+            </Card>
           ))}
         </div>
         <p className="text-center mt-6">
@@ -656,12 +646,9 @@ const LandingContent = ({ topAnime, stats }: LandingContentProps) => {
         <p className="text-white/50 mb-8">
           Free to play. 10 quizzes per day. Upgrade to Pro for unlimited.
         </p>
-        <Link
-          href="/browse"
-          className="inline-block px-8 py-4 text-lg font-bold rounded-xl bg-primary text-white hover:bg-primary/90 transition-colors"
-        >
+        <Button href="/browse" className="text-lg px-8 py-4">
           Browse Anime & Start
-        </Link>
+        </Button>
       </section>
     </div>
   );
