@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState, useRef } from "react";
-import Link from "next/link";
 import { motion } from "framer-motion";
 import { Calendar, Zap, Trophy, Clock, CheckCircle } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
@@ -12,6 +11,7 @@ import ProgressBar from "@/components/ProgressBar";
 import ScoreDisplay from "@/components/ScoreDisplay";
 import BadgeIcon from "@/components/BadgeIcon";
 import { calculateMaxScore } from "@/lib/scoring";
+import { Button } from "@/components/ui/Button";
 
 const TIME_LIMITS: Record<string, number> = {
   easy: 30,
@@ -154,12 +154,7 @@ const DailyContent = () => {
         <p className="text-white/50 mb-6">
           Sign in to play today&apos;s daily challenge and earn 1.5x XP!
         </p>
-        <Link
-          href="/auth"
-          className="inline-block px-6 py-3 rounded-xl bg-primary text-white font-bold hover:bg-primary/90 transition-colors"
-        >
-          Sign In to Play
-        </Link>
+        <Button href="/auth">Sign In to Play</Button>
       </div>
     );
   }
@@ -177,12 +172,9 @@ const DailyContent = () => {
           <Clock size={14} />
           <span>Next challenge in {getCountdown()}</span>
         </div>
-        <Link
-          href="/browse"
-          className="inline-block px-6 py-3 rounded-xl bg-white/10 text-white font-bold hover:bg-white/20 transition-colors"
-        >
+        <Button href="/browse" variant="secondary">
           Browse More Quizzes
-        </Link>
+        </Button>
       </div>
     );
   }
@@ -214,20 +206,20 @@ const DailyContent = () => {
             <p>Easy, medium & hard mixed together</p>
           </div>
 
-          <button
+          <Button
             onClick={() => startDailyChallenge(ageGroup)}
             disabled={status === "loading"}
-            className="px-8 py-4 rounded-xl bg-primary text-white font-bold text-lg hover:bg-primary/90 transition-colors disabled:opacity-50"
+            className="text-lg px-8 py-4"
           >
             {status === "loading" ? (
-              <span className="flex items-center gap-2">
+              <>
                 <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
                 Loading...
-              </span>
+              </>
             ) : (
               "Start Challenge"
             )}
-          </button>
+          </Button>
         </motion.div>
       </div>
     );
@@ -330,18 +322,10 @@ const DailyContent = () => {
           </div>
 
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
-            <Link
-              href="/browse"
-              className="px-6 py-3 rounded-xl bg-primary text-white font-bold hover:bg-primary/90 transition-colors"
-            >
-              Browse More Quizzes
-            </Link>
-            <Link
-              href="/profile"
-              className="px-6 py-3 rounded-xl bg-white/10 text-white font-bold hover:bg-white/20 transition-colors"
-            >
+            <Button href="/browse">Browse More Quizzes</Button>
+            <Button href="/profile" variant="secondary">
               View Profile
-            </Link>
+            </Button>
           </div>
         </motion.div>
       </div>

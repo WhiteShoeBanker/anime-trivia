@@ -17,6 +17,8 @@ import {
 import BadgeCelebration from "@/components/BadgeCelebration";
 import type { DuelMatch, Badge } from "@/types";
 import useReducedMotion from "@/lib/use-reduced-motion";
+import { Button } from "@/components/ui/Button";
+import { Card } from "@/components/ui/Card";
 
 interface DuelAnswer {
   questionId: string;
@@ -133,8 +135,8 @@ const DuelResults = ({
           initial={reducedMotion ? false : { opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={reducedMotion ? { duration: 0 } : { delay: 0.3 }}
-          className="bg-surface rounded-2xl border border-white/10 p-5"
         >
+          <Card className="border border-white/10 p-5">
           <div className="flex items-center justify-between mb-4">
             <div className="flex flex-col items-center flex-1">
               <div className="w-12 h-12 rounded-full bg-primary/20 flex items-center justify-center text-lg font-bold text-primary mb-1">
@@ -199,6 +201,7 @@ const DuelResults = ({
               {theirTimeMs ? formatTime(theirTimeMs) : "-"}
             </div>
           </div>
+          </Card>
         </motion.div>
 
         {/* XP breakdown */}
@@ -206,13 +209,14 @@ const DuelResults = ({
           initial={reducedMotion ? false : { opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={reducedMotion ? { duration: 0 } : { delay: 0.4 }}
-          className="bg-surface rounded-2xl border border-white/10 p-4 flex items-center justify-between"
         >
-          <div className="flex items-center gap-2">
-            <Zap size={18} className="text-primary" />
-            <span className="text-sm font-semibold">XP Earned</span>
-          </div>
-          <span className="text-lg font-bold text-primary">+{xpEarned}</span>
+          <Card className="border border-white/10 p-4 flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <Zap size={18} className="text-primary" />
+              <span className="text-sm font-semibold">XP Earned</span>
+            </div>
+            <span className="text-lg font-bold text-primary">+{xpEarned}</span>
+          </Card>
         </motion.div>
 
         {/* Question accordion */}
@@ -318,27 +322,26 @@ const DuelResults = ({
           transition={reducedMotion ? { duration: 0 } : { delay: 0.6 }}
           className="flex flex-col gap-3 pt-2"
         >
-          <button
-            onClick={onRematch}
-            className="w-full px-4 py-3 text-sm font-bold rounded-xl bg-primary text-white hover:bg-primary/90 transition-colors flex items-center justify-center gap-2"
-          >
+          <Button onClick={onRematch} className="w-full">
             <RotateCcw size={16} />
             Rematch
-          </button>
-          <button
+          </Button>
+          <Button
+            variant="outline"
             onClick={onNewChallenge}
-            className="w-full px-4 py-3 text-sm font-bold rounded-xl border border-primary/30 text-primary hover:bg-primary/10 transition-colors flex items-center justify-center gap-2"
+            className="w-full border-primary/30 text-primary hover:bg-primary/10"
           >
             <Swords size={16} />
             New Challenge
-          </button>
-          <button
+          </Button>
+          <Button
+            variant="tertiary"
             onClick={onBack}
-            className="w-full px-4 py-3 text-sm font-medium rounded-xl text-white/50 hover:text-white/70 hover:bg-white/5 transition-colors flex items-center justify-center gap-2"
+            className="w-full text-white/50 hover:text-white/70 hover:bg-white/5"
           >
             <ArrowLeft size={16} />
             Back to Duels
-          </button>
+          </Button>
         </motion.div>
       </div>
     </>

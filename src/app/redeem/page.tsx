@@ -7,6 +7,7 @@ import { Gift, Sparkles, AlertCircle, ArrowLeft } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { redeemPromoCode } from "@/lib/promo-codes";
 import type { PromoCodeType } from "@/types";
+import { Button } from "@/components/ui/Button";
 
 const TYPE_LABELS: Record<PromoCodeType, string> = {
   pro_monthly: "1 Month of Pro",
@@ -65,12 +66,7 @@ const RedeemPage = () => {
         <p className="text-white/50 mb-6">
           Sign in to redeem your promo code.
         </p>
-        <Link
-          href="/auth"
-          className="inline-block px-6 py-3 font-bold rounded-xl bg-primary text-white hover:bg-primary/90 transition-colors"
-        >
-          Sign In
-        </Link>
+        <Button href="/auth">Sign In</Button>
       </div>
     );
   }
@@ -146,12 +142,9 @@ const RedeemPage = () => {
               <p className="text-sm text-white/40">Never expires</p>
             )}
 
-            <Link
-              href="/profile"
-              className="inline-block mt-6 px-6 py-3 font-bold rounded-xl bg-primary text-white hover:bg-primary/90 transition-colors"
-            >
-              Go to Profile
-            </Link>
+            <div className="mt-6">
+              <Button href="/profile">Go to Profile</Button>
+            </div>
           </motion.div>
         ) : (
           <motion.form
@@ -196,20 +189,20 @@ const RedeemPage = () => {
               </motion.div>
             )}
 
-            <button
+            <Button
               type="submit"
               disabled={state === "submitting" || !code.trim()}
-              className="w-full py-3 rounded-xl bg-primary text-white font-bold text-lg hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+              className="w-full"
             >
               {state === "submitting" ? (
-                <span className="flex items-center justify-center gap-2">
+                <>
                   <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
                   Redeeming...
-                </span>
+                </>
               ) : (
                 "Redeem Code"
               )}
-            </button>
+            </Button>
           </motion.form>
         )}
       </AnimatePresence>

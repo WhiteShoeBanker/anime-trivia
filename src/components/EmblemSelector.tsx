@@ -6,6 +6,7 @@ import { X, Check } from "lucide-react";
 import BadgeIcon from "@/components/BadgeIcon";
 import { setEmblem } from "@/lib/badges";
 import type { Badge } from "@/types";
+import { Button } from "@/components/ui/Button";
 
 interface EmblemSelectorProps {
   isOpen: boolean;
@@ -65,12 +66,13 @@ const EmblemSelector = ({
             {/* Header */}
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-lg font-bold">Choose Emblem</h2>
-              <button
+              <Button
+                variant="icon"
                 onClick={onClose}
-                className="p-2 rounded-full hover:bg-white/10 transition-colors"
+                aria-label="Close emblem selector"
               >
                 <X size={18} />
-              </button>
+              </Button>
             </div>
 
             {/* Preview */}
@@ -148,21 +150,21 @@ const EmblemSelector = ({
             {/* Actions */}
             <div className="flex gap-2 mt-4 pt-3 border-t border-white/10">
               {currentEmblemId && (
-                <button
+                <Button
+                  variant="secondary"
                   onClick={handleRemove}
                   disabled={saving}
-                  className="px-4 py-2.5 text-sm font-medium rounded-xl bg-white/10 text-white/60 hover:bg-white/20 transition-colors disabled:opacity-50"
                 >
                   Remove
-                </button>
+                </Button>
               )}
-              <button
+              <Button
                 onClick={handleSave}
                 disabled={saving || selectedId === currentEmblemId}
-                className="flex-1 px-4 py-2.5 text-sm font-bold rounded-xl bg-primary text-white hover:bg-primary/90 transition-colors disabled:opacity-50"
+                className="flex-1"
               >
                 {saving ? "Saving..." : "Save Emblem"}
-              </button>
+              </Button>
             </div>
           </motion.div>
         </motion.div>

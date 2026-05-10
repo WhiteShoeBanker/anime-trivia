@@ -2,7 +2,6 @@
 
 import { useEffect, useState, useMemo } from "react";
 import { motion } from "framer-motion";
-import Link from "next/link";
 import { Award, Filter } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { getAllBadges, getUserBadges } from "@/lib/badges";
@@ -10,6 +9,7 @@ import BadgeCard from "@/components/BadgeCard";
 import BadgeGrid from "@/components/BadgeGrid";
 import EmblemSelector from "@/components/EmblemSelector";
 import type { Badge, BadgeCategory } from "@/types";
+import { Button } from "@/components/ui/Button";
 
 type TabFilter = "all" | "earned" | "locked";
 
@@ -101,12 +101,7 @@ const BadgesPage = () => {
         <p className="text-white/50 max-w-md mx-auto mb-6">
           Earn badges by completing quizzes, building streaks, and climbing leagues!
         </p>
-        <Link
-          href="/auth"
-          className="inline-block px-6 py-3 font-bold rounded-xl bg-primary text-white hover:bg-primary/90 transition-colors"
-        >
-          Sign In to Start Earning
-        </Link>
+        <Button href="/auth">Sign In to Start Earning</Button>
       </div>
     );
   }
@@ -135,12 +130,13 @@ const BadgesPage = () => {
             {earnedIds.size} of {allBadges.length} earned
           </p>
         </div>
-        <button
+        <Button
+          variant="tertiary"
           onClick={() => setEmblemOpen(true)}
-          className="px-4 py-2 text-sm font-semibold rounded-xl bg-primary/20 text-primary hover:bg-primary/30 transition-colors"
+          className="bg-primary/20 hover:bg-primary/30 active:bg-primary/40"
         >
           Change Emblem
-        </button>
+        </Button>
       </motion.div>
 
       {/* Tabs */}
@@ -260,12 +256,13 @@ const BadgesPage = () => {
               earned={earnedIds.has(selectedBadge.id)}
               selected
             />
-            <button
+            <Button
+              variant="secondary"
               onClick={() => setSelectedBadge(null)}
-              className="w-full mt-2 px-4 py-2.5 text-sm font-medium rounded-xl bg-white/10 text-white/60 hover:bg-white/20 transition-colors"
+              className="w-full mt-2"
             >
               Close
-            </button>
+            </Button>
           </motion.div>
         </motion.div>
       )}

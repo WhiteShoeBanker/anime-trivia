@@ -2,12 +2,13 @@
 
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import Link from "next/link";
 import { BarChart3, Target, Zap, Clock, Lock, TrendingUp, CheckCircle2 } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { createClient } from "@/lib/supabase/client";
 import { fetchPerAnimeStats, fetchRecentQuizzes } from "./actions";
 import type { PerAnimeStat, RecentQuiz } from "@/types";
+import { Button } from "@/components/ui/Button";
+import { Card } from "@/components/ui/Card";
 
 interface UserStats {
   totalQuizzes: number;
@@ -185,15 +186,16 @@ const StatsPage = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: i * 0.05 }}
-            className="bg-surface rounded-2xl border border-white/10 p-4 text-center"
           >
-            <stat.icon size={20} className="mx-auto text-primary mb-2" />
-            {loading ? (
-              <div className="w-10 h-7 mx-auto bg-white/5 rounded animate-pulse mb-1" />
-            ) : (
-              <p className="text-2xl font-bold mb-1">{stat.value}</p>
-            )}
-            <p className="text-xs text-white/40">{stat.label}</p>
+            <Card className="border border-white/10 p-4 text-center">
+              <stat.icon size={20} className="mx-auto text-primary mb-2" />
+              {loading ? (
+                <div className="w-10 h-7 mx-auto bg-white/5 rounded animate-pulse mb-1" />
+              ) : (
+                <p className="text-2xl font-bold mb-1">{stat.value}</p>
+              )}
+              <p className="text-xs text-white/40">{stat.label}</p>
+            </Card>
           </motion.div>
         ))}
       </div>
@@ -204,17 +206,14 @@ const StatsPage = () => {
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
-          className="bg-surface rounded-2xl border border-white/10 p-6 text-center mb-8"
+          className="mb-8"
         >
-          <p className="text-white/60 mb-3">
-            Sign in to start tracking your quiz performance.
-          </p>
-          <Link
-            href="/auth"
-            className="inline-block px-6 py-3 rounded-xl bg-primary text-white font-semibold hover:bg-primary/90 transition-colors"
-          >
-            Sign In
-          </Link>
+          <Card className="border border-white/10 p-6 text-center">
+            <p className="text-white/60 mb-3">
+              Sign in to start tracking your quiz performance.
+            </p>
+            <Button href="/auth">Sign In</Button>
+          </Card>
         </motion.div>
       )}
 
@@ -306,12 +305,7 @@ const StatsPage = () => {
               <p className="text-white/60 mb-4">
                 Play your first quiz to see your per-anime breakdown here.
               </p>
-              <Link
-                href="/browse"
-                className="inline-block px-6 py-3 rounded-xl bg-primary text-white font-semibold hover:bg-primary/90 transition-colors"
-              >
-                Browse anime quizzes
-              </Link>
+              <Button href="/browse">Browse anime quizzes</Button>
             </div>
           )}
 

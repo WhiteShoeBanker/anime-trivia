@@ -6,6 +6,7 @@ import { X, Swords } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import type { AnimeSeries, DuelDifficulty } from "@/types";
 import useReducedMotion from "@/lib/use-reduced-motion";
+import { Button } from "@/components/ui/Button";
 
 interface ChallengeModalProps {
   isOpen: boolean;
@@ -112,12 +113,13 @@ const ChallengeModal = ({
                 <Swords size={18} className="text-primary" />
                 <h2 className="text-lg font-bold">Challenge {opponentName}</h2>
               </div>
-              <button
+              <Button
+                variant="icon"
                 onClick={onClose}
-                className="p-2 rounded-full hover:bg-white/10 transition-colors"
+                aria-label="Close challenge"
               >
                 <X size={18} />
-              </button>
+              </Button>
             </div>
 
             <div className="flex-1 overflow-y-auto space-y-5">
@@ -199,14 +201,14 @@ const ChallengeModal = ({
             </div>
 
             {/* Send button */}
-            <button
+            <Button
               onClick={handleSend}
               disabled={sending}
-              className="mt-4 w-full px-4 py-3 text-sm font-bold rounded-xl bg-primary text-white hover:bg-primary/90 transition-colors disabled:opacity-50 flex items-center justify-center gap-2"
+              className="mt-4 w-full"
             >
               <Swords size={16} />
               {sending ? "Sending..." : "Send Challenge"}
-            </button>
+            </Button>
           </motion.div>
         </motion.div>
       )}

@@ -14,6 +14,8 @@ import BadgeGrid from "@/components/BadgeGrid";
 import MonthlyEmblem from "@/components/MonthlyEmblem";
 import EmblemSelector from "@/components/EmblemSelector";
 import type { Badge, UserEmblemWithDetails, DuelStats } from "@/types";
+import { Button } from "@/components/ui/Button";
+import { Card } from "@/components/ui/Card";
 
 const ProfilePage = () => {
   const { user, profile, isLoading, refreshProfile } = useAuth();
@@ -77,12 +79,7 @@ const ProfilePage = () => {
         <p className="text-white/50 max-w-md mx-auto mb-6">
           Sign in to track your progress, earn badges, and customize your profile.
         </p>
-        <Link
-          href="/auth"
-          className="inline-block px-6 py-3 font-bold rounded-xl bg-primary text-white hover:bg-primary/90 transition-colors"
-        >
-          Sign In
-        </Link>
+        <Button href="/auth">Sign In</Button>
       </div>
     );
   }
@@ -134,26 +131,26 @@ const ProfilePage = () => {
         transition={{ delay: 0.1 }}
         className="grid grid-cols-2 sm:grid-cols-4 gap-3"
       >
-        <div className="bg-surface rounded-2xl border border-white/10 p-4 text-center">
+        <Card className="border border-white/10 p-4 text-center">
           <Zap size={20} className="mx-auto text-primary mb-1" />
           <p className="text-lg font-bold">{profile.total_xp.toLocaleString()}</p>
           <p className="text-xs text-white/40">Total XP</p>
-        </div>
-        <div className="bg-surface rounded-2xl border border-white/10 p-4 text-center">
+        </Card>
+        <Card className="border border-white/10 p-4 text-center">
           <Trophy size={20} className="mx-auto text-yellow-400 mb-1" />
           <p className="text-lg font-bold">{rankInfo.name}</p>
           <p className="text-xs text-white/40">Rank</p>
-        </div>
-        <div className="bg-surface rounded-2xl border border-white/10 p-4 text-center">
+        </Card>
+        <Card className="border border-white/10 p-4 text-center">
           <Calendar size={20} className="mx-auto text-emerald-400 mb-1" />
           <p className="text-lg font-bold">{profile.current_streak}</p>
           <p className="text-xs text-white/40">Day Streak</p>
-        </div>
-        <div className="bg-surface rounded-2xl border border-white/10 p-4 text-center">
+        </Card>
+        <Card className="border border-white/10 p-4 text-center">
           <Award size={20} className="mx-auto text-purple-400 mb-1" />
           <p className="text-lg font-bold">{earnedBadges.length}</p>
           <p className="text-xs text-white/40">Badges</p>
-        </div>
+        </Card>
       </motion.div>
 
       {/* Rank progress bar */}
@@ -161,24 +158,25 @@ const ProfilePage = () => {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.15 }}
-        className="bg-surface rounded-2xl border border-white/10 p-4"
       >
-        <div className="flex items-center justify-between mb-2">
-          <span className="text-sm font-semibold">{rankInfo.name}</span>
-          {rankInfo.nextRankXP && (
-            <span className="text-xs text-white/40">
-              {profile.total_xp.toLocaleString()} / {rankInfo.nextRankXP.toLocaleString()} XP
-            </span>
-          )}
-        </div>
-        <div className="h-2 bg-white/10 rounded-full overflow-hidden">
-          <motion.div
-            className="h-full bg-primary rounded-full"
-            initial={{ width: 0 }}
-            animate={{ width: `${rankInfo.progress}%` }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
-          />
-        </div>
+        <Card className="border border-white/10 p-4">
+          <div className="flex items-center justify-between mb-2">
+            <span className="text-sm font-semibold">{rankInfo.name}</span>
+            {rankInfo.nextRankXP && (
+              <span className="text-xs text-white/40">
+                {profile.total_xp.toLocaleString()} / {rankInfo.nextRankXP.toLocaleString()} XP
+              </span>
+            )}
+          </div>
+          <div className="h-2 bg-white/10 rounded-full overflow-hidden">
+            <motion.div
+              className="h-full bg-primary rounded-full"
+              initial={{ width: 0 }}
+              animate={{ width: `${rankInfo.progress}%` }}
+              transition={{ duration: 0.8, ease: "easeOut" }}
+            />
+          </div>
+        </Card>
       </motion.div>
 
       {/* Emblem section */}
@@ -186,40 +184,42 @@ const ProfilePage = () => {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.2 }}
-        className="bg-surface rounded-2xl border border-white/10 p-4"
       >
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            {emblem ? (
-              <BadgeIcon
-                iconName={emblem.icon_name}
-                iconColor={emblem.icon_color}
-                rarity={emblem.rarity}
-                size="md"
-                earned
-                shimmer
-              />
-            ) : (
-              <div className="w-12 h-12 rounded-xl border-2 border-dashed border-white/20 flex items-center justify-center">
-                <Award size={20} className="text-white/20" />
+        <Card className="border border-white/10 p-4">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              {emblem ? (
+                <BadgeIcon
+                  iconName={emblem.icon_name}
+                  iconColor={emblem.icon_color}
+                  rarity={emblem.rarity}
+                  size="md"
+                  earned
+                  shimmer
+                />
+              ) : (
+                <div className="w-12 h-12 rounded-xl border-2 border-dashed border-white/20 flex items-center justify-center">
+                  <Award size={20} className="text-white/20" />
+                </div>
+              )}
+              <div>
+                <p className="text-sm font-semibold">
+                  {emblem ? emblem.name : "No Emblem"}
+                </p>
+                <p className="text-xs text-white/40">
+                  {emblem ? "Your profile emblem" : "Choose a badge to display"}
+                </p>
               </div>
-            )}
-            <div>
-              <p className="text-sm font-semibold">
-                {emblem ? emblem.name : "No Emblem"}
-              </p>
-              <p className="text-xs text-white/40">
-                {emblem ? "Your profile emblem" : "Choose a badge to display"}
-              </p>
             </div>
+            <Button
+              variant="tertiary"
+              onClick={() => setEmblemOpen(true)}
+              className="bg-primary/20 hover:bg-primary/30 active:bg-primary/40 px-3 py-1.5 min-h-0 text-xs"
+            >
+              {emblem ? "Change" : "Choose"}
+            </Button>
           </div>
-          <button
-            onClick={() => setEmblemOpen(true)}
-            className="px-3 py-1.5 text-xs font-semibold rounded-lg bg-primary/20 text-primary hover:bg-primary/30 transition-colors"
-          >
-            {emblem ? "Change" : "Choose"}
-          </button>
-        </div>
+        </Card>
       </motion.div>
 
       {/* Grand Prix Trophy Case */}
@@ -272,7 +272,7 @@ const ProfilePage = () => {
               <ChevronRight size={14} />
             </Link>
           </div>
-          <div className="bg-surface rounded-2xl border border-white/10 p-4">
+          <Card className="border border-white/10 p-4">
             <div className="grid grid-cols-4 gap-3 text-center">
               <div>
                 <p className="text-lg font-bold text-success">{duelStats.wins}</p>
@@ -309,7 +309,7 @@ const ProfilePage = () => {
                 )}
               </div>
             )}
-          </div>
+          </Card>
         </motion.div>
       )}
 

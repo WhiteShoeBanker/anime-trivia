@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Swords, X as XIcon } from "lucide-react";
 import type { DuelMatch } from "@/types";
 import useReducedMotion from "@/lib/use-reduced-motion";
+import { Button } from "@/components/ui/Button";
 
 interface DuelNotificationProps {
   duel: DuelMatch;
@@ -33,14 +34,16 @@ const DuelNotification = ({
         transition={reducedMotion ? { duration: 0 } : { type: "spring", damping: 20 }}
         className="fixed bottom-4 left-4 right-4 z-[80] max-w-md mx-auto"
       >
-        <div className="bg-surface border border-accent/30 rounded-2xl shadow-2xl shadow-accent/10 p-4">
+        <div className="relative bg-surface border border-accent/30 rounded-card shadow-2xl shadow-accent/10 p-4">
           {/* Dismiss button */}
-          <button
+          <Button
+            variant="icon"
             onClick={onDismiss}
-            className="absolute top-2 right-2 p-1.5 rounded-full hover:bg-white/10 transition-colors"
+            aria-label="Dismiss notification"
+            className="absolute top-2 right-2"
           >
             <XIcon size={14} className="text-white/40" />
-          </button>
+          </Button>
 
           <div className="flex items-start gap-3">
             <div className="w-10 h-10 rounded-full bg-accent/20 flex items-center justify-center flex-shrink-0">
@@ -55,18 +58,20 @@ const DuelNotification = ({
               </p>
 
               <div className="flex items-center gap-2 mt-3">
-                <button
+                <Button
+                  variant="tertiary"
                   onClick={onAccept}
-                  className="flex-1 px-3 py-2 text-xs font-bold rounded-lg bg-success/20 text-success hover:bg-success/30 transition-colors"
+                  className="flex-1 bg-success/20 text-success hover:bg-success/30 active:bg-success/40 px-3 py-2 min-h-0 text-xs"
                 >
                   Accept
-                </button>
-                <button
+                </Button>
+                <Button
+                  variant="secondary"
                   onClick={onDecline}
-                  className="flex-1 px-3 py-2 text-xs font-bold rounded-lg bg-white/10 text-white/50 hover:bg-white/20 transition-colors"
+                  className="flex-1 px-3 py-2 min-h-0 text-xs"
                 >
                   Decline
-                </button>
+                </Button>
               </div>
             </div>
           </div>

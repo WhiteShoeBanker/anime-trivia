@@ -1,8 +1,8 @@
 "use client";
 
-import Link from "next/link";
 import { Ghost } from "lucide-react";
 import { motion } from "framer-motion";
+import { Button } from "@/components/ui/Button";
 
 export default function NotFound() {
   return (
@@ -47,12 +47,7 @@ export default function NotFound() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.5 }}
       >
-        <Link
-          href="/browse"
-          className="px-6 py-3 rounded-xl bg-primary text-white font-bold hover:bg-primary/90 transition-colors"
-        >
-          Browse Quizzes
-        </Link>
+        <Button href="/browse">Browse Quizzes</Button>
       </motion.div>
     </div>
   );
