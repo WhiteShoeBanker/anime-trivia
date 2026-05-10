@@ -96,6 +96,14 @@ export interface PerAnimeStat {
   accuracy_pct: number;
 }
 
+export interface RecentQuiz {
+  session_id: string;
+  anime_title: string;
+  anime_slug: string;
+  completed_at: string;
+  accuracy_pct: number;
+}
+
 export interface UserAnswer {
   id: string;
   session_id: string;

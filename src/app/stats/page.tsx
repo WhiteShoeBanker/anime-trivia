@@ -6,8 +6,8 @@ import Link from "next/link";
 import { BarChart3, Target, Zap, Clock, Lock, TrendingUp, CheckCircle2 } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { createClient } from "@/lib/supabase/client";
-import { fetchPerAnimeStats } from "./actions";
-import type { PerAnimeStat } from "@/types";
+import { fetchPerAnimeStats, fetchRecentQuizzes } from "./actions";
+import type { PerAnimeStat, RecentQuiz } from "@/types";
 
 interface UserStats {
   totalQuizzes: number;
@@ -54,6 +54,7 @@ const StatsPage = () => {
   const [perAnimeStats, setPerAnimeStats] = useState<PerAnimeStat[] | null>(
     null
   );
+  const [recentQuizzes, setRecentQuizzes] = useState<RecentQuiz[] | null>(null);
   const isPro = profile?.subscription_tier === "pro";
 
   useEffect(() => {
@@ -115,22 +116,22 @@ const StatsPage = () => {
     fetchStats();
   }, [user, profile?.longest_streak]);
 
-  // Per-anime breakdown — Pro-gated, fetched only for Pro users so non-Pro
-  // visits don't pay the round-trip for data they won't see. When !isPro the
-  // non-Pro teaser path renders without consulting perAnimeStats, so leaving
-  // the state at its previous value (or initial null) is fine — no reset
-  // setState needed (also avoids the react-hooks/set-state-in-effect lint).
+  // Per-anime breakdown + recent-quizzes trend — both Pro-gated, fetched in
+  // parallel so the chart and list arrive together. Non-Pro paths render the
+  // teaser without consulting either state; bare-return on !user || !isPro
+  // avoids the react-hooks/set-state-in-effect lint.
   useEffect(() => {
     if (!user || !isPro) return;
 
     let cancelled = false;
-    fetchPerAnimeStats(user.id)
-      .then((rows) => {
-        if (!cancelled) setPerAnimeStats(rows);
-      })
-      .catch(() => {
-        if (!cancelled) setPerAnimeStats([]);
-      });
+    Promise.all([
+      fetchPerAnimeStats(user.id).catch(() => [] as PerAnimeStat[]),
+      fetchRecentQuizzes(user.id).catch(() => [] as RecentQuiz[]),
+    ]).then(([perAnime, recent]) => {
+      if (cancelled) return;
+      setPerAnimeStats(perAnime);
+      setRecentQuizzes(recent);
+    });
 
     return () => {
       cancelled = true;
@@ -251,25 +252,51 @@ const StatsPage = () => {
 
           {/* Pro user, real per-anime breakdown */}
           {isPro && perAnimeStats !== null && perAnimeStats.length > 0 && (
-            <div className="space-y-2">
-              {perAnimeStats.map((stat) => (
-                <div
-                  key={stat.anime_id}
-                  className="bg-white/5 rounded-lg p-3 flex items-center justify-between gap-3"
-                >
-                  <span className="text-sm truncate">{stat.anime_title}</span>
-                  <div className="flex items-center gap-3 flex-shrink-0">
-                    <span className="text-xs text-white/40">
-                      {stat.quiz_count}
-                      {" "}
-                      {stat.quiz_count === 1 ? "quiz" : "quizzes"}
-                    </span>
-                    <span className="text-sm text-success font-semibold tabular-nums">
-                      {stat.accuracy_pct}%
-                    </span>
+            <div className="space-y-4">
+              {/* Recent-quizzes accuracy trend. recentQuizzes is newest-first
+                  from the DB; reverse for display so left = oldest, right =
+                  newest (natural time progression). Reuses the bar styling
+                  from the non-Pro teaser. */}
+              {recentQuizzes !== null && recentQuizzes.length > 0 && (
+                <div>
+                  <p className="text-xs text-white/40 mb-2">
+                    Last {recentQuizzes.length}{" "}
+                    {recentQuizzes.length === 1 ? "quiz" : "quizzes"} — accuracy
+                    trend
+                  </p>
+                  <div className="bg-white/5 rounded-xl p-4 h-40 flex items-end gap-1">
+                    {[...recentQuizzes].reverse().map((q) => (
+                      <div
+                        key={q.session_id}
+                        className="flex-1 bg-primary/40 rounded-t"
+                        style={{ height: `${q.accuracy_pct}%` }}
+                        title={`${q.anime_title}: ${q.accuracy_pct}%`}
+                      />
+                    ))}
                   </div>
                 </div>
-              ))}
+              )}
+
+              <div className="space-y-2">
+                {perAnimeStats.map((stat) => (
+                  <div
+                    key={stat.anime_id}
+                    className="bg-white/5 rounded-lg p-3 flex items-center justify-between gap-3"
+                  >
+                    <span className="text-sm truncate">{stat.anime_title}</span>
+                    <div className="flex items-center gap-3 flex-shrink-0">
+                      <span className="text-xs text-white/40">
+                        {stat.quiz_count}
+                        {" "}
+                        {stat.quiz_count === 1 ? "quiz" : "quizzes"}
+                      </span>
+                      <span className="text-sm text-success font-semibold tabular-nums">
+                        {stat.accuracy_pct}%
+                      </span>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           )}
 

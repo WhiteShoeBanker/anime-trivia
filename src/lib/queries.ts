@@ -9,6 +9,7 @@ import type {
   Cosmetic,
   AgeGroup,
   PerAnimeStat,
+  RecentQuiz,
 } from "@/types";
 
 // ── Anime Series ─────────────────────────────────────────────
@@ -163,6 +164,52 @@ export const getUserPerAnimeStats = async (
   });
 
   return stats.slice(0, 8);
+};
+
+// Last 7 quiz sessions for the user, newest first, with accuracy_pct
+// computed in JS. Powers the Pro Stats trend chart. Same RLS scoping and
+// null-anime_id filter as getUserPerAnimeStats — mixed-anime daily
+// challenges aren't part of the per-anime trend.
+export const getUserRecentQuizzes = async (
+  userId: string
+): Promise<RecentQuiz[]> => {
+  const supabase = await createClient();
+  const { data, error } = await supabase
+    .from("quiz_sessions")
+    .select(
+      "id, completed_at, correct_answers, total_questions, anime_id, anime_series!inner(slug, title)"
+    )
+    .eq("user_id", userId)
+    .not("anime_id", "is", null)
+    .order("completed_at", { ascending: false })
+    .limit(7);
+
+  if (error) throw error;
+
+  type Row = {
+    id: string;
+    completed_at: string;
+    correct_answers: number | null;
+    total_questions: number | null;
+    anime_id: string | null;
+    anime_series: { slug: string; title: string } | null;
+  };
+
+  const rows = (data ?? []) as unknown as Row[];
+  const result: RecentQuiz[] = [];
+  for (const row of rows) {
+    if (!row.anime_series) continue;
+    const correct = row.correct_answers ?? 0;
+    const total = row.total_questions ?? 0;
+    result.push({
+      session_id: row.id,
+      anime_title: row.anime_series.title,
+      anime_slug: row.anime_series.slug,
+      completed_at: row.completed_at,
+      accuracy_pct: total > 0 ? Math.round((correct / total) * 100) : 0,
+    });
+  }
+  return result;
 };
 
 // ── User Profiles & Leaderboard ──────────────────────────────
