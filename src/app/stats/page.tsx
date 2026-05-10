@@ -6,6 +6,8 @@ import Link from "next/link";
 import { BarChart3, Target, Zap, Clock, Lock, TrendingUp, CheckCircle2 } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { createClient } from "@/lib/supabase/client";
+import { fetchPerAnimeStats, fetchRecentQuizzes } from "./actions";
+import type { PerAnimeStat, RecentQuiz } from "@/types";
 
 interface UserStats {
   totalQuizzes: number;
@@ -22,6 +24,20 @@ const PRO_FEATURES = [
   "Difficulty-level insights",
 ];
 
+// Non-Pro upsell teaser. Shape mirrors PerAnimeStat (the real data structure)
+// so the relationship between teaser and actual data is explicit. Mirrors the
+// LandingContent.tsx SAMPLE_BADGES precedent — named, greppable, typed.
+const SAMPLE_PRO_STATS: ReadonlyArray<
+  Pick<PerAnimeStat, "anime_title" | "accuracy_pct">
+> = [
+  { anime_title: "Naruto", accuracy_pct: 78 },
+  { anime_title: "One Piece", accuracy_pct: 78 },
+  { anime_title: "Attack on Titan", accuracy_pct: 78 },
+  { anime_title: "Demon Slayer", accuracy_pct: 78 },
+];
+
+const SAMPLE_BAR_HEIGHTS = [40, 65, 55, 80, 70, 90, 85] as const;
+
 const formatTime = (seconds: number): string => {
   if (seconds === 0) return "—";
   if (seconds < 60) return `${seconds.toFixed(1)}s`;
@@ -32,6 +48,13 @@ const StatsPage = () => {
   const { user, profile } = useAuth();
   const [stats, setStats] = useState<UserStats | null>(null);
   const [loading, setLoading] = useState(true);
+  // null = not yet loaded, [] = loaded but empty, [...] = loaded with data.
+  // The distinction matters: an empty array shows the "play your first quiz"
+  // CTA, but null still means "fetching" and should show a loading skeleton.
+  const [perAnimeStats, setPerAnimeStats] = useState<PerAnimeStat[] | null>(
+    null
+  );
+  const [recentQuizzes, setRecentQuizzes] = useState<RecentQuiz[] | null>(null);
   const isPro = profile?.subscription_tier === "pro";
 
   useEffect(() => {
@@ -92,6 +115,28 @@ const StatsPage = () => {
 
     fetchStats();
   }, [user, profile?.longest_streak]);
+
+  // Per-anime breakdown + recent-quizzes trend — both Pro-gated, fetched in
+  // parallel so the chart and list arrive together. Non-Pro paths render the
+  // teaser without consulting either state; bare-return on !user || !isPro
+  // avoids the react-hooks/set-state-in-effect lint.
+  useEffect(() => {
+    if (!user || !isPro) return;
+
+    let cancelled = false;
+    Promise.all([
+      fetchPerAnimeStats(user.id).catch(() => [] as PerAnimeStat[]),
+      fetchRecentQuizzes(user.id).catch(() => [] as RecentQuiz[]),
+    ]).then(([perAnime, recent]) => {
+      if (cancelled) return;
+      setPerAnimeStats(perAnime);
+      setRecentQuizzes(recent);
+    });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [user, isPro]);
 
   const statCards = [
     {
@@ -173,7 +218,7 @@ const StatsPage = () => {
         </motion.div>
       )}
 
-      {/* Pro-gated preview */}
+      {/* Pro-gated section */}
       <motion.div
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
@@ -193,37 +238,116 @@ const StatsPage = () => {
             </span>
           </div>
 
-          <div className="relative overflow-hidden rounded-xl">
-            <div
-              className={
-                isPro ? "" : "blur-sm pointer-events-none select-none"
-              }
-            >
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="bg-white/5 rounded-xl p-4 h-40 flex items-end gap-1">
-                  {[40, 65, 55, 80, 70, 90, 85].map((h, i) => (
-                    <div
-                      key={i}
-                      className="flex-1 bg-primary/40 rounded-t"
-                      style={{ height: `${h}%` }}
-                    />
-                  ))}
+          {/* Pro user, data still loading */}
+          {isPro && perAnimeStats === null && (
+            <div className="space-y-2">
+              {[0, 1, 2, 3].map((i) => (
+                <div
+                  key={i}
+                  className="bg-white/5 rounded-lg p-3 h-11 animate-pulse"
+                />
+              ))}
+            </div>
+          )}
+
+          {/* Pro user, real per-anime breakdown */}
+          {isPro && perAnimeStats !== null && perAnimeStats.length > 0 && (
+            <div className="space-y-4">
+              {/* Recent-quizzes accuracy trend. recentQuizzes is newest-first
+                  from the DB; reverse for display so left = oldest, right =
+                  newest (natural time progression). Reuses the bar styling
+                  from the non-Pro teaser. */}
+              {recentQuizzes !== null && recentQuizzes.length > 0 && (
+                <div>
+                  <p className="text-xs text-white/40 mb-2">
+                    Last {recentQuizzes.length}{" "}
+                    {recentQuizzes.length === 1 ? "quiz" : "quizzes"} — accuracy
+                    trend
+                  </p>
+                  <div className="bg-white/5 rounded-xl p-4 h-40 flex items-end gap-1">
+                    {[...recentQuizzes].reverse().map((q) => (
+                      <div
+                        key={q.session_id}
+                        className="flex-1 bg-primary/40 rounded-t"
+                        style={{ height: `${q.accuracy_pct}%` }}
+                        title={`${q.anime_title}: ${q.accuracy_pct}%`}
+                      />
+                    ))}
+                  </div>
                 </div>
-                <div className="space-y-2">
-                  {["Naruto", "One Piece", "Attack on Titan", "Demon Slayer"].map((name) => (
-                    <div
-                      key={name}
-                      className="bg-white/5 rounded-lg p-3 flex justify-between"
-                    >
-                      <span className="text-sm">{name}</span>
-                      <span className="text-sm text-success">78%</span>
+              )}
+
+              <div className="space-y-2">
+                {perAnimeStats.map((stat) => (
+                  <div
+                    key={stat.anime_id}
+                    className="bg-white/5 rounded-lg p-3 flex items-center justify-between gap-3"
+                  >
+                    <span className="text-sm truncate">{stat.anime_title}</span>
+                    <div className="flex items-center gap-3 flex-shrink-0">
+                      <span className="text-xs text-white/40">
+                        {stat.quiz_count}
+                        {" "}
+                        {stat.quiz_count === 1 ? "quiz" : "quizzes"}
+                      </span>
+                      <span className="text-sm text-success font-semibold tabular-nums">
+                        {stat.accuracy_pct}%
+                      </span>
                     </div>
-                  ))}
-                </div>
+                  </div>
+                ))}
               </div>
             </div>
+          )}
 
-            {!isPro && (
+          {/* Pro user, no data yet */}
+          {isPro && perAnimeStats !== null && perAnimeStats.length === 0 && (
+            <div className="text-center py-8">
+              <p className="text-white/60 mb-4">
+                Play your first quiz to see your per-anime breakdown here.
+              </p>
+              <Link
+                href="/browse"
+                className="inline-block px-6 py-3 rounded-xl bg-primary text-white font-semibold hover:bg-primary/90 transition-colors"
+              >
+                Browse anime quizzes
+              </Link>
+            </div>
+          )}
+
+          {/* Non-Pro upsell teaser */}
+          {!isPro && (
+            <div className="relative overflow-hidden rounded-xl">
+              <div className="blur-sm pointer-events-none select-none">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="bg-white/5 rounded-xl p-4 h-40 flex items-end gap-1">
+                    {SAMPLE_BAR_HEIGHTS.map((h, i) => (
+                      <div
+                        key={i}
+                        className="flex-1 bg-primary/40 rounded-t"
+                        style={{ height: `${h}%` }}
+                      />
+                    ))}
+                  </div>
+                  <div className="space-y-2">
+                    {SAMPLE_PRO_STATS.map((s) => (
+                      <div
+                        key={s.anime_title}
+                        className="bg-white/5 rounded-lg p-3 flex justify-between"
+                      >
+                        <span className="text-sm">{s.anime_title}</span>
+                        <span className="text-sm text-success">
+                          {s.accuracy_pct}%
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+                <p className="text-xs text-white/40 text-center mt-3">
+                  Sample preview — your real per-anime stats appear here
+                </p>
+              </div>
+
               <div className="absolute inset-0 flex items-center justify-center bg-surface/60 rounded-xl">
                 <div className="text-center">
                   <Lock size={24} className="mx-auto text-primary mb-2" />
@@ -233,8 +357,8 @@ const StatsPage = () => {
                   </p>
                 </div>
               </div>
-            )}
-          </div>
+            </div>
+          )}
 
           <ul className="mt-4 space-y-2">
             {PRO_FEATURES.map((feature) => (
