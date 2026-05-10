@@ -86,6 +86,16 @@ export interface QuizSession {
   completed_at: string;
 }
 
+export interface PerAnimeStat {
+  anime_id: string;
+  anime_slug: string;
+  anime_title: string;
+  quiz_count: number;
+  total_questions: number;
+  correct_answers: number;
+  accuracy_pct: number;
+}
+
 export interface UserAnswer {
   id: string;
   session_id: string;
