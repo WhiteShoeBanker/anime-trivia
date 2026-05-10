@@ -72,10 +72,14 @@ typography:
     fontWeight: 700
     lineHeight: 1
     letterSpacing: 0.06em
+  weight-medium: 500
+  weight-semibold: 600
 rounded:
   sharp: 2px
   card: 12px
   pill: 9999px
+shadow:
+  ink: "0 4px 0 0 rgba(0,0,0,0.4)"
 components:
   button-primary:
     backgroundColor: "{colors.primary}"
@@ -83,6 +87,37 @@ components:
     typography: "{typography.body-sm}"
     rounded: "{rounded.sharp}"
     padding: 12px 20px
+  button-secondary:
+    backgroundColor: "{colors.surface}"
+    textColor: "{colors.text}"
+    typography: "{typography.body-sm}"
+    rounded: "{rounded.sharp}"
+    padding: 12px 20px
+  button-tertiary:
+    backgroundColor: "transparent"
+    textColor: "{colors.primary}"
+    typography: "{typography.body-sm}"
+    rounded: "{rounded.sharp}"
+    padding: 12px 20px
+  button-outline:
+    backgroundColor: "transparent"
+    borderColor: "{colors.rule}"
+    textColor: "{colors.text}"
+    typography: "{typography.body-sm}"
+    rounded: "{rounded.sharp}"
+    padding: 12px 20px
+  button-icon:
+    backgroundColor: "transparent"
+    textColor: "{colors.text-muted}"
+    rounded: "{rounded.sharp}"
+    width: 44px
+    height: 44px
+  card-default:
+    backgroundColor: "{colors.surface}"
+    rounded: "{rounded.card}"
+  card-elevated:
+    backgroundColor: "{colors.surface}"
+    rounded: "{rounded.card}"
 ---
 
 ## Overview
@@ -200,12 +235,17 @@ Component-level tokens are defined alongside their refactors in **Phase 5 (compo
 
 Currently captured in YAML:
 
-- **button-primary** — minimum viable definition: vermillion background, white text, body-sm typography, sharp rounding, 12px×20px padding. Reflects the existing `bg-primary text-white px-4 py-2` pattern in Navbar and similar call sites. The hover variant is not yet captured because the codebase is inconsistent — `hover:bg-primary/90` appears in some places, raw `hover:bg-primary/80` in others. Audit flags this.
+- **button-primary** — minimum viable definition: vermillion background, white text, body-sm typography, sharp rounding, 12px×20px padding. Reflects the existing `bg-primary text-white px-4 py-2` pattern in Navbar and similar call sites. The hover variant is no longer captured per-token — see the codified hover convention in Do's and Don'ts.
+- **button-secondary** — supporting action alongside a primary. Raised-stone surface fill, bone text, sharp rounding. Reach for it when an action matters enough to be a button but should not compete with the page's primary CTA (e.g., "Cancel" next to "Save", "Skip" next to "Continue").
+- **button-tertiary** — inline, text-link-like action. Transparent fill, vermillion text, sharp rounding. Reach for it when the action belongs in flowing text or a dense row of small actions, and a surface fill would feel heavy. Never carries the tactile shadow.
+- **button-outline** — secondary action on bare/unsurfaced backgrounds where a filled secondary would disappear. Transparent fill, hairline rule border, bone text. Reach for it on hero sections, empty-state CTAs, or anywhere the parent container is the ink-black canvas rather than a raised surface.
+- **button-icon** — compact, icon-only action. Transparent fill, washed-bone text, 44×44px square (matches the COPPA touch-target floor). Reach for it for header toggles, close buttons, share/menu affordances. Label via `aria-label` — the icon is not the accessible name.
+- **card-default** — standard surface for grouping content. Raised-stone fill, soft `card` rounding, no shadow. The everyday container — anime-series tiles, leaderboard rows, settings panels.
+- **card-elevated** — tactile/dwell surface that earns the manga-panel offset shadow. Raised-stone fill, soft `card` rounding, `--shadow-ink` applied. Reserved for surfaces the user is meant to handle as objects rather than read past — badge cards on the Badges page, monthly emblem displays, and other collectible artifacts. See the shadow usage rule in Do's and Don'ts.
 
 Not captured (deferred):
 
 - Pills (age-tier "Jr"/"T", PRO subscription, pendingDuels count, stock-style status pills)
-- Cards (BadgeIcon, anime-series cards, leaderboard rows)
 - Tables (admin analytics, leagues, leaderboards)
 - Forms (auth, parent consent, profile edit)
 - Navigation (lifted Navbar mobile overlay just shipped — fix/mobile-nav-overlay)
@@ -236,5 +276,9 @@ Don't:
 - Don't render Anton at body sizes. It is a display face; below 32px it loses character.
 - Don't add medium-rounded corners (4–12px). The shape language is sharp-or-pill, not a continuous scale.
 - Don't paint admin analytics charts in raw Tailwind palette colors. Use `chartPalette` from `@/themes`. The current admin pages drift here and will be refactored in a focused follow-up session.
+
+**Hover convention.** Hover deepens existing fills by 10% (e.g., `bg-primary` on hover becomes `bg-primary/90`; `bg-white/20` becomes `bg-white/30`). Hover deepens text by 20% (e.g., `text-text` on hover becomes `text-text/80`). Focus-visible mirrors hover. The codebase converged on this convention organically — captured here as the canonical rule. Do not invent per-element opacity values.
+
+**Shadow usage rule.** `--shadow-ink` (`0 4px 0 0 rgba(0,0,0,0.4)`) is reserved for surfaces with a "pressable" or "tactile" semantic. Apply to: primary action buttons (gives visual weight to the main CTA), badge cards on the Badges page (tactile collectible feel), monthly emblem displays. Do not apply to: cards used as informational containers, modal surfaces, navigation chrome, table rows. The default is no shadow — opt in deliberately.
 
 When implementation deviates from this spec, update DESIGN.md FIRST, then code. The spec is the contract.
