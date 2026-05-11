@@ -66,4 +66,16 @@ export const rarityColors: Record<Rarity, { bg: string; border: string }> = {
   legendary: { bg: "bg-yellow-400/10", border: "border-yellow-400/80" },
 };
 
+// Rarity human-readable labels + text-color utility for prose. Hoisted from
+// BadgeCard.tsx and BadgeCelebration.tsx (both carried identical copies).
+// Pairs with rarityColors: rarityColors drives the frame (border + bg),
+// rarityLabels drives the inline label (text + color).
+export const rarityLabels: Record<Rarity, { text: string; color: string }> = {
+  common: { text: "Common", color: "text-gray-400" },
+  uncommon: { text: "Uncommon", color: "text-emerald-400" },
+  rare: { text: "Rare", color: "text-blue-400" },
+  epic: { text: "Epic", color: "text-purple-400" },
+  legendary: { text: "Legendary", color: "text-yellow-400" },
+};
+
 export { palette };

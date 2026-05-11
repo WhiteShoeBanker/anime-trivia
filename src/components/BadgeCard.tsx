@@ -2,15 +2,8 @@
 
 import { motion } from "framer-motion";
 import BadgeIcon from "@/components/BadgeIcon";
-import type { Badge, BadgeRarity } from "@/types";
-
-const RARITY_LABELS: Record<BadgeRarity, { text: string; color: string }> = {
-  common: { text: "Common", color: "text-gray-400" },
-  uncommon: { text: "Uncommon", color: "text-emerald-400" },
-  rare: { text: "Rare", color: "text-blue-400" },
-  epic: { text: "Epic", color: "text-purple-400" },
-  legendary: { text: "Legendary", color: "text-yellow-400" },
-};
+import type { Badge } from "@/types";
+import { rarityLabels } from "@/themes";
 
 interface BadgeCardProps {
   badge: Badge;
@@ -27,7 +20,7 @@ const BadgeCard = ({
   onClick,
   selected = false,
 }: BadgeCardProps) => {
-  const rarityInfo = RARITY_LABELS[badge.rarity];
+  const rarityInfo = rarityLabels[badge.rarity];
 
   return (
     <motion.button

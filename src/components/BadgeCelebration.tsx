@@ -3,17 +3,9 @@
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import BadgeIcon from "@/components/BadgeIcon";
-import type { Badge, BadgeRarity } from "@/types";
+import type { Badge } from "@/types";
 import useReducedMotion from "@/lib/use-reduced-motion";
-import { confettiPalette } from "@/themes";
-
-const RARITY_LABELS: Record<BadgeRarity, { text: string; color: string }> = {
-  common: { text: "Common", color: "text-gray-400" },
-  uncommon: { text: "Uncommon", color: "text-emerald-400" },
-  rare: { text: "Rare", color: "text-blue-400" },
-  epic: { text: "Epic", color: "text-purple-400" },
-  legendary: { text: "Legendary", color: "text-yellow-400" },
-};
+import { confettiPalette, rarityLabels } from "@/themes";
 
 interface BadgeCelebrationProps {
   badges: Badge[];
@@ -69,7 +61,7 @@ const BadgeCelebration = ({ badges, onComplete }: BadgeCelebrationProps) => {
 
   if (!currentBadge) return null;
 
-  const rarityInfo = RARITY_LABELS[currentBadge.rarity];
+  const rarityInfo = rarityLabels[currentBadge.rarity];
 
   return (
     <AnimatePresence>
