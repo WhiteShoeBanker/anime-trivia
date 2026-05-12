@@ -43,19 +43,19 @@ const LeagueNudge = ({
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 0.3 }}
-      className="bg-amber-500/10 border border-amber-500/30 rounded-2xl p-4 mt-4"
+      className="bg-warning/10 border border-warning/30 rounded-card p-4 mt-4"
     >
       <div className="flex items-start gap-3">
-        <div className="w-8 h-8 rounded-full bg-amber-500/20 flex items-center justify-center flex-shrink-0 mt-0.5">
-          <Zap size={16} className="text-amber-400" />
+        <div className="w-8 h-8 rounded-full bg-warning/20 flex items-center justify-center flex-shrink-0 mt-0.5">
+          <Zap size={16} className="text-warning" />
         </div>
         <div className="flex-1 min-w-0">
-          <p className="text-sm font-semibold text-amber-300 mb-1">
+          <p className="text-sm font-semibold text-warning mb-1">
             Diminishing Returns Active
           </p>
           <p className="text-sm text-white/60">
             You earned{" "}
-            <span className="font-bold text-amber-300">+{leagueXp}</span>{" "}
+            <span className="font-bold text-warning">+{leagueXp}</span>{" "}
             league XP ({percentLabel}% — already played {animeName}{" "}
             {playCount} {playCount === 1 ? "time" : "times"} this week).
           </p>

@@ -13,7 +13,7 @@ import {
   Star,
   Gem,
   Award,
-  Swords,
+  Castle,
 } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { createClient } from "@/lib/supabase/client";
@@ -38,7 +38,7 @@ const LEAGUE_ICONS: Record<number, typeof Trophy> = {
   3: Star,
   4: Award,
   5: Gem,
-  6: Swords,
+  6: Castle,
 };
 
 const LEAGUE_NAMES = ["Bronze", "Silver", "Gold", "Platinum", "Diamond", "Champion"];
@@ -72,9 +72,10 @@ const getZoneStyle = (rank: number, promotionSlots: number, demotionSlots: numbe
 // ── Medal Icon for Top 3 ────────────────────────────────────
 
 const RankBadge = ({ rank }: { rank: number }) => {
-  if (rank === 1) return <Crown size={18} className="text-yellow-400" />;
-  if (rank === 2) return <Medal size={18} className="text-gray-300" />;
-  if (rank === 3) return <Medal size={18} className="text-amber-600" />;
+  // Olympic-medal convention: rank 1=gold (tier-3), rank 2=silver (tier-2), rank 3=bronze (tier-1). Inverted from the league ladder where higher tier-N = higher rank.
+  if (rank === 1) return <Crown size={18} className="text-tier-3" />;
+  if (rank === 2) return <Medal size={18} className="text-tier-2" />;
+  if (rank === 3) return <Medal size={18} className="text-tier-1" />;
   return <span className="text-sm font-bold text-white/50">#{rank}</span>;
 };
 
@@ -344,7 +345,7 @@ const LeaguesPage = () => {
             exit={{ opacity: 0, height: 0 }}
           >
             {isJunior && lastResult.result === "demoted" ? (
-              <div className="bg-primary/10 border border-primary/30 rounded-2xl p-5 text-center">
+              <div className="bg-primary/10 border border-primary/30 rounded-card p-5 text-center">
                 <p className="text-lg font-bold text-primary mb-1">
                   Try Again Next Week!
                 </p>
@@ -631,7 +632,7 @@ const LeaguesPage = () => {
                               : entry.result === "demoted"
                                 ? "bg-primary/20 text-primary"
                                 : entry.result === "missed_promotion"
-                                  ? "bg-amber-500/20 text-amber-300"
+                                  ? "bg-warning/20 text-warning"
                                   : "bg-white/10 text-white/50"
                           }`}
                         >

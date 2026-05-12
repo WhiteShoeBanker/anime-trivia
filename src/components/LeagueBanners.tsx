@@ -44,7 +44,7 @@ const PromotionBanner = ({ leagueName }: { leagueName: string }) => (
     initial={{ opacity: 0, scale: 0.9 }}
     animate={{ opacity: 1, scale: 1 }}
     transition={{ duration: 0.5, type: "spring" }}
-    className="relative overflow-hidden bg-success/10 border border-success/30 rounded-2xl p-5 text-center"
+    className="relative overflow-hidden bg-success/10 border border-success/30 rounded-card p-5 text-center"
   >
     {/* Confetti */}
     {Array.from({ length: 12 }).map((_, i) => (
@@ -73,7 +73,7 @@ const DemotionBanner = ({ leagueName }: { leagueName: string }) => (
     initial={{ opacity: 0, y: 10 }}
     animate={{ opacity: 1, y: 0 }}
     transition={{ duration: 0.4 }}
-    className="bg-primary/10 border border-primary/30 rounded-2xl p-5 text-center"
+    className="bg-primary/10 border border-primary/30 rounded-card p-5 text-center"
   >
     <TrendingDown size={32} className="mx-auto text-primary mb-2" />
     <h3 className="text-lg font-bold text-primary mb-1">
@@ -92,7 +92,7 @@ const StayedBanner = () => (
     initial={{ opacity: 0, y: 10 }}
     animate={{ opacity: 1, y: 0 }}
     transition={{ duration: 0.4 }}
-    className="bg-white/5 border border-white/10 rounded-2xl p-5 text-center"
+    className="bg-white/5 border border-white/10 rounded-card p-5 text-center"
   >
     <Shield size={32} className="mx-auto text-white/60 mb-2" />
     <h3 className="text-lg font-bold text-white/80 mb-1">Solid Week!</h3>
@@ -109,10 +109,10 @@ const MissedPromotionBanner = () => (
     initial={{ opacity: 0, y: 10 }}
     animate={{ opacity: 1, y: 0 }}
     transition={{ duration: 0.4 }}
-    className="bg-amber-500/10 border border-amber-500/30 rounded-2xl p-5 text-center"
+    className="bg-warning/10 border border-warning/30 rounded-card p-5 text-center"
   >
-    <AlertTriangle size={32} className="mx-auto text-amber-400 mb-2" />
-    <h3 className="text-lg font-bold text-amber-300 mb-1">So Close!</h3>
+    <AlertTriangle size={32} className="mx-auto text-warning mb-2" />
+    <h3 className="text-lg font-bold text-warning mb-1">So Close!</h3>
     <p className="text-sm text-white/60">
       You had the XP but needed more anime variety. Broaden your horizons next
       week!
@@ -127,7 +127,7 @@ const JuniorDemotionBanner = () => (
     initial={{ opacity: 0, y: 10 }}
     animate={{ opacity: 1, y: 0 }}
     transition={{ duration: 0.4 }}
-    className="bg-primary/10 border border-primary/30 rounded-2xl p-5 text-center"
+    className="bg-primary/10 border border-primary/30 rounded-card p-5 text-center"
   >
     <TrendingDown size={32} className="mx-auto text-primary mb-2" />
     <h3 className="text-lg font-bold text-primary mb-1">
