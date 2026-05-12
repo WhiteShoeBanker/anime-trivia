@@ -143,6 +143,12 @@ components:
     rounded: "{rounded.card}"
     width: 56px
     height: 56px
+  panel-warning:
+    backgroundColor: "{colors.warning}"
+    textColor: "{colors.warning}"
+    borderColor: "{colors.warning}"
+    rounded: "{rounded.card}"
+    padding: 16px 20px
 ---
 
 ## Overview
@@ -270,6 +276,7 @@ Currently captured in YAML:
 - **badge-icon-sm / badge-icon-md / badge-icon-lg** — rectangular icon tiles for achievement badges. Three sizes (32 / 48 / 64 px squares), all `rounded-card`, all on raised-stone surface. These are *tiles*, not cards — they hold a single Lucide glyph and a rarity-tinted border + bg. Don't apply `--shadow-ink` here; the parent surface (a `badge-card` or grid cell) carries the tactile semantic. Sizes correspond to call-site density: `sm` for the Navbar emblem chip and inline confirmation rows, `md` for grid thumbnails and modal-picker cells, `lg` for the badge-card hero icon and the unlock-celebration overlay.
 - **badge-card** — wrapper around each badge on the Badges page list view. Raised-stone fill, soft `card` rounding, `body-sm` typography, 16 px internal padding. At the call site it composes with `<Card variant="elevated">` so the `--shadow-ink` lands on the *card* (tactile collectible), with the inner `badge-icon-lg` staying shadow-less. Selected, earned, and unearned states layer borders (`border-primary/60`, `border-white/10`, `border-white/5 opacity-60`) on top of the base via call-site className — those state borders are rarity-orthogonal.
 - **emblem-monthly** — monthly emblem display for Grand Prix winners and other named monthly artifacts. 56 px square, raised-stone surface, `rounded-card`. Gold-tinted via `border-tier3/80` + `bg-tier3/10` at the call site (replacing the hardcoded `yellow-400` literal from the pre-Phase-5 codebase — tier3 is sun gold `#eab308`). Carries a golden shimmer overlay during the legendary-shimmer animation. Candidate for `--shadow-ink` per the shadow usage rule (monthly emblems are tactile/collectible) — opt in at the call site when the surface earns it.
+- **panel-warning** — canonical caution surface for heads-up notices that aren't action-bearing: missed-promotion banners, diminishing-returns nudges, time-pressure callouts. Composes warning-tinted text on warning `/10` fill with warning `/30` border (the YAML anchors the palette; the `/10`–`/30` composition is enforced at call sites via Tailwind opacity modifiers — `bg-warning/10`, `border-warning/30`, `text-warning`). Uses `rounded-card` per the dwell-vs-act principle (panels are read, not clicked). Don't reach for accent (blood ink) — accent is reserved for incorrect-answer flashes and danger states; warning is heads-up, not alarm.
 
 **Rarity contract.** Badge visual styling resolves through two independent axes:
 
@@ -300,6 +307,7 @@ Do:
 - Treat the tier foils (Bronze → Champion) as a separate semantic register from the brand. Champions wear red foil, but it is foil, not vermillion.
 - Maintain 44×44px touch targets. Junior-tier users are real users; their thumbs are smaller.
 - Hoist repeated label/color maps into `src/themes/index.ts` as named exports. The duplicated `RARITY_LABELS` object between `BadgeCard.tsx` and `BadgeCelebration.tsx` is the canonical anti-pattern this fixes — single source of truth, theme-portable. Phase 5 #2a hoists `rarityLabels`; future passes hoist analogous repeated maps as they're identified (difficulty palette, audience-fit palette, etc., per audit spec gaps #1–#2).
+- **tier-3 (sun gold) vs warning (amber).** Both sit in the warm-yellow register; their semantics differ. `tier-3` signals achievement — the Gold league foil, top-3 medal rank 1, monthly emblem frame, achievement-gold register. `warning` signals caution — almost-out states, missed-promotion banners, diminishing-returns nudges. When reaching for "warm yellow," ask: is this a reward or a heads-up? Don't grab `text-yellow-400` or `text-amber-400` — bind to the right semantic token.
 
 Don't:
 
