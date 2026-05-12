@@ -118,6 +118,31 @@ components:
   card-elevated:
     backgroundColor: "{colors.surface}"
     rounded: "{rounded.card}"
+  badge-icon-sm:
+    backgroundColor: "{colors.surface}"
+    rounded: "{rounded.card}"
+    width: 32px
+    height: 32px
+  badge-icon-md:
+    backgroundColor: "{colors.surface}"
+    rounded: "{rounded.card}"
+    width: 48px
+    height: 48px
+  badge-icon-lg:
+    backgroundColor: "{colors.surface}"
+    rounded: "{rounded.card}"
+    width: 64px
+    height: 64px
+  badge-card:
+    backgroundColor: "{colors.surface}"
+    rounded: "{rounded.card}"
+    padding: 16px
+    typography: "{typography.body-sm}"
+  emblem-monthly:
+    backgroundColor: "{colors.surface}"
+    rounded: "{rounded.card}"
+    width: 56px
+    height: 56px
 ---
 
 ## Overview
@@ -242,6 +267,16 @@ Currently captured in YAML:
 - **button-icon** — compact, icon-only action. Transparent fill, washed-bone text, 44×44px square (matches the COPPA touch-target floor). Reach for it for header toggles, close buttons, share/menu affordances. Label via `aria-label` — the icon is not the accessible name.
 - **card-default** — standard surface for grouping content. Raised-stone fill, soft `card` rounding, no shadow. The everyday container — anime-series tiles, leaderboard rows, settings panels.
 - **card-elevated** — tactile/dwell surface that earns the manga-panel offset shadow. Raised-stone fill, soft `card` rounding, `--shadow-ink` applied. Reserved for surfaces the user is meant to handle as objects rather than read past — badge cards on the Badges page, monthly emblem displays, and other collectible artifacts. See the shadow usage rule in Do's and Don'ts.
+- **badge-icon-sm / badge-icon-md / badge-icon-lg** — rectangular icon tiles for achievement badges. Three sizes (32 / 48 / 64 px squares), all `rounded-card`, all on raised-stone surface. These are *tiles*, not cards — they hold a single Lucide glyph and a rarity-tinted border + bg. Don't apply `--shadow-ink` here; the parent surface (a `badge-card` or grid cell) carries the tactile semantic. Sizes correspond to call-site density: `sm` for the Navbar emblem chip and inline confirmation rows, `md` for grid thumbnails and modal-picker cells, `lg` for the badge-card hero icon and the unlock-celebration overlay.
+- **badge-card** — wrapper around each badge on the Badges page list view. Raised-stone fill, soft `card` rounding, `body-sm` typography, 16 px internal padding. At the call site it composes with `<Card variant="elevated">` so the `--shadow-ink` lands on the *card* (tactile collectible), with the inner `badge-icon-lg` staying shadow-less. Selected, earned, and unearned states layer borders (`border-primary/60`, `border-white/10`, `border-white/5 opacity-60`) on top of the base via call-site className — those state borders are rarity-orthogonal.
+- **emblem-monthly** — monthly emblem display for Grand Prix winners and other named monthly artifacts. 56 px square, raised-stone surface, `rounded-card`. Gold-tinted via `border-tier3/80` + `bg-tier3/10` at the call site (replacing the hardcoded `yellow-400` literal from the pre-Phase-5 codebase — tier3 is sun gold `#eab308`). Carries a golden shimmer overlay during the legendary-shimmer animation. Candidate for `--shadow-ink` per the shadow usage rule (monthly emblems are tactile/collectible) — opt in at the call site when the surface earns it.
+
+**Rarity contract.** Badge visual styling resolves through two independent axes:
+
+1. **Rarity** drives the *frame* — border color and background tint. Bound at render time through `rarityColors` (in `src/themes/index.ts`): common gray, uncommon emerald, rare blue, epic purple, legendary yellow, all at `/10` bg and `/50`–`/80` border. The `rarityLabels` companion export carries the human-readable text + Tailwind text-color for each rarity. These are deliberately Tailwind named-color utilities, not brand-palette tokens — the rarity register is its own visual contract and intentionally orthogonal to the theme.
+2. **Icon color** drives the *glyph* — the Lucide stroke color, applied via inline `style={{ color: badge.icon_color }}`. The value comes from `badges.icon_color` in Postgres, which after the Phase 5 #2b migration is palette-anchored (`palette.primary` for milestone-identity badges, `palette.tier1..tier6` for ladder badges, category-mapped palette values for the remainder). Pre-#2b the column still holds the original hand-picked hex literals.
+
+Category does not participate in visual styling at render time. Category-driven palette selection happens at seed time (in the icon_color column), not at render time — components stay category-agnostic. Closes audit spec gap #3 (rarity palette token export).
 
 Not captured (deferred):
 
@@ -251,7 +286,6 @@ Not captured (deferred):
 - Navigation (lifted Navbar mobile overlay just shipped — fix/mobile-nav-overlay)
 - Footer
 - Quiz answer-choice tiles
-- Badge / emblem rendering
 
 Each of these will get its own Phase 5 prompt with named tokens added to DESIGN.md alongside the component refactor.
 
@@ -265,6 +299,7 @@ Do:
 - Pair Anton with DM Sans 700–800 when both display drama and body legibility are needed in the same view. Don't introduce a third typeface.
 - Treat the tier foils (Bronze → Champion) as a separate semantic register from the brand. Champions wear red foil, but it is foil, not vermillion.
 - Maintain 44×44px touch targets. Junior-tier users are real users; their thumbs are smaller.
+- Hoist repeated label/color maps into `src/themes/index.ts` as named exports. The duplicated `RARITY_LABELS` object between `BadgeCard.tsx` and `BadgeCelebration.tsx` is the canonical anti-pattern this fixes — single source of truth, theme-portable. Phase 5 #2a hoists `rarityLabels`; future passes hoist analogous repeated maps as they're identified (difficulty palette, audience-fit palette, etc., per audit spec gaps #1–#2).
 
 Don't:
 

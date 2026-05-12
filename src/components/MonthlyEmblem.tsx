@@ -9,6 +9,9 @@ interface MonthlyEmblemProps {
   showLabel?: boolean;
 }
 
+// md container width 56px is the emblem-monthly canonical declared in
+// DESIGN.md; sm (40px) / lg (80px) are proportional scales. Rounded corner
+// consumes --radius-card via the rounded-card utility.
 const SIZE_MAP = {
   sm: { container: "w-10 h-10", icon: 16, text: "text-[10px]" },
   md: { container: "w-14 h-14", icon: 22, text: "text-xs" },
@@ -32,14 +35,17 @@ const MonthlyEmblem = ({
   return (
     <div className="flex flex-col items-center gap-1">
       <div
-        className={`relative ${sizeConfig.container} rounded-xl border-2 border-yellow-400/80 bg-yellow-400/10 flex items-center justify-center overflow-hidden`}
+        className={`relative ${sizeConfig.container} rounded-card border-2 border-tier-3/80 bg-tier-3/10 flex items-center justify-center overflow-hidden`}
       >
         <IconComponent
           size={sizeConfig.icon}
           style={{ color: emblem.icon_color }}
         />
-        {/* Golden shimmer overlay */}
-        <div className="absolute inset-0 pointer-events-none overflow-hidden rounded-xl">
+        {/* Golden shimmer overlay.
+         * TODO(phase-5-#7): the rgba(255,215,0) gold-shimmer literal mirrors
+         * BadgeIcon's legendary overlay; migrate both to a shared named
+         * animation/gradient token alongside the modal-chrome pass. */}
+        <div className="absolute inset-0 pointer-events-none overflow-hidden rounded-card">
           <div
             className="absolute inset-0 opacity-20"
             style={{

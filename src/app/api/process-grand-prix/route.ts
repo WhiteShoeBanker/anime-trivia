@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { createServiceClient } from "@/lib/supabase/service";
 import { trackEvent } from "@/lib/analytics";
+import { palette } from "@/themes";
 import type { BracketData } from "@/types";
 
 // Vercel Cron: runs every 6 hours for bracket advancement
@@ -285,7 +286,7 @@ export async function processGrandPrix(skipPhases?: string[]) {
                   name: `Grand Prix Champion — ${monthLabel}`,
                   description: emblemTemplate.description,
                   icon_name: emblemTemplate.icon_name,
-                  icon_color: "#FFD700",
+                  icon_color: palette.tier3,
                   month_label: monthLabel,
                   rarity: "legendary",
                 });
