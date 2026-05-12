@@ -22,7 +22,7 @@ const BadgeGrid = ({ badges, earnedBadgeIds, onBadgeClick }: BadgeGridProps) => 
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: i * 0.02 }}
             onClick={() => onBadgeClick?.(badge)}
-            className={`flex flex-col items-center gap-1.5 p-2 rounded-xl transition-colors ${
+            className={`flex flex-col items-center gap-1.5 p-2 rounded-card transition-colors ${
               earned
                 ? "hover:bg-white/5"
                 : "opacity-40 hover:opacity-60"

@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import BadgeIcon from "@/components/BadgeIcon";
 import type { Badge } from "@/types";
 import { rarityLabels } from "@/themes";
+import { cn } from "@/lib/utils";
 
 interface BadgeCardProps {
   badge: Badge;
@@ -26,13 +27,14 @@ const BadgeCard = ({
     <motion.button
       onClick={onClick}
       whileTap={onClick ? { scale: 0.97 } : undefined}
-      className={`w-full text-left bg-surface rounded-2xl border p-4 transition-colors ${
+      className={cn(
+        "w-full text-left bg-surface rounded-card shadow-ink border p-4 transition-colors",
         selected
           ? "border-primary/60 bg-primary/10"
           : earned
             ? "border-white/10 hover:border-white/20"
-            : "border-white/5 opacity-60"
-      }`}
+            : "border-white/5 opacity-60",
+      )}
     >
       <div className="flex items-start gap-3">
         <BadgeIcon
