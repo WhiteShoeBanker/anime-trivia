@@ -10,6 +10,7 @@ import { getUserGrandPrixEmblems } from "@/lib/grand-prix";
 import { getDuelStats } from "@/lib/duels";
 import { getRank } from "@/lib/scoring";
 import BadgeIcon from "@/components/BadgeIcon";
+import BadgeFoilCard from "@/components/BadgeFoilCard";
 import BadgeGrid from "@/components/BadgeGrid";
 import MonthlyEmblem from "@/components/MonthlyEmblem";
 import EmblemSelector from "@/components/EmblemSelector";
@@ -114,7 +115,6 @@ const ProfilePage = () => {
                 rarity={emblem.rarity}
                 size="sm"
                 earned
-                shimmer
               />
             </button>
           )}
@@ -189,17 +189,10 @@ const ProfilePage = () => {
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
               {emblem ? (
-                <BadgeIcon
-                  iconName={emblem.icon_name}
-                  iconColor={emblem.icon_color}
-                  rarity={emblem.rarity}
-                  size="md"
-                  earned
-                  shimmer
-                />
+                <BadgeFoilCard badge={emblem} earned size="md" />
               ) : (
-                <div className="w-12 h-12 rounded-xl border-2 border-dashed border-white/20 flex items-center justify-center">
-                  <Award size={20} className="text-white/20" />
+                <div className="w-24 aspect-[3/4] rounded-card border-2 border-dashed border-white/20 flex items-center justify-center">
+                  <Award size={24} className="text-white/20" />
                 </div>
               )}
               <div>

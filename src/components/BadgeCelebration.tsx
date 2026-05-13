@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import BadgeIcon from "@/components/BadgeIcon";
+import BadgeFoilCard from "@/components/BadgeFoilCard";
 import type { Badge } from "@/types";
 import useReducedMotion from "@/lib/use-reduced-motion";
 import { confettiPalette, rarityLabels } from "@/themes";
@@ -102,14 +102,7 @@ const BadgeCelebration = ({ badges, onComplete }: BadgeCelebrationProps) => {
             animate={{ scale: 1 }}
             transition={reducedMotion ? { duration: 0 } : { delay: 0.1, type: "spring", stiffness: 300 }}
           >
-            <BadgeIcon
-              iconName={currentBadge.icon_name}
-              iconColor={currentBadge.icon_color}
-              rarity={currentBadge.rarity}
-              size="lg"
-              earned
-              shimmer
-            />
+            <BadgeFoilCard badge={currentBadge} earned size="lg" />
           </motion.div>
 
           {/* Badge name */}
