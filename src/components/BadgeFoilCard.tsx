@@ -26,8 +26,8 @@ const SIZE_MAP: Record<
   { width: string; iconSize: number; titleClass: string }
 > = {
   sm: { width: "w-[72px]", iconSize: 28, titleClass: "text-[11px]" },
-  md: { width: "w-24", iconSize: 36, titleClass: "text-[13px]" },
-  lg: { width: "w-32", iconSize: 48, titleClass: "text-[15px]" },
+  md: { width: "w-24", iconSize: 36, titleClass: "text-[12px]" },
+  lg: { width: "w-32", iconSize: 48, titleClass: "text-[14px]" },
 };
 
 // Rarity → foil-class lookup. Static object (not template string) so
@@ -131,11 +131,15 @@ const BadgeFoilCard = ({
 
   const cardChildren = (
     <>
-      {/* Card title (Anton, all-caps) */}
+      {/* Card title. Inherits font-body (DM Sans) from layout.tsx — Anton
+       * was retired here after the first smoke pass. Uppercase + tight
+       * tracking preserves the manga-title-card energy without depending
+       * on Anton's condensed shape. line-clamp-2 allows wrapping for
+       * longer badge names ("Grand Prix Champion") rather than clipping. */}
       <h3
         className={cn(
-          "font-display tracking-[0.05em] uppercase leading-tight",
-          "text-center px-1.5 pt-1.5 pb-1 line-clamp-1 text-white",
+          "font-semibold tracking-tight uppercase leading-[1.15]",
+          "text-center px-1.5 pt-2 pb-1 line-clamp-2 text-white",
           sizeConfig.titleClass,
         )}
       >

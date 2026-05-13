@@ -37,11 +37,14 @@ describe("<BadgeFoilCard>", () => {
     warnSpy.mockRestore();
   });
 
-  it("renders the badge name in an Anton (font-display) card title", () => {
+  it("renders the badge name as an uppercase, line-clamp-2 card title in the default sans (Phase 6c tune: dropped font-display)", () => {
     const { getByText } = render(<BadgeFoilCard badge={baseBadge} earned />);
     const title = getByText("Flame Test");
-    expect(title.className).toMatch(/font-display/);
+    // Title inherits font-body (DM Sans) from layout.tsx — no font-display.
+    expect(title.className).not.toMatch(/font-display/);
     expect(title.className).toMatch(/uppercase/);
+    expect(title.className).toMatch(/line-clamp-2/);
+    expect(title.className).toMatch(/tracking-tight/);
   });
 
   it("resolves a known Lucide icon by name without warning", () => {

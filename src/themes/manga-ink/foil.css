@@ -6,11 +6,17 @@
  * Each .foil-<rarity> class is applied to the outer wrapper of
  * <BadgeFoilCard>. Treatments intensify up the rarity ladder per the
  * "Foil contract" in DESIGN.md:
- *   common    → matte cardboard, no overlay, no animation
- *   uncommon  → linear sheen sweep
+ *   common    → matte cardboard with a subtle backdrop sheen
+ *   uncommon  → linear sheen sweep + emerald glow halo
  *   rare      → reverse-holo (foil on bg, icon-hero zone stays clean)
- *   epic      → full-holo (rainbow conic gradient parallaxing on tilt)
- *   legendary → epic + animated radial-gradient sparkle layer
+ *                + blue glow halo
+ *   epic      → full-holo (parallaxing rainbow) + purple glow halo
+ *   legendary → epic + intensified sparkle layer + yellow glow halo
+ *
+ * Phase 6c tuning pass: bumped overlay opacities, switched foil-rare blend
+ * mode (overlay → lighten) for vibrancy, added per-rarity glow halos via
+ * box-shadow, intensified legendary sparkle layer. The manga-panel ink
+ * shadow lives as the second box-shadow stop so depth is preserved.
  *
  * Parallax: --foil-x / --foil-y are written from React (BadgeFoilCard's
  * useTransform output) as inline style. Defaults at 50%/50% so the
@@ -28,14 +34,21 @@
     --foil-y: 50%;
   }
 
-  /* ── common: matte ─────────────────────────────────────────── */
+  /* ── common: matte cardboard with subtle backdrop sheen ────── */
   .foil-common {
-    background-color: var(--color-surface);
+    background: linear-gradient(
+      135deg,
+      var(--color-surface) 0%,
+      color-mix(in srgb, var(--color-surface) 92%, white 8%) 100%
+    );
   }
 
-  /* ── uncommon: gloss sheen ─────────────────────────────────── */
+  /* ── uncommon: gloss sheen + emerald glow halo ─────────────── */
   .foil-uncommon {
     background-color: var(--color-surface);
+    box-shadow:
+      0 0 16px rgba(52, 211, 153, 0.35),
+      0 4px 0 0 rgba(0, 0, 0, 0.4);
   }
   .foil-uncommon::after {
     content: "";
@@ -46,7 +59,7 @@
     background: linear-gradient(
       105deg,
       transparent 30%,
-      rgba(255, 255, 255, 0.18) 50%,
+      rgba(255, 255, 255, 0.22) 50%,
       transparent 70%
     );
     background-size: 200% 100%;
@@ -54,7 +67,7 @@
     animation: foil-sheen 3.5s ease-in-out infinite;
   }
 
-  /* ── rare: reverse-holo (foil on bg, icon stays clean) ─────── */
+  /* ── rare: reverse-holo (foil on bg, icon stays clean) + blue glow ── */
   .foil-rare {
     background-color: var(--color-surface);
     background-image: conic-gradient(
@@ -70,9 +83,12 @@
     );
     background-size: 220% 220%;
     background-position: center;
-    background-blend-mode: overlay;
-    filter: saturate(1.05);
+    background-blend-mode: lighten;
+    filter: saturate(1.2);
     animation: foil-shimmer 6s linear infinite;
+    box-shadow:
+      0 0 18px rgba(96, 165, 250, 0.4),
+      0 4px 0 0 rgba(0, 0, 0, 0.4);
   }
   /* Reverse-holo convention: the icon zone is matte; the foil only
    * lives on the card background frame. */
@@ -80,9 +96,12 @@
     background: var(--color-surface);
   }
 
-  /* ── epic: full-holo (parallaxing rainbow) ─────────────────── */
+  /* ── epic: full-holo (parallaxing rainbow) + purple glow ──── */
   .foil-epic {
     background-color: var(--color-surface);
+    box-shadow:
+      0 0 22px rgba(168, 85, 247, 0.45),
+      0 4px 0 0 rgba(0, 0, 0, 0.4);
   }
   .foil-epic::before {
     content: "";
@@ -102,12 +121,16 @@
       #ff7eb3
     );
     mix-blend-mode: color-dodge;
-    opacity: 0.55;
+    opacity: 0.85;
+    filter: saturate(1.35);
   }
 
-  /* ── legendary: secret-rare (epic + sparkle staggered loop) ── */
+  /* ── legendary: secret-rare (epic + sparkle staggered loop) + yellow glow ── */
   .foil-legendary {
     background-color: var(--color-surface);
+    box-shadow:
+      0 0 28px rgba(250, 204, 21, 0.55),
+      0 4px 0 0 rgba(0, 0, 0, 0.4);
   }
   .foil-legendary::before {
     content: "";
@@ -127,7 +150,8 @@
       #ff7eb3
     );
     mix-blend-mode: color-dodge;
-    opacity: 0.6;
+    opacity: 0.95;
+    filter: saturate(1.35);
   }
   .foil-legendary::after {
     content: "";
@@ -136,11 +160,14 @@
     pointer-events: none;
     border-radius: inherit;
     background-image:
-      radial-gradient(circle 1.5px at 20% 30%, rgba(255, 255, 255, 0.95), transparent 60%),
-      radial-gradient(circle 1.5px at 70% 60%, rgba(255, 255, 255, 0.95), transparent 60%),
-      radial-gradient(circle 1px at 40% 80%, rgba(255, 255, 255, 0.9), transparent 60%),
-      radial-gradient(circle 1px at 85% 25%, rgba(255, 255, 255, 0.9), transparent 60%),
-      radial-gradient(circle 2px at 55% 50%, rgba(255, 255, 255, 1), transparent 60%);
+      radial-gradient(circle 2.5px at 20% 30%, rgba(255, 255, 255, 1), transparent 60%),
+      radial-gradient(circle 2px   at 70% 60%, rgba(255, 255, 255, 1), transparent 60%),
+      radial-gradient(circle 1.5px at 40% 80%, rgba(255, 255, 255, 0.95), transparent 60%),
+      radial-gradient(circle 1.5px at 85% 25%, rgba(255, 255, 255, 0.95), transparent 60%),
+      radial-gradient(circle 2.5px at 55% 50%, rgba(255, 255, 255, 1), transparent 60%),
+      radial-gradient(circle 1.5px at 30% 65%, rgba(255, 255, 255, 0.95), transparent 60%),
+      radial-gradient(circle 1.5px at 78% 80%, rgba(255, 255, 255, 0.95), transparent 60%),
+      radial-gradient(circle 1px   at 15% 50%, rgba(255, 255, 255, 0.9), transparent 60%);
     animation: sparkle-stagger 3s ease-in-out infinite;
     opacity: 0;
   }
@@ -174,13 +201,14 @@
       transform: scale(0.6);
     }
     50% {
-      opacity: 0.9;
+      opacity: 1;
       transform: scale(1);
     }
   }
 
-  /* ── prefers-reduced-motion: freeze all animations, drop
-   *    parallax intensity to a static fallback ──────────────── */
+  /* ── prefers-reduced-motion: freeze all animations, scale parallax
+   *    intensity to a static fallback proportional to the new POP
+   *    intensity ──────────────────────────────────────────────── */
   @media (prefers-reduced-motion: reduce) {
     .foil-uncommon::after,
     .foil-rare,
@@ -190,12 +218,14 @@
     .foil-uncommon::after {
       background-position: 50% 0;
     }
-    .foil-epic::before,
+    .foil-epic::before {
+      opacity: 0.55;
+    }
     .foil-legendary::before {
-      opacity: 0.35;
+      opacity: 0.65;
     }
     .foil-legendary::after {
-      opacity: 0.5;
+      opacity: 0.6;
       transform: scale(0.85);
     }
   }
