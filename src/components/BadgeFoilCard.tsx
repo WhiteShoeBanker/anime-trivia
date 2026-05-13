@@ -8,7 +8,7 @@ import { rarityColors } from "@/themes";
 import useReducedMotion from "@/lib/use-reduced-motion";
 import { cn } from "@/lib/utils";
 
-export type BadgeFoilCardSize = "sm" | "md" | "lg";
+export type BadgeFoilCardSize = "sm" | "md" | "lg" | "xl";
 
 interface BadgeFoilCardProps {
   badge: Badge;
@@ -19,8 +19,9 @@ interface BadgeFoilCardProps {
 }
 
 // Width + icon sizes per the DESIGN.md badge-foil-card token (96px default
-// md width, 3:4 aspect anchored via Tailwind utility). 72/96/128 widths
-// give 96/128/170 heights at 3:4 — matches the investigation's size table.
+// md width, 3:4 aspect anchored via Tailwind utility). 72/96/128/192 widths
+// give 96/128/170/256 heights at 3:4. xl introduced in Phase 6d-i for the
+// Tournament Champion hero on /grand-prix.
 const SIZE_MAP: Record<
   BadgeFoilCardSize,
   { width: string; iconSize: number; titleClass: string }
@@ -28,6 +29,7 @@ const SIZE_MAP: Record<
   sm: { width: "w-[72px]", iconSize: 28, titleClass: "text-[11px]" },
   md: { width: "w-24", iconSize: 36, titleClass: "text-[12px]" },
   lg: { width: "w-32", iconSize: 48, titleClass: "text-[14px]" },
+  xl: { width: "w-48", iconSize: 64, titleClass: "text-[16px]" },
 };
 
 // Rarity → foil-class lookup. Static object (not template string) so

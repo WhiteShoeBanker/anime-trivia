@@ -1,57 +1,63 @@
 "use client";
 
-import * as LucideIcons from "lucide-react";
-import type { GrandPrixEmblem } from "@/types";
+import type { Badge, BadgeRarity, GrandPrixEmblem } from "@/types";
+import BadgeFoilCard, { type BadgeFoilCardSize } from "./BadgeFoilCard";
 
 interface MonthlyEmblemProps {
   emblem: GrandPrixEmblem;
-  size?: "sm" | "md" | "lg";
+  size?: BadgeFoilCardSize;
   showLabel?: boolean;
 }
 
-// md container width 56px is the emblem-monthly canonical declared in
-// DESIGN.md; sm (40px) / lg (80px) are proportional scales. Rounded corner
-// consumes --radius-card via the rounded-card utility.
-const SIZE_MAP = {
-  sm: { container: "w-10 h-10", icon: 16, text: "text-[10px]" },
-  md: { container: "w-14 h-14", icon: 22, text: "text-xs" },
-  lg: { container: "w-20 h-20", icon: 32, text: "text-sm" },
-};
+const VALID_RARITIES: readonly BadgeRarity[] = [
+  "common",
+  "uncommon",
+  "rare",
+  "epic",
+  "legendary",
+];
 
+const toRarity = (raw: string): BadgeRarity =>
+  (VALID_RARITIES as readonly string[]).includes(raw)
+    ? (raw as BadgeRarity)
+    : "legendary";
+
+// Phase 6d-i: MonthlyEmblem composes <BadgeFoilCard> via an adapter.
+// GrandPrixEmblem and Badge are structurally close but not identical —
+// the synthetic Badge fills the contract slots BadgeFoilCard doesn't read
+// (slug, category, requirement_*) with sensible defaults so the card can
+// render through its existing foil ladder + tilt + reduced-motion gates.
 const MonthlyEmblem = ({
   emblem,
   size = "md",
-  showLabel = true,
+  showLabel,
 }: MonthlyEmblemProps) => {
-  const sizeConfig = SIZE_MAP[size];
+  const adapterBadge: Badge = {
+    id: emblem.id,
+    slug: emblem.tournament_id,
+    name: emblem.month_label,
+    description: emblem.description,
+    icon_name: emblem.icon_name,
+    icon_color: emblem.icon_color,
+    category: "grand_prix",
+    rarity: toRarity(emblem.rarity),
+    requirement_type: "tournament_win",
+    requirement_value: {},
+    created_at: emblem.created_at,
+  };
 
-  const IconComponent = (
-    LucideIcons as unknown as Record<
-      string,
-      React.ComponentType<{ size: number; className?: string; style?: React.CSSProperties }>
-    >
-  )[emblem.icon_name] ?? LucideIcons.Trophy;
+  // Dense grids (size="sm") want the external label for legibility under
+  // the small card; hero/showcase sizes already carry the month_label as
+  // the card title, so the external label would double up.
+  const resolvedShowLabel = showLabel ?? size === "sm";
 
   return (
-    <div className="flex flex-col items-center gap-1">
-      <div
-        className={`relative ${sizeConfig.container} rounded-card border-2 border-tier-3/80 bg-tier-3/10 flex items-center justify-center overflow-hidden`}
-      >
-        <IconComponent
-          size={sizeConfig.icon}
-          style={{ color: emblem.icon_color }}
-        />
-        {/* Phase 6c: dropped the inline shimmer overlay (animation
-         * referenced @keyframes shimmer, which was never defined anywhere
-         * in the project — silently dead since landing per Phase 6b
-         * investigation). MonthlyEmblem stays utility-shaped; Phase 6d
-         * (optional) handles its foil upgrade with the BadgeFoilCard
-         * legendary treatment. */}
-      </div>
-      {showLabel && (
-        <span className={`${sizeConfig.text} text-white/50 font-medium text-center`}>
+    <div className="flex flex-col items-center">
+      <BadgeFoilCard badge={adapterBadge} size={size} earned />
+      {resolvedShowLabel && (
+        <p className="text-xs text-white/50 font-medium text-center mt-1.5">
           {emblem.month_label}
-        </span>
+        </p>
       )}
     </div>
   );
