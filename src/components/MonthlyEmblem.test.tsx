@@ -1,7 +1,14 @@
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, vi } from "vitest";
 import { render } from "@testing-library/react";
-import MonthlyEmblem from "./MonthlyEmblem";
 import type { GrandPrixEmblem } from "@/types";
+
+// Mock useReducedMotion (BadgeFoilCard dependency) so the adapter doesn't
+// pull the reduced-motion query into the test environment.
+vi.mock("@/lib/use-reduced-motion", () => ({
+  default: () => false,
+}));
+
+import MonthlyEmblem from "./MonthlyEmblem";
 
 const emblem: GrandPrixEmblem = {
   id: "22222222-2222-2222-2222-222222222222",
@@ -16,42 +23,76 @@ const emblem: GrandPrixEmblem = {
 };
 
 describe("<MonthlyEmblem>", () => {
-  it("binds the framing color to tier-3 (not yellow-400)", () => {
-    const { container } = render(<MonthlyEmblem emblem={emblem} />);
-    const frame = container.querySelector(":scope > div > div");
-    expect(frame).not.toBeNull();
-    const cls = (frame as HTMLElement).className;
-    expect(cls).toMatch(/border-tier-3/);
-    expect(cls).toMatch(/bg-tier-3/);
-    expect(cls).not.toMatch(/border-yellow-400/);
-    expect(cls).not.toMatch(/bg-yellow-400/);
+  it("renders through BadgeFoilCard with foil-legendary by default", () => {
+    const { container } = render(
+      <MonthlyEmblem emblem={emblem} showLabel={false} />,
+    );
+    // The adapter wraps in a flex column; the first child is the foil card.
+    const card = container.querySelector(":scope > div > div") as HTMLElement;
+    expect(card).not.toBeNull();
+    expect(card.className).toMatch(/foil-legendary/);
+    expect(card.className).toMatch(/aspect-\[3\/4\]/);
+    expect(card.className).toMatch(/rounded-card/);
   });
 
-  it("binds the frame rounding to rounded-card (not rounded-xl)", () => {
-    const { container } = render(<MonthlyEmblem emblem={emblem} />);
-    const frame = container.querySelector(":scope > div > div") as HTMLElement;
-    expect(frame.className).toMatch(/rounded-card/);
-    expect(frame.className).not.toMatch(/rounded-xl/);
+  it("falls back to legendary when emblem.rarity is not a known BadgeRarity", () => {
+    const oddRarity: GrandPrixEmblem = { ...emblem, rarity: "mythic" };
+    const { container } = render(
+      <MonthlyEmblem emblem={oddRarity} showLabel={false} />,
+    );
+    const card = container.querySelector(":scope > div > div") as HTMLElement;
+    expect(card.className).toMatch(/foil-legendary/);
   });
 
-  it("renders all three size variants with rounded-card and the canonical containers", () => {
-    const dims: Record<"sm" | "md" | "lg", RegExp> = {
-      sm: /w-10 h-10/,
-      md: /w-14 h-14/,
-      lg: /w-20 h-20/,
-    };
-    (Object.keys(dims) as Array<"sm" | "md" | "lg">).forEach((size) => {
+  it("uses month_label as the card title", () => {
+    const { getByText } = render(
+      <MonthlyEmblem emblem={emblem} showLabel={false} />,
+    );
+    const title = getByText("May 2026");
+    expect(title.tagName).toBe("H3");
+  });
+
+  it("defaults showLabel to true at sm (external label shown)", () => {
+    const { container } = render(<MonthlyEmblem emblem={emblem} size="sm" />);
+    // Card title + external label both render "May 2026" → two matching nodes.
+    const matches = container.querySelectorAll("h3, p");
+    const labels = Array.from(matches).filter(
+      (n) => n.textContent === "May 2026",
+    );
+    expect(labels.length).toBe(2);
+    const external = labels.find((n) => n.tagName === "P") as HTMLElement;
+    expect(external).toBeDefined();
+    expect(external.className).toMatch(/text-xs/);
+  });
+
+  it("defaults showLabel to false at md / lg / xl (no external label)", () => {
+    (["md", "lg", "xl"] as const).forEach((size) => {
       const { container } = render(
-        <MonthlyEmblem emblem={emblem} size={size} showLabel={false} />,
+        <MonthlyEmblem emblem={emblem} size={size} />,
       );
-      const frame = container.querySelector(":scope > div > div") as HTMLElement;
-      expect(frame.className).toMatch(/rounded-card/);
-      expect(frame.className).toMatch(dims[size]);
+      // Only the card title (h3) renders the month_label — no <p> beneath.
+      const ps = Array.from(container.querySelectorAll("p")).filter(
+        (n) => n.textContent === "May 2026",
+      );
+      expect(ps.length).toBe(0);
     });
   });
 
-  it("renders the month label when showLabel is true (default)", () => {
-    const { getByText } = render(<MonthlyEmblem emblem={emblem} />);
-    expect(getByText("May 2026")).toBeInTheDocument();
+  it("honors explicit showLabel override (true at lg, false at sm)", () => {
+    const { container: lg } = render(
+      <MonthlyEmblem emblem={emblem} size="lg" showLabel />,
+    );
+    const lgExternal = Array.from(lg.querySelectorAll("p")).filter(
+      (n) => n.textContent === "May 2026",
+    );
+    expect(lgExternal.length).toBe(1);
+
+    const { container: sm } = render(
+      <MonthlyEmblem emblem={emblem} size="sm" showLabel={false} />,
+    );
+    const smExternal = Array.from(sm.querySelectorAll("p")).filter(
+      (n) => n.textContent === "May 2026",
+    );
+    expect(smExternal.length).toBe(0);
   });
 });

@@ -198,8 +198,8 @@ const GrandPrixPage = () => {
         >
           {/* Winner + emblem */}
           {emblem && (
-            <div className="bg-surface rounded-2xl border border-yellow-400/30 p-6 text-center">
-              <MonthlyEmblem emblem={emblem} size="lg" />
+            <div className="bg-surface rounded-card border border-white/10 p-6 text-center flex flex-col items-center">
+              <MonthlyEmblem emblem={emblem} size="xl" />
               <h2 className="text-lg font-semibold mt-3">Tournament Champion</h2>
               <p className="text-sm text-white/40">
                 Winner of the {getMonthLabel(tournament.month_start)} Grand Prix
@@ -229,7 +229,7 @@ const GrandPrixPage = () => {
           transition={{ delay: 0.2 }}
         >
           <h2 className="text-sm font-semibold text-white/70 mb-3">Past Champions</h2>
-          <div className="grid grid-cols-3 sm:grid-cols-6 gap-3">
+          <div className="grid grid-cols-3 sm:grid-cols-4 gap-3">
             {pastTournaments.map((pt) => {
               const pe = pastEmblems.get(pt.id);
               if (!pe) return null;

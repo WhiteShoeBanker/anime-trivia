@@ -234,7 +234,7 @@ const ProfilePage = () => {
               <ChevronRight size={14} />
             </Link>
           </div>
-          <div className="grid grid-cols-4 sm:grid-cols-6 gap-3">
+          <div className="grid grid-cols-3 sm:grid-cols-4 gap-3">
             {gpEmblems.map((ue) => (
               <MonthlyEmblem
                 key={ue.id}

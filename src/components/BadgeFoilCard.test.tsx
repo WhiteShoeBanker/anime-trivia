@@ -95,7 +95,7 @@ describe("<BadgeFoilCard>", () => {
     expect(openEl.className).not.toMatch(/grayscale/);
   });
 
-  it("renders three size variants with the correct width utility class", () => {
+  it("renders four size variants with the correct width utility class", () => {
     const { container: sm } = render(
       <BadgeFoilCard badge={baseBadge} earned size="sm" />,
     );
@@ -105,9 +105,13 @@ describe("<BadgeFoilCard>", () => {
     const { container: lg } = render(
       <BadgeFoilCard badge={baseBadge} earned size="lg" />,
     );
+    const { container: xl } = render(
+      <BadgeFoilCard badge={baseBadge} earned size="xl" />,
+    );
     expect((sm.firstChild as HTMLElement).className).toContain("w-[72px]");
     expect((md.firstChild as HTMLElement).className).toContain("w-24");
     expect((lg.firstChild as HTMLElement).className).toContain("w-32");
+    expect((xl.firstChild as HTMLElement).className).toContain("w-48");
   });
 
   it("renders as <button type=\"button\"> when onClick is provided", () => {
