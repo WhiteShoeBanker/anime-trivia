@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, Check } from "lucide-react";
-import BadgeIcon from "@/components/BadgeIcon";
+import BadgeFoilCard from "@/components/BadgeFoilCard";
 import { setEmblem } from "@/lib/badges";
 import type { Badge } from "@/types";
 import { Button } from "@/components/ui/Button";
@@ -83,14 +83,7 @@ const EmblemSelector = ({
                   if (!badge) return <p className="text-sm text-white/40">Select a badge</p>;
                   return (
                     <>
-                      <BadgeIcon
-                        iconName={badge.icon_name}
-                        iconColor={badge.icon_color}
-                        rarity={badge.rarity}
-                        size="md"
-                        earned
-                        shimmer
-                      />
+                      <BadgeFoilCard badge={badge} earned size="md" />
                       <div>
                         <p className="text-sm font-semibold">{badge.name}</p>
                         <p className="text-xs text-white/40">Your profile emblem</p>
@@ -114,33 +107,28 @@ const EmblemSelector = ({
                   {earnedBadges.map((badge) => {
                     const isSelected = badge.id === selectedId;
                     return (
-                      <button
+                      <div
                         key={badge.id}
-                        onClick={() => setSelectedId(badge.id)}
-                        className={`flex flex-col items-center gap-1 p-2 rounded-xl transition-all ${
+                        className={`flex flex-col items-center gap-1 p-2 rounded-card transition-all ${
                           isSelected
                             ? "bg-primary/20 border border-primary/50"
                             : "hover:bg-white/5 border border-transparent"
                         }`}
                       >
                         <div className="relative">
-                          <BadgeIcon
-                            iconName={badge.icon_name}
-                            iconColor={badge.icon_color}
-                            rarity={badge.rarity}
-                            size="md"
+                          <BadgeFoilCard
+                            badge={badge}
                             earned
+                            size="sm"
+                            onClick={() => setSelectedId(badge.id)}
                           />
                           {isSelected && (
-                            <div className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-primary flex items-center justify-center">
+                            <div className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-primary flex items-center justify-center pointer-events-none">
                               <Check size={10} className="text-white" />
                             </div>
                           )}
                         </div>
-                        <span className="text-[9px] text-white/60 text-center leading-tight line-clamp-1">
-                          {badge.name}
-                        </span>
-                      </button>
+                      </div>
                     );
                   })}
                 </div>

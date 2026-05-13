@@ -41,20 +41,12 @@ const MonthlyEmblem = ({
           size={sizeConfig.icon}
           style={{ color: emblem.icon_color }}
         />
-        {/* Golden shimmer overlay.
-         * TODO(phase-5-#7): the rgba(255,215,0) gold-shimmer literal mirrors
-         * BadgeIcon's legendary overlay; migrate both to a shared named
-         * animation/gradient token alongside the modal-chrome pass. */}
-        <div className="absolute inset-0 pointer-events-none overflow-hidden rounded-card">
-          <div
-            className="absolute inset-0 opacity-20"
-            style={{
-              background:
-                "linear-gradient(105deg, transparent 40%, rgba(255,215,0,0.5) 50%, transparent 60%)",
-              animation: "shimmer 2.5s infinite",
-            }}
-          />
-        </div>
+        {/* Phase 6c: dropped the inline shimmer overlay (animation
+         * referenced @keyframes shimmer, which was never defined anywhere
+         * in the project — silently dead since landing per Phase 6b
+         * investigation). MonthlyEmblem stays utility-shaped; Phase 6d
+         * (optional) handles its foil upgrade with the BadgeFoilCard
+         * legendary treatment. */}
       </div>
       {showLabel && (
         <span className={`${sizeConfig.text} text-white/50 font-medium text-center`}>

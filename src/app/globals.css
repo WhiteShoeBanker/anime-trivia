@@ -1,5 +1,6 @@
 @import "tailwindcss";
 @import "../themes/manga-ink/tokens.css";
+@import "../themes/manga-ink/foil.css";
 
 html {
   scroll-behavior: smooth;

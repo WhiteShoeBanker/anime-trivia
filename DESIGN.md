@@ -78,8 +78,17 @@ rounded:
   sharp: 2px
   card: 12px
   pill: 9999px
+aspectRatio:
+  tcg-card: "3 / 4"
 shadow:
   ink: "0 4px 0 0 rgba(0,0,0,0.4)"
+motion:
+  tilt-card:
+    perspective: 800px
+    maxRotate: 12deg
+    transitionStiffness: 200
+    transitionDamping: 20
+  reducedMotionFallback: "static foil image; no tilt; no animation"
 components:
   button-primary:
     backgroundColor: "{colors.primary}"
@@ -149,6 +158,32 @@ components:
     borderColor: "{colors.warning}"
     rounded: "{rounded.card}"
     padding: 16px 20px
+  badge-foil-card:
+    aspectRatio: "3 / 4"
+    width: 96px
+    backgroundColor: "{colors.surface}"
+    borderColor: "{colors.rule}"
+    rounded: "{rounded.card}"
+    typography: "{typography.body-sm}"
+  badge-foil-common:
+    treatment: matte
+    overlay: none
+  badge-foil-uncommon:
+    treatment: gloss
+    overlay: gradient-sheen-linear
+    animation: foil-sheen-2s
+  badge-foil-rare:
+    treatment: reverse-holo
+    overlay: gradient-holo-background-only
+    animation: foil-shimmer-3s
+  badge-foil-epic:
+    treatment: full-holo
+    overlay: conic-rainbow-parallax
+    animation: foil-shimmer-tilt-driven
+  badge-foil-legendary:
+    treatment: secret-rare
+    overlay: conic-rainbow-parallax-with-sparkles
+    animation: foil-shimmer-tilt-driven + sparkle-stagger-3s
 ---
 
 ## Overview
@@ -277,6 +312,8 @@ Currently captured in YAML:
 - **badge-card** — wrapper around each badge on the Badges page list view. Raised-stone fill, soft `card` rounding, `body-sm` typography, 16 px internal padding. At the call site it composes with `<Card variant="elevated">` so the `--shadow-ink` lands on the *card* (tactile collectible), with the inner `badge-icon-lg` staying shadow-less. Selected, earned, and unearned states layer borders (`border-primary/60`, `border-white/10`, `border-white/5 opacity-60`) on top of the base via call-site className — those state borders are rarity-orthogonal.
 - **emblem-monthly** — monthly emblem display for Grand Prix winners and other named monthly artifacts. 56 px square, raised-stone surface, `rounded-card`. Gold-tinted via `border-tier3/80` + `bg-tier3/10` at the call site (replacing the hardcoded `yellow-400` literal from the pre-Phase-5 codebase — tier3 is sun gold `#eab308`). Carries a golden shimmer overlay during the legendary-shimmer animation. Candidate for `--shadow-ink` per the shadow usage rule (monthly emblems are tactile/collectible) — opt in at the call site when the surface earns it.
 - **panel-warning** — canonical caution surface for heads-up notices that aren't action-bearing: missed-promotion banners, diminishing-returns nudges, time-pressure callouts. Composes warning-tinted text on warning `/10` fill with warning `/30` border (the YAML anchors the palette; the `/10`–`/30` composition is enforced at call sites via Tailwind opacity modifiers — `bg-warning/10`, `border-warning/30`, `text-warning`). Uses `rounded-card` per the dwell-vs-act principle (panels are read, not clicked). Don't reach for accent (blood ink) — accent is reserved for incorrect-answer flashes and danger states; warning is heads-up, not alarm.
+- **badge-foil-card** — collectible card primitive for showcase badge surfaces. 3:4 aspect ratio (TCG-canonical), 96 px default width (md), card-rounded corners, rarity-tinted glow halo via `box-shadow` (uncommon emerald, rare blue, epic purple, legendary yellow) layered over the manga-panel ink shadow. The card title uses the app's default sans (DM Sans) at 11/12/14 px (sm/md/lg), uppercase, tight tracking, `line-clamp-2` so longer badge names wrap rather than clip. Phase 6c first smoke tested Anton at 13 px and dropped it — the condensed display face didn't carry at small sizes; sans-condensed-uppercase reads cleaner. The icon-hero zone consumes the full center; the foil overlay (per-rarity, see below) sits between background and icon. Composes `<BadgeFoilCard>` at the call site, which adds 3D tilt + Pointer Events for showcase surfaces (Badges page grid, BadgeCelebration overlay, EmblemSelector picker, profile featured-emblem, daily completion row, landing showcase). Utility surfaces (Navbar chip, profile avatar overlap, leagues roster) keep the matte tile primitive (`BadgeIcon`) — foil signals collectible, not navigation.
+- **badge-foil-{common, uncommon, rare, epic, legendary}** — foil treatment tokens that intensify up the rarity ladder. `common` is matte cardboard (no overlay). `uncommon` adds a slow linear sheen sweeping diagonally. `rare` applies a reverse-holo (rainbow conic gradient on the card background, the icon-hero zone stays clean — Pokémon TCG convention). `epic` applies a full-holo (rainbow conic gradient parallaxing against the 3D tilt; gradient origin tracks pointer position via CSS custom properties `--foil-x` / `--foil-y`). `legendary` inherits `epic` + adds animated radial-gradient sparkle particles staggered over a 3 s loop. All treatments degrade to static foil under `prefers-reduced-motion` (no tilt, no animation, lower-intensity static gradient).
 
 **Rarity contract.** Badge visual styling resolves through two independent axes:
 
@@ -284,6 +321,16 @@ Currently captured in YAML:
 2. **Icon color** drives the *glyph* — the Lucide stroke color, applied via inline `style={{ color: badge.icon_color }}`. The value comes from `badges.icon_color` in Postgres, which after the Phase 5 #2b migration is palette-anchored (`palette.primary` for milestone-identity badges, `palette.tier1..tier6` for ladder badges, category-mapped palette values for the remainder). Pre-#2b the column still holds the original hand-picked hex literals.
 
 Category does not participate in visual styling at render time. Category-driven palette selection happens at seed time (in the icon_color column), not at render time — components stay category-agnostic. Closes audit spec gap #3 (rarity palette token export).
+
+**Foil contract.** Badge visual styling now resolves through three independent axes:
+
+1. **Rarity** drives the *frame* (border + background tint) — established Phase 5 #2a, bound via `rarityColors` in `src/themes/index.ts`.
+2. **Icon color** drives the *glyph* — established Phase 5 #2b, palette-anchored via `badges.icon_color`.
+3. **Foil** drives the *surface treatment* — new third axis introduced in Phase 6, intensifies up the rarity ladder per the `badge-foil-*` tokens above.
+
+The three axes compose: a legendary badge with a tier-6 glyph color on a yellow rarity frame still picks up the full-holo + sparkle treatment from the foil axis — the axes layer, they don't conflict. Foil is only applied to showcase surfaces (`BadgeFoilCard`); utility surfaces (`BadgeIcon` tile) consume rarity + icon-color only.
+
+**3D tilt.** Showcase badge surfaces tilt up to 12° around their center, anchored on Pointer Events position relative to the card (perspective 800 px, `transformStyle: preserve-3d`). Driven by `useMotionValue` + `useTransform` + `useSpring` for weighty motion. Pointer Events cover mouse + touch + pen — no `DeviceOrientationEvent` (iOS permission complexity outweighs the gain on first load). Gated by `useReducedMotion()`; when reduced motion is on, tilt is locked to 0 and foil overlays render their static fallback variants.
 
 Not captured (deferred):
 
@@ -308,6 +355,7 @@ Do:
 - Maintain 44×44px touch targets. Junior-tier users are real users; their thumbs are smaller.
 - Hoist repeated label/color maps into `src/themes/index.ts` as named exports. The duplicated `RARITY_LABELS` object between `BadgeCard.tsx` and `BadgeCelebration.tsx` is the canonical anti-pattern this fixes — single source of truth, theme-portable. Phase 5 #2a hoists `rarityLabels`; future passes hoist analogous repeated maps as they're identified (difficulty palette, audience-fit palette, etc., per audit spec gaps #1–#2).
 - **tier-3 (sun gold) vs warning (amber).** Both sit in the warm-yellow register; their semantics differ. `tier-3` signals achievement — the Gold league foil, top-3 medal rank 1, monthly emblem frame, achievement-gold register. `warning` signals caution — almost-out states, missed-promotion banners, diminishing-returns nudges. When reaching for "warm yellow," ask: is this a reward or a heads-up? Don't grab `text-yellow-400` or `text-amber-400` — bind to the right semantic token.
+- **Anton is loaded but currently unused.** The font ships at the body via `--font-display` for any future surface that earns a display register, but as of Phase 6c there are zero canonical consumers. The Phase 6c first smoke pass tried Anton on foil-card badge titles at 13 px; it didn't carry — the condensed display face lost character at that scale and the descender clearance fought the 3:4 card aspect. Card titles reverted to DM Sans (the body sans, condensed via uppercase + tight tracking). When a future surface reaches for Anton (homepage hero, rank-up splash, prestige certificate UI), confirm at the rendered size before committing — Anton wants ≥32 px to read as intended. Don't introduce a third typeface; pair Anton with DM Sans when both display drama and body legibility are needed in the same view.
 
 Don't:
 
@@ -319,6 +367,7 @@ Don't:
 - Don't render Anton at body sizes. It is a display face; below 32px it loses character.
 - Don't add medium-rounded corners (4–12px). The shape language is sharp-or-pill, not a continuous scale.
 - Don't paint admin analytics charts in raw Tailwind palette colors. Use `chartPalette` from `@/themes`. The current admin pages drift here and will be refactored in a focused follow-up session.
+- **Don't apply foil treatment to every surface.** Foil signals collectible — reserve for badges, monthly emblems, and Grand Prix emblem templates. Non-collectible surfaces (notifications, alerts, navigation chrome, inline chips, leaderboard rows) stay matte/flat. A nav chip with a foil sheen reads as gauche, not premium.
 
 **Hover convention.** Hover deepens existing fills by 10% (e.g., `bg-primary` on hover becomes `bg-primary/90`; `bg-white/20` becomes `bg-white/30`). Hover deepens text by 20% (e.g., `text-text` on hover becomes `text-text/80`). Focus-visible mirrors hover. The codebase converged on this convention organically — captured here as the canonical rule. Do not invent per-element opacity values.
 

@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import BadgeIcon from "@/components/BadgeIcon";
+import BadgeFoilCard from "@/components/BadgeFoilCard";
 import type { Badge } from "@/types";
 
 interface BadgeGridProps {
@@ -12,39 +12,23 @@ interface BadgeGridProps {
 
 const BadgeGrid = ({ badges, earnedBadgeIds, onBadgeClick }: BadgeGridProps) => {
   return (
-    <div className="grid grid-cols-4 sm:grid-cols-5 md:grid-cols-6 gap-3">
+    <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-4 place-items-center">
       {badges.map((badge, i) => {
         const earned = earnedBadgeIds.has(badge.id);
         return (
-          <motion.button
+          <motion.div
             key={badge.id}
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: i * 0.02 }}
-            onClick={() => onBadgeClick?.(badge)}
-            className={`flex flex-col items-center gap-1.5 p-2 rounded-card transition-colors ${
-              earned
-                ? "hover:bg-white/5"
-                : "opacity-40 hover:opacity-60"
-            }`}
-            title={`${badge.name}: ${badge.description}`}
           >
-            <BadgeIcon
-              iconName={badge.icon_name}
-              iconColor={badge.icon_color}
-              rarity={badge.rarity}
-              size="md"
+            <BadgeFoilCard
+              badge={badge}
               earned={earned}
-              shimmer={earned}
+              size="md"
+              onClick={onBadgeClick ? () => onBadgeClick(badge) : undefined}
             />
-            <span
-              className={`text-[10px] leading-tight text-center line-clamp-2 ${
-                earned ? "text-white/70" : "text-white/30"
-              }`}
-            >
-              {badge.name}
-            </span>
-          </motion.button>
+          </motion.div>
         );
       })}
     </div>

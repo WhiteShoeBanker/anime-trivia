@@ -26,6 +26,7 @@ import { getUserBadges } from "@/lib/badges";
 import { createClient } from "@/lib/supabase/client";
 import AnimeCard from "@/components/AnimeCard";
 import BadgeIcon from "@/components/BadgeIcon";
+import BadgeFoilCard from "@/components/BadgeFoilCard";
 import type { AnimeSeries, Badge } from "@/types";
 import useReducedMotion from "@/lib/use-reduced-motion";
 import { tierColors } from "@/themes";
@@ -75,14 +76,76 @@ const RANK_ICONS = [
 ];
 
 // ── Sample badges for showcase ──────────────────────────────────
+// Synthetic Badge shapes for the marketing showcase. Names appear as the
+// Anton card title in BadgeFoilCard; rarities span the five foil treatments
+// (common matte → legendary secret-rare) so visitors see the full ladder.
 
-const SAMPLE_BADGES = [
-  { icon: "Flame", color: "#FF6B35", rarity: "common" as const },
-  { icon: "Target", color: "#00D1B2", rarity: "uncommon" as const },
-  { icon: "Zap", color: "#facc15", rarity: "rare" as const },
-  { icon: "Crown", color: "#a855f7", rarity: "epic" as const },
-  { icon: "Star", color: "#FFD700", rarity: "legendary" as const },
-  { icon: "Shield", color: "#3b82f6", rarity: "rare" as const },
+const SAMPLE_BADGES: Badge[] = [
+  {
+    id: "sample-streak",
+    slug: "sample-streak",
+    name: "Streak Starter",
+    description: "Sample badge",
+    category: "streak",
+    icon_name: "Flame",
+    icon_color: "#FF6B35",
+    requirement_type: "manual",
+    requirement_value: {},
+    rarity: "common",
+    created_at: "2026-01-01T00:00:00Z",
+  },
+  {
+    id: "sample-aim",
+    slug: "sample-aim",
+    name: "Sharp Aim",
+    description: "Sample badge",
+    category: "accuracy",
+    icon_name: "Target",
+    icon_color: "#00D1B2",
+    requirement_type: "manual",
+    requirement_value: {},
+    rarity: "uncommon",
+    created_at: "2026-01-01T00:00:00Z",
+  },
+  {
+    id: "sample-speed",
+    slug: "sample-speed",
+    name: "Lightning",
+    description: "Sample badge",
+    category: "speed",
+    icon_name: "Zap",
+    icon_color: "#facc15",
+    requirement_type: "manual",
+    requirement_value: {},
+    rarity: "rare",
+    created_at: "2026-01-01T00:00:00Z",
+  },
+  {
+    id: "sample-crown",
+    slug: "sample-crown",
+    name: "Crowned",
+    description: "Sample badge",
+    category: "special",
+    icon_name: "Crown",
+    icon_color: "#a855f7",
+    requirement_type: "manual",
+    requirement_value: {},
+    rarity: "epic",
+    created_at: "2026-01-01T00:00:00Z",
+  },
+  {
+    id: "sample-star",
+    slug: "sample-star",
+    name: "All-Star",
+    description: "Sample badge",
+    category: "special",
+    icon_name: "Star",
+    icon_color: "#FFD700",
+    requirement_type: "manual",
+    requirement_value: {},
+    rarity: "legendary",
+    created_at: "2026-01-01T00:00:00Z",
+  },
 ];
 
 // ── Animated Counter ───────────────────────────────────────────
@@ -500,20 +563,18 @@ const LandingContent = ({ topAnime, stats }: LandingContentProps) => {
       {/* ── BADGE SHOWCASE ───────────────────────────────── */}
       <section className="max-w-5xl mx-auto px-4 py-8">
         <h2 className="text-2xl md:text-3xl font-bold text-center mb-3">
-          Collect 28+ Badges!
+          Collect 40+ Badges!
         </h2>
         <p className="text-center text-white/40 mb-8 max-w-md mx-auto text-sm">
           Streak, speed, accuracy, difficulty, breadth — unlock them all.
         </p>
         <div className="flex justify-center gap-4 flex-wrap mb-6">
-          {SAMPLE_BADGES.map((badge, i) => (
-            <BadgeIcon
-              key={i}
-              iconName={badge.icon}
-              iconColor={badge.color}
-              rarity={badge.rarity}
-              size="lg"
+          {SAMPLE_BADGES.map((badge) => (
+            <BadgeFoilCard
+              key={badge.id}
+              badge={badge}
               earned
+              size="lg"
             />
           ))}
         </div>

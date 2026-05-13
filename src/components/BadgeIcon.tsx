@@ -2,22 +2,7 @@
 
 import * as LucideIcons from "lucide-react";
 import type { BadgeRarity } from "@/types";
-
-const RARITY_BORDERS: Record<BadgeRarity, string> = {
-  common: "border-gray-500/50",
-  uncommon: "border-emerald-500/60",
-  rare: "border-blue-500/60",
-  epic: "border-purple-500/60",
-  legendary: "border-yellow-400/80",
-};
-
-const RARITY_BG: Record<BadgeRarity, string> = {
-  common: "bg-gray-500/10",
-  uncommon: "bg-emerald-500/10",
-  rare: "bg-blue-500/10",
-  epic: "bg-purple-500/10",
-  legendary: "bg-yellow-400/10",
-};
+import { rarityColors } from "@/themes";
 
 interface BadgeIconProps {
   iconName: string;
@@ -25,7 +10,6 @@ interface BadgeIconProps {
   rarity: BadgeRarity;
   size?: "sm" | "md" | "lg";
   earned?: boolean;
-  shimmer?: boolean;
 }
 
 // Container dimensions mirror the badge-icon-sm/md/lg tokens declared in
@@ -45,13 +29,20 @@ type LucideIconComponent = React.ComponentType<{
 
 const LucideIconMap = LucideIcons as unknown as Record<string, LucideIconComponent>;
 
+// Utility-shape tile primitive for non-collectible surfaces (Navbar emblem
+// chip, profile avatar overlap, leagues roster, inline daily/landing
+// "Recent:" chips). Collectible surfaces consume <BadgeFoilCard> instead
+// (Phase 6c migration). The `shimmer` prop was dropped in 6c — the inline
+// overlay it controlled referenced a @keyframes shimmer that was never
+// defined anywhere in the project (dead since landing, confirmed in Phase
+// 6b investigation). Foil shimmer now lives in BadgeFoilCard's
+// foil-uncommon/rare treatments.
 const BadgeIcon = ({
   iconName,
   iconColor,
   rarity,
   size = "md",
   earned = true,
-  shimmer = false,
 }: BadgeIconProps) => {
   const sizeConfig = SIZE_MAP[size];
 
@@ -70,39 +61,20 @@ const BadgeIcon = ({
   }
   const IconComponent = ResolvedIcon ?? LucideIcons.HelpCircle;
 
-  const isLegendary = rarity === "legendary" && earned;
-
   return (
     <div
       className={`relative ${sizeConfig.container} rounded-card ${sizeConfig.border} flex items-center justify-center ${
         earned
-          ? `${RARITY_BORDERS[rarity]} ${RARITY_BG[rarity]}`
+          ? `${rarityColors[rarity].border} ${rarityColors[rarity].bg}`
           : "border-white/10 bg-white/5 opacity-40"
-      } ${isLegendary && shimmer ? "animate-pulse" : ""}`}
+      }`}
     >
       <IconComponent
         size={sizeConfig.icon}
         style={{ color: earned ? iconColor : "rgba(255,255,255,0.3)" }}
       />
-      {/* Legendary shimmer overlay.
-       * TODO(phase-5-#7): the rgba(255,215,0) gold-shimmer literal still
-       * lives inline. Migrate to a named animation/gradient token alongside
-       * the modal-chrome pass (BadgeCelebration + EmblemSelector share it). */}
-      {isLegendary && shimmer && (
-        <div className="absolute inset-0 rounded-card overflow-hidden pointer-events-none">
-          <div
-            className="absolute inset-0 opacity-20"
-            style={{
-              background:
-                "linear-gradient(105deg, transparent 40%, rgba(255,215,0,0.4) 50%, transparent 60%)",
-              animation: "shimmer 2s infinite",
-            }}
-          />
-        </div>
-      )}
     </div>
   );
 };
 
 export default BadgeIcon;
-export { RARITY_BORDERS, RARITY_BG };

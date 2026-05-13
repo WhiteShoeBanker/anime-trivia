@@ -9,7 +9,7 @@ import { checkDailyChallengePlayed } from "@/lib/daily-challenge";
 import QuizCard from "@/components/QuizCard";
 import ProgressBar from "@/components/ProgressBar";
 import ScoreDisplay from "@/components/ScoreDisplay";
-import BadgeIcon from "@/components/BadgeIcon";
+import BadgeFoilCard from "@/components/BadgeFoilCard";
 import { calculateMaxScore } from "@/lib/scoring";
 import { Button } from "@/components/ui/Button";
 
@@ -301,16 +301,12 @@ const DailyContent = () => {
               </h3>
               <div className="flex justify-center gap-3 flex-wrap">
                 {newBadges.map((badge) => (
-                  <div key={badge.id} className="flex flex-col items-center gap-1">
-                    <BadgeIcon
-                      iconName={badge.icon_name}
-                      iconColor={badge.icon_color}
-                      rarity={badge.rarity}
-                      size="lg"
-                      earned
-                    />
-                    <span className="text-xs text-white/60">{badge.name}</span>
-                  </div>
+                  <BadgeFoilCard
+                    key={badge.id}
+                    badge={badge}
+                    earned
+                    size="lg"
+                  />
                 ))}
               </div>
             </div>
