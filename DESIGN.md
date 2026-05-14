@@ -264,6 +264,22 @@ components:
     width: 20px
     height: 20px
     typography: "{typography.caption}"
+  pill-status-positive:
+    backgroundColor: "{colors.success}"
+    textColor: "{colors.success}"
+    treatment: ghost
+  pill-status-negative:
+    backgroundColor: "{colors.accent}"
+    textColor: "{colors.accent}"
+    treatment: ghost
+  pill-status-warning:
+    backgroundColor: "{colors.warning}"
+    textColor: "{colors.warning}"
+    treatment: ghost
+  pill-status-neutral:
+    backgroundColor: "{colors.text-muted}"
+    textColor: "{colors.text-muted}"
+    treatment: ghost
 ---
 
 ## Overview
@@ -429,6 +445,8 @@ The three axes compose: a legendary badge with a tier-6 glyph color on a yellow 
 3. **Interactivity** — `pill-interactive` carries the 44 px touch-target floor (DESIGN.md L274 / CLAUDE.md 44×44 rule). Reach for it on filter chips and toggle clusters (Badges category filter is the canonical case; the existing chip there at ~28 px tall is below the touch floor and will rise to 44 px in the 5#4b refactor). Active state composes `bg-primary/20 text-primary`; inactive composes `bg-white/5 text-text-muted`; both deepen per the canonical hover convention.
 
 The `count-badge-{sm,md}` tokens are a **sibling primitive**, not a pill variant. The shape is 1:1 (16/20 px square), filled with `bg-accent`, and rendered as a notification numeric indicator. The current Navbar uses two sizes (16 px desktop, 20 px mobile); both are captured. Despite the shared `rounded-pill` token, the aspect ratio and content register (numbers, not labels) make this a different primitive — call out as `<CountBadge>` at the React boundary, not `<Pill variant="count">`.
+
+**Status register.** Four generic status tones complement the difficulty register for non-difficulty result chips: `pill-status-positive` (success ghost — duel WIN, leagues Promoted), `pill-status-negative` (accent ghost — duel LOSS, leagues Demoted), `pill-status-warning` (warning ghost — duel DRAW, leagues Missed promotion), and `pill-status-neutral` (text-muted ghost — leagues Stayed, future no-op states). The leagues Demoted chip shifts from its current `bg-primary/20 text-primary` to `pill-status-negative` per the codified filled-vs-ghost and "demotion ≠ brand identity" rules — demotion is danger, not brand. The duel "DUEL vs {opp}" mode header chip is a composite (icon + avatar + name) and stays as a locally-styled element, not a Pill variant.
 
 Foil treatment does not apply to any pill. The foil register signals collectible — applied to `BadgeFoilCard` only. Pills are status/identity chrome, matte by definition. Closes audit spec gap #5 (component tokens for pill-status / pill-count / pill-tag) and seeds the L551–554 priority M pill refactor.
 
