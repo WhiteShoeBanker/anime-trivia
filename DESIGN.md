@@ -22,6 +22,11 @@ colors:
   tier-4: "#cbd5e1"
   tier-5: "#3b82f6"
   tier-6: "#dc2626"
+  audience-junior: "#10b981"
+  audience-teen: "#facc15"
+  audience-mature: "#ef4444"
+  difficulty-impossible: "#a855f7"
+  difficulty-mixed: "#60a5fa"
 typography:
   display:
     fontFamily: Anton
@@ -184,6 +189,81 @@ components:
     treatment: secret-rare
     overlay: conic-rainbow-parallax-with-sparkles
     animation: foil-shimmer-tilt-driven + sparkle-stagger-3s
+  pill-sm:
+    rounded: "{rounded.pill}"
+    padding: 2px 8px
+    typography: "{typography.caption}"
+  pill-md:
+    rounded: "{rounded.pill}"
+    padding: 4px 12px
+    typography: "{typography.label}"
+  pill-interactive:
+    rounded: "{rounded.pill}"
+    padding: 10px 14px
+    minHeight: 44px
+    typography: "{typography.label}"
+  pill-pro:
+    backgroundColor: "{colors.primary}"
+    textColor: "#ffffff"
+    treatment: filled
+  pill-audience-junior:
+    backgroundColor: "{colors.audience-junior}"
+    textColor: "{colors.ink}"
+    treatment: filled
+  pill-audience-teen:
+    backgroundColor: "{colors.audience-teen}"
+    textColor: "{colors.ink}"
+    treatment: filled
+  pill-audience-mature:
+    backgroundColor: "{colors.audience-mature}"
+    textColor: "{colors.ink}"
+    treatment: filled
+  pill-content-rating-e:
+    backgroundColor: "{colors.audience-junior}"
+    textColor: "{colors.ink}"
+    treatment: filled
+  pill-content-rating-t:
+    backgroundColor: "{colors.audience-teen}"
+    textColor: "{colors.ink}"
+    treatment: filled
+  pill-content-rating-m:
+    backgroundColor: "{colors.audience-mature}"
+    textColor: "{colors.ink}"
+    treatment: filled
+  pill-difficulty-easy:
+    backgroundColor: "{colors.audience-junior}"
+    textColor: "{colors.audience-junior}"
+    treatment: ghost
+  pill-difficulty-medium:
+    backgroundColor: "{colors.audience-teen}"
+    textColor: "{colors.audience-teen}"
+    treatment: ghost
+  pill-difficulty-hard:
+    backgroundColor: "{colors.audience-mature}"
+    textColor: "{colors.audience-mature}"
+    treatment: ghost
+  pill-difficulty-impossible:
+    backgroundColor: "{colors.difficulty-impossible}"
+    textColor: "{colors.difficulty-impossible}"
+    treatment: ghost
+  pill-difficulty-mixed:
+    backgroundColor: "{colors.difficulty-mixed}"
+    textColor: "{colors.difficulty-mixed}"
+    treatment: ghost
+  count-badge-sm:
+    backgroundColor: "{colors.accent}"
+    textColor: "#ffffff"
+    rounded: "{rounded.pill}"
+    width: 16px
+    height: 16px
+    typography: "{typography.caption}"
+  count-badge-md:
+    backgroundColor: "{colors.accent}"
+    textColor: "#ffffff"
+    rounded: "{rounded.pill}"
+    width: 20px
+    height: 20px
+    typography: "{typography.caption}"
 ---
 
 ## Overview
@@ -239,6 +319,16 @@ Tier foils (Bronze → Champion ladder):
 - **tier-6 (#dc2626, red foil champion):** Champion tier.
 
 The tier foils are deliberately cooler than the brand vermillion — they signal achievement using a steel/jewel-tone register that doesn't compete for the primary's role.
+
+Audience-fit and difficulty (semantic registers, orthogonal to the brand):
+
+- **audience-junior (#10b981, jade-emerald):** The "safe for ages 6+" register. Surfaces the Junior age-tier chip in the Navbar and the "E 6+" content-rating chip on anime cards. Also serves as the visual base for difficulty-easy. Distinct from `success` (#16a34a) — success is the jade flash for correct answers; audience-junior is the steady identity green for tier/rating chips.
+- **audience-teen (#facc15, warm yellow):** The "ages 13+" register. Surfaces the Teen age-tier chip and the "T 13+" content-rating chip. Also serves as the visual base for difficulty-medium. Deliberately a different yellow from `warning` (#d97706 amber) and from `tier-3` (#eab308 sun gold) — three warm yellows for three distinct semantics: heads-up caution, achievement gold, and audience identity.
+- **audience-mature (#ef4444, red):** The "ages 16+" register. Surfaces the "M 16+" content-rating chip. Also serves as the visual base for difficulty-hard. Distinct from `accent` (#b91c1c blood ink — incorrect-answer / danger states), `error` (#991b1b washed-ink red — form validation), and `tier-6` (#dc2626 red foil champion). Four reds, four semantics — do not conflate. The pill bg+text pairing is `audience-mature` over `ink` (not white): white-on-#ef4444 measures 3.76:1, below AA; ink-on-#ef4444 measures ~5.5:1 and passes. This corrects the current `bg-red-500 text-white` AnimeCard M chip.
+- **difficulty-impossible (#a855f7, purple):** Net-new hue for the impossible-difficulty register. Used only as a ghost (background and text both rendered from this hue at /20 and full alpha respectively, per the pill-difficulty-* component tokens). Orthogonal to the brand and tier ladders.
+- **difficulty-mixed (#60a5fa, sky blue):** Net-new hue for the mixed-difficulty register (currently surfaces only in DuelClient's pre-quiz chip). Distinct from `tier-5` (#3b82f6 cobalt holo) — tier-5 carries the Diamond league achievement signal; difficulty-mixed is a calmer sky tone that doesn't compete.
+
+The audience and difficulty registers exist precisely because the codebase reached for the same emerald/yellow/red traffic-light values inline in 4+ sites without a shared map. The hoist into named tokens closes audit doc spec gap #2 (audience-fit palette) and seeds the difficulty palette for the Phase 5 #4 pill refactor; the JS-side hoist into `audiencePalette` and `difficultyPalette` lands in 5#4b.
 
 Note: the JS-side `palette` export in `src/themes/manga-ink/palette.ts` mirrors these tokens for code paths that can't read CSS custom properties (Recharts series, framer-motion confetti, `theme-color` meta). `src/themes/index.ts` further composes `chartPalette` (8-color Recharts sequence) and `confettiPalette` (5-color celebration array) from these primitives.
 
@@ -332,9 +422,18 @@ The three axes compose: a legendary badge with a tier-6 glyph color on a yellow 
 
 **3D tilt.** Showcase badge surfaces tilt up to 12° around their center, anchored on Pointer Events position relative to the card (perspective 800 px, `transformStyle: preserve-3d`). Driven by `useMotionValue` + `useTransform` + `useSpring` for weighty motion. Pointer Events cover mouse + touch + pen — no `DeviceOrientationEvent` (iOS permission complexity outweighs the gain on first load). Gated by `useReducedMotion()`; when reduced motion is on, tilt is locked to 0 and foil overlays render their static fallback variants.
 
+**Pill register.** The pill family covers the textual status/identity chips that the codebase previously redeclared inline in ~9 sites with two competing shape registers (`rounded` 4px off-spec, `rounded-full` on-spec). Component tokens resolve through three composable axes:
+
+1. **Size** — `pill-sm` (caption typography 10/700/tracked, 2px×8px padding) for Navbar microchips; `pill-md` (label typography 12/700/tracked, 4px×12px padding) for everywhere else. The Navbar's existing `text-[10px]` arbitrary graduates to the `caption` typography role at the same 10 px — same size, gains proper weight (700) and tracking (0.06em) so micro-pills read as eyebrows rather than shrunk body text. Two sizes is the entire informational range; no `lg` because interactive pills carry their own sizing.
+2. **Semantic** — `pill-pro` (filled brand identity), `pill-audience-{junior,teen,mature}` (filled identity chips for the age-tier register), `pill-content-rating-{e,t,m}` (filled identity chips for the content-rating register; visually identical to audience because the registers share a palette but carry distinct semantics — user-age vs. content-age), and `pill-difficulty-{easy,medium,hard,impossible,mixed}` (ghost status chips). Filled and ghost are the two treatments — see "Filled vs. ghost" in Do's and Don'ts.
+3. **Interactivity** — `pill-interactive` carries the 44 px touch-target floor (DESIGN.md L274 / CLAUDE.md 44×44 rule). Reach for it on filter chips and toggle clusters (Badges category filter is the canonical case; the existing chip there at ~28 px tall is below the touch floor and will rise to 44 px in the 5#4b refactor). Active state composes `bg-primary/20 text-primary`; inactive composes `bg-white/5 text-text-muted`; both deepen per the canonical hover convention.
+
+The `count-badge-{sm,md}` tokens are a **sibling primitive**, not a pill variant. The shape is 1:1 (16/20 px square), filled with `bg-accent`, and rendered as a notification numeric indicator. The current Navbar uses two sizes (16 px desktop, 20 px mobile); both are captured. Despite the shared `rounded-pill` token, the aspect ratio and content register (numbers, not labels) make this a different primitive — call out as `<CountBadge>` at the React boundary, not `<Pill variant="count">`.
+
+Foil treatment does not apply to any pill. The foil register signals collectible — applied to `BadgeFoilCard` only. Pills are status/identity chrome, matte by definition. Closes audit spec gap #5 (component tokens for pill-status / pill-count / pill-tag) and seeds the L551–554 priority M pill refactor.
+
 Not captured (deferred):
 
-- Pills (age-tier "Jr"/"T", PRO subscription, pendingDuels count, stock-style status pills)
 - Tables (admin analytics, leagues, leaderboards)
 - Forms (auth, parent consent, profile edit)
 - Navigation (lifted Navbar mobile overlay just shipped — fix/mobile-nav-overlay)
@@ -356,6 +455,9 @@ Do:
 - Hoist repeated label/color maps into `src/themes/index.ts` as named exports. The duplicated `RARITY_LABELS` object between `BadgeCard.tsx` and `BadgeCelebration.tsx` is the canonical anti-pattern this fixes — single source of truth, theme-portable. Phase 5 #2a hoists `rarityLabels`; future passes hoist analogous repeated maps as they're identified (difficulty palette, audience-fit palette, etc., per audit spec gaps #1–#2).
 - **tier-3 (sun gold) vs warning (amber).** Both sit in the warm-yellow register; their semantics differ. `tier-3` signals achievement — the Gold league foil, top-3 medal rank 1, monthly emblem frame, achievement-gold register. `warning` signals caution — almost-out states, missed-promotion banners, diminishing-returns nudges. When reaching for "warm yellow," ask: is this a reward or a heads-up? Don't grab `text-yellow-400` or `text-amber-400` — bind to the right semantic token.
 - **Anton is loaded but currently unused.** The font ships at the body via `--font-display` for any future surface that earns a display register, but as of Phase 6c there are zero canonical consumers. The Phase 6c first smoke pass tried Anton on foil-card badge titles at 13 px; it didn't carry — the condensed display face lost character at that scale and the descender clearance fought the 3:4 card aspect. Card titles reverted to DM Sans (the body sans, condensed via uppercase + tight tracking). When a future surface reaches for Anton (homepage hero, rank-up splash, prestige certificate UI), confirm at the rendered size before committing — Anton wants ≥32 px to read as intended. Don't introduce a third typeface; pair Anton with DM Sans when both display drama and body legibility are needed in the same view.
+- **Filled fill = identity. Ghost (color/20) fill = status.** The pill family resolves through two treatments. *Filled* (`bg-{color}` at full alpha + contrast-paired text) signals identity — PRO, age-tier (Jr/T/M for the user), content-rating (E/T/M for the content). *Ghost* (`bg-{color}/20 text-{color}` at full alpha) signals status — difficulty, duel result, leagues result, the active branch of an interactive filter. The two registers must stay legible side by side, so don't render the same semantic with both treatments. The stats-page PRO chip (`bg-primary/20 text-primary`, ghost) is the canonical violation — same brand mark as the Navbar PRO chip but a different register — and resolves to filled in the 5#4b refactor.
+- **Interactive pills carry `min-h-[44px]`.** Informational pills (PRO, Jr/T, content-rating, duel-result, leagues-result, the QuizCard difficulty indicator) stay text-tight at `pill-sm` or `pill-md`. *Interactive* pills (filter chips, toggle clusters — Badges category filter is the canonical case) must satisfy the 44 px touch-target floor that DESIGN.md L274 and CLAUDE.md enforce. The existing Badges category chip at ~28 px tall is the failure mode the `pill-interactive` token corrects.
+- **Audience yellow, warning amber, and tier-3 gold are three distinct hues for three distinct semantics.** `audience-teen` (#facc15 warm yellow) is heads-up identity for the 13+ register; `warning` (#d97706 amber) is heads-up caution for missed-promotion / almost-out states; `tier-3` (#eab308 sun gold) is achievement gold for the Gold league and monthly emblem frame. Reaching for "warm yellow" without picking the right semantic token is the same anti-pattern flagged in the existing tier-3-vs-warning rule above.
 
 Don't:
 
@@ -368,6 +470,9 @@ Don't:
 - Don't add medium-rounded corners (4–12px). The shape language is sharp-or-pill, not a continuous scale.
 - Don't paint admin analytics charts in raw Tailwind palette colors. Use `chartPalette` from `@/themes`. The current admin pages drift here and will be refactored in a focused follow-up session.
 - **Don't apply foil treatment to every surface.** Foil signals collectible — reserve for badges, monthly emblems, and Grand Prix emblem templates. Non-collectible surfaces (notifications, alerts, navigation chrome, inline chips, leaderboard rows) stay matte/flat. A nav chip with a foil sheen reads as gauche, not premium.
+- **Don't redeclare emerald / yellow / red inline for traffic-light registers.** The audience, content-rating, and difficulty registers all hoist into named tokens (`audience-junior`, `audience-teen`, `audience-mature`, `difficulty-impossible`, `difficulty-mixed`) and into the `audiencePalette` / `difficultyPalette` JS maps (5#4b). Reach for `bg-audience-junior` / `pill-difficulty-easy`, not raw `bg-emerald-500` / `bg-emerald-500/20 text-emerald-400`.
+- **Don't use `text-black` on pill text.** The "bone over ink" discipline runs both ways — when a brand pill (`pill-pro`) carries white text, the white is `#ffffff`; when a dark-on-light pill (`pill-audience-{junior,teen,mature}`, `pill-content-rating-{e,t,m}`) needs dark text, bind to the `ink` token (#0a0a0a), not raw black. The existing `text-black` on the Navbar Teen pill and the AnimeCard T rating is the anti-pattern this rule corrects.
+- **Don't bind `audience-teen` to `--color-tier-3` (sun gold).** Tier-3 is achievement gold — the Gold-league foil, top-3 medal rank 1, monthly emblem frame. Audience-teen is heads-up identity yellow. They share a warm-yellow neighborhood but signal different things; collapsing them muddles the achievement register.
 
 **Hover convention.** Hover deepens existing fills by 10% (e.g., `bg-primary` on hover becomes `bg-primary/90`; `bg-white/20` becomes `bg-white/30`). Hover deepens text by 20% (e.g., `text-text` on hover becomes `text-text/80`). Focus-visible mirrors hover. The codebase converged on this convention organically — captured here as the canonical rule. Do not invent per-element opacity values.
 
