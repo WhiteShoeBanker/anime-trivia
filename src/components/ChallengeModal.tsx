@@ -7,6 +7,7 @@ import { createClient } from "@/lib/supabase/client";
 import type { AnimeSeries, DuelDifficulty } from "@/types";
 import useReducedMotion from "@/lib/use-reduced-motion";
 import { Button } from "@/components/ui/Button";
+import { Label } from "@/components/ui/Label";
 import { DifficultyChip } from "@/components/ui/DifficultyChip";
 import { difficultyLabels } from "@/themes";
 
@@ -119,10 +120,9 @@ const ChallengeModal = ({
             <div className="flex-1 overflow-y-auto space-y-5">
               {/* Anime selection */}
               <div>
-                <label className="text-xs font-semibold text-white/50 mb-2 block">
-                  Anime
-                </label>
+                <Label htmlFor="challenge-anime">Anime</Label>
                 <select
+                  id="challenge-anime"
                   value={selectedAnimeId ?? "random"}
                   onChange={(e) =>
                     setSelectedAnimeId(
@@ -142,10 +142,17 @@ const ChallengeModal = ({
 
               {/* Difficulty */}
               <div>
-                <label className="text-xs font-semibold text-white/50 mb-2 block">
+                <span
+                  id="challenge-difficulty-label"
+                  className="block text-sm font-medium leading-[1.4] text-text mb-1"
+                >
                   Difficulty
-                </label>
-                <div className="flex flex-wrap gap-2.5">
+                </span>
+                <div
+                  role="group"
+                  aria-labelledby="challenge-difficulty-label"
+                  className="flex flex-wrap gap-2.5"
+                >
                   {DIFFICULTIES.map((value) => {
                     const locked =
                       isJunior &&
@@ -174,10 +181,17 @@ const ChallengeModal = ({
 
               {/* Question count */}
               <div>
-                <label className="text-xs font-semibold text-white/50 mb-2 block">
+                <span
+                  id="challenge-question-count-label"
+                  className="block text-sm font-medium leading-[1.4] text-text mb-1"
+                >
                   Questions
-                </label>
-                <div className="flex gap-2">
+                </span>
+                <div
+                  role="group"
+                  aria-labelledby="challenge-question-count-label"
+                  className="flex gap-2"
+                >
                   {([5, 10] as const).map((count) => (
                     <button
                       key={count}
