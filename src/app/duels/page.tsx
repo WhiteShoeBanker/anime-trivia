@@ -43,6 +43,7 @@ import type {
 } from "@/types";
 import { Button } from "@/components/ui/Button";
 import { Pill, type PillTone } from "@/components/ui/Pill";
+import { Input } from "@/components/ui/Input";
 
 type Tab = "quick" | "friends" | "history";
 
@@ -540,13 +541,14 @@ const DuelsPage = () => {
           >
             {/* Username search */}
             <div className="flex gap-2">
-              <input
+              <Input
                 type="text"
+                aria-label="Search friends by username"
                 placeholder="Search by username..."
                 value={friendSearch}
                 onChange={(e) => setFriendSearch(e.target.value)}
                 onKeyDown={(e) => e.key === "Enter" && handleFriendSearch()}
-                className="flex-1 bg-surface border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder:text-white/30 focus:outline-none focus:border-primary/50"
+                className="flex-1 text-sm"
               />
               <button
                 onClick={handleFriendSearch}
