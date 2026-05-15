@@ -78,4 +78,43 @@ export const rarityLabels: Record<Rarity, { text: string; color: string }> = {
   legendary: { text: "Legendary", color: "text-yellow-400" },
 };
 
+// Audience-fit palette. Hoisted per DESIGN.md spec gap #2 closure —
+// junior/teen/mature are the three identity-chip hues for age-tier and
+// content-rating registers. Mirrors --color-audience-* in tokens.css; the
+// exported hexes are for JS code paths that can't read CSS custom
+// properties (theme-color meta, framer-motion, etc.).
+export const audiencePalette = {
+  junior: "#10b981",
+  teen: "#facc15",
+  mature: "#ef4444",
+} as const;
+
+export type AudienceTier = keyof typeof audiencePalette;
+
+// Difficulty palette. easy/medium/hard reuse audience hues (same visual
+// register, different semantic axis); impossible + mixed are net-new.
+// Mirrors --color-difficulty-impossible / --color-difficulty-mixed in
+// tokens.css. Replaces the inline difficulty maps previously redeclared
+// in QuizCard.tsx and duels/[duelId]/DuelClient.tsx.
+export const difficultyPalette = {
+  easy: "#10b981",
+  medium: "#facc15",
+  hard: "#ef4444",
+  impossible: "#a855f7",
+  mixed: "#60a5fa",
+} as const;
+
+// Named DifficultyTone (not Difficulty) to avoid colliding with @/types/Difficulty
+// — the types-level Difficulty is the question.difficulty enum (4 values, no
+// "mixed"); this superset adds "mixed" for the DuelClient pre-quiz chip.
+export type DifficultyTone = keyof typeof difficultyPalette;
+
+export const difficultyLabels: Record<DifficultyTone, string> = {
+  easy: "Easy",
+  medium: "Medium",
+  hard: "Hard",
+  impossible: "Impossible",
+  mixed: "Mixed",
+};
+
 export { palette };
