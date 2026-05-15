@@ -13,6 +13,7 @@ colors:
   rule: "#262626"
   warning: "#d97706"
   error: "#991b1b"
+  error-strong: "#f87171"
   paper: "#f7f3eb"
   ink: "#0a0a0a"
   rule-paper: "#d6d3d1"
@@ -71,6 +72,12 @@ typography:
     fontWeight: 700
     lineHeight: 1
     letterSpacing: 0.04em
+  field-label:
+    fontFamily: DM Sans
+    fontSize: 14px
+    fontWeight: 500
+    lineHeight: 1.4
+    letterSpacing: 0
   caption:
     fontFamily: DM Sans
     fontSize: 10px
@@ -354,6 +361,21 @@ components:
     borderColor: "{colors.rule}"
     textColor: "{colors.text-muted}"
     treatment: ghost
+  input-default:
+    backgroundColor: "{colors.surface}"
+    borderColor: "{colors.rule}"
+    textColor: "{colors.text}"
+    typography: "{typography.body-sm}"
+    rounded: "{rounded.sharp}"
+    padding: 12px 16px
+    minHeight: 44px
+  input-error:
+    borderColor: "{colors.error}"
+    treatment: ghost
+  input-disabled:
+    backgroundColor: "{colors.surface}"
+    borderColor: "{colors.rule}"
+    treatment: ghost
 ---
 
 ## Overview
@@ -414,7 +436,7 @@ Audience-fit and difficulty (semantic registers, orthogonal to the brand):
 
 - **audience-junior (#10b981, jade-emerald):** The "safe for ages 6+" register. Surfaces the Junior age-tier chip in the Navbar and the "E 6+" content-rating chip on anime cards. Also serves as the visual base for difficulty-easy. Distinct from `success` (#16a34a) — success is the jade flash for correct answers; audience-junior is the steady identity green for tier/rating chips.
 - **audience-teen (#facc15, warm yellow):** The "ages 13+" register. Surfaces the Teen age-tier chip and the "T 13+" content-rating chip. Also serves as the visual base for difficulty-medium. Deliberately a different yellow from `warning` (#d97706 amber) and from `tier-3` (#eab308 sun gold) — three warm yellows for three distinct semantics: heads-up caution, achievement gold, and audience identity.
-- **audience-mature (#ef4444, red):** The "ages 16+" register. Surfaces the "M 16+" content-rating chip. Also serves as the visual base for difficulty-hard. Distinct from `accent` (#b91c1c blood ink — incorrect-answer / danger states), `error` (#991b1b washed-ink red — form validation), and `tier-6` (#dc2626 red foil champion). Four reds, four semantics — do not conflate. The pill bg+text pairing is `audience-mature` over `ink` (not white): white-on-#ef4444 measures 3.76:1, below AA; ink-on-#ef4444 measures ~5.5:1 and passes. This corrects the current `bg-red-500 text-white` AnimeCard M chip.
+- **audience-mature (#ef4444, red):** The "ages 16+" register. Surfaces the "M 16+" content-rating chip. Also serves as the visual base for difficulty-hard. Distinct from `accent` (#b91c1c blood ink — incorrect-answer / danger states), `error` + `error-strong` (#991b1b surface / #f87171 body — single form-validation semantic across two luminance registers, per the surface/body split codified in 5#6a), and `tier-6` (#dc2626 red foil champion). Five red tokens span four semantics — do not conflate. The pill bg+text pairing is `audience-mature` over `ink` (not white): white-on-#ef4444 measures 3.76:1, below AA; ink-on-#ef4444 measures ~5.5:1 and passes. This corrects the current `bg-red-500 text-white` AnimeCard M chip.
 - **difficulty-impossible (#a855f7, purple):** Net-new hue for the impossible-difficulty register. Used only as a ghost (background and text both rendered from this hue at /20 and full alpha respectively, per the pill-difficulty-* component tokens). Orthogonal to the brand and tier ladders.
 - **difficulty-mixed (#60a5fa, sky blue):** Net-new hue for the mixed-difficulty register (currently surfaces only in DuelClient's pre-quiz chip). Distinct from `tier-5` (#3b82f6 cobalt holo) — tier-5 carries the Diamond league achievement signal; difficulty-mixed is a calmer sky tone that doesn't compete.
 
@@ -499,6 +521,9 @@ Currently captured in YAML:
 - **difficulty-chip** — interactive pill primitive for the quiz-idle difficulty cluster (`DifficultySelector`) and the duel `ChallengeModal` picker. `rounded-pill`, `label` typography, 10 px × 14 px padding (matches `pill-interactive`), `min-h-[44px]` floor. Distinct from `pill-interactive` because each chip carries its own identity hue rather than the brand-color toggle pattern.
 - **difficulty-chip-{easy, medium, hard, impossible, mixed}-{active, inactive}** — per-tone active/inactive pairing. *Active* is filled (`bg-{difficulty-tone}` + `text-ink`); all five tones pair with `text-ink` per AA contrast (easy 7.8:1, medium 12.9:1, hard 5.3:1, impossible 5.0:1, mixed 7.8:1 — all pass; `text-white` fails on every tone). *Inactive* is ghost (`bg-{difficulty-tone}/20` + `text-{difficulty-tone}`), visually identical to the static `pill-difficulty-{tone}` token — the duplicate name is intentional, marking the semantic split between read-only label (`pill-difficulty`) and interactive cluster member (`difficulty-chip`).
 - **difficulty-chip-locked** — junior-tier lock state for hard / impossible / mixed tones (COPPA age gate). `bg-surface` with `border-rule`, `text-text-muted`, `opacity-50` at the call site, `cursor-not-allowed`. Lock icon pairs in the component. Distinct from `answer-tile-disabled` (which is reveal-state suppression, not an age gate).
+- **input-default** — base text-input chrome. Sharp corners (action surface, per the L398 sharp-defaults list — inputs are explicitly named there alongside buttons and quiz answer tiles), `body-sm` typography, 44 px minimum height (matches the COPPA touch-target floor). Composes `bg-surface` fill with `border-rule` hairline (call-site `border-white/10` is the near-equivalent the codebase ships today — same precedent as `answer-tile-default`'s drift, corrected by token-binding in 5#6c). Placeholder text binds to `text-text-muted/60` (the `/60` alpha maintains distinction from helper text and labels, which both render at full `text-text-muted` alpha). Focus-visible is additive: `border-primary` border swap + `ring-1 ring-primary/30` thin primary ring, no `ring-offset`. The thin-ring + border-swap is intentionally distinct from `pill-interactive` / `button-*`'s `focus-visible:ring-2 ring-offset-2 ring-offset-secondary` — chunky offset rings read heavy around tall text-entry fields; thin ring + border swap reads as "active text field" without competing with the discrete-tap focus signature.
+- **input-error** — error state. Extends `input-default`; overrides `borderColor` to `{colors.error}` and optionally adds a `bg-error/10` tint at the call site. The input's own text stays `text-text` (bone) — error red lives on the sibling `<FieldError>` message, not in the input itself (mirrors the `answer-tile` ghost-tile + filled-chip asymmetry from 5#5a: surface carries one signal, annotation carries another). Companion `<FieldError>` sibling carries `text-xs text-error-strong mt-1`. ARIA wiring is automatic via the `<Field>` wrapper: `aria-invalid="true"` on the input + `aria-describedby="{id}-error"` referencing the error message id. Critical binding rule: form-validation errors bind to the `error` / `error-strong` token pair (#991b1b surface + #f87171 body), NOT `{colors.accent}` (#b91c1c, L307 reservation for incorrect-answer flashes / danger states). The split between `border-error` (surface, #991b1b) and `text-error-strong` (body, #f87171) is AA-driven, not stylistic — mirrors the answer-tile correct/incorrect `text-ink`-vs-`text-white` asymmetry codified in 5#5a. `text-error` (#991b1b) falls to ~2.38:1 on `bg-secondary` (sub-AA); `text-error-strong` (#f87171) clears 7.14:1 on `bg-secondary` and 6.31:1 on `bg-surface`. Current canonical drift across `auth/page.tsx`, `ParentConsentForm.tsx`, `redeem/page.tsx`, `star-league/page.tsx` uses `text-accent` for form errors — same drift class as the `border-red-500 → border-accent` correction in 5#5b, this is the analogous `text-accent → text-error-strong` correction.
+- **input-disabled** — disabled state. Extends `input-default`; keeps the default palette and layers `opacity-50` + `cursor-not-allowed` at the call site (mirrors `answer-tile-disabled` and `difficulty-chip-locked` precedents — opacity is a composition rule, not a token override). Native `disabled` attribute drives the state; `aria-disabled` is inherent to the native semantic.
 
 **Rarity contract.** Badge visual styling resolves through two independent axes:
 
@@ -533,10 +558,15 @@ Foil treatment does not apply to any pill. The foil register signals collectible
 
 **Difficulty-chip cluster.** The difficulty-chip family covers the active / inactive cluster surfaced on the quiz-idle screen (`DifficultySelector`) and inside the duel `ChallengeModal`. Pill-shaped, 44 px floor, filled-when-active and ghost-when-inactive per the canonical "filled = identity, ghost = status" rule — with one nuance: each chip carries its own difficulty hue, NOT the `pill-interactive` brand-color toggle (`bg-primary/20 text-primary`). All five active tones pair with `text-ink` per the AA contrast table (easy 7.8:1, medium 12.9:1, hard 5.3:1, impossible 5.0:1, mixed 7.8:1 — `text-white` fails on every tone). When migrating, drop the current `boxShadow: 0 0 20px rgba(...)` glow and the `motion.div border-2` overlay ring on the active chip — both are L388 forbidden-shadow / L293 showmanship anti-patterns. The inactive treatment is visually identical to the static `pill-difficulty-{tone}` token — the duplicate name is intentional, marking the semantic split between read-only label (`pill-difficulty`) and interactive cluster member (`difficulty-chip`). Closes audit gap #1's 4th redeclaration site by token-binding `ChallengeModal.tsx:36–42`'s `DIFFICULTY_COLORS` map to the same primitive.
 
+**Forms register.** The form-input family covers the text-entry chrome surfaced across `auth/page.tsx` (email / password / username / phone / OTP), `ParentConsentForm.tsx` (parent email + COPPA consent checkbox), `redeem/page.tsx` (promo code), `star-league/page.tsx` (waitlist email), `browse/BrowseContent.tsx` (anime search), and `duels/page.tsx` (friend-username search). The codebase ships a single canonical inline pattern (`w-full px-4 py-3 rounded-xl bg-surface border border-white/10 text-white placeholder:text-white/30 focus:outline-none focus:border-primary/50`) repeated across ~9 sites with five micro-variants (base fill `bg-surface` vs `bg-secondary` vs `bg-white/5`, monospace promo code, leading-icon search, OTP letter-spacing, `<select>` chrome). Inputs resolve through three composable parts: (1) **chrome** — `input-default` carries the base, with `input-error` and `input-disabled` overriding the palette / opacity anchor only; (2) **field wrapper** — the `<Field>` primitive composes `<Label>` + child input + optional `<FieldHint>` + optional `<FieldError>`, and auto-wires `htmlFor` ↔ `id`, `aria-describedby` ↔ hint+error ids, and `aria-invalid` ↔ error-truthy. Standalone `<Input>` chrome is also exposed for search inputs and inline pickers that don't need the labelled wrapper (visually-hidden labels still required for a11y — never placeholder-only); (3) **label typography** — form labels bind to the new `field-label` typography token (DM Sans 14/500/normal), distinct from the existing `label` token (DM Sans 12/700/0.04em tracked). The split is semantic, not stylistic: `label` is pill-chrome eyebrow scope (reads as ALL-CAPS eyebrow above microchips); `field-label` is form-context scope (reads as soft label above text fields). Same precedent as the `pill-difficulty-*` vs `difficulty-chip-*` split — shared shape neighborhood, distinct semantic register.
+
+Per-field hints and error messages are utility-bound compositions (not YAML tokens). `<FieldHint>` renders at `text-xs text-text-muted` (12 px DM Sans 400, washed bone at full alpha — distinct from `text-text-muted/60` placeholder), positioned as a sibling under the input, before the error if both render. `<FieldError>` renders at `text-xs text-error-strong mt-1`, with an `id="{field}-error"` auto-bound for `aria-describedby`. The text uses `error-strong` (#f87171) rather than `error` (#991b1b) because the latter falls to ~2.38:1 contrast on `bg-secondary` — sub-AA. `error-strong` is the luminance-shifted sibling reserved for body-text where 4.5:1 must clear; `error` remains the surface-color token bound to borders, fills, and plates where UI-component 3:1 contrast suffices. Required fields wire `aria-required="true"` + a visible `*` suffix in the label rendered at `text-text-muted` (required is normal form state, not a warning — quiet asterisk preserves scan rhythm). Focus-visible follows the L495 hover-convention precedent: additive on top of `input-default` — `border-primary` swap + `ring-1 ring-primary/30` thin primary ring, no `ring-offset`, no separate focus YAML token (mirrors how hover is codified as a rule, not a YAML variant).
+
+Closes the deferred forms entry below.
+
 Not captured (deferred):
 
 - Tables (admin analytics, leagues, leaderboards)
-- Forms (auth, parent consent, profile edit)
 - Navigation (lifted Navbar mobile overlay just shipped — fix/mobile-nav-overlay)
 - Footer
 
@@ -562,6 +592,14 @@ Do:
 - **Answer reveal pattern = ghost tile + filled chip.** Tile carries status (`bg-{tone}/10 border-{tone}`); letter chip is the discrete acknowledgement glyph (`bg-{tone}` + paired text token). The hybrid is canonical — codified in `answer-tile-*` per 5#5a.
 - **Correct chip pairs `bg-success` with `text-ink` (6.0:1 AA). Incorrect chip pairs `bg-accent` with `text-white` (6.5:1 AA).** The asymmetry is contrast-driven, not stylistic. `text-white` on `bg-success` falls to 3.3:1 (fails); `text-ink` on `bg-accent` falls to 3.1:1 (fails). Codified per 5#5a so future contributors don't "balance" the pairing into symmetry.
 - **Difficulty chip clusters render active = filled, inactive = ghost — each chip carries its own identity hue.** Distinct from `pill-interactive`, whose canonical active state is `bg-primary/20 text-primary` (brand-color toggle for filter-cluster patterns like the Badges category filter). Difficulty clusters bind to `difficulty-chip-{tone}-{active,inactive}`.
+- **Inputs use `rounded-sharp` (action surface).** Listed explicitly in the L398 sharp-defaults list alongside buttons and quiz answer tiles. Distinct from `card-default`'s dwell-rounding — inputs accept user action, they are not dwell-and-parse surfaces. The current `rounded-xl` (12 px) across `auth/page.tsx`, `ParentConsentForm.tsx`, `redeem/page.tsx`, `star-league/page.tsx`, `browse/BrowseContent.tsx`, `duels/page.tsx`, `ChallengeModal.tsx` is the canonical drift this rule corrects in 5#6c (same drift class as the `AnswerButton.tsx` `rounded-xl → rounded-sharp` correction in 5#5b).
+- **Form labels bind to `field-label` (DM Sans 14/500/normal).** Distinct from pill-chrome `label` (DM Sans 12/700/0.04em tracked), which is eyebrow scope. The split is semantic — form-context labels are soft, pill-chrome labels are eyebrow. Same precedent as `pill-difficulty-*` vs `difficulty-chip-*`.
+- **Form errors split surface vs body.** Input border binds to `border-error` (#991b1b, surface-contrast OK at UI-component 3:1); `<FieldError>` message text binds to `text-error-strong` (#f87171, ≥ 4.5:1 AA on dark surfaces). `error` (#991b1b) is the L394 form-validation surface reservation; `error-strong` is its luminance-shifted body-text sibling. Reusing `accent` (#b91c1c) for form validation collapses two distinct semantics (L307 incorrect-answer reservation). The split mirrors the answer-tile correct/incorrect `text-ink`-vs-`text-white` asymmetry from 5#5a — contrast-driven, not stylistic.
+- **Placeholders bind to `text-text-muted/60`.** The `/60` alpha keeps placeholder visually distinct from helper text and labels (both at full `text-text-muted` alpha). Current `placeholder:text-white/30` (raw alpha-bone) is drift; bind to the token.
+- **Required fields wire `aria-required="true"` + a visible `*` suffix in the label.** The asterisk renders in `text-text-muted` — required is a normal form state, not a warning. Don't use `text-accent` or `text-primary` for the asterisk; both pull semantic weight the indicator doesn't carry. Don't use a "Required" string suffix; it's verbose and breaks scan rhythm.
+- **Inputs satisfy the 44 px touch-target floor.** Codified `min-h-[44px]` in the `<Input>` primitive. Defends against future `py-2` shrinkage. Same COPPA floor as buttons and chips.
+- **The `<Field>` wrapper auto-wires `aria-invalid` + `aria-describedby` when an `error` prop is present.** Never bypass the wrapper to write ARIA attributes by hand on the input — the wrapper is the single source of truth and prevents id-mismatch drift.
+- **Input focus uses `border-primary` + `ring-1 ring-primary/30` (no offset).** Thinner than `pill-interactive` / `button-*` `focus-visible:ring-2 ring-offset-2 ring-offset-secondary`. Intentional differentiation — discrete-tap targets get chunky offset rings; dwell text-entry surfaces get thin border-swap + thin ring. Mirrors how hover is codified as a rule, not a per-element YAML variant.
 
 Don't:
 
@@ -582,6 +620,14 @@ Don't:
 - **Don't add soft-blur shadows (`boxShadow: 0 0 X rgba(...)`) to difficulty chips or any surface.** Reaffirms L388. The current `DifficultySelector.tsx:27,32,37,42` rgba glows are the failure mode.
 - **Don't layer motion ring overlays atop active-state filled chips.** `layoutId` spring transitions are fine without visible chrome rings; the current `DifficultySelector.tsx:78–82` `motion.div border-2 border-white/30` ring is L293 showmanship the cluster doesn't need.
 - **Don't pair `text-white` with `bg-success`.** Falls to 3.3:1 — below AA. Use `text-ink` (6.0:1).
+- **Don't use `rounded-xl` on inputs.** Inputs are listed explicitly in the L398 sharp-defaults list. Bind to `{rounded.sharp}`. The current `rounded-xl` across `auth/page.tsx`, `ParentConsentForm.tsx`, `redeem/page.tsx`, `star-league/page.tsx`, `browse/BrowseContent.tsx`, `duels/page.tsx`, `ChallengeModal.tsx` `<select>` is the canonical drift the 5#6c migration corrects.
+- **Don't bind form errors to `text-accent`.** Accent (#b91c1c) is the L307 incorrect-answer / danger reservation. Form-validation errors bind to the surface/body split: `border-error` (#991b1b) on the input, `text-error-strong` (#f87171) on the message. Same drift class as the AnswerButton `border-red-500 → border-accent` correction in 5#5b — this is the analogous `text-accent → text-error-strong` correction.
+- **Don't bind `<FieldError>` message text to `text-error` (#991b1b).** The token's surface luminance falls to ~2.38:1 on `bg-secondary` and ~2.11:1 on `bg-surface` — sub-AA. Use `text-error-strong` (#f87171) for body text. `error` stays the border / fill surface token.
+- **Don't use `placeholder:text-white/30` (raw alpha-bone).** Bind to `placeholder:text-text-muted/60`. The `/60` alpha keeps placeholder visually distinct from helper text and labels at full alpha.
+- **Don't bind form labels to the pill-chrome `label` typography token.** `label` is 12 px / 700 / 0.04em tracked — an eyebrow register that reads as ALL-CAPS-feel above text fields. Form labels bind to `field-label` (14 px / 500 / normal).
+- **Don't ship inputs without an associated label.** Visible `<Label>` for primary form fields; visually-hidden labels (`sr-only` class) for search inputs and inline pickers (e.g., `browse/BrowseContent.tsx`, `duels/page.tsx` friend-search, `star-league/page.tsx` waitlist) — never placeholder-only. Placeholders disappear on input; labels persist.
+- **Don't skip `aria-invalid` + `aria-describedby` on error-bearing fields.** The `<Field>` wrapper does this automatically when an `error` prop is present; never bypass the wrapper to write inputs by hand without the ARIA wiring.
+- **Don't use offset focus rings (`ring-offset-2`) on inputs.** Offset rings belong on discrete-tap targets (buttons, pills, chips). Inputs are tall dwell text-entry surfaces; the offset gap reads heavy. Use `border-primary` + `ring-1 ring-primary/30` (no offset).
 
 **Hover convention.** Hover deepens existing fills by 10% (e.g., `bg-primary` on hover becomes `bg-primary/90`; `bg-white/20` becomes `bg-white/30`). Hover deepens text by 20% (e.g., `text-text` on hover becomes `text-text/80`). Focus-visible mirrors hover. The codebase converged on this convention organically — captured here as the canonical rule. Do not invent per-element opacity values.
 
