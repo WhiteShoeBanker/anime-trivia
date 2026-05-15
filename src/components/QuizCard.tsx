@@ -41,7 +41,7 @@ const QuizCard = ({
         transition={{ duration: reducedMotion ? 0 : 0.3 }}
         className="w-full max-w-2xl mx-auto"
       >
-        <div className="bg-surface rounded-2xl border border-white/10 p-5 md:p-6">
+        <div className="bg-surface rounded-card border border-white/10 p-5 md:p-6">
           {/* Top bar */}
           <div className="flex items-center justify-between mb-4">
             <span className="text-sm text-white/50">
@@ -85,7 +85,7 @@ const QuizCard = ({
                 animate={{ opacity: 1, height: "auto" }}
                 exit={reducedMotion ? { opacity: 0 } : { opacity: 0, height: 0 }}
                 transition={{ duration: reducedMotion ? 0 : 0.3 }}
-                className="mt-4 p-4 rounded-xl bg-white/5 border border-white/10"
+                className="mt-4 p-4 rounded-card bg-white/5 border border-white/10"
               >
                 <p className="text-sm text-white/70">
                   <span className="font-semibold text-primary">Explanation: </span>

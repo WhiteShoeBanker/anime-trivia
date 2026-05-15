@@ -280,6 +280,80 @@ components:
     backgroundColor: "{colors.text-muted}"
     textColor: "{colors.text-muted}"
     treatment: ghost
+  answer-tile-default:
+    backgroundColor: "{colors.surface}"
+    borderColor: "{colors.rule}"
+    textColor: "{colors.text}"
+    typography: "{typography.body-sm}"
+    rounded: "{rounded.sharp}"
+    padding: 12px 16px
+    minHeight: 56px
+  answer-tile-selected:
+    backgroundColor: "{colors.primary}"
+    borderColor: "{colors.primary}"
+    treatment: ghost
+  answer-tile-correct:
+    backgroundColor: "{colors.success}"
+    borderColor: "{colors.success}"
+    treatment: ghost
+  answer-tile-incorrect:
+    backgroundColor: "{colors.accent}"
+    borderColor: "{colors.accent}"
+    treatment: ghost
+  answer-tile-disabled:
+    backgroundColor: "{colors.surface}"
+    borderColor: "{colors.rule}"
+    treatment: ghost
+  difficulty-chip:
+    rounded: "{rounded.pill}"
+    padding: 10px 14px
+    minHeight: 44px
+    typography: "{typography.label}"
+  difficulty-chip-easy-active:
+    backgroundColor: "{colors.audience-junior}"
+    textColor: "{colors.ink}"
+    treatment: filled
+  difficulty-chip-medium-active:
+    backgroundColor: "{colors.audience-teen}"
+    textColor: "{colors.ink}"
+    treatment: filled
+  difficulty-chip-hard-active:
+    backgroundColor: "{colors.audience-mature}"
+    textColor: "{colors.ink}"
+    treatment: filled
+  difficulty-chip-impossible-active:
+    backgroundColor: "{colors.difficulty-impossible}"
+    textColor: "{colors.ink}"
+    treatment: filled
+  difficulty-chip-mixed-active:
+    backgroundColor: "{colors.difficulty-mixed}"
+    textColor: "{colors.ink}"
+    treatment: filled
+  difficulty-chip-easy-inactive:
+    backgroundColor: "{colors.audience-junior}"
+    textColor: "{colors.audience-junior}"
+    treatment: ghost
+  difficulty-chip-medium-inactive:
+    backgroundColor: "{colors.audience-teen}"
+    textColor: "{colors.audience-teen}"
+    treatment: ghost
+  difficulty-chip-hard-inactive:
+    backgroundColor: "{colors.audience-mature}"
+    textColor: "{colors.audience-mature}"
+    treatment: ghost
+  difficulty-chip-impossible-inactive:
+    backgroundColor: "{colors.difficulty-impossible}"
+    textColor: "{colors.difficulty-impossible}"
+    treatment: ghost
+  difficulty-chip-mixed-inactive:
+    backgroundColor: "{colors.difficulty-mixed}"
+    textColor: "{colors.difficulty-mixed}"
+    treatment: ghost
+  difficulty-chip-locked:
+    backgroundColor: "{colors.surface}"
+    borderColor: "{colors.rule}"
+    textColor: "{colors.text-muted}"
+    treatment: ghost
 ---
 
 ## Overview
@@ -420,6 +494,11 @@ Currently captured in YAML:
 - **panel-warning** — canonical caution surface for heads-up notices that aren't action-bearing: missed-promotion banners, diminishing-returns nudges, time-pressure callouts. Composes warning-tinted text on warning `/10` fill with warning `/30` border (the YAML anchors the palette; the `/10`–`/30` composition is enforced at call sites via Tailwind opacity modifiers — `bg-warning/10`, `border-warning/30`, `text-warning`). Uses `rounded-card` per the dwell-vs-act principle (panels are read, not clicked). Don't reach for accent (blood ink) — accent is reserved for incorrect-answer flashes and danger states; warning is heads-up, not alarm.
 - **badge-foil-card** — collectible card primitive for showcase badge surfaces. 3:4 aspect ratio (TCG-canonical), 96 px default width (md), card-rounded corners, rarity-tinted glow halo via `box-shadow` (uncommon emerald, rare blue, epic purple, legendary yellow) layered over the manga-panel ink shadow. The card title uses the app's default sans (DM Sans) at 11/12/14 px (sm/md/lg), uppercase, tight tracking, `line-clamp-2` so longer badge names wrap rather than clip. Phase 6c first smoke tested Anton at 13 px and dropped it — the condensed display face didn't carry at small sizes; sans-condensed-uppercase reads cleaner. The icon-hero zone consumes the full center; the foil overlay (per-rarity, see below) sits between background and icon. Composes `<BadgeFoilCard>` at the call site, which adds 3D tilt + Pointer Events for showcase surfaces (Badges page grid, BadgeCelebration overlay, EmblemSelector picker, profile featured-emblem, daily completion row, landing showcase). Utility surfaces (Navbar chip, profile avatar overlap, leagues roster) keep the matte tile primitive (`BadgeIcon`) — foil signals collectible, not navigation.
 - **badge-foil-{common, uncommon, rare, epic, legendary}** — foil treatment tokens that intensify up the rarity ladder. `common` is matte cardboard (no overlay). `uncommon` adds a slow linear sheen sweeping diagonally. `rare` applies a reverse-holo (rainbow conic gradient on the card background, the icon-hero zone stays clean — Pokémon TCG convention). `epic` applies a full-holo (rainbow conic gradient parallaxing against the 3D tilt; gradient origin tracks pointer position via CSS custom properties `--foil-x` / `--foil-y`). `legendary` inherits `epic` + adds animated radial-gradient sparkle particles staggered over a 3 s loop. All treatments degrade to static foil under `prefers-reduced-motion` (no tilt, no animation, lower-intensity static gradient).
+- **answer-tile-default** — base quiz answer-choice tile. Sharp corners (action surface, per the L398 sharp-defaults list — quiz tiles are explicitly named there), `body-sm` typography, 56 px minimum height (answer-tile-specific exception above the 44 px floor; tap density during quiz play warrants the extra room). Composes `bg-surface` fill with `border-rule` hairline (call-site `border-white/10` is the near-equivalent the codebase ships today). Hover and focus-visible deepen neutrally per the L495 10/20% convention (`border-white/20`, `bg-white/5` overlay) — explicitly NOT brand-tinted; the brand tint is reserved for the `selected` state, not for pre-commit hover.
+- **answer-tile-{selected, correct, incorrect, disabled}** — reveal-state variants. Each extends the default and only overrides the palette anchor: `selected` → `{colors.primary}`, `correct` → `{colors.success}`, `incorrect` → `{colors.accent}` (closes audit L444 `red-500` drift — accent is reserved per L307 for incorrect-answer flashes), `disabled` keeps the default palette and layers `opacity-50` at the call site. Tile composition is ghost (`bg-{tone}/10 border-{tone}`); the `/10` (rather than `pill-difficulty-*`'s `/20`) is intentional because the tile carries body-length answer copy that needs to read against the tinted fill. The inner letter-chip (32×32 px, `rounded-pill`) flips to filled treatment paired with the tile state: `selected` → `bg-primary` + `text-white`; `correct` → `bg-success` + `text-ink` (6.0:1 AA, beats `text-white` at 3.3:1); `incorrect` → `bg-accent` + `text-white` (6.5:1 AA, beats `text-ink` at 3.1:1). The asymmetry between correct (text-ink) and incorrect (text-white) is contrast-driven, not stylistic.
+- **difficulty-chip** — interactive pill primitive for the quiz-idle difficulty cluster (`DifficultySelector`) and the duel `ChallengeModal` picker. `rounded-pill`, `label` typography, 10 px × 14 px padding (matches `pill-interactive`), `min-h-[44px]` floor. Distinct from `pill-interactive` because each chip carries its own identity hue rather than the brand-color toggle pattern.
+- **difficulty-chip-{easy, medium, hard, impossible, mixed}-{active, inactive}** — per-tone active/inactive pairing. *Active* is filled (`bg-{difficulty-tone}` + `text-ink`); all five tones pair with `text-ink` per AA contrast (easy 7.8:1, medium 12.9:1, hard 5.3:1, impossible 5.0:1, mixed 7.8:1 — all pass; `text-white` fails on every tone). *Inactive* is ghost (`bg-{difficulty-tone}/20` + `text-{difficulty-tone}`), visually identical to the static `pill-difficulty-{tone}` token — the duplicate name is intentional, marking the semantic split between read-only label (`pill-difficulty`) and interactive cluster member (`difficulty-chip`).
+- **difficulty-chip-locked** — junior-tier lock state for hard / impossible / mixed tones (COPPA age gate). `bg-surface` with `border-rule`, `text-text-muted`, `opacity-50` at the call site, `cursor-not-allowed`. Lock icon pairs in the component. Distinct from `answer-tile-disabled` (which is reveal-state suppression, not an age gate).
 
 **Rarity contract.** Badge visual styling resolves through two independent axes:
 
@@ -450,13 +529,16 @@ The `count-badge-{sm,md}` tokens are a **sibling primitive**, not a pill variant
 
 Foil treatment does not apply to any pill. The foil register signals collectible — applied to `BadgeFoilCard` only. Pills are status/identity chrome, matte by definition. Closes audit spec gap #5 (component tokens for pill-status / pill-count / pill-tag) and seeds the L551–554 priority M pill refactor.
 
+**Quiz answer-tile register.** The answer-tile family covers the four-option grid surfaced during every quiz / duel / grand-prix question. The tile resolves through two composable parts: (1) **tile state** — `answer-tile-default` carries the base; `selected`, `correct`, `incorrect`, `disabled` override the palette anchor only, all using the ghost treatment (`bg-{tone}/10 border-{tone}`) so the answer text stays on `text-text` (bone) and the tinted fill reads as status; and (2) **letter chip** — filled, 32 px square `rounded-pill`, paired with the tile state. Correct chip pairs `bg-success` with `text-ink` (6.0:1 AA — beats `text-white` at 3.3:1); incorrect chip pairs `bg-accent` with `text-white` (6.5:1 AA — beats `text-ink` at 3.1:1). The contrast asymmetry is AA-driven, not stylistic. Shake animation on `incorrect` lives in the component motion config (gated by `useReducedMotion()`) — tokens describe surface palette, not behavior. The tile is action-bearing — keeps `rounded-sharp` per the L398 sharp-defaults list, distinct from `card-default`'s dwell-rounding. The `min-h-[56px]` floor is an answer-tile-specific exception above the 44 px touch baseline; tap density during quiz play warrants the extra room.
+
+**Difficulty-chip cluster.** The difficulty-chip family covers the active / inactive cluster surfaced on the quiz-idle screen (`DifficultySelector`) and inside the duel `ChallengeModal`. Pill-shaped, 44 px floor, filled-when-active and ghost-when-inactive per the canonical "filled = identity, ghost = status" rule — with one nuance: each chip carries its own difficulty hue, NOT the `pill-interactive` brand-color toggle (`bg-primary/20 text-primary`). All five active tones pair with `text-ink` per the AA contrast table (easy 7.8:1, medium 12.9:1, hard 5.3:1, impossible 5.0:1, mixed 7.8:1 — `text-white` fails on every tone). When migrating, drop the current `boxShadow: 0 0 20px rgba(...)` glow and the `motion.div border-2` overlay ring on the active chip — both are L388 forbidden-shadow / L293 showmanship anti-patterns. The inactive treatment is visually identical to the static `pill-difficulty-{tone}` token — the duplicate name is intentional, marking the semantic split between read-only label (`pill-difficulty`) and interactive cluster member (`difficulty-chip`). Closes audit gap #1's 4th redeclaration site by token-binding `ChallengeModal.tsx:36–42`'s `DIFFICULTY_COLORS` map to the same primitive.
+
 Not captured (deferred):
 
 - Tables (admin analytics, leagues, leaderboards)
 - Forms (auth, parent consent, profile edit)
 - Navigation (lifted Navbar mobile overlay just shipped — fix/mobile-nav-overlay)
 - Footer
-- Quiz answer-choice tiles
 
 Each of these will get its own Phase 5 prompt with named tokens added to DESIGN.md alongside the component refactor.
 
@@ -476,6 +558,10 @@ Do:
 - **Filled fill = identity. Ghost (color/20) fill = status.** The pill family resolves through two treatments. *Filled* (`bg-{color}` at full alpha + contrast-paired text) signals identity — PRO, age-tier (Jr/T/M for the user), content-rating (E/T/M for the content). *Ghost* (`bg-{color}/20 text-{color}` at full alpha) signals status — difficulty, duel result, leagues result, the active branch of an interactive filter. The two registers must stay legible side by side, so don't render the same semantic with both treatments. The stats-page PRO chip (`bg-primary/20 text-primary`, ghost) is the canonical violation — same brand mark as the Navbar PRO chip but a different register — and resolves to filled in the 5#4b refactor.
 - **Interactive pills carry `min-h-[44px]`.** Informational pills (PRO, Jr/T, content-rating, duel-result, leagues-result, the QuizCard difficulty indicator) stay text-tight at `pill-sm` or `pill-md`. *Interactive* pills (filter chips, toggle clusters — Badges category filter is the canonical case) must satisfy the 44 px touch-target floor that DESIGN.md L274 and CLAUDE.md enforce. The existing Badges category chip at ~28 px tall is the failure mode the `pill-interactive` token corrects.
 - **Audience yellow, warning amber, and tier-3 gold are three distinct hues for three distinct semantics.** `audience-teen` (#facc15 warm yellow) is heads-up identity for the 13+ register; `warning` (#d97706 amber) is heads-up caution for missed-promotion / almost-out states; `tier-3` (#eab308 sun gold) is achievement gold for the Gold league and monthly emblem frame. Reaching for "warm yellow" without picking the right semantic token is the same anti-pattern flagged in the existing tier-3-vs-warning rule above.
+- **Quiz answer tiles use `rounded-sharp` (action surface).** Listed explicitly in the L398 sharp-defaults list. Distinct from `card-default`'s dwell-rounding — answer tiles are picked, not read past. The current `rounded-xl` (12 px) in `AnswerButton.tsx:60` is drift; bind to `{rounded.sharp}` in the 5#5b refactor.
+- **Answer reveal pattern = ghost tile + filled chip.** Tile carries status (`bg-{tone}/10 border-{tone}`); letter chip is the discrete acknowledgement glyph (`bg-{tone}` + paired text token). The hybrid is canonical — codified in `answer-tile-*` per 5#5a.
+- **Correct chip pairs `bg-success` with `text-ink` (6.0:1 AA). Incorrect chip pairs `bg-accent` with `text-white` (6.5:1 AA).** The asymmetry is contrast-driven, not stylistic. `text-white` on `bg-success` falls to 3.3:1 (fails); `text-ink` on `bg-accent` falls to 3.1:1 (fails). Codified per 5#5a so future contributors don't "balance" the pairing into symmetry.
+- **Difficulty chip clusters render active = filled, inactive = ghost — each chip carries its own identity hue.** Distinct from `pill-interactive`, whose canonical active state is `bg-primary/20 text-primary` (brand-color toggle for filter-cluster patterns like the Badges category filter). Difficulty clusters bind to `difficulty-chip-{tone}-{active,inactive}`.
 
 Don't:
 
@@ -491,6 +577,11 @@ Don't:
 - **Don't redeclare emerald / yellow / red inline for traffic-light registers.** The audience, content-rating, and difficulty registers all hoist into named tokens (`audience-junior`, `audience-teen`, `audience-mature`, `difficulty-impossible`, `difficulty-mixed`) and into the `audiencePalette` / `difficultyPalette` JS maps (5#4b). Reach for `bg-audience-junior` / `pill-difficulty-easy`, not raw `bg-emerald-500` / `bg-emerald-500/20 text-emerald-400`.
 - **Don't use `text-black` on pill text.** The "bone over ink" discipline runs both ways — when a brand pill (`pill-pro`) carries white text, the white is `#ffffff`; when a dark-on-light pill (`pill-audience-{junior,teen,mature}`, `pill-content-rating-{e,t,m}`) needs dark text, bind to the `ink` token (#0a0a0a), not raw black. The existing `text-black` on the Navbar Teen pill and the AnimeCard T rating is the anti-pattern this rule corrects.
 - **Don't bind `audience-teen` to `--color-tier-3` (sun gold).** Tier-3 is achievement gold — the Gold-league foil, top-3 medal rank 1, monthly emblem frame. Audience-teen is heads-up identity yellow. They share a warm-yellow neighborhood but signal different things; collapsing them muddles the achievement register.
+- **Don't redeclare difficulty palettes inline in components.** Bind to `difficulty-chip-*` (interactive cluster) or `pill-difficulty-*` (read-only label). Closes audit gap #1's 4th redeclaration site — `ChallengeModal.tsx:36–42` `DIFFICULTY_COLORS` map.
+- **Don't use `red-500` raw for incorrect-answer surfaces.** Bind to `{colors.accent}` (#b91c1c). DESIGN.md L307 reserves accent for "incorrect-answer flashes"; the current `AnswerButton.tsx` `border-red-500 bg-red-500/10` is the canonical drift this rule corrects (audit L444).
+- **Don't add soft-blur shadows (`boxShadow: 0 0 X rgba(...)`) to difficulty chips or any surface.** Reaffirms L388. The current `DifficultySelector.tsx:27,32,37,42` rgba glows are the failure mode.
+- **Don't layer motion ring overlays atop active-state filled chips.** `layoutId` spring transitions are fine without visible chrome rings; the current `DifficultySelector.tsx:78–82` `motion.div border-2 border-white/30` ring is L293 showmanship the cluster doesn't need.
+- **Don't pair `text-white` with `bg-success`.** Falls to 3.3:1 — below AA. Use `text-ink` (6.0:1).
 
 **Hover convention.** Hover deepens existing fills by 10% (e.g., `bg-primary` on hover becomes `bg-primary/90`; `bg-white/20` becomes `bg-white/30`). Hover deepens text by 20% (e.g., `text-text` on hover becomes `text-text/80`). Focus-visible mirrors hover. The codebase converged on this convention organically — captured here as the canonical rule. Do not invent per-element opacity values.
 
