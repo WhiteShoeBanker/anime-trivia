@@ -5,6 +5,7 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import type { AnimeSeries, ContentRating } from "@/types";
 import useReducedMotion from "@/lib/use-reduced-motion";
+import { Pill, type PillTone } from "@/components/ui/Pill";
 
 interface AnimeCardProps {
   anime: AnimeSeries;
@@ -23,14 +24,24 @@ const animeImages: Record<string, string> = {
   "one-piece": "/images/one%20piece%20.png",
 };
 
-const ratingConfig: Record<ContentRating, { bg: string; label: string }> = {
-  E: { bg: "bg-emerald-500", label: "E 6+" },
-  T: { bg: "bg-yellow-500 text-black", label: "T 13+" },
-  M: { bg: "bg-red-500", label: "M 16+" },
+// Content-rating → Pill tone + human label. The tone register is shared with
+// the audience-fit register (same emerald/yellow/red traffic light, different
+// semantic axis — see DESIGN.md Pill register prose).
+const ratingTone: Record<ContentRating, PillTone> = {
+  E: "content-rating-e",
+  T: "content-rating-t",
+  M: "content-rating-m",
+};
+
+const ratingLabel: Record<ContentRating, string> = {
+  E: "E 6+",
+  T: "T 13+",
+  M: "M 16+",
 };
 
 const AnimeCard = ({ anime, index = 0, restricted }: AnimeCardProps) => {
-  const rating = ratingConfig[anime.content_rating];
+  const tone = ratingTone[anime.content_rating];
+  const label = ratingLabel[anime.content_rating];
   const reducedMotion = useReducedMotion();
   const imageSrc = animeImages[anime.slug];
 
@@ -50,12 +61,10 @@ const AnimeCard = ({ anime, index = 0, restricted }: AnimeCardProps) => {
       <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
 
       {/* Content rating badge */}
-      {rating && (
-        <span
-          className={`absolute top-3 right-3 px-2 py-0.5 rounded text-xs font-bold ${rating.bg}`}
-        >
-          {rating.label}
-        </span>
+      {tone && (
+        <Pill tone={tone} size="sm" className="absolute top-3 right-3">
+          {label}
+        </Pill>
       )}
 
       <h3 className="absolute bottom-4 left-4 right-4 text-xl font-bold text-white drop-shadow-lg">

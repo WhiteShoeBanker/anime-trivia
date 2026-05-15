@@ -9,6 +9,7 @@ import { fetchPerAnimeStats, fetchRecentQuizzes } from "./actions";
 import type { PerAnimeStat, RecentQuiz } from "@/types";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
+import { Pill } from "@/components/ui/Pill";
 
 interface UserStats {
   totalQuizzes: number;
@@ -232,9 +233,9 @@ const StatsPage = () => {
               <Lock size={18} className="text-primary" />
             )}
             <h2 className="text-lg font-semibold">Pro Stats</h2>
-            <span className="ml-auto px-2 py-0.5 rounded-full bg-primary/20 text-primary text-xs font-semibold">
+            <Pill tone="pro" size="md" className="ml-auto">
               PRO
-            </span>
+            </Pill>
           </div>
 
           {/* Pro user, data still loading */}

@@ -27,6 +27,7 @@ import {
 import AnimeDiversityTracker from "@/components/AnimeDiversityTracker";
 import LeagueBanner from "@/components/LeagueBanners";
 import BadgeIcon from "@/components/BadgeIcon";
+import { Pill, type PillTone } from "@/components/ui/Pill";
 import type { League, LeagueTier, LeagueResult, Badge } from "@/types";
 import { Button } from "@/components/ui/Button";
 
@@ -625,16 +626,17 @@ const LeaguesPage = () => {
                         <p className="text-sm font-semibold text-white/60">
                           #{entry.final_rank} — {entry.weekly_xp} XP
                         </p>
-                        <span
-                          className={`text-xs font-medium px-2 py-0.5 rounded-full ${
-                            entry.result === "promoted"
-                              ? "bg-success/20 text-success"
+                        <Pill
+                          tone={
+                            (entry.result === "promoted"
+                              ? "status-positive"
                               : entry.result === "demoted"
-                                ? "bg-primary/20 text-primary"
+                                ? "status-negative"
                                 : entry.result === "missed_promotion"
-                                  ? "bg-warning/20 text-warning"
-                                  : "bg-white/10 text-white/50"
-                          }`}
+                                  ? "status-warning"
+                                  : "status-neutral") as PillTone
+                          }
+                          size="sm"
                         >
                           {entry.result === "promoted"
                             ? "Promoted"
@@ -645,7 +647,7 @@ const LeaguesPage = () => {
                               : entry.result === "missed_promotion"
                                 ? "Missed promo"
                                 : "Stayed"}
-                        </span>
+                        </Pill>
                       </div>
                     </div>
                   ))}

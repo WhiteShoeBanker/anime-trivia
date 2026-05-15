@@ -5,6 +5,8 @@ import type { Question } from "@/types";
 import Timer from "./Timer";
 import AnswerButton from "./AnswerButton";
 import useReducedMotion from "@/lib/use-reduced-motion";
+import { Pill, type PillTone } from "@/components/ui/Pill";
+import { difficultyLabels } from "@/themes";
 
 interface QuizCardProps {
   question: Question;
@@ -16,12 +18,6 @@ interface QuizCardProps {
   timeLeft: number;
   totalTime: number;
 }
-
-const difficultyColors: Record<string, string> = {
-  easy: "bg-emerald-500/20 text-emerald-400",
-  medium: "bg-yellow-500/20 text-yellow-400",
-  hard: "bg-red-500/20 text-red-400",
-};
 
 const QuizCard = ({
   question,
@@ -51,11 +47,12 @@ const QuizCard = ({
             <span className="text-sm text-white/50">
               {questionNumber}/{totalQuestions}
             </span>
-            <span
-              className={`px-3 py-1 rounded-full text-xs font-semibold capitalize ${difficultyColors[question.difficulty]}`}
+            <Pill
+              tone={`difficulty-${question.difficulty}` as PillTone}
+              size="md"
             >
-              {question.difficulty}
-            </span>
+              {difficultyLabels[question.difficulty]}
+            </Pill>
             <Timer totalSeconds={totalTime} timeLeft={timeLeft} />
           </div>
 

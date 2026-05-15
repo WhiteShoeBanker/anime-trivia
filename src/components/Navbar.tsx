@@ -7,6 +7,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, LogOut, Swords, ShoppingBag, BarChart3, Calendar } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import BadgeIcon from "@/components/BadgeIcon";
+import { Pill } from "@/components/ui/Pill";
+import { CountBadge } from "@/components/ui/CountBadge";
 import type { Badge } from "@/types";
 import { getUserEmblem } from "@/lib/badges";
 import { createClient } from "@/lib/supabase/client";
@@ -33,16 +35,16 @@ const isActive = (pathname: string, href: string) => {
 const AgeBadge = ({ ageGroup }: { ageGroup: string }) => {
   if (ageGroup === "junior") {
     return (
-      <span className="px-1.5 py-0.5 text-[10px] font-bold rounded bg-emerald-500 text-white">
+      <Pill tone="audience-junior" size="sm">
         Jr
-      </span>
+      </Pill>
     );
   }
   if (ageGroup === "teen") {
     return (
-      <span className="px-1.5 py-0.5 text-[10px] font-bold rounded bg-yellow-500 text-black">
+      <Pill tone="audience-teen" size="sm">
         T
-      </span>
+      </Pill>
     );
   }
   return null;
@@ -158,9 +160,9 @@ const Navbar = () => {
               {link.href === "/stats" && <BarChart3 size={14} />}
               {link.label}
               {link.href === "/duels" && pendingDuelCount > 0 && (
-                <span className="ml-0.5 w-4 h-4 rounded-full bg-accent text-white text-[10px] font-bold flex items-center justify-center">
+                <CountBadge size="sm" className="ml-0.5">
                   {pendingDuelCount}
-                </span>
+                </CountBadge>
               )}
               {isActive(pathname, link.href) && (
                 <motion.div
@@ -178,9 +180,9 @@ const Navbar = () => {
           {user ? (
             <>
               {profile?.subscription_tier === "pro" && (
-                <span className="px-1.5 py-0.5 text-[10px] font-bold rounded bg-primary text-white">
+                <Pill tone="pro" size="sm">
                   PRO
-                </span>
+                </Pill>
               )}
               <AgeBadge ageGroup={ageGroup} />
               {emblem && (
@@ -283,9 +285,9 @@ const Navbar = () => {
                   {link.href === "/stats" && <BarChart3 size={22} />}
                   {link.label}
                   {link.href === "/duels" && pendingDuelCount > 0 && (
-                    <span className="w-5 h-5 rounded-full bg-accent text-white text-xs font-bold flex items-center justify-center">
+                    <CountBadge size="md">
                       {pendingDuelCount}
-                    </span>
+                    </CountBadge>
                   )}
                 </Link>
               </motion.div>
@@ -299,9 +301,9 @@ const Navbar = () => {
                 className="mt-4 flex flex-col items-center gap-3"
               >
                 {profile?.subscription_tier === "pro" && (
-                  <span className="px-2 py-0.5 text-xs font-bold rounded bg-primary text-white">
+                  <Pill tone="pro" size="md">
                     PRO
-                  </span>
+                  </Pill>
                 )}
                 <div className="flex items-center gap-2">
                   {emblem && (

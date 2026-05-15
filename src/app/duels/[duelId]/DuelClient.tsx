@@ -17,7 +17,8 @@ import QuizCard from "@/components/QuizCard";
 import DuelResults from "@/components/DuelResults";
 import ChallengeModal from "@/components/ChallengeModal";
 import type { DuelMatch, DuelDifficulty, Badge } from "@/types";
-import { tierColors } from "@/themes";
+import { tierColors, difficultyLabels, type DifficultyTone } from "@/themes";
+import { Pill, type PillTone } from "@/components/ui/Pill";
 
 const LEAGUE_ICONS: Record<number, typeof Shield> = {
   1: Shield, 2: Medal, 3: Star, 4: Award, 5: Gem, 6: Swords,
@@ -32,14 +33,6 @@ interface DuelClientProps {
   animeName: string;
   opponentName: string;
 }
-
-const DIFFICULTY_LABELS: Record<string, { label: string; color: string }> = {
-  easy: { label: "Easy", color: "text-emerald-400 bg-emerald-500/20" },
-  medium: { label: "Medium", color: "text-yellow-400 bg-yellow-500/20" },
-  hard: { label: "Hard", color: "text-red-400 bg-red-500/20" },
-  impossible: { label: "Impossible", color: "text-purple-400 bg-purple-500/20" },
-  mixed: { label: "Mixed", color: "text-blue-400 bg-blue-500/20" },
-};
 
 const DuelClient = ({
   duel: initialDuel,
@@ -246,7 +239,9 @@ const DuelClient = ({
     }
   };
 
-  const diffInfo = DIFFICULTY_LABELS[initialDuel.difficulty] ?? DIFFICULTY_LABELS.medium;
+  const difficultyKey = (initialDuel.difficulty as DifficultyTone) in difficultyLabels
+    ? (initialDuel.difficulty as DifficultyTone)
+    : ("medium" as DifficultyTone);
   const duelNow = submittedDuel ?? latestDuel;
 
   // ── Already Played ────────────────────────────────────────────
@@ -363,11 +358,12 @@ const DuelClient = ({
             </div>
             <div>
               <p className="text-xs text-white/40">Difficulty</p>
-              <span
-                className={`inline-block px-2 py-0.5 rounded-full text-xs font-semibold ${diffInfo.color}`}
+              <Pill
+                tone={`difficulty-${difficultyKey}` as PillTone}
+                size="md"
               >
-                {diffInfo.label}
-              </span>
+                {difficultyLabels[difficultyKey]}
+              </Pill>
             </div>
             <div>
               <p className="text-xs text-white/40">Questions</p>
