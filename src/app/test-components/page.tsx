@@ -13,6 +13,12 @@ import {
   DifficultyChip,
   type DifficultyTone,
 } from "@/components/ui/DifficultyChip";
+import { Label } from "@/components/ui/Label";
+import { FieldHint } from "@/components/ui/FieldHint";
+import { FieldError } from "@/components/ui/FieldError";
+import { Input } from "@/components/ui/Input";
+import { Field } from "@/components/ui/Field";
+import { Search } from "lucide-react";
 
 // --- Mock Data ---
 
@@ -116,6 +122,8 @@ const TestComponentsPage = () => {
   const [difficulty, setDifficulty] = useState<Difficulty>("medium");
   const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
   const [isRevealed, setIsRevealed] = useState(false);
+  const [formEmail, setFormEmail] = useState("");
+  const [showFieldError, setShowFieldError] = useState(false);
 
   const handleAnswer = (index: number) => {
     setSelectedAnswer(index);
@@ -338,6 +346,101 @@ const TestComponentsPage = () => {
               xpEarned={300}
               newRank="Chunin"
             />
+          </div>
+        </div>
+      </section>
+
+      {/* --- Form primitives --- */}
+      <section>
+        <h2 className="text-xl font-semibold mb-4">Form</h2>
+        <div className="max-w-md space-y-8">
+          {/* Standalone primitives */}
+          <div className="space-y-4">
+            <h3 className="text-sm text-white/50">
+              Standalone primitives
+            </h3>
+            <div>
+              <Label htmlFor="demo-standalone" required>
+                Standalone label
+              </Label>
+              <FieldHint>
+                Standalone hint — full text-text-muted alpha.
+              </FieldHint>
+              <FieldError>
+                Standalone error — text-error-strong, aria-live polite.
+              </FieldError>
+            </div>
+          </div>
+
+          {/* Bare <Input> variants (no <Field> wrapper) */}
+          <div className="space-y-4">
+            <h3 className="text-sm text-white/50">
+              Bare &lt;Input&gt; variants
+            </h3>
+            <div>
+              <label htmlFor="demo-search" className="sr-only">
+                Search anime
+              </label>
+              <Input
+                id="demo-search"
+                placeholder="Search anime…"
+                leadingIcon={<Search size={18} />}
+              />
+            </div>
+            <Input
+              aria-label="OTP code"
+              placeholder="••••••"
+              maxLength={6}
+              className="text-center text-2xl tracking-[0.5em] font-mono"
+            />
+            <Input
+              aria-label="Disabled field"
+              placeholder="Disabled"
+              disabled
+            />
+            <Input
+              aria-label="Error field"
+              placeholder="Error visual state"
+              error
+            />
+          </div>
+
+          {/* <Field> compositions */}
+          <div className="space-y-6">
+            <h3 className="text-sm text-white/50">
+              &lt;Field&gt; compositions
+            </h3>
+            <Field id="demo-email" label="Email" hint="We never share it.">
+              <Input
+                type="email"
+                placeholder="you@example.com"
+                value={formEmail}
+                onChange={(e) => setFormEmail(e.target.value)}
+              />
+            </Field>
+
+            <Field id="demo-username" label="Username">
+              <Input placeholder="No hint on this one" />
+            </Field>
+
+            <Field
+              id="demo-required"
+              label="Display name"
+              required
+              error={
+                showFieldError ? "This field is required." : undefined
+              }
+            >
+              <Input placeholder="Toggle the error below" />
+            </Field>
+
+            <button
+              type="button"
+              onClick={() => setShowFieldError((v) => !v)}
+              className="px-4 py-2 text-sm font-medium rounded-sharp bg-primary text-white hover:bg-primary/90 transition-colors"
+            >
+              {showFieldError ? "Clear error" : "Trigger error"}
+            </button>
           </div>
         </div>
       </section>
