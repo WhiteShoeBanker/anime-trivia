@@ -9,6 +9,10 @@ import ProgressBar from "@/components/ProgressBar";
 import AnswerButton from "@/components/AnswerButton";
 import QuizCard from "@/components/QuizCard";
 import ScoreDisplay from "@/components/ScoreDisplay";
+import {
+  DifficultyChip,
+  type DifficultyTone,
+} from "@/components/ui/DifficultyChip";
 
 // --- Mock Data ---
 
@@ -237,6 +241,47 @@ const TestComponentsPage = () => {
             onClick={() => {}}
             disabled={true}
           />
+        </div>
+      </section>
+
+      {/* --- DifficultyChip States --- */}
+      <section>
+        <h2 className="text-xl font-semibold mb-4">DifficultyChip</h2>
+        <div className="space-y-4 max-w-2xl">
+          <div>
+            <h3 className="text-sm text-white/50 mb-2">Active (filled)</h3>
+            <div className="flex flex-wrap gap-2">
+              {(
+                ["easy", "medium", "hard", "impossible", "mixed"] as DifficultyTone[]
+              ).map((tone) => (
+                <DifficultyChip key={tone} tone={tone} active>
+                  {tone.charAt(0).toUpperCase() + tone.slice(1)}
+                </DifficultyChip>
+              ))}
+            </div>
+          </div>
+          <div>
+            <h3 className="text-sm text-white/50 mb-2">Inactive (ghost)</h3>
+            <div className="flex flex-wrap gap-2">
+              {(
+                ["easy", "medium", "hard", "impossible", "mixed"] as DifficultyTone[]
+              ).map((tone) => (
+                <DifficultyChip key={tone} tone={tone} active={false}>
+                  {tone.charAt(0).toUpperCase() + tone.slice(1)}
+                </DifficultyChip>
+              ))}
+            </div>
+          </div>
+          <div>
+            <h3 className="text-sm text-white/50 mb-2">
+              Locked (COPPA age gate)
+            </h3>
+            <div className="flex flex-wrap gap-2">
+              <DifficultyChip tone="hard" active={false} locked>
+                Hard (Locked)
+              </DifficultyChip>
+            </div>
+          </div>
         </div>
       </section>
 
