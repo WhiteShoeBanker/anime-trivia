@@ -7,6 +7,8 @@ import { createClient } from "@/lib/supabase/client";
 import type { AnimeSeries, DuelDifficulty } from "@/types";
 import useReducedMotion from "@/lib/use-reduced-motion";
 import { Button } from "@/components/ui/Button";
+import { DifficultyChip } from "@/components/ui/DifficultyChip";
+import { difficultyLabels } from "@/themes";
 
 interface ChallengeModalProps {
   isOpen: boolean;
@@ -25,21 +27,13 @@ interface ChallengeModalProps {
   };
 }
 
-const DIFFICULTIES: { value: DuelDifficulty; label: string }[] = [
-  { value: "easy", label: "Easy" },
-  { value: "medium", label: "Medium" },
-  { value: "hard", label: "Hard" },
-  { value: "impossible", label: "Impossible" },
-  { value: "mixed", label: "Mixed" },
+const DIFFICULTIES: DuelDifficulty[] = [
+  "easy",
+  "medium",
+  "hard",
+  "impossible",
+  "mixed",
 ];
-
-const DIFFICULTY_COLORS: Record<string, string> = {
-  easy: "bg-emerald-500/20 text-emerald-400 border-emerald-500/30",
-  medium: "bg-yellow-500/20 text-yellow-400 border-yellow-500/30",
-  hard: "bg-red-500/20 text-red-400 border-red-500/30",
-  impossible: "bg-purple-500/20 text-purple-400 border-purple-500/30",
-  mixed: "bg-blue-500/20 text-blue-400 border-blue-500/30",
-};
 
 const ChallengeModal = ({
   isOpen,
@@ -151,30 +145,31 @@ const ChallengeModal = ({
                 <label className="text-xs font-semibold text-white/50 mb-2 block">
                   Difficulty
                 </label>
-                <div className="flex flex-wrap gap-2">
-                  {DIFFICULTIES.map(({ value, label }) => {
+                <div className="flex flex-wrap gap-2.5">
+                  {DIFFICULTIES.map((value) => {
                     const locked =
                       isJunior &&
                       (value === "hard" ||
                         value === "impossible" ||
                         value === "mixed");
                     return (
-                      <button
+                      <DifficultyChip
                         key={value}
-                        onClick={() => !locked && setDifficulty(value)}
-                        disabled={locked}
-                        className={`px-3 py-2 text-xs font-semibold rounded-lg border transition-all ${
-                          difficulty === value
-                            ? DIFFICULTY_COLORS[value]
-                            : "bg-white/5 text-white/40 border-white/10"
-                        } ${locked ? "opacity-30 cursor-not-allowed" : "cursor-pointer hover:bg-white/10"}`}
+                        tone={value}
+                        active={difficulty === value}
+                        locked={locked}
+                        onClick={() => setDifficulty(value)}
                       >
-                        {label}
-                        {locked && " 🔒"}
-                      </button>
+                        {difficultyLabels[value]}
+                      </DifficultyChip>
                     );
                   })}
                 </div>
+                {isJunior && (
+                  <p className="text-xs text-text-muted mt-2">
+                    Hard, Impossible, and Mixed unlock at 13
+                  </p>
+                )}
               </div>
 
               {/* Question count */}
