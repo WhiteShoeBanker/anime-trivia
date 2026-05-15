@@ -10,6 +10,7 @@ import BadgeGrid from "@/components/BadgeGrid";
 import EmblemSelector from "@/components/EmblemSelector";
 import type { Badge, BadgeCategory } from "@/types";
 import { Button } from "@/components/ui/Button";
+import { Pill } from "@/components/ui/Pill";
 
 type TabFilter = "all" | "earned" | "locked";
 
@@ -186,29 +187,27 @@ const BadgesPage = () => {
 
       {/* Category filter */}
       <div className="flex gap-2 overflow-x-auto pb-1 -mx-4 px-4">
-        <button
+        <Pill
+          interactive
+          active={categoryFilter === "all"}
+          ariaPressed={categoryFilter === "all"}
           onClick={() => setCategoryFilter("all")}
-          className={`flex-shrink-0 flex items-center gap-1 px-3 py-1.5 text-xs font-medium rounded-full transition-colors ${
-            categoryFilter === "all"
-              ? "bg-primary/20 text-primary"
-              : "bg-white/5 text-white/40 hover:bg-white/10"
-          }`}
+          className="flex-shrink-0 gap-1"
         >
           <Filter size={12} />
           All
-        </button>
+        </Pill>
         {categories.map((cat) => (
-          <button
+          <Pill
             key={cat}
+            interactive
+            active={categoryFilter === cat}
+            ariaPressed={categoryFilter === cat}
             onClick={() => setCategoryFilter(cat)}
-            className={`flex-shrink-0 px-3 py-1.5 text-xs font-medium rounded-full transition-colors ${
-              categoryFilter === cat
-                ? "bg-primary/20 text-primary"
-                : "bg-white/5 text-white/40 hover:bg-white/10"
-            }`}
+            className="flex-shrink-0"
           >
             {CATEGORY_LABELS[cat] ?? cat}
-          </button>
+          </Pill>
         ))}
       </div>
 

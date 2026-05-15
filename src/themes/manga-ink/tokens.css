@@ -36,6 +36,13 @@
   --color-tier-5: #3b82f6;
   --color-tier-6: #dc2626;
 
+  /* ── Audience-fit + difficulty (pill semantic registers) ───── */
+  --color-audience-junior: #10b981;
+  --color-audience-teen: #facc15;
+  --color-audience-mature: #ef4444;
+  --color-difficulty-impossible: #a855f7;
+  --color-difficulty-mixed: #60a5fa;
+
   /* ── Typography ─────────────────────────────────────────────
    * --font-display and --font-body are also set on <body> by next/font.
    * Body's per-element values win at use-time; the @theme entries below

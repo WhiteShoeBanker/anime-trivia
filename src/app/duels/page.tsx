@@ -42,6 +42,7 @@ import type {
   UserProfile,
 } from "@/types";
 import { Button } from "@/components/ui/Button";
+import { Pill, type PillTone } from "@/components/ui/Pill";
 
 type Tab = "quick" | "friends" | "history";
 
@@ -311,12 +312,12 @@ const DuelsPage = () => {
 
   const getDuelResult = (
     duel: DuelMatch
-  ): { label: string; color: string } => {
+  ): { label: string; tone: PillTone } => {
     if (duel.winner_id === user?.id)
-      return { label: "WIN", color: "bg-success/20 text-success" };
+      return { label: "WIN", tone: "status-positive" };
     if (duel.winner_id === null)
-      return { label: "DRAW", color: "bg-yellow-400/20 text-yellow-400" };
-    return { label: "LOSS", color: "bg-accent/20 text-accent" };
+      return { label: "DRAW", tone: "status-warning" };
+    return { label: "LOSS", tone: "status-negative" };
   };
 
   if (loading) {
@@ -768,11 +769,9 @@ const DuelsPage = () => {
                     >
                       <div className="flex items-center justify-between">
                         <div className="flex items-center gap-3">
-                          <span
-                            className={`px-2 py-1 rounded-full flex items-center justify-center text-[10px] font-bold ${result.color}`}
-                          >
+                          <Pill tone={result.tone} size="sm">
                             {result.label}
-                          </span>
+                          </Pill>
                           <div>
                             <p className="text-sm font-semibold">
                               vs {oppName}
