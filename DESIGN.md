@@ -646,7 +646,7 @@ Do:
 - **Every modal traps focus, restores focus to the trigger element on close, and closes on Escape.** Baked into the `<Modal>` primitive via `useFocusTrap` so call sites cannot forget. The single exception: a `role="alertdialog"` gating a destructive choice (the Navbar sign-out failure modal) may suppress Escape and backdrop dismissal — see the matching Don't.
 - **Every modal carries `role="dialog"` (or `"alertdialog"`) + `aria-modal="true"` + `aria-labelledby`** referencing the heading id. The `<Modal>` primitive auto-generates the id and wires the attributes; `aria-label` is the escape hatch for title-less surfaces. Today only the Navbar overlays have any ARIA — the five real consumer modals have none.
 - **Every dismissible modal carries at least one dismissal affordance:** a top-right `<Button variant="icon">` X, an explicit footer dismiss button, or full-surface tap (the `BadgeCelebration` variant). Never zero affordances.
-- **Body scroll locks while any modal is open.** The `<Modal>` primitive owns `useScrollLock`; call sites never hand-roll `document.body.style.overflow`. The current Navbar mobile-menu inline lock migrates onto the hook in 7d (single source of truth).
+- **Body scroll locks while any modal is open.** The `<Modal>` primitive owns `useScrollLock`; call sites never hand-roll `document.body.style.overflow`. The current Navbar mobile-menu inline lock migrates onto the hook in 7c (single source of truth).
 - **Consumer modals bind to the `z-modal` (80) band.** The named z-stack (`z-nav` 50 / `z-toast` 70 / `z-modal` 80 / `z-celebration` 90 / `z-admin` 100) is the single source of stacking order — see the Elevation & Depth z-index stack.
 
 Don't:

@@ -341,7 +341,7 @@ describe("<ModalShell>", () => {
     expect(onClose2).not.toHaveBeenCalled();
   });
 
-  it("applies z-modal and a custom backdropClassName", () => {
+  it("defaults to z-modal (no zIndex) and applies a custom backdropClassName", () => {
     render(
       <ModalShell
         isOpen
@@ -355,5 +355,27 @@ describe("<ModalShell>", () => {
     const dialog = screen.getByRole("dialog");
     expect(dialog.className).toMatch(/z-modal/);
     expect(dialog.className).toMatch(/bg-secondary/);
+  });
+
+  it("applies z-nav when zIndex='nav' and does NOT apply z-modal", () => {
+    render(
+      <ModalShell isOpen onClose={() => {}} zIndex="nav" aria-label="S">
+        <span>x</span>
+      </ModalShell>,
+    );
+    const dialog = screen.getByRole("dialog");
+    expect(dialog.className).toMatch(/\bz-nav\b/);
+    expect(dialog.className).not.toMatch(/\bz-modal\b/);
+  });
+
+  it("applies z-celebration when zIndex='celebration' and does NOT apply z-modal", () => {
+    render(
+      <ModalShell isOpen onClose={() => {}} zIndex="celebration" aria-label="S">
+        <span>x</span>
+      </ModalShell>,
+    );
+    const dialog = screen.getByRole("dialog");
+    expect(dialog.className).toMatch(/\bz-celebration\b/);
+    expect(dialog.className).not.toMatch(/\bz-modal\b/);
   });
 });

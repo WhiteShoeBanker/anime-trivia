@@ -35,7 +35,21 @@ const FOOTER_CLASS = "mt-4 flex gap-2 justify-end";
 // ── ModalShell ────────────────────────────────────────────────────
 // Full-bleed surface: no card, caller animates its own children. Only
 // the backdrop fades by default.
-const SHELL_BACKDROP_BASE = "fixed inset-0 z-modal";
+const SHELL_BACKDROP_BASE = "fixed inset-0";
+
+// Maps the public zIndex prop to a static Tailwind z-* utility. Static
+// keys + values so Tailwind v4's build-time extractor sees every class
+// (DifficultyChip precedent). "nav" / "modal" / "celebration" are the
+// three named bands ModalShell consumers use today (Navbar
+// mobile-overlay, default, BadgeCelebration); "toast" / "admin" are
+// reserved for future surfaces and not exposed.
+const SHELL_Z_CLASS = {
+  nav: "z-nav",
+  modal: "z-modal",
+  celebration: "z-celebration",
+} as const;
+
+type ModalZIndex = keyof typeof SHELL_Z_CLASS;
 
 interface ModalProps {
   isOpen: boolean;
@@ -56,6 +70,7 @@ interface ModalShellProps {
   isOpen: boolean;
   onClose: () => void;
   role?: "dialog" | "alertdialog";
+  zIndex?: ModalZIndex;
   children: ReactNode;
   dismissOnBackdrop?: boolean;
   closeOnEscape?: boolean;
@@ -192,6 +207,7 @@ export const ModalShell = ({
   isOpen,
   onClose,
   role = "dialog",
+  zIndex = "modal",
   children,
   dismissOnBackdrop = true,
   closeOnEscape = true,
@@ -222,7 +238,11 @@ export const ModalShell = ({
           role={role}
           aria-modal="true"
           aria-label={ariaLabel}
-          className={cn(SHELL_BACKDROP_BASE, backdropClassName)}
+          className={cn(
+            SHELL_BACKDROP_BASE,
+            SHELL_Z_CLASS[zIndex],
+            backdropClassName,
+          )}
           onClick={dismissOnBackdrop ? onClose : undefined}
           initial={reduced ? false : { opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -235,4 +255,4 @@ export const ModalShell = ({
   );
 };
 
-export type { ModalProps, ModalShellProps };
+export type { ModalProps, ModalShellProps, ModalZIndex };
