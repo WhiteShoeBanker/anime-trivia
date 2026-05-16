@@ -3,6 +3,8 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/Button";
+import { Field } from "@/components/ui/Field";
+import { Input } from "@/components/ui/Input";
 
 interface ParentConsentFormProps {
   onConsent: (parentEmail: string) => void;
@@ -47,15 +49,13 @@ const ParentConsentForm = ({ onConsent, onCancel }: ParentConsentFormProps) => {
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-4">
-        <div>
-          <label
-            htmlFor="parent-email"
-            className="block text-sm font-medium text-white/70 mb-1"
-          >
-            Parent or Guardian&apos;s Email
-          </label>
-          <input
-            id="parent-email"
+        <Field
+          id="parent-email"
+          label="Parent or Guardian's Email"
+          required
+          error={emailError}
+        >
+          <Input
             type="email"
             required
             value={parentEmail}
@@ -64,12 +64,8 @@ const ParentConsentForm = ({ onConsent, onCancel }: ParentConsentFormProps) => {
               setEmailError("");
             }}
             placeholder="parent@example.com"
-            className="w-full px-4 py-3 rounded-xl bg-surface border border-white/10 text-white placeholder:text-white/30 focus:outline-none focus:border-primary/50 transition-colors"
           />
-          {emailError && (
-            <p className="text-accent text-xs mt-1">{emailError}</p>
-          )}
-        </div>
+        </Field>
 
         <label className="flex items-start gap-3 cursor-pointer">
           <input

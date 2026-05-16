@@ -9,6 +9,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import AnimeCard from "@/components/AnimeCard";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
+import { Input } from "@/components/ui/Input";
 
 interface BrowseContentProps {
   animeList: AnimeSeries[];
@@ -65,18 +66,15 @@ const BrowseContent = ({ animeList }: BrowseContentProps) => {
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.1 }}
-        className="relative mb-8 max-w-md"
+        className="mb-8 max-w-md"
       >
-        <Search
-          size={18}
-          className="absolute left-3 top-1/2 -translate-y-1/2 text-white/40"
-        />
-        <input
+        <Input
           type="text"
+          aria-label="Search anime"
           placeholder="Search anime..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className="w-full pl-10 pr-4 py-3 rounded-xl bg-surface border border-white/10 text-white placeholder:text-white/30 focus:outline-none focus:border-primary/50 transition-colors"
+          leadingIcon={<Search size={18} />}
         />
       </motion.div>
 

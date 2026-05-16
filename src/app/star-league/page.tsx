@@ -4,6 +4,8 @@ import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Diamond, Trophy, Users, Crown } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
+import { Field } from "@/components/ui/Field";
+import { Input } from "@/components/ui/Input";
 
 const FEATURES = [
   {
@@ -134,15 +136,24 @@ const StarLeaguePage = () => {
             <p className="text-center text-white/60 mb-4">
               Get notified when Star League launches.
             </p>
-            <form onSubmit={handleSubmit} className="flex gap-3 max-w-md mx-auto">
-              <input
-                type="email"
-                placeholder="your@email.com"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-                className="flex-1 px-4 py-3 rounded-xl bg-secondary border border-white/10 text-white placeholder:text-white/30 focus:outline-none focus:border-primary/50 transition-colors"
-              />
+            <form
+              onSubmit={handleSubmit}
+              className="flex gap-3 items-end max-w-md mx-auto"
+            >
+              <Field
+                id="waitlist-email"
+                label={<span className="sr-only">Email address</span>}
+                error={error || undefined}
+                className="flex-1"
+              >
+                <Input
+                  type="email"
+                  placeholder="your@email.com"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                />
+              </Field>
               <button
                 type="submit"
                 disabled={submitting}
@@ -151,9 +162,6 @@ const StarLeaguePage = () => {
                 {submitting ? "..." : "Notify Me"}
               </button>
             </form>
-            {error && (
-              <p className="text-accent text-sm text-center mt-2">{error}</p>
-            )}
           </>
         )}
       </motion.div>

@@ -10,6 +10,8 @@ import AgeGate from "@/components/AgeGate";
 import ParentConsentForm from "@/components/ParentConsentForm";
 import type { AgeGroup } from "@/types";
 import { Button } from "@/components/ui/Button";
+import { Field } from "@/components/ui/Field";
+import { Input } from "@/components/ui/Input";
 
 type AuthStep = "age-gate" | "parent-consent" | "auth-form";
 type AuthMode = "sign-in" | "sign-up";
@@ -324,8 +326,8 @@ const AuthPageContent = () => {
           <p className="text-center text-white/50 mt-4">Saving...</p>
         )}
         {error && (
-          <div className="p-3 rounded-xl bg-accent/10 border border-accent/30 mt-4">
-            <p className="text-sm text-accent text-center">{error}</p>
+          <div className="p-3 rounded-card bg-error/10 border border-error/30 mt-4">
+            <p className="text-sm text-error-strong text-center">{error}</p>
           </div>
         )}
       </div>
@@ -372,16 +374,16 @@ const AuthPageContent = () => {
         </div>
 
         {callbackError && (
-          <div className="p-3 rounded-xl bg-accent/10 border border-accent/30 mb-4">
-            <p className="text-sm text-accent">
+          <div className="p-3 rounded-card bg-error/10 border border-error/30 mb-4">
+            <p className="text-sm text-error-strong">
               Authentication failed. Please try again.
             </p>
           </div>
         )}
 
         {error && (
-          <div className="p-3 rounded-xl bg-accent/10 border border-accent/30 mb-4">
-            <p className="text-sm text-accent">{error}</p>
+          <div className="p-3 rounded-card bg-error/10 border border-error/30 mb-4">
+            <p className="text-sm text-error-strong">{error}</p>
           </div>
         )}
 
@@ -481,79 +483,47 @@ const AuthPageContent = () => {
         {/* Email/password form */}
         <form onSubmit={handleEmailAuth} className="space-y-4">
           {isJunior && mode === "sign-up" && (
-            <div>
-              <label
-                htmlFor="username"
-                className="block text-sm font-medium text-white/70 mb-1"
-              >
-                Username
-              </label>
-              <input
-                id="username"
+            <Field id="username" label="Username" required>
+              <Input
                 type="text"
                 required
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
                 placeholder="Choose a username"
-                className="w-full px-4 py-3 rounded-xl bg-surface border border-white/10 text-white placeholder:text-white/30 focus:outline-none focus:border-primary/50 transition-colors"
               />
-            </div>
+            </Field>
           )}
 
-          <div>
-            <label
-              htmlFor="email"
-              className="block text-sm font-medium text-white/70 mb-1"
-            >
-              Email
-            </label>
-            <input
-              id="email"
+          <Field id="email" label="Email" required>
+            <Input
               type="email"
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="your@email.com"
-              className="w-full px-4 py-3 rounded-xl bg-surface border border-white/10 text-white placeholder:text-white/30 focus:outline-none focus:border-primary/50 transition-colors"
             />
-          </div>
+          </Field>
 
-          <div>
-            <label
-              htmlFor="password"
-              className="block text-sm font-medium text-white/70 mb-1"
-            >
-              Password
-            </label>
-            <input
-              id="password"
+          <Field id="password" label="Password" required>
+            <Input
               type="password"
               required
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="At least 6 characters"
-              className="w-full px-4 py-3 rounded-xl bg-surface border border-white/10 text-white placeholder:text-white/30 focus:outline-none focus:border-primary/50 transition-colors"
             />
-          </div>
+          </Field>
 
           {mode === "sign-up" && (
-            <div>
-              <label
-                htmlFor="confirm-password"
-                className="block text-sm font-medium text-white/70 mb-1"
-              >
-                Confirm Password
-              </label>
-              <input
-                id="confirm-password"
+            <Field id="confirm-password" label="Confirm Password" required>
+              <Input
                 type="password"
                 required
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 placeholder="Repeat your password"
-                className="w-full px-4 py-3 rounded-xl bg-surface border border-white/10 text-white placeholder:text-white/30 focus:outline-none focus:border-primary/50 transition-colors"
               />
-            </div>
+            </Field>
           )}
 
           <Button
@@ -579,14 +549,15 @@ const AuthPageContent = () => {
             </div>
 
             {!otpSent ? (
-              <div className="flex gap-2">
-                <input
-                  type="tel"
-                  value={phone}
-                  onChange={(e) => setPhone(e.target.value)}
-                  placeholder="+1 234 567 8900"
-                  className="flex-1 px-4 py-3 rounded-xl bg-surface border border-white/10 text-white placeholder:text-white/30 focus:outline-none focus:border-primary/50 transition-colors"
-                />
+              <div className="flex gap-2 items-end">
+                <Field id="phone" label="Phone number" className="flex-1">
+                  <Input
+                    type="tel"
+                    value={phone}
+                    onChange={(e) => setPhone(e.target.value)}
+                    placeholder="+1 234 567 8900"
+                  />
+                </Field>
                 <Button
                   variant="secondary"
                   onClick={handlePhoneSendOtp}
@@ -600,16 +571,21 @@ const AuthPageContent = () => {
                 <p className="text-sm text-white/60">
                   Enter the 6-digit code sent to {phone}
                 </p>
-                <input
-                  type="text"
-                  value={otpCode}
-                  onChange={(e) =>
-                    setOtpCode(e.target.value.replace(/\D/g, "").slice(0, 6))
-                  }
-                  placeholder="000000"
-                  maxLength={6}
-                  className="w-full px-4 py-3 rounded-xl bg-surface border border-white/10 text-white text-center text-2xl tracking-[0.5em] placeholder:text-white/30 focus:outline-none focus:border-primary/50 transition-colors font-mono"
-                />
+                <Field
+                  id="otp-code"
+                  label={<span className="sr-only">Verification code</span>}
+                >
+                  <Input
+                    type="text"
+                    value={otpCode}
+                    onChange={(e) =>
+                      setOtpCode(e.target.value.replace(/\D/g, "").slice(0, 6))
+                    }
+                    placeholder="000000"
+                    maxLength={6}
+                    className="text-center text-2xl tracking-[0.5em] font-mono"
+                  />
+                </Field>
                 <div className="flex gap-2">
                   <Button
                     variant="secondary"

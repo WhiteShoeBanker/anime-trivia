@@ -106,10 +106,10 @@ const fillSignUpForm = (
   password: string,
   confirmPassword: string
 ) => {
-  fireEvent.change(screen.getByLabelText(/^email$/i), {
+  fireEvent.change(screen.getByLabelText(/^email/i), {
     target: { value: email },
   });
-  fireEvent.change(screen.getByLabelText(/^password$/i), {
+  fireEvent.change(screen.getByLabelText(/^password/i), {
     target: { value: password },
   });
   fireEvent.change(screen.getByLabelText(/confirm password/i), {

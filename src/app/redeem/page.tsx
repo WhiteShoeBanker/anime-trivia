@@ -3,11 +3,13 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
-import { Gift, Sparkles, AlertCircle, ArrowLeft } from "lucide-react";
+import { Gift, Sparkles, ArrowLeft } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { redeemPromoCode } from "@/lib/promo-codes";
 import type { PromoCodeType } from "@/types";
 import { Button } from "@/components/ui/Button";
+import { Field } from "@/components/ui/Field";
+import { Input } from "@/components/ui/Input";
 
 const TYPE_LABELS: Record<PromoCodeType, string> = {
   pro_monthly: "1 Month of Pro",
@@ -155,15 +157,14 @@ const RedeemPage = () => {
             onSubmit={handleSubmit}
             className="bg-surface rounded-2xl border border-white/10 p-6 space-y-4"
           >
-            <div>
-              <label
-                htmlFor="promo-code"
-                className="block text-sm font-medium text-white/70 mb-2"
-              >
-                Promo Code
-              </label>
-              <input
-                id="promo-code"
+            <Field
+              id="promo-code"
+              label="Promo Code"
+              error={
+                state === "error" && errorMsg ? errorMsg : undefined
+              }
+            >
+              <Input
                 type="text"
                 value={code}
                 onChange={(e) => {
@@ -171,23 +172,12 @@ const RedeemPage = () => {
                   if (state === "error") setState("idle");
                 }}
                 placeholder="e.g. OTAKU2026"
-                className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white text-center text-lg font-mono tracking-widest placeholder:text-white/20 focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/30 transition-colors"
+                className="text-center text-lg font-mono tracking-widest"
                 autoComplete="off"
                 autoCapitalize="characters"
                 disabled={state === "submitting"}
               />
-            </div>
-
-            {state === "error" && errorMsg && (
-              <motion.div
-                initial={{ opacity: 0, y: -8 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="flex items-center gap-2 text-sm text-accent"
-              >
-                <AlertCircle size={16} />
-                {errorMsg}
-              </motion.div>
-            )}
+            </Field>
 
             <Button
               type="submit"
