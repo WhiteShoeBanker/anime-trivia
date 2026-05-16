@@ -18,6 +18,8 @@ import { FieldHint } from "@/components/ui/FieldHint";
 import { FieldError } from "@/components/ui/FieldError";
 import { Input } from "@/components/ui/Input";
 import { Field } from "@/components/ui/Field";
+import { Button } from "@/components/ui/Button";
+import { Modal, ModalShell } from "@/components/ui/Modal";
 import { Search } from "lucide-react";
 
 // --- Mock Data ---
@@ -124,6 +126,10 @@ const TestComponentsPage = () => {
   const [isRevealed, setIsRevealed] = useState(false);
   const [formEmail, setFormEmail] = useState("");
   const [showFieldError, setShowFieldError] = useState(false);
+  const [sheetOpen, setSheetOpen] = useState(false);
+  const [centerOpen, setCenterOpen] = useState(false);
+  const [alertOpen, setAlertOpen] = useState(false);
+  const [shellOpen, setShellOpen] = useState(false);
 
   const handleAnswer = (index: number) => {
     setSelectedAnswer(index);
@@ -443,6 +449,89 @@ const TestComponentsPage = () => {
             </button>
           </div>
         </div>
+      </section>
+
+      {/* --- Modal --- */}
+      <section>
+        <h2 className="text-xl font-semibold mb-4">Modal</h2>
+        <div className="flex flex-wrap gap-2">
+          <Button onClick={() => setSheetOpen(true)}>Open sheet modal</Button>
+          <Button onClick={() => setCenterOpen(true)}>Open center modal</Button>
+          <Button variant="secondary" onClick={() => setAlertOpen(true)}>
+            Open alertdialog
+          </Button>
+          <Button variant="secondary" onClick={() => setShellOpen(true)}>
+            Open full-bleed shell
+          </Button>
+        </div>
+
+        <Modal
+          isOpen={sheetOpen}
+          onClose={() => setSheetOpen(false)}
+          presentation="sheet"
+          header={<h3 className="text-lg font-bold">Sheet header</h3>}
+          footer={
+            <Button variant="secondary" onClick={() => setSheetOpen(false)}>
+              Close
+            </Button>
+          }
+        >
+          <p className="text-sm text-text-muted">
+            Lorem ipsum sheet content — slides up from the viewport bottom
+            below sm, centers at sm+. Backdrop click and Escape both dismiss.
+          </p>
+        </Modal>
+
+        <Modal
+          isOpen={centerOpen}
+          onClose={() => setCenterOpen(false)}
+          presentation="center"
+          header={<h3 className="text-lg font-bold">Center header</h3>}
+          footer={
+            <Button variant="secondary" onClick={() => setCenterOpen(false)}>
+              Close
+            </Button>
+          }
+        >
+          <p className="text-sm text-text-muted">
+            Lorem ipsum center content — scales in from 0.95, vertically
+            centered at every breakpoint.
+          </p>
+        </Modal>
+
+        <Modal
+          isOpen={alertOpen}
+          onClose={() => setAlertOpen(false)}
+          role="alertdialog"
+          header={<h3 className="text-lg font-bold">Delete everything?</h3>}
+          footer={
+            <Button onClick={() => setAlertOpen(false)}>
+              Acknowledge
+            </Button>
+          }
+        >
+          <p className="text-sm text-text-muted">
+            An alertdialog is not dismissible by backdrop click or Escape —
+            the user must make an explicit choice.
+          </p>
+        </Modal>
+
+        <ModalShell
+          isOpen={shellOpen}
+          onClose={() => setShellOpen(false)}
+          aria-label="Full-bleed shell demo"
+          backdropClassName="flex items-center justify-center bg-ink/80"
+        >
+          <div className="text-center">
+            <p className="text-text mb-4">
+              Full-bleed surface — no container card. The caller owns its own
+              layout and entrance.
+            </p>
+            <Button variant="secondary" onClick={() => setShellOpen(false)}>
+              Close
+            </Button>
+          </div>
+        </ModalShell>
       </section>
     </div>
   );
