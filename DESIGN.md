@@ -94,6 +94,12 @@ aspectRatio:
   tcg-card: "3 / 4"
 shadow:
   ink: "0 4px 0 0 rgba(0,0,0,0.4)"
+zIndex:
+  nav: 50
+  toast: 70
+  modal: 80
+  celebration: 90
+  admin: 100
 motion:
   tilt-card:
     perspective: 800px
@@ -376,6 +382,18 @@ components:
     backgroundColor: "{colors.surface}"
     borderColor: "{colors.rule}"
     treatment: ghost
+  modal-backdrop:
+    backgroundColor: "{colors.ink}"
+  modal-container:
+    backgroundColor: "{colors.surface}"
+    borderColor: "{colors.rule}"
+    rounded: "{rounded.card}"
+    padding: 20px
+  modal-sheet:
+    backgroundColor: "{colors.surface}"
+    borderColor: "{colors.rule}"
+    rounded: "{rounded.card}"
+    padding: 20px
 ---
 
 ## Overview
@@ -485,14 +503,24 @@ The single defined shadow token is `--shadow-ink` (`0 4px 0 0 rgba(0,0,0,0.4)`) 
 
 There are no soft blur shadows. There are no gradients. Hover states deepen existing fills or shift opacity; they do not introduce new visual layers.
 
-The Navbar's `backdrop-blur-lg + bg-secondary/80` glass treatment is the one exception, and even there the blur is subtle — the canvas underneath is already near-black, so the effect reads as "frosted ink" rather than glassmorphism.
+The Navbar's `backdrop-blur-lg + bg-secondary/80` glass treatment is one sanctioned exception, and even there the blur is subtle — the canvas underneath is already near-black, so the effect reads as "frosted ink" rather than glassmorphism. The second sanctioned exception is the celebration-overlay backdrop (`BadgeCelebration`): `backdrop-blur-sm` is permitted there because a badge-unlock is a moment-of-glory surface (the rank-up-splash spirit) and the cost is low over an already-dark canvas. No other modal backdrop blurs — utility pickers (`ChallengeModal`, `EmblemSelector`), the badge-detail modal, and the sign-in prompt stay unblurred. See Do's and Don'ts.
+
+**Z-index stack.** Stacking order is depth; Manga Ink fixes a five-step named scale so overlay layers never drift into ad-hoc `z-[60]` / `z-[90]` strings. Lower sits behind higher:
+
+- **z-nav (50):** the sticky Navbar header and the mobile-nav full-screen overlay (the menu *is* the nav at mobile width, so it shares the band).
+- **z-toast (70):** transient bottom-anchored banners and toasts (`DuelNotification`, future toast surfaces). Above nav so a notification is never occluded by the header.
+- **z-modal (80):** all consumer modals and dialogs — `ChallengeModal`, `EmblemSelector`, the badge-detail modal, the sign-in prompt, the sign-out `alertdialog`.
+- **z-celebration (90):** the badge-unlock celebration overlay. Above `z-modal` because a celebration can fire over a screen that already has a modal open (e.g. a duel result) and must crown it.
+- **z-admin (100):** the admin shell, its mobile sidebar drawer, and admin-only chrome. Reserved as a ceiling band — no consumer surface uses 100+, so the admin and consumer stacks never collide.
+
+The scale is documented here in Phase 5 #7a; the CSS custom properties (`--z-nav` … `--z-admin`) land in `src/themes/manga-ink/tokens.css` in 7b alongside the `<Modal>` primitive — same staging pattern as the audience-fit CSS landing with its primitive in 5#4b (spec first; tokens ship with the consuming component).
 
 ## Shapes
 
 The shape register has three values: two extremes and one mid-band. The default is **sharp** — soft corners are the exception, reached for only when a surface has a specific reason to read as a place to dwell rather than a thing to act on.
 
-- **rounded.sharp (2px):** Default for buttons, quiz answer tiles, navigation elements, inputs, label pills, table cells, modals, and any standard rectangular wrapper. Not zero, because absolute zero reads as "unfinished," but barely softened. Sharp corners reinforce the ink-and-paper aesthetic — pages that feel drawn rather than rendered.
-- **rounded.card (12px):** Reserved for elevated containers — achievement badge cards, emblem displays, prestige surfaces, and content cards that benefit from the softer container treatment. The threshold is semantic, not decorative: surfaces where the user is meant to **dwell and parse content** opt into `card`. Surfaces where the user **takes action** stay `sharp`. When in doubt, default to sharp.
+- **rounded.sharp (2px):** Default for buttons, quiz answer tiles, navigation elements, inputs, label pills, table cells, and any standard rectangular wrapper. Not zero, because absolute zero reads as "unfinished," but barely softened. Sharp corners reinforce the ink-and-paper aesthetic — pages that feel drawn rather than rendered.
+- **rounded.card (12px):** Reserved for elevated containers — achievement badge cards, emblem displays, prestige surfaces, modal and dialog containers, and content cards that benefit from the softer container treatment. The threshold is semantic, not decorative: surfaces where the user is meant to **dwell and parse content** opt into `card`. Surfaces where the user **takes action** stay `sharp`. When in doubt, default to sharp. Modals moved into this register from the former sharp-defaults list in Phase 5 #7a: a modal is a surface the user stops to read and parse before returning to the page, not a discrete tap target — the dwell-vs-act test places it with `card`. Bottom-sheet modals take `rounded-t-card` (soft top corners, sharp bottom flush to the viewport edge). This closes the current 16 px (`rounded-2xl`, Navbar sign-out) and 24 px (`rounded-3xl`, ChallengeModal / EmblemSelector) modal-container drift — both off-register per the no-mid-band rule below; 5#7c binds them to `rounded-card`.
 - **rounded.pill (9999px):** Avatar circles, status pills, score-bar caps, the Pro / age-tier chips. Reserved for tokens that semantically should be round-ended.
 
 The earlier two-token register (sharp + pill with a deliberate gap) was intentional but failed contact with implementation: the codebase organically picked a soft mid-band on dwelling surfaces, and the Phase 3 audit found 411 mid-rounded utility usages versus 2 sharp ones. The `card` token codifies that lesson — a third value with a strict semantic, not a smooth scale of softness. Nothing between `sharp` and `card` (3–11px), nothing between `card` and `pill` (13–9998px). Mid-rounding off these three values dilutes the register.
@@ -524,6 +552,9 @@ Currently captured in YAML:
 - **input-default** — base text-input chrome. Sharp corners (action surface, per the L398 sharp-defaults list — inputs are explicitly named there alongside buttons and quiz answer tiles), `body-sm` typography, 44 px minimum height (matches the COPPA touch-target floor). Composes `bg-surface` fill with `border-rule` hairline (call-site `border-white/10` is the near-equivalent the codebase ships today — same precedent as `answer-tile-default`'s drift, corrected by token-binding in 5#6c). Placeholder text binds to `text-text-muted/60` (the `/60` alpha maintains distinction from helper text and labels, which both render at full `text-text-muted` alpha). Focus-visible is additive: `border-primary` border swap + `ring-1 ring-primary/30` thin primary ring, no `ring-offset`. The thin-ring + border-swap is intentionally distinct from `pill-interactive` / `button-*`'s `focus-visible:ring-2 ring-offset-2 ring-offset-secondary` — chunky offset rings read heavy around tall text-entry fields; thin ring + border swap reads as "active text field" without competing with the discrete-tap focus signature.
 - **input-error** — error state. Extends `input-default`; overrides `borderColor` to `{colors.error}` and optionally adds a `bg-error/10` tint at the call site. The input's own text stays `text-text` (bone) — error red lives on the sibling `<FieldError>` message, not in the input itself (mirrors the `answer-tile` ghost-tile + filled-chip asymmetry from 5#5a: surface carries one signal, annotation carries another). Companion `<FieldError>` sibling carries `text-xs text-error-strong mt-1`. ARIA wiring is automatic via the `<Field>` wrapper: `aria-invalid="true"` on the input + `aria-describedby="{id}-error"` referencing the error message id. Critical binding rule: form-validation errors bind to the `error` / `error-strong` token pair (#991b1b surface + #f87171 body), NOT `{colors.accent}` (#b91c1c, L307 reservation for incorrect-answer flashes / danger states). The split between `border-error` (surface, #991b1b) and `text-error-strong` (body, #f87171) is AA-driven, not stylistic — mirrors the answer-tile correct/incorrect `text-ink`-vs-`text-white` asymmetry codified in 5#5a. `text-error` (#991b1b) falls to ~2.38:1 on `bg-secondary` (sub-AA); `text-error-strong` (#f87171) clears 7.14:1 on `bg-secondary` and 6.31:1 on `bg-surface`. Current canonical drift across `auth/page.tsx`, `ParentConsentForm.tsx`, `redeem/page.tsx`, `star-league/page.tsx` uses `text-accent` for form errors — same drift class as the `border-red-500 → border-accent` correction in 5#5b, this is the analogous `text-accent → text-error-strong` correction.
 - **input-disabled** — disabled state. Extends `input-default`; keeps the default palette and layers `opacity-50` + `cursor-not-allowed` at the call site (mirrors `answer-tile-disabled` and `difficulty-chip-locked` precedents — opacity is a composition rule, not a token override). Native `disabled` attribute drives the state; `aria-disabled` is inherent to the native semantic.
+- **modal-backdrop** — the dimming scrim behind any modal. Anchors `{colors.ink}` (#0a0a0a — the darkest warm-black token, never raw `#000` per the no-raw-black reservation); the `/70` alpha is composed at the call site, same YAML-anchors-palette / prose-composes-alpha precedent as `panel-warning`'s `/10`–`/30` and `answer-tile`'s `/10`. No blur in the base (the `BadgeCelebration` `backdrop-blur-sm` is the documented exception, see Elevation & Depth). On the near-black Manga Ink canvas the scrim is a low-contrast intent layer — it catches outside-clicks and signals the page is inert more than it visibly darkens; the modal's separation comes from `modal-container`'s lighter `bg-surface`, the `border-rule` hairline, and bright bone content, not from the scrim.
+- **modal-container** — the centered dialog surface. Raised-stone `bg-surface` fill, `border-rule` hairline, `rounded-card` (modals are dwell surfaces — see the Shapes amendment), 20 px padding, `max-w-md` (28 rem) width cap, `max-h-[80vh]` with the body region scrolling (`overflow-y-auto`) inside a vertical flex column so a header and footer stay pinned. No `--shadow-ink` — the shadow rule below explicitly excludes modal surfaces; surface contrast plus the hairline carry the elevation. Consumers: the sign-in prompt, badge-detail modal, Navbar sign-out `alertdialog`. (`max-w`/`max-h`/overflow are prose-bound, not YAML — the linter's recognized sub-tokens don't cover them, same precedent as `answer-tile`'s prose-bound `min-h-[56px]`.)
+- **modal-sheet** — the bottom-sheet variant; extends `modal-container`. Below `sm` it pins to the viewport bottom, spans full width, takes `rounded-t-card` only (soft top corners, sharp bottom flush to the screen edge), and slides up from `y:100`. At `sm` and up it becomes the centered `max-w-md` `rounded-card` container. Consumers: `ChallengeModal`, `EmblemSelector`. The current `rounded-t-3xl sm:rounded-3xl` (24 px) is the off-register drift 5#7c binds to `rounded-t-card` / `rounded-card`.
 
 **Rarity contract.** Badge visual styling resolves through two independent axes:
 
@@ -564,6 +595,15 @@ Per-field hints and error messages are utility-bound compositions (not YAML toke
 
 Closes the deferred forms entry below.
 
+**Modal register.** The modal family covers every backdrop-dimmed overlay the user must address before returning to the page: the duel `ChallengeModal`, the `EmblemSelector` picker, the `BrowseContent` sign-in prompt, the badge-detail modal (`badges/page.tsx`), and the Navbar sign-out failure `alertdialog`. The codebase ships these as ~5 hand-rolled `motion.div` overlays with no shared primitive — divergent backdrops (`bg-black/{60,70}`, blur on some), three off-register container roundings (12 / 16 / 24 px), zero focus management, and z-index drift across `z-50` / `z-[60]` / `z-[80]` / `z-[90]` / `z-[100]`. Tokens resolve through two presentations: (1) **chrome** — `modal-backdrop` + `modal-container` (centered) or `modal-sheet` (bottom-sheet below `sm`, centered at `sm+`); (2) **behavior contract** — the `<Modal>` primitive (5#7b) owns focus trap, focus restore to the trigger element, Escape-to-close, body scroll lock (`useScrollLock`), and ARIA wiring (`role="dialog"` / `"alertdialog"` + `aria-modal="true"` + an auto-generated `aria-labelledby`), so no call site can ship a modal missing them. The two full-bleed specials — `BadgeCelebration` and the Navbar mobile-nav overlay — compose the backdrop / focus-trap / scroll-lock pieces but not the container card; they are not forced into the `presentation` prop.
+
+Animation conventions are two shared presets keyed to the `presentation` prop, with `useReducedMotion()` collapsing both to an instant transition:
+
+- **`presentation="sheet"`:** backdrop opacity fades in/out via `AnimatePresence`; the sheet body animates `y:100 → 0` on enter and `y:0 → 100` on exit, `{ type: "spring", damping: 20 }` — the exact shipped `ChallengeModal` / `EmblemSelector` config (framer-motion default stiffness; *not* the 300/30 floated in the 7a brief — the shipped feel is preserved unless 7b deliberately retunes it).
+- **`presentation="center"`:** backdrop fade; the container animates `scale:0.95 → 1` on enter and `1 → 0.95` on exit, a short framer-motion tween. This standardizes the current split (`BrowseContent` and badge-detail both ship `scale:0.9`) to a single `0.95` value — a deliberate drift-closure decided in 7a, applied in 7c.
+
+`BadgeCelebration` retains its bespoke `scale:0 / rotate:-10 → 1 / 0` spring plus staged content delays and confetti as a documented full-bleed special — the celebration earns motion personality (the rank-up-splash spirit); it is exempt from the two presets by design, not by drift.
+
 Not captured (deferred):
 
 - Tables (admin analytics, leagues, leaderboards)
@@ -600,6 +640,14 @@ Do:
 - **Inputs satisfy the 44 px touch-target floor.** Codified `min-h-[44px]` in the `<Input>` primitive. Defends against future `py-2` shrinkage. Same COPPA floor as buttons and chips.
 - **The `<Field>` wrapper auto-wires `aria-invalid` + `aria-describedby` when an `error` prop is present.** Never bypass the wrapper to write ARIA attributes by hand on the input — the wrapper is the single source of truth and prevents id-mismatch drift.
 - **Input focus uses `border-primary` + `ring-1 ring-primary/30` (no offset).** Thinner than `pill-interactive` / `button-*` `focus-visible:ring-2 ring-offset-2 ring-offset-secondary`. Intentional differentiation — discrete-tap targets get chunky offset rings; dwell text-entry surfaces get thin border-swap + thin ring. Mirrors how hover is codified as a rule, not a per-element YAML variant.
+- **Modal containers use `rounded-card` (12 px).** Modals are dwell surfaces — the user stops to read and parse them — so the dwell-vs-act test places them in the `card` register, not the former sharp-defaults list (amended in 5#7a). Bottom-sheet modals take `rounded-t-card` (soft top, sharp bottom flush to the viewport edge).
+- **Modal backdrops bind to `bg-ink/70`** (#0a0a0a at 70 % alpha). One scrim value across every modal. Closes the current `bg-black/{60,70}` raw-black drift (Challenge, Emblem, BadgeCelebration, badge-detail, BrowseContent, Navbar sign-out) — raw `#000` is the no-raw-black reservation.
+- **Backdrop blur (`backdrop-blur-sm`) is permitted on the celebration overlay only** (`BadgeCelebration`). It is the second sanctioned blur exception alongside the Navbar frosted-ink treatment. Today four surfaces blur (Challenge, Emblem, BadgeCelebration, badge-detail); 5#7c reduces that to the one documented exception.
+- **Every modal traps focus, restores focus to the trigger element on close, and closes on Escape.** Baked into the `<Modal>` primitive via `useFocusTrap` so call sites cannot forget. The single exception: a `role="alertdialog"` gating a destructive choice (the Navbar sign-out failure modal) may suppress Escape and backdrop dismissal — see the matching Don't.
+- **Every modal carries `role="dialog"` (or `"alertdialog"`) + `aria-modal="true"` + `aria-labelledby`** referencing the heading id. The `<Modal>` primitive auto-generates the id and wires the attributes; `aria-label` is the escape hatch for title-less surfaces. Today only the Navbar overlays have any ARIA — the five real consumer modals have none.
+- **Every dismissible modal carries at least one dismissal affordance:** a top-right `<Button variant="icon">` X, an explicit footer dismiss button, or full-surface tap (the `BadgeCelebration` variant). Never zero affordances.
+- **Body scroll locks while any modal is open.** The `<Modal>` primitive owns `useScrollLock`; call sites never hand-roll `document.body.style.overflow`. The current Navbar mobile-menu inline lock migrates onto the hook in 7d (single source of truth).
+- **Consumer modals bind to the `z-modal` (80) band.** The named z-stack (`z-nav` 50 / `z-toast` 70 / `z-modal` 80 / `z-celebration` 90 / `z-admin` 100) is the single source of stacking order — see the Elevation & Depth z-index stack.
 
 Don't:
 
@@ -628,6 +676,13 @@ Don't:
 - **Don't ship inputs without an associated label.** Visible `<Label>` for primary form fields; visually-hidden labels (`sr-only` class) for search inputs and inline pickers (e.g., `browse/BrowseContent.tsx`, `duels/page.tsx` friend-search, `star-league/page.tsx` waitlist) — never placeholder-only. Placeholders disappear on input; labels persist.
 - **Don't skip `aria-invalid` + `aria-describedby` on error-bearing fields.** The `<Field>` wrapper does this automatically when an `error` prop is present; never bypass the wrapper to write inputs by hand without the ARIA wiring.
 - **Don't use offset focus rings (`ring-offset-2`) on inputs.** Offset rings belong on discrete-tap targets (buttons, pills, chips). Inputs are tall dwell text-entry surfaces; the offset gap reads heavy. Use `border-primary` + `ring-1 ring-primary/30` (no offset).
+- **Don't use `bg-black/X` on modal backdrops.** Bind to `bg-ink/70`. Raw black is the no-raw-black reservation; the current `bg-black/{60,70}` across all six overlay sites is the canonical drift 5#7c corrects.
+- **Don't apply `backdrop-blur-sm` to utility-picker modals** (`ChallengeModal`, `EmblemSelector`, the badge-detail modal, the sign-in prompt). Blur is the celebration-overlay exception only — a blurred utility picker reads as glassmorphism, eroding the manga-page semantics.
+- **Don't use `rounded-2xl` (16 px) or `rounded-3xl` (24 px) on modal containers.** Both are mid-band drift per the no-mid-band rule (only sharp / card / pill). Bind to `rounded-card`; bottom-sheet top corners use `rounded-t-card`. The current Navbar sign-out `rounded-2xl` and ChallengeModal / EmblemSelector `rounded-3xl` are the drift this corrects.
+- **Don't ship a modal without focus trap + Escape + `aria-modal` + `aria-labelledby`.** The `<Modal>` primitive does this automatically; never hand-roll a `motion.div` overlay that bypasses it. Tab must not walk out of an open modal into the page behind it (every current modal has this defect).
+- **Don't hand-roll `document.body.style.overflow` per modal.** `useScrollLock` inside `<Modal>` is the single source of truth; a per-call-site lock drifts (only the Navbar mobile menu locks today — every scrim modal lets the page scroll behind it).
+- **Don't drift z-index values per modal.** Bind to the named stack. No consumer surface uses inline `z-50` / `z-[60]` / `z-[80]` / `z-[90]` / `z-[100]` — consumer modals are `z-modal` (80), the celebration is `z-celebration` (90), admin chrome is `z-admin` (100+). The current `BrowseContent` sign-in modal at `z-50` collides with the Navbar header band — a real bug 7c closes.
+- **Don't make a destructive-choice modal dismissible by backdrop tap or Escape.** `role="alertdialog"` + `dismissOnBackdrop={false}` is the pattern; the canonical case is the Navbar sign-out failure modal — an errant tap must not dismiss a dialog gating a possibly-still-valid session.
 
 **Hover convention.** Hover deepens existing fills by 10% (e.g., `bg-primary` on hover becomes `bg-primary/90`; `bg-white/20` becomes `bg-white/30`). Hover deepens text by 20% (e.g., `text-text` on hover becomes `text-text/80`). Focus-visible mirrors hover. The codebase converged on this convention organically — captured here as the canonical rule. Do not invent per-element opacity values.
 
