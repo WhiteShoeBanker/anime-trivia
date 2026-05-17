@@ -96,3 +96,29 @@ See `docs/design-workflow.md` for the audit-and-refactor workflow.
 - App disclaimer: not affiliated with any anime studio
 - Must work well on phones (375px width) and tablets (768px+)
 
+---
+
+## Workflow plugins (mandatory for non-trivial work)
+
+- **Superpowers** — For any non-trivial change, brainstorm → plan → execute → verify. Use /brainstorming before feature work. Use /writing-plans once design is settled.
+- **Code Review** — Run on the diff after any phase that touches more than a single file. Resolve all high-confidence findings before commit.
+- **Security Guidance** — Mandatory on any phase touching auth, API routes, env vars, DB writes, external input, or third-party integrations.
+- **Claude-Mem** — Memory captured automatically. Scan injected context at session start before asking the user to re-explain.
+
+## Skill discovery
+
+When a task surfaces a workflow Claude is fumbling, run `npx skills find ""` from PowerShell to search skills.sh. Do not preinstall speculatively.
+
+## Privacy hygiene
+
+Wrap secrets, credentials, or PII in <private>...</private> tags so claude-mem doesn't persist them.
+
+## Test gates (must pass before any commit)
+
+- pnpm typecheck
+- pnpm lint
+- pnpm vitest run
+- pnpm build
+- pnpm lhci:windows (when UI changed)
+
+A11y must stay at 1.0. Test baseline (730+) must hold or grow.
