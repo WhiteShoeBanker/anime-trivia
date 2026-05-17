@@ -524,12 +524,11 @@ const QuizClient = ({
         </motion.div>
 
         {/* Badge celebration overlay */}
-        {showBadgeCelebration && newBadges.length > 0 && (
-          <BadgeCelebration
-            badges={newBadges}
-            onComplete={() => setShowBadgeCelebration(false)}
-          />
-        )}
+        <BadgeCelebration
+          isOpen={showBadgeCelebration && newBadges.length > 0}
+          badges={newBadges}
+          onComplete={() => setShowBadgeCelebration(false)}
+        />
       </div>
     );
   }

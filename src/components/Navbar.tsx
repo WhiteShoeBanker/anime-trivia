@@ -3,9 +3,11 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { Menu, X, LogOut, Swords, ShoppingBag, BarChart3, Calendar } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
+import { ModalShell } from "@/components/ui/Modal";
+import { SignOutErrorModal } from "@/components/SignOutErrorModal";
 import BadgeIcon from "@/components/BadgeIcon";
 import { Pill } from "@/components/ui/Pill";
 import { CountBadge } from "@/components/ui/CountBadge";
@@ -118,13 +120,10 @@ const Navbar = () => {
       .charAt(0)
       .toUpperCase();
 
-  // Lock body scroll when mobile menu is open
-  useEffect(() => {
-    document.body.style.overflow = mobileOpen ? "hidden" : "";
-    return () => {
-      document.body.style.overflow = "";
-    };
-  }, [mobileOpen]);
+  // Body scroll lock is owned by ModalShell's useScrollLock when the
+  // mobile overlay opens (DESIGN.md L649 — single source of truth; the
+  // former inline document.body.style.overflow effect was retired in
+  // Phase 5 #7c).
 
   // Close mobile menu on route change
   useEffect(() => {
@@ -231,19 +230,15 @@ const Navbar = () => {
     {/* Mobile overlay — rendered as a sibling of <nav> so its fixed
         positioning is anchored to the viewport, not trapped by the
         nav's backdrop-filter containing block. */}
-    <AnimatePresence>
-      {mobileOpen && (
-        <motion.div
-          initial={reducedMotion ? false : { opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: reducedMotion ? 0 : 0.2 }}
-          className="fixed inset-0 z-50 bg-secondary flex flex-col"
-          id="mobile-menu"
-          role="dialog"
-          aria-modal="true"
-          aria-label="Navigation menu"
-        >
+    <ModalShell
+      isOpen={mobileOpen}
+      onClose={() => setMobileOpen(false)}
+      zIndex="nav"
+      id="mobile-menu"
+      backdropClassName="bg-secondary flex flex-col"
+      dismissOnBackdrop={false}
+      aria-label="Navigation menu"
+    >
           {/* Top bar */}
           <div className="flex-shrink-0 flex items-center justify-between h-16 px-4">
             <Link href="/" className="text-xl font-bold text-primary">
@@ -352,54 +347,20 @@ const Navbar = () => {
               <span className="text-sm font-medium">Log out</span>
             </button>
           )}
-        </motion.div>
-      )}
-    </AnimatePresence>
+    </ModalShell>
 
     {/* Sign-out failure overlay. Surfaces server-side signOut errors and
         offers a force-sign-out path after a second failed attempt — never
-        show a fake logged-out UI when the cookies might still be valid. */}
-    <AnimatePresence>
-      {signOutError && (
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          className="fixed inset-0 z-[60] bg-black/60 flex items-center justify-center p-4"
-          role="alertdialog"
-          aria-labelledby="signout-error-title"
-        >
-          <div className="bg-surface border border-accent/30 rounded-2xl p-6 max-w-sm w-full">
-            <h3 id="signout-error-title" className="text-lg font-bold mb-2">
-              Couldn&apos;t sign you out
-            </h3>
-            <p className="text-sm text-white/70 mb-4">{signOutError}</p>
-            <div className="flex flex-col gap-2">
-              <button
-                onClick={handleSignOut}
-                className="px-4 py-2 text-sm font-semibold rounded-lg bg-primary text-white hover:bg-primary/90 transition-colors min-h-[44px]"
-              >
-                Try Again
-              </button>
-              {signOutAttempts >= 2 && (
-                <button
-                  onClick={handleForceSignOut}
-                  className="px-4 py-2 text-sm font-semibold rounded-lg bg-accent text-white hover:bg-accent/90 transition-colors min-h-[44px]"
-                >
-                  Force Sign Out (reload page)
-                </button>
-              )}
-              <button
-                onClick={() => setSignOutError(null)}
-                className="px-4 py-2 text-sm font-semibold rounded-lg bg-white/10 text-white hover:bg-white/20 transition-colors min-h-[44px]"
-              >
-                Cancel
-              </button>
-            </div>
-          </div>
-        </motion.div>
-      )}
-    </AnimatePresence>
+        show a fake logged-out UI when the cookies might still be valid.
+        Extracted to <SignOutErrorModal> (role="alertdialog", non-
+        dismissible) in Phase 5 #7c. */}
+    <SignOutErrorModal
+      error={signOutError}
+      attempts={signOutAttempts}
+      onRetry={handleSignOut}
+      onForceSignOut={handleForceSignOut}
+      onCancel={() => setSignOutError(null)}
+    />
     </>
   );
 };

@@ -133,6 +133,12 @@ components:
     typography: "{typography.body-sm}"
     rounded: "{rounded.sharp}"
     padding: 12px 20px
+  button-destructive:
+    backgroundColor: "{colors.accent}"
+    textColor: "#ffffff"
+    typography: "{typography.body-sm}"
+    rounded: "{rounded.sharp}"
+    padding: 12px 20px
   button-icon:
     backgroundColor: "transparent"
     textColor: "{colors.text-muted}"
@@ -535,6 +541,7 @@ Currently captured in YAML:
 - **button-secondary** — supporting action alongside a primary. Raised-stone surface fill, bone text, sharp rounding. Reach for it when an action matters enough to be a button but should not compete with the page's primary CTA (e.g., "Cancel" next to "Save", "Skip" next to "Continue").
 - **button-tertiary** — inline, text-link-like action. Transparent fill, vermillion text, sharp rounding. Reach for it when the action belongs in flowing text or a dense row of small actions, and a surface fill would feel heavy. Never carries the tactile shadow.
 - **button-outline** — secondary action on bare/unsurfaced backgrounds where a filled secondary would disappear. Transparent fill, hairline rule border, bone text. Reach for it on hero sections, empty-state CTAs, or anywhere the parent container is the ink-black canvas rather than a raised surface.
+- **button-destructive** — irreversible / high-tension confirmed action. Blood-ink (`{colors.accent}`) fill, white text, sharp rounding — the same filled shape as `button-primary` but carrying the L421 accent danger reservation rather than brand vermillion, so the user reads it as a different signal. Reach for it only on a destructive choice the user is explicitly confirming, gated behind a `role="alertdialog"`. The canonical case is the Navbar sign-out failure modal's *Force Sign Out (reload page)* escalation — see the alertdialog destructive-choice rules in Do's and Don'ts. Never the page's default CTA; if the action is recoverable it is a `button-primary`, not this.
 - **button-icon** — compact, icon-only action. Transparent fill, washed-bone text, 44×44px square (matches the COPPA touch-target floor). Reach for it for header toggles, close buttons, share/menu affordances. Label via `aria-label` — the icon is not the accessible name.
 - **card-default** — standard surface for grouping content. Raised-stone fill, soft `card` rounding, no shadow. The everyday container — anime-series tiles, leaderboard rows, settings panels.
 - **card-elevated** — tactile/dwell surface that earns the manga-panel offset shadow. Raised-stone fill, soft `card` rounding, `--shadow-ink` applied. Reserved for surfaces the user is meant to handle as objects rather than read past — badge cards on the Badges page, monthly emblem displays, and other collectible artifacts. See the shadow usage rule in Do's and Don'ts.

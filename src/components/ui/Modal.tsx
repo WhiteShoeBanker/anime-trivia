@@ -71,6 +71,7 @@ interface ModalShellProps {
   onClose: () => void;
   role?: "dialog" | "alertdialog";
   zIndex?: ModalZIndex;
+  id?: string; // optional DOM id passthrough; enables aria-controls binding from a trigger button
   children: ReactNode;
   dismissOnBackdrop?: boolean;
   closeOnEscape?: boolean;
@@ -208,6 +209,7 @@ export const ModalShell = ({
   onClose,
   role = "dialog",
   zIndex = "modal",
+  id,
   children,
   dismissOnBackdrop = true,
   closeOnEscape = true,
@@ -235,6 +237,7 @@ export const ModalShell = ({
       {isOpen && (
         <motion.div
           ref={containerRef}
+          id={id}
           role={role}
           aria-modal="true"
           aria-label={ariaLabel}

@@ -378,4 +378,14 @@ describe("<ModalShell>", () => {
     expect(dialog.className).toMatch(/\bz-celebration\b/);
     expect(dialog.className).not.toMatch(/\bz-modal\b/);
   });
+
+  it("passes id through to the dialog element when provided", () => {
+    render(
+      <ModalShell isOpen onClose={() => {}} id="my-menu" aria-label="Menu">
+        <p>x</p>
+      </ModalShell>,
+    );
+    const dialog = screen.getByRole("dialog");
+    expect(dialog.id).toBe("my-menu");
+  });
 });
