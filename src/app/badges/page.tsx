@@ -10,6 +10,7 @@ import BadgeGrid from "@/components/BadgeGrid";
 import EmblemSelector from "@/components/EmblemSelector";
 import type { Badge, BadgeCategory } from "@/types";
 import { Button } from "@/components/ui/Button";
+import { ModalShell } from "@/components/ui/Modal";
 import { Pill } from "@/components/ui/Pill";
 
 type TabFilter = "all" | "earned" | "locked";
@@ -236,35 +237,34 @@ const BadgesPage = () => {
       )}
 
       {/* Badge detail modal */}
-      {selectedBadge && (
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          className="fixed inset-0 z-[80] flex items-center justify-center bg-black/60 backdrop-blur-sm"
-          onClick={() => setSelectedBadge(null)}
+      <ModalShell
+        isOpen={!!selectedBadge}
+        onClose={() => setSelectedBadge(null)}
+        aria-label="Badge details"
+        backdropClassName="bg-ink/70 flex items-center justify-center px-4"
+      >
+        <div
+          className="w-full max-w-sm"
+          onClick={(event) => event.stopPropagation()}
         >
-          <motion.div
-            initial={{ scale: 0.9, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            className="w-full max-w-sm mx-4"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <BadgeCard
-              badge={selectedBadge}
-              earned={earnedIds.has(selectedBadge.id)}
-              selected
-            />
-            <Button
-              variant="secondary"
-              onClick={() => setSelectedBadge(null)}
-              className="w-full mt-2"
-            >
-              Close
-            </Button>
-          </motion.div>
-        </motion.div>
-      )}
+          {selectedBadge && (
+            <>
+              <BadgeCard
+                badge={selectedBadge}
+                earned={earnedIds.has(selectedBadge.id)}
+                selected
+              />
+              <Button
+                variant="secondary"
+                onClick={() => setSelectedBadge(null)}
+                className="w-full mt-2"
+              >
+                Close
+              </Button>
+            </>
+          )}
+        </div>
+      </ModalShell>
 
       {/* Emblem selector */}
       {user && (
