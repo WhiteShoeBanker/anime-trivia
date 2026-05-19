@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generatedAt": "2026-05-19T01:24:09.098Z",
+  "generatedAt": "2026-05-19T23:12:00.194Z",
   "entries": [
     {
       "key": "02346c835febedc0",
@@ -115,13 +115,6 @@
       "kind": "strictly-longest"
     },
     {
-      "key": "1241c69e61048c21",
-      "anime": "dragon-ball-z",
-      "tier": "hard",
-      "questionTextPrefix": "What wish does Krillin make to Shenron regarding the android",
-      "kind": "strictly-longest"
-    },
-    {
       "key": "13cc392677b6c82f",
       "anime": "my-hero-academia",
       "tier": "impossible",
@@ -134,20 +127,6 @@
       "tier": "hard",
       "questionTextPrefix": "What is Eri's Quirk and why is it significant to the villain",
       "kind": "strictly-longest"
-    },
-    {
-      "key": "14eb79eb383eb261",
-      "anime": "dragon-ball-z",
-      "tier": "impossible",
-      "questionTextPrefix": "What is the time limit for Potara earring fusion when used b",
-      "kind": "strictly-shortest"
-    },
-    {
-      "key": "169d463d39277da9",
-      "anime": "dragon-ball-z",
-      "tier": "medium",
-      "questionTextPrefix": "Who is the Supreme Kai of Universe 7?",
-      "kind": "strictly-shortest"
     },
     {
       "key": "16a9658ad9691e0b",
@@ -234,13 +213,6 @@
       "kind": "strictly-shortest"
     },
     {
-      "key": "21bd0bb4222d959e",
-      "anime": "dragon-ball-z",
-      "tier": "impossible",
-      "questionTextPrefix": "What specific type of wish can Shenron NOT grant?",
-      "kind": "strictly-longest"
-    },
-    {
       "key": "2323f975de1b7eca",
       "anime": "death-note",
       "tier": "medium",
@@ -309,13 +281,6 @@
       "tier": "impossible",
       "questionTextPrefix": "What is the Japanese name of Gojo Satoru's Domain Expansion?",
       "kind": "strictly-shortest"
-    },
-    {
-      "key": "2a86f06218e00131",
-      "anime": "dragon-ball-z",
-      "tier": "medium",
-      "questionTextPrefix": "What is unique about the Hyperbolic Time Chamber?",
-      "kind": "strictly-longest"
     },
     {
       "key": "2c974a903b737606",
@@ -486,13 +451,6 @@
       "kind": "strictly-longest"
     },
     {
-      "key": "4a47bf5f6aacd902",
-      "anime": "dragon-ball-z",
-      "tier": "hard",
-      "questionTextPrefix": "In his original appearance, what is Frieza's final and most ",
-      "kind": "strictly-shortest"
-    },
-    {
       "key": "4ac8a6addcbdf734",
       "anime": "death-note",
       "tier": "impossible",
@@ -542,13 +500,6 @@
       "kind": "strictly-longest"
     },
     {
-      "key": "54495f45871bd558",
-      "anime": "dragon-ball-z",
-      "tier": "hard",
-      "questionTextPrefix": "What is the name of Vegeta's power-up form that serves as hi",
-      "kind": "strictly-shortest"
-    },
-    {
       "key": "54f136ae94694082",
       "anime": "demon-slayer",
       "tier": "medium",
@@ -596,13 +547,6 @@
       "tier": "hard",
       "questionTextPrefix": "What is the Ackerman clan's special trait that sets them apa",
       "kind": "strictly-longest"
-    },
-    {
-      "key": "5b06edda90d4af63",
-      "anime": "dragon-ball-z",
-      "tier": "easy",
-      "questionTextPrefix": "What is the name of the main character in Dragon Ball Z?",
-      "kind": "strictly-shortest"
     },
     {
       "key": "5b25460f45a7b056",
@@ -773,13 +717,6 @@
       "kind": "strictly-longest"
     },
     {
-      "key": "79fbffca9f482371",
-      "anime": "dragon-ball-z",
-      "tier": "impossible",
-      "questionTextPrefix": "On which planet did Goku train under 100x Earth's gravity wh",
-      "kind": "strictly-longest"
-    },
-    {
       "key": "7d7dce818a3a40e4",
       "anime": "demon-slayer",
       "tier": "impossible",
@@ -843,25 +780,11 @@
       "kind": "strictly-longest"
     },
     {
-      "key": "88d2af4e6f274bdd",
-      "anime": "dragon-ball-z",
-      "tier": "impossible",
-      "questionTextPrefix": "What is Frieza's stated maximum power level in his final for",
-      "kind": "strictly-longest"
-    },
-    {
       "key": "89c2190fde8d0c11",
       "anime": "demon-slayer",
       "tier": "impossible",
       "questionTextPrefix": "What is Kokushibo's human name before he became a demon?",
       "kind": "strictly-longest"
-    },
-    {
-      "key": "8a3c80848f156ad8",
-      "anime": "dragon-ball-z",
-      "tier": "impossible",
-      "questionTextPrefix": "What is the full Japanese name of the technique Goku learns ",
-      "kind": "strictly-shortest"
     },
     {
       "key": "8aec70dc046790ea",
@@ -1165,32 +1088,11 @@
       "kind": "strictly-longest"
     },
     {
-      "key": "b0c69c142584af19",
-      "anime": "dragon-ball-z",
-      "tier": "impossible",
-      "questionTextPrefix": "What is the name of Majin Buu's original, most dangerous for",
-      "kind": "strictly-shortest"
-    },
-    {
-      "key": "b207eaf356ff5498",
-      "anime": "dragon-ball-z",
-      "tier": "hard",
-      "questionTextPrefix": "Who is the angel attendant of Universe 7's God of Destructio",
-      "kind": "strictly-shortest"
-    },
-    {
       "key": "b266bdc848e464bc",
       "anime": "jujutsu-kaisen",
       "tier": "easy",
       "questionTextPrefix": "What is Yuji Itadori's primary fighting style?",
       "kind": "strictly-longest"
-    },
-    {
-      "key": "b3b69577c97339ab",
-      "anime": "dragon-ball-z",
-      "tier": "medium",
-      "questionTextPrefix": "What is Piccolo's home planet?",
-      "kind": "strictly-shortest"
     },
     {
       "key": "b4e7d91f251dba45",
@@ -1305,13 +1207,6 @@
       "kind": "strictly-longest"
     },
     {
-      "key": "c6c8f72a6d02ae34",
-      "anime": "dragon-ball-z",
-      "tier": "easy",
-      "questionTextPrefix": "What is Goku's signature energy attack?",
-      "kind": "strictly-shortest"
-    },
-    {
       "key": "c6f2229c31b953a1",
       "anime": "jujutsu-kaisen",
       "tier": "medium",
@@ -1333,13 +1228,6 @@
       "kind": "strictly-longest"
     },
     {
-      "key": "cdd30f75622d4970",
-      "anime": "dragon-ball-z",
-      "tier": "impossible",
-      "questionTextPrefix": "What is the name of Vegeta's father?",
-      "kind": "strictly-longest"
-    },
-    {
       "key": "cf82eeb344d8a6b7",
       "anime": "one-piece",
       "tier": "hard",
@@ -1351,13 +1239,6 @@
       "anime": "jujutsu-kaisen",
       "tier": "impossible",
       "questionTextPrefix": "What is Mechamaru's real name, and what is his Heavenly Rest",
-      "kind": "strictly-longest"
-    },
-    {
-      "key": "d781c832b9820964",
-      "anime": "dragon-ball-z",
-      "tier": "impossible",
-      "questionTextPrefix": "Which specific techniques did Cell copy from each Z Fighter ",
       "kind": "strictly-longest"
     },
     {
@@ -1449,13 +1330,6 @@
       "anime": "naruto",
       "tier": "medium",
       "questionTextPrefix": "What organization does Itachi join after leaving the Hidden ",
-      "kind": "strictly-shortest"
-    },
-    {
-      "key": "e4be26e345e083b6",
-      "anime": "dragon-ball-z",
-      "tier": "hard",
-      "questionTextPrefix": "What is the name of the technique Tien uses to hold Semi-Per",
       "kind": "strictly-shortest"
     },
     {

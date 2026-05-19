@@ -324,7 +324,7 @@ VALUES (
   'What is Frieza''s stated maximum power level in his final form on Namek?',
   'multiple_choice',
   'impossible',
-  '[{"text":"12,000,000","isCorrect":false},{"text":"120,000,000","isCorrect":true},{"text":"53,000,000","isCorrect":false},{"text":"1,000,000","isCorrect":false}]'::jsonb,
+  '[{"text":"12,000,000","isCorrect":false},{"text":"120,000,000","isCorrect":true},{"text":"53,000,000","isCorrect":false},{"text":"100,000,000","isCorrect":false}]'::jsonb,
   'Frieza states his maximum power level at 100% in his final form is 120,000,000. At 50% power, he was at 60,000,000. Goku''s Super Saiyan form was estimated at 150,000,000, which is why he was able to overpower Frieza at full power.'
 );
 
@@ -334,7 +334,7 @@ VALUES (
   'What is the full Japanese name of the technique Goku learns from King Kai?',
   'multiple_choice',
   'impossible',
-  '[{"text":"Kamehameha","isCorrect":false},{"text":"Genki Dama","isCorrect":false},{"text":"Kaiō-ken","isCorrect":true},{"text":"Shunkan Idō","isCorrect":false}]'::jsonb,
+  '[{"text":"Kameha","isCorrect":false},{"text":"Genki Dama","isCorrect":false},{"text":"Kaiō-ken","isCorrect":true},{"text":"Shunkan Idō","isCorrect":false}]'::jsonb,
   'The Kaiō-ken (界王拳, literally "Fist of the World King") is the power-multiplying technique Goku learns from King Kai. It multiplies his power but strains his body. He also learned the Genki Dama (Spirit Bomb) from King Kai, but Kaiō-ken is the signature combat technique.'
 );
 
@@ -354,7 +354,7 @@ VALUES (
   'What is the name of Vegeta''s father?',
   'multiple_choice',
   'impossible',
-  '[{"text":"King Cold","isCorrect":false},{"text":"King Vegeta","isCorrect":true},{"text":"Paragus","isCorrect":false},{"text":"Bardock","isCorrect":false}]'::jsonb,
+  '[{"text":"King Cold","isCorrect":false},{"text":"King Vegeta","isCorrect":true},{"text":"Paragus","isCorrect":false},{"text":"Bardock the Saiyan","isCorrect":false}]'::jsonb,
   'Vegeta''s father is King Vegeta, the king of all Saiyans and ruler of Planet Vegeta. Both the planet and the prince are named after him. He was killed by Frieza when the tyrant destroyed Planet Vegeta.'
 );
 
@@ -434,7 +434,7 @@ VALUES (
   'What is the time limit for Potara earring fusion when used by non-Supreme Kais?',
   'multiple_choice',
   'impossible',
-  '[{"text":"It is permanent regardless of who uses it","isCorrect":false},{"text":"30 minutes","isCorrect":false},{"text":"1 hour","isCorrect":true},{"text":"24 hours","isCorrect":false}]'::jsonb,
+  '[{"text":"It is permanent regardless of who uses it","isCorrect":false},{"text":"30 minutes","isCorrect":false},{"text":"1 hour total","isCorrect":true},{"text":"24 hours","isCorrect":false}]'::jsonb,
   'As revealed in Dragon Ball Super, Potara fusion only lasts permanently for Supreme Kais. For mortals, the fusion lasts approximately one hour. This retcon explains why Vegito defused inside Super Buu, which was previously attributed to Buu''s magical body.'
 );
 
@@ -454,7 +454,7 @@ VALUES (
   'On which planet did Goku train under 100x Earth''s gravity while traveling to Namek?',
   'multiple_choice',
   'impossible',
-  '[{"text":"Planet Vegeta","isCorrect":false},{"text":"He trained on a spaceship, not a planet","isCorrect":true},{"text":"King Kai''s planet","isCorrect":false},{"text":"Planet Yardrat","isCorrect":false}]'::jsonb,
+  '[{"text":"Planet Vegeta","isCorrect":false},{"text":"On his spaceship","isCorrect":true},{"text":"King Kai''s planet","isCorrect":false},{"text":"Planet Yardrat","isCorrect":false}]'::jsonb,
   'Goku trained inside Dr. Brief''s modified Saiyan spaceship during his journey to Namek, not on any planet. The ship had an adjustable gravity chamber that he cranked up to 100x Earth''s normal gravity. King Kai''s planet only has 10x gravity.'
 );
 
@@ -474,7 +474,7 @@ VALUES (
   'What is the name of Majin Buu''s original, most dangerous form?',
   'multiple_choice',
   'impossible',
-  '[{"text":"Super Buu","isCorrect":false},{"text":"Kid Buu","isCorrect":true},{"text":"Ultra Buu","isCorrect":false},{"text":"Majin Buu (Pure Evil)","isCorrect":false}]'::jsonb,
+  '[{"text":"Super Buu","isCorrect":false},{"text":"Kid Buu (original)","isCorrect":true},{"text":"Ultra Buu","isCorrect":false},{"text":"Majin Buu (Pure Evil)","isCorrect":false}]'::jsonb,
   'Kid Buu (Pure Buu) is Majin Buu''s original form — pure, chaotic evil without any of the absorbed personalities that made other forms more rational. He is considered the most dangerous because he is completely unpredictable and destructive, destroying Earth without hesitation.'
 );
 
@@ -484,7 +484,7 @@ VALUES (
   'Which specific techniques did Cell copy from each Z Fighter due to his bio-android composition?',
   'multiple_choice',
   'impossible',
-  '[{"text":"Only the Kamehameha from Goku","isCorrect":false},{"text":"Kamehameha from Goku, Special Beam Cannon from Piccolo, Destructo Disc from Krillin, and regeneration from Piccolo","isCorrect":true},{"text":"Spirit Bomb from Goku and Final Flash from Vegeta","isCorrect":false},{"text":"Tri-Beam from Tien and Wolf Fang Fist from Yamcha only","isCorrect":false}]'::jsonb,
+  '[{"text":"Only the Kamehameha from Goku","isCorrect":false},{"text":"Kamehameha from Goku, Special Beam Cannon from Piccolo, Destructo Disc from Krillin, and regeneration from Piccolo","isCorrect":true},{"text":"Spirit Bomb from Goku and Final Flash from Vegeta","isCorrect":false},{"text":"Tri-Beam from Tien, Wolf Fang Fist from Yamcha, Solar Flare from Krillin, and Spirit Bomb from Goku — all four of these only","isCorrect":false}]'::jsonb,
   'Cell contains the cells of Goku, Vegeta, Piccolo, Frieza, and King Cold, giving him access to the Kamehameha, Instant Transmission, regeneration (from Piccolo''s Namekian cells), Special Beam Cannon, Destructo Disc, and more. He also demonstrates Frieza''s Death Beam.'
 );
 
@@ -524,7 +524,7 @@ VALUES (
   'What specific type of wish can Shenron NOT grant?',
   'multiple_choice',
   'impossible',
-  '[{"text":"Wishes that involve time travel","isCorrect":false},{"text":"Wishes that exceed the power of Shenron''s creator (Kami/Dende)","isCorrect":true},{"text":"Wishes involving other universes","isCorrect":false},{"text":"Wishes that affect Saiyans","isCorrect":false}]'::jsonb,
+  '[{"text":"Wishes that involve time travel","isCorrect":false},{"text":"Wishes that exceed the power of Shenron''s creator (Kami/Dende)","isCorrect":true},{"text":"Wishes involving the affairs of other universes outside Universe 7","isCorrect":false},{"text":"Wishes that affect Saiyans","isCorrect":false}]'::jsonb,
   'Shenron cannot grant wishes that exceed the power of his creator. Originally created by Kami, and later maintained by Dende, Shenron''s power is limited. This is why he couldn''t kill certain villains or undo certain events directly — they exceeded Kami''s/Dende''s power level.'
 );
 
