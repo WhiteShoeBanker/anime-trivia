@@ -79,7 +79,8 @@ const files = readdirSync(questionsDir)
   .sort();
 
 let sql = "-- OtakuQuiz Seed Data\n";
-sql += "-- 8 anime series with 240 total questions\n";
+sql += "-- 8 anime series; this file seeds 240 base questions (easy/medium/hard).\n";
+sql += "-- Full live corpus is 480 — the impossible tier (+240) seeds via migrations 008a-008f.\n";
 sql += "-- Generated from src/data/questions/ JSON files\n";
 sql += "-- Paste into Supabase SQL Editor to seed the database\n\n";
 
