@@ -1,5 +1,6 @@
 -- OtakuQuiz Seed Data
--- 8 anime series with 240 total questions
+-- 8 anime series; this file seeds 240 base questions (easy/medium/hard).
+-- Full live corpus is 480 — the impossible tier (+240) seeds via migrations 008a-008f.
 -- Generated from src/data/questions/ JSON files
 -- Paste into Supabase SQL Editor to seed the database
 

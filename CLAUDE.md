@@ -113,6 +113,38 @@ When a task surfaces a workflow Claude is fumbling, run `npx skills find ""` fro
 
 Wrap secrets, credentials, or PII in <private>...</private> tags so claude-mem doesn't persist them.
 
+## Content authoring (length-bias guardrail)
+
+Every multiple-choice question MUST satisfy the symmetric length invariant:
+
+    min(distractor.length) <= correct.length <= max(distractor.length)
+
+where length is the trimmed Unicode **code-point** count (`[...str.trim()].length`),
+not UTF-8 bytes. The correct answer must NOT be the strict longest or strict
+shortest option; ties at either extreme are allowed.
+
+**Rationale:** an unconstrained corpus drifts toward "the longest option is the
+answer" — a content tell that makes the game trivially pattern-solvable without
+knowing the anime. The Track B investigation found 240/480 questions violating
+this before the guardrail existed.
+
+**Authoring rule:** when writing or editing a multiple-choice question, keep the
+correct answer within the distractor length range. If the true answer is
+naturally long, lengthen a distractor (or trim the answer's parenthetical) so
+the correct option is no longer the unique extremum in either direction.
+
+**Tooling:**
+
+- Audit: `pnpm tsx scripts/audit-question-lengths.ts --detail` (also `--summary`, `--suggestions`)
+- Gate (CI): `pnpm test src/lib/__tests__/length-bias-corpus` — fails on any
+  non-allowlisted violation or stale allowlist entry.
+
+**Allowlist:** the pre-existing violations are recorded in
+`src/lib/__tests__/fixtures/length-bias-allowlist.json` and are being burned
+down over the T2–Tn normalization track. New violations fail CI. Adding an entry
+to the allowlist (regenerating via `--emit-allowlist`) requires explicit
+justification in the PR — the default is to fix the question, not allowlist it.
+
 ## Test gates (must pass before any commit)
 
 - pnpm typecheck
