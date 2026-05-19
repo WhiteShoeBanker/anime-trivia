@@ -15,7 +15,8 @@ export type ButtonVariant =
   | "secondary"
   | "tertiary"
   | "outline"
-  | "icon";
+  | "icon"
+  | "destructive";
 
 const baseClasses =
   "inline-flex items-center justify-center gap-2 rounded-sharp text-sm font-semibold transition-colors min-h-[44px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-secondary disabled:opacity-50 disabled:pointer-events-none";
@@ -31,6 +32,8 @@ const variantClasses: Record<ButtonVariant, string> = {
     "bg-transparent text-text border border-rule hover:bg-surface/90",
   icon:
     "bg-transparent text-text-muted hover:text-text-muted/80 w-11 h-11",
+  destructive:
+    "bg-accent text-white hover:bg-accent/90 active:bg-accent/80",
 };
 
 const sizeClasses: Record<ButtonVariant, string> = {
@@ -39,6 +42,7 @@ const sizeClasses: Record<ButtonVariant, string> = {
   tertiary: "px-5 py-3",
   outline: "px-5 py-3",
   icon: "",
+  destructive: "px-5 py-3",
 };
 
 type CommonProps = {

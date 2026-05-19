@@ -96,12 +96,11 @@ const DuelResults = ({
 
   return (
     <>
-      {showBadges && newBadges && newBadges.length > 0 && (
-        <BadgeCelebration
-          badges={newBadges}
-          onComplete={() => setShowBadges(false)}
-        />
-      )}
+      <BadgeCelebration
+        isOpen={showBadges && !!newBadges && newBadges.length > 0}
+        badges={newBadges ?? []}
+        onComplete={() => setShowBadges(false)}
+      />
 
       <div className="max-w-2xl mx-auto px-4 py-8 space-y-6">
         {/* Result banner */}

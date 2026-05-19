@@ -2,13 +2,13 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { Search, LogIn, X } from "lucide-react";
 import type { AnimeSeries } from "@/types";
 import { useAuth } from "@/contexts/AuthContext";
 import AnimeCard from "@/components/AnimeCard";
 import { Button } from "@/components/ui/Button";
-import { Card } from "@/components/ui/Card";
+import { Modal } from "@/components/ui/Modal";
 import { Input } from "@/components/ui/Input";
 
 interface BrowseContentProps {
@@ -113,49 +113,34 @@ const BrowseContent = ({ animeList }: BrowseContentProps) => {
       )}
 
       {/* Sign-in prompt modal */}
-      <AnimatePresence>
-        {showSignInPrompt && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 px-4"
-            onClick={() => setShowSignInPrompt(false)}
-          >
-            <motion.div
-              initial={{ scale: 0.9, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.9, opacity: 0 }}
-              className="max-w-sm w-full"
-              onClick={(e) => e.stopPropagation()}
+      <Modal
+        isOpen={showSignInPrompt}
+        onClose={() => setShowSignInPrompt(false)}
+        presentation="center"
+        header={
+          <div className="flex items-center justify-between gap-2">
+            <h3 className="text-lg font-bold">Sign In Required</h3>
+            <Button
+              variant="icon"
+              onClick={() => setShowSignInPrompt(false)}
+              aria-label="Dismiss sign-in prompt"
             >
-              <Card className="border border-white/10 p-6">
-                <div className="flex justify-between items-start mb-4">
-                  <h3 className="text-lg font-bold">Sign In Required</h3>
-                  <Button
-                    variant="icon"
-                    onClick={() => setShowSignInPrompt(false)}
-                    aria-label="Dismiss sign-in prompt"
-                  >
-                    <X size={20} />
-                  </Button>
-                </div>
-                <p className="text-white/60 text-sm mb-6">
-                  Sign in or create an account to access this anime quiz. Age
-                  verification helps us show you the right content.
-                </p>
-                <Button
-                  onClick={() => router.push("/auth")}
-                  className="w-full"
-                >
-                  <LogIn size={18} />
-                  Sign In / Sign Up
-                </Button>
-              </Card>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+              <X size={20} />
+            </Button>
+          </div>
+        }
+        footer={
+          <Button onClick={() => router.push("/auth")} className="w-full">
+            <LogIn size={18} />
+            Sign In / Sign Up
+          </Button>
+        }
+      >
+        <p className="text-white/60 text-sm">
+          Sign in or create an account to access this anime quiz. Age
+          verification helps us show you the right content.
+        </p>
+      </Modal>
     </div>
   );
 };
