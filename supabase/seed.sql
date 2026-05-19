@@ -982,7 +982,7 @@ VALUES (
   'What is the name of the main character in Dragon Ball Z?',
   'multiple_choice',
   'easy',
-  '[{"text":"Vegeta","isCorrect":false},{"text":"Goku","isCorrect":true},{"text":"Piccolo","isCorrect":false},{"text":"Gohan","isCorrect":false}]'::jsonb,
+  '[{"text":"Vegeta","isCorrect":false},{"text":"Son Goku","isCorrect":true},{"text":"Piccolo","isCorrect":false},{"text":"Son Gohan","isCorrect":false}]'::jsonb,
   'Goku (also known as Son Goku) is the main protagonist of the entire Dragon Ball franchise, following his journey from childhood through adulthood.'
 );
 
@@ -1012,7 +1012,7 @@ VALUES (
   'What is Goku''s signature energy attack?',
   'multiple_choice',
   'easy',
-  '[{"text":"Final Flash","isCorrect":false},{"text":"Special Beam Cannon","isCorrect":false},{"text":"Kamehameha","isCorrect":true},{"text":"Spirit Bomb","isCorrect":false}]'::jsonb,
+  '[{"text":"Galick Gun","isCorrect":false},{"text":"Special Beam Cannon","isCorrect":false},{"text":"Kamehameha","isCorrect":true},{"text":"Spirit Bomb","isCorrect":false}]'::jsonb,
   'The Kamehameha is Goku''s iconic energy wave attack, originally invented by Master Roshi. Goku learned it by watching Roshi perform it just once.'
 );
 
@@ -1112,7 +1112,7 @@ VALUES (
   'What is unique about the Hyperbolic Time Chamber?',
   'multiple_choice',
   'medium',
-  '[{"text":"It multiplies gravity by 100 times","isCorrect":false},{"text":"One day outside equals one year inside","isCorrect":true},{"text":"It can only be used by Saiyans","isCorrect":false},{"text":"It heals all injuries instantly","isCorrect":false}]'::jsonb,
+  '[{"text":"It multiplies Earth''s gravity by 100 times","isCorrect":false},{"text":"One day outside equals one year inside","isCorrect":true},{"text":"It can only be used by Saiyans","isCorrect":false},{"text":"It heals all injuries instantly","isCorrect":false}]'::jsonb,
   'The Hyperbolic Time Chamber (Room of Spirit and Time) is a special dimension where one day in the outside world equals a full year inside. The Z Fighters use it to train intensively before major battles.'
 );
 
@@ -1132,7 +1132,7 @@ VALUES (
   'Who is the Supreme Kai of Universe 7?',
   'multiple_choice',
   'medium',
-  '[{"text":"Old Kai","isCorrect":false},{"text":"Shin","isCorrect":true},{"text":"Zamasu","isCorrect":false},{"text":"Kibito","isCorrect":false}]'::jsonb,
+  '[{"text":"Elder Kai","isCorrect":false},{"text":"Lord Shin","isCorrect":true},{"text":"Zamasu","isCorrect":false},{"text":"Kibito","isCorrect":false}]'::jsonb,
   'Shin is the Supreme Kai of Universe 7. He first appears during the Buu Saga, initially in disguise as a contestant in the World Martial Arts Tournament, and reveals the threat of Majin Buu.'
 );
 
@@ -1162,7 +1162,7 @@ VALUES (
   'What is Piccolo''s home planet?',
   'multiple_choice',
   'medium',
-  '[{"text":"Planet Vegeta","isCorrect":false},{"text":"Planet Yardrat","isCorrect":false},{"text":"Planet Namek","isCorrect":true},{"text":"Planet Kanassa","isCorrect":false}]'::jsonb,
+  '[{"text":"Planet Vegeta","isCorrect":false},{"text":"Yardrat","isCorrect":false},{"text":"Planet Namek","isCorrect":true},{"text":"Planet Kanassa","isCorrect":false}]'::jsonb,
   'Piccolo is a Namekian, originating from Planet Namek. The Namek Saga revolves around the Z Fighters traveling to Namek to use its Dragon Balls, created by the Namekian elder Guru.'
 );
 
@@ -1212,7 +1212,7 @@ VALUES (
   'Who is the angel attendant of Universe 7''s God of Destruction?',
   'multiple_choice',
   'hard',
-  '[{"text":"Vados","isCorrect":false},{"text":"Whis","isCorrect":true},{"text":"Merus","isCorrect":false},{"text":"Grand Priest","isCorrect":false}]'::jsonb,
+  '[{"text":"Vados","isCorrect":false},{"text":"Whis-sama","isCorrect":true},{"text":"Merus","isCorrect":false},{"text":"Grand Priest","isCorrect":false}]'::jsonb,
   'Whis is the angel attendant and martial arts teacher of Beerus, the God of Destruction of Universe 7. He is the son of the Grand Priest and trained both Goku and Vegeta in god-level techniques.'
 );
 
@@ -1232,7 +1232,7 @@ VALUES (
   'In his original appearance, what is Frieza''s final and most powerful transformation called?',
   'multiple_choice',
   'hard',
-  '[{"text":"Second Form","isCorrect":false},{"text":"Mecha Frieza","isCorrect":false},{"text":"Final Form","isCorrect":true},{"text":"Golden Frieza","isCorrect":false}]'::jsonb,
+  '[{"text":"First Form","isCorrect":false},{"text":"Mecha Frieza","isCorrect":false},{"text":"Final Form","isCorrect":true},{"text":"Golden Frieza","isCorrect":false}]'::jsonb,
   'Frieza''s Final Form (also called his True Form) is his fourth and original transformation on Planet Namek. Unlike his other forms, which suppress his power, his Final Form is his natural state. Golden Frieza came much later in Dragon Ball Super.'
 );
 
@@ -1242,7 +1242,7 @@ VALUES (
   'What is the name of the technique Tien uses to hold Semi-Perfect Cell at bay?',
   'multiple_choice',
   'hard',
-  '[{"text":"Dodon Ray","isCorrect":false},{"text":"Volleyball Fist","isCorrect":false},{"text":"Tri-Beam","isCorrect":true},{"text":"Solar Flare","isCorrect":false}]'::jsonb,
+  '[{"text":"Dodon Ray","isCorrect":false},{"text":"Volleyball Fist","isCorrect":false},{"text":"Tri-Beam Cannon","isCorrect":true},{"text":"Solar Flare","isCorrect":false}]'::jsonb,
   'Tien uses the Tri-Beam (Kikoho) repeatedly to hold Semi-Perfect Cell in place, buying time for Android 18 to escape. This is one of Tien''s most heroic moments, as the technique drains his own life force with each use.'
 );
 
@@ -1262,7 +1262,7 @@ VALUES (
   'What is the name of Vegeta''s power-up form that serves as his counterpart to Goku''s Ultra Instinct?',
   'multiple_choice',
   'hard',
-  '[{"text":"Super Saiyan Blue Evolution","isCorrect":false},{"text":"Ultra Ego","isCorrect":true},{"text":"Super Saiyan Royal Blue","isCorrect":false},{"text":"Mega Instinct","isCorrect":false}]'::jsonb,
+  '[{"text":"Super Saiyan Blue Evolution","isCorrect":false},{"text":"Ultra Ego Form","isCorrect":true},{"text":"Super Saiyan Royal Blue","isCorrect":false},{"text":"Mega Instinct","isCorrect":false}]'::jsonb,
   'Ultra Ego is Vegeta''s transformation achieved through training with Beerus, the God of Destruction. While Ultra Instinct focuses on dodging and defense, Ultra Ego grows stronger the more damage Vegeta takes, reflecting the mindset of a Destroyer.'
 );
 
@@ -1272,7 +1272,7 @@ VALUES (
   'What wish does Krillin make to Shenron regarding the androids after Cell''s defeat?',
   'multiple_choice',
   'hard',
-  '[{"text":"To make the androids fully human","isCorrect":false},{"text":"To erase the androids from existence","isCorrect":false},{"text":"To remove the bombs inside Android 17 and 18","isCorrect":true},{"text":"To restore Android 16 back to life","isCorrect":false}]'::jsonb,
+  '[{"text":"To make the androids fully human","isCorrect":false},{"text":"To erase the androids from existence completely","isCorrect":false},{"text":"To remove the bombs inside Android 17 and 18","isCorrect":true},{"text":"To restore Android 16 back to life","isCorrect":false}]'::jsonb,
   'After Cell''s defeat, Krillin uses a wish on Shenron to remove the self-destruct bombs planted inside Android 17 and 18 by Dr. Gero. This act of kindness, driven by Krillin''s feelings for Android 18, eventually leads to their marriage.'
 );
 
