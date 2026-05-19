@@ -1,0 +1,1686 @@
+{
+  "version": 1,
+  "generatedAt": "2026-05-19T01:24:09.098Z",
+  "entries": [
+    {
+      "key": "02346c835febedc0",
+      "anime": "attack-on-titan",
+      "tier": "hard",
+      "questionTextPrefix": "What is 'the Coordinate' in the context of Attack on Titan?",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "045958ef0096f00e",
+      "anime": "my-hero-academia",
+      "tier": "medium",
+      "questionTextPrefix": "What is Ochaco Uraraka's Quirk?",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "052ad00c16edcd8f",
+      "anime": "demon-slayer",
+      "tier": "easy",
+      "questionTextPrefix": "Who is the main villain and king of all demons in Demon Slay",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "07a390e9395aadac",
+      "anime": "naruto",
+      "tier": "easy",
+      "questionTextPrefix": "What is Naruto's favorite food?",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "085ecb4c27e7b8df",
+      "anime": "naruto",
+      "tier": "hard",
+      "questionTextPrefix": "What is Kakashi's father's name and his famous nickname?",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "0a6aa508e53a86b3",
+      "anime": "jujutsu-kaisen",
+      "tier": "hard",
+      "questionTextPrefix": "What is the name of Gojo's Domain Expansion?",
+      "kind": "strictly-shortest"
+    },
+    {
+      "key": "0b3751ea82bd51bf",
+      "anime": "demon-slayer",
+      "tier": "impossible",
+      "questionTextPrefix": "What is the name of the creator/mangaka of Demon Slayer: Kim",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "0ca57b97938e3973",
+      "anime": "naruto",
+      "tier": "easy",
+      "questionTextPrefix": "What is the name of the headband that Naruto and other ninja",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "0d4ddd5a53dc12f9",
+      "anime": "jujutsu-kaisen",
+      "tier": "hard",
+      "questionTextPrefix": "What is Kenjaku's ultimate goal involving Tengen and the pop",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "0d930bbd6b3ef972",
+      "anime": "one-piece",
+      "tier": "impossible",
+      "questionTextPrefix": "Who or what is Joy Boy, and what is his significance to the ",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "0daf2ef3ef3c7ff9",
+      "anime": "demon-slayer",
+      "tier": "impossible",
+      "questionTextPrefix": "In which manga magazine was Demon Slayer: Kimetsu no Yaiba s",
+      "kind": "strictly-shortest"
+    },
+    {
+      "key": "0e9a8bc8b9112e9c",
+      "anime": "demon-slayer",
+      "tier": "impossible",
+      "questionTextPrefix": "What is Upper Moon 4 Hantengu's unique ability when his head",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "0f15fbc1d91f3acc",
+      "anime": "death-note",
+      "tier": "easy",
+      "questionTextPrefix": "What is L's signature sitting position?",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "11103c134499143f",
+      "anime": "one-piece",
+      "tier": "easy",
+      "questionTextPrefix": "What is the name of the legendary treasure that all pirates ",
+      "kind": "strictly-shortest"
+    },
+    {
+      "key": "11ef1ef13d9096d1",
+      "anime": "death-note",
+      "tier": "medium",
+      "questionTextPrefix": "What does L suspect about Light from very early in the inves",
+      "kind": "strictly-shortest"
+    },
+    {
+      "key": "12269f53d85ddcb2",
+      "anime": "naruto",
+      "tier": "impossible",
+      "questionTextPrefix": "What is the specific origin of Kabuto Yakushi? How did he en",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "1241c69e61048c21",
+      "anime": "dragon-ball-z",
+      "tier": "hard",
+      "questionTextPrefix": "What wish does Krillin make to Shenron regarding the android",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "13cc392677b6c82f",
+      "anime": "my-hero-academia",
+      "tier": "impossible",
+      "questionTextPrefix": "What is the Japanese name for U.A. High School?",
+      "kind": "strictly-shortest"
+    },
+    {
+      "key": "14636794be9b43c3",
+      "anime": "my-hero-academia",
+      "tier": "hard",
+      "questionTextPrefix": "What is Eri's Quirk and why is it significant to the villain",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "14eb79eb383eb261",
+      "anime": "dragon-ball-z",
+      "tier": "impossible",
+      "questionTextPrefix": "What is the time limit for Potara earring fusion when used b",
+      "kind": "strictly-shortest"
+    },
+    {
+      "key": "169d463d39277da9",
+      "anime": "dragon-ball-z",
+      "tier": "medium",
+      "questionTextPrefix": "Who is the Supreme Kai of Universe 7?",
+      "kind": "strictly-shortest"
+    },
+    {
+      "key": "16a9658ad9691e0b",
+      "anime": "my-hero-academia",
+      "tier": "impossible",
+      "questionTextPrefix": "What is Mirio Togata's hero name, and what is the specific m",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "17236084fad624a4",
+      "anime": "my-hero-academia",
+      "tier": "impossible",
+      "questionTextPrefix": "What is the real name of All For One's personal doctor who h",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "1b08412cc695a031",
+      "anime": "demon-slayer",
+      "tier": "impossible",
+      "questionTextPrefix": "What specific Water Breathing technique does Tanjiro use in ",
+      "kind": "strictly-shortest"
+    },
+    {
+      "key": "1bd9db3872c1b312",
+      "anime": "naruto",
+      "tier": "impossible",
+      "questionTextPrefix": "What is Naruto's intelligence rating in the official Part 1 ",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "1d2795d4a3e9dba8",
+      "anime": "attack-on-titan",
+      "tier": "easy",
+      "questionTextPrefix": "What is the weak spot on a Titan's body that soldiers must s",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "1d3c020af3866159",
+      "anime": "my-hero-academia",
+      "tier": "impossible",
+      "questionTextPrefix": "What is Stain's real name, and what is his core ideology?",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "1eab70610546fab6",
+      "anime": "one-piece",
+      "tier": "impossible",
+      "questionTextPrefix": "How many Road Poneglyphs exist, and what is their purpose?",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "1ec5861b4d7d5de8",
+      "anime": "demon-slayer",
+      "tier": "easy",
+      "questionTextPrefix": "Why does Tanjiro decide to become a Demon Slayer?",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "1fb6f4d59370abbf",
+      "anime": "death-note",
+      "tier": "medium",
+      "questionTextPrefix": "What is the name of the task force assembled to catch Kira?",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "203663ec460599da",
+      "anime": "attack-on-titan",
+      "tier": "medium",
+      "questionTextPrefix": "Who is revealed to be the Armored Titan?",
+      "kind": "strictly-shortest"
+    },
+    {
+      "key": "20d11cc64d4f33ef",
+      "anime": "jujutsu-kaisen",
+      "tier": "impossible",
+      "questionTextPrefix": "How does the Reverse Cursed Technique work mechanically?",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "20e07b2b206c4a03",
+      "anime": "death-note",
+      "tier": "impossible",
+      "questionTextPrefix": "What is L's real full name as revealed in supplementary mate",
+      "kind": "strictly-shortest"
+    },
+    {
+      "key": "21bd0bb4222d959e",
+      "anime": "dragon-ball-z",
+      "tier": "impossible",
+      "questionTextPrefix": "What specific type of wish can Shenron NOT grant?",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "2323f975de1b7eca",
+      "anime": "death-note",
+      "tier": "medium",
+      "questionTextPrefix": "Who is Misa Amane's Shinigami?",
+      "kind": "strictly-shortest"
+    },
+    {
+      "key": "247a9ceefb800781",
+      "anime": "my-hero-academia",
+      "tier": "impossible",
+      "questionTextPrefix": "Who was the original first user of One For All?",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "24817e10bded2f3d",
+      "anime": "one-piece",
+      "tier": "hard",
+      "questionTextPrefix": "What is the Void Century in the world of One Piece?",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "269bc36d375d9257",
+      "anime": "demon-slayer",
+      "tier": "impossible",
+      "questionTextPrefix": "What is Kanao Tsuyuri's specific reason for flipping a coin ",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "26af0f106566e6e7",
+      "anime": "my-hero-academia",
+      "tier": "medium",
+      "questionTextPrefix": "What makes One For All unique compared to most other Quirks?",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "26b069c95c2098b1",
+      "anime": "my-hero-academia",
+      "tier": "medium",
+      "questionTextPrefix": "What is Shoto Todoroki's Quirk?",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "27285bf3970281c7",
+      "anime": "one-piece",
+      "tier": "impossible",
+      "questionTextPrefix": "What is the name of Zoro's strongest Three Sword Style techn",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "2785db21c27cb0c0",
+      "anime": "demon-slayer",
+      "tier": "hard",
+      "questionTextPrefix": "What is the original Breathing Style from which all other Br",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "2889c9d13285784b",
+      "anime": "jujutsu-kaisen",
+      "tier": "easy",
+      "questionTextPrefix": "Who are Yuji's two classmates as first-year students at Toky",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "2964824900212814",
+      "anime": "jujutsu-kaisen",
+      "tier": "impossible",
+      "questionTextPrefix": "What is the Japanese name of Gojo Satoru's Domain Expansion?",
+      "kind": "strictly-shortest"
+    },
+    {
+      "key": "2a86f06218e00131",
+      "anime": "dragon-ball-z",
+      "tier": "medium",
+      "questionTextPrefix": "What is unique about the Hyperbolic Time Chamber?",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "2c974a903b737606",
+      "anime": "one-piece",
+      "tier": "impossible",
+      "questionTextPrefix": "What are the three main classifications of Devil Fruit types",
+      "kind": "strictly-shortest"
+    },
+    {
+      "key": "2ed3c11e0805908b",
+      "anime": "death-note",
+      "tier": "easy",
+      "questionTextPrefix": "What is Light's father's occupation?",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "2f0ebbb955b02ea9",
+      "anime": "my-hero-academia",
+      "tier": "impossible",
+      "questionTextPrefix": "How many Quirks are stockpiled within One For All that Deku ",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "30c9639ef12515ad",
+      "anime": "one-piece",
+      "tier": "easy",
+      "questionTextPrefix": "What is the name of the Straw Hat Pirates' second ship?",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "34c061104313213b",
+      "anime": "my-hero-academia",
+      "tier": "impossible",
+      "questionTextPrefix": "What is the name of the support course student who frequentl",
+      "kind": "strictly-shortest"
+    },
+    {
+      "key": "35268bc0d2b31e25",
+      "anime": "demon-slayer",
+      "tier": "easy",
+      "questionTextPrefix": "Which two companions regularly travel and fight alongside Ta",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "35db769072e33b2f",
+      "anime": "demon-slayer",
+      "tier": "impossible",
+      "questionTextPrefix": "What type of weapon does the Stone Hashira Gyomei Himejima u",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "3775e122767879ac",
+      "anime": "jujutsu-kaisen",
+      "tier": "hard",
+      "questionTextPrefix": "What is a Reverse Cursed Technique?",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "37c328b68f937627",
+      "anime": "naruto",
+      "tier": "medium",
+      "questionTextPrefix": "What is the Rasengan?",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "3b0271ad39c70f90",
+      "anime": "one-piece",
+      "tier": "hard",
+      "questionTextPrefix": "What is the name and type of Kaido's Devil Fruit?",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "3ccdcdc957bf4aae",
+      "anime": "jujutsu-kaisen",
+      "tier": "impossible",
+      "questionTextPrefix": "What is the exact multiplier applied to a Black Flash attack",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "3d136a42fef14599",
+      "anime": "attack-on-titan",
+      "tier": "impossible",
+      "questionTextPrefix": "Which district of Wall Maria was breached in the initial Tit",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "3dbfd2f10c3b1f2f",
+      "anime": "naruto",
+      "tier": "hard",
+      "questionTextPrefix": "What is the name of the forbidden jutsu that reanimates the ",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "3e16adfc77bfee99",
+      "anime": "naruto",
+      "tier": "easy",
+      "questionTextPrefix": "What is the name of the pink-haired member of Team 7?",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "3ebbe0cbba0ddb4d",
+      "anime": "jujutsu-kaisen",
+      "tier": "impossible",
+      "questionTextPrefix": "Who is Kenjaku, and whose body did he possess before taking ",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "3f7ce3b7d6e541ca",
+      "anime": "naruto",
+      "tier": "impossible",
+      "questionTextPrefix": "What is the name of Naruto's signature technique that combin",
+      "kind": "strictly-shortest"
+    },
+    {
+      "key": "40ebb56058b256ce",
+      "anime": "jujutsu-kaisen",
+      "tier": "impossible",
+      "questionTextPrefix": "What is Naobito Zenin's cursed technique, and what is its un",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "41f269a8ac035222",
+      "anime": "attack-on-titan",
+      "tier": "hard",
+      "questionTextPrefix": "What is the name of the Eldian king who created the walls an",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "43330d7ddbd105c5",
+      "anime": "jujutsu-kaisen",
+      "tier": "impossible",
+      "questionTextPrefix": "What is the name of the binding vow/condition Sukuna imposed",
+      "kind": "strictly-shortest"
+    },
+    {
+      "key": "44c035b2796768e2",
+      "anime": "death-note",
+      "tier": "easy",
+      "questionTextPrefix": "Who is the genius detective trying to catch Kira?",
+      "kind": "strictly-shortest"
+    },
+    {
+      "key": "45bb6e605d95ee80",
+      "anime": "naruto",
+      "tier": "impossible",
+      "questionTextPrefix": "What is the specific mechanism of Minato's Flying Thunder Go",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "480a4388cfdadacc",
+      "anime": "demon-slayer",
+      "tier": "hard",
+      "questionTextPrefix": "What is Muzan's blood curse and how does it control demons?",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "48464ee9956ec113",
+      "anime": "demon-slayer",
+      "tier": "impossible",
+      "questionTextPrefix": "What is unique about Zenitsu's mastery of Thunder Breathing?",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "48cdcb164b4955b2",
+      "anime": "jujutsu-kaisen",
+      "tier": "impossible",
+      "questionTextPrefix": "What self-estimated temperature does Jogo claim his Domain E",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "4a47bf5f6aacd902",
+      "anime": "dragon-ball-z",
+      "tier": "hard",
+      "questionTextPrefix": "In his original appearance, what is Frieza's final and most ",
+      "kind": "strictly-shortest"
+    },
+    {
+      "key": "4ac8a6addcbdf734",
+      "anime": "death-note",
+      "tier": "impossible",
+      "questionTextPrefix": "What fraction of their remaining lifespan does a person give",
+      "kind": "strictly-shortest"
+    },
+    {
+      "key": "4d18891969f968c1",
+      "anime": "one-piece",
+      "tier": "impossible",
+      "questionTextPrefix": "What was the name of Oda's original one-shot manga that even",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "4da224bfecca3d61",
+      "anime": "naruto",
+      "tier": "impossible",
+      "questionTextPrefix": "What is the name of the location where Naruto trained to con",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "4ff5c65d0d8a5e09",
+      "anime": "naruto",
+      "tier": "hard",
+      "questionTextPrefix": "What is the name of the sage who created ninjutsu and divide",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "5096b3012319fbc3",
+      "anime": "death-note",
+      "tier": "easy",
+      "questionTextPrefix": "What kind of student is Light Yagami?",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "51fae37b1bd45aeb",
+      "anime": "attack-on-titan",
+      "tier": "easy",
+      "questionTextPrefix": "What is the name of the main character in Attack on Titan?",
+      "kind": "strictly-shortest"
+    },
+    {
+      "key": "520495b8dafaccb6",
+      "anime": "demon-slayer",
+      "tier": "hard",
+      "questionTextPrefix": "What special materials are Nichirin swords forged from, and ",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "54495f45871bd558",
+      "anime": "dragon-ball-z",
+      "tier": "hard",
+      "questionTextPrefix": "What is the name of Vegeta's power-up form that serves as hi",
+      "kind": "strictly-shortest"
+    },
+    {
+      "key": "54f136ae94694082",
+      "anime": "demon-slayer",
+      "tier": "medium",
+      "questionTextPrefix": "What is the name of the hidden village where Demon Slayers' ",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "55b1e2cec70041a8",
+      "anime": "death-note",
+      "tier": "hard",
+      "questionTextPrefix": "Approximately how many individual rules govern how the Death",
+      "kind": "strictly-shortest"
+    },
+    {
+      "key": "55c2d7c5dfdca97a",
+      "anime": "naruto",
+      "tier": "hard",
+      "questionTextPrefix": "What is the name of Might Guy's ultimate technique that he u",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "55ca7486b89e3bd7",
+      "anime": "one-piece",
+      "tier": "easy",
+      "questionTextPrefix": "What is the name of Luffy's pirate crew?",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "58e5c8d4ed70dc0b",
+      "anime": "death-note",
+      "tier": "hard",
+      "questionTextPrefix": "What organization does Near lead to investigate Kira?",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "599016a77303db2e",
+      "anime": "one-piece",
+      "tier": "hard",
+      "questionTextPrefix": "Who is Joyboy and what is his connection to Luffy?",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "5a614c4c9b14e56a",
+      "anime": "attack-on-titan",
+      "tier": "hard",
+      "questionTextPrefix": "What is the Ackerman clan's special trait that sets them apa",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "5b06edda90d4af63",
+      "anime": "dragon-ball-z",
+      "tier": "easy",
+      "questionTextPrefix": "What is the name of the main character in Dragon Ball Z?",
+      "kind": "strictly-shortest"
+    },
+    {
+      "key": "5b25460f45a7b056",
+      "anime": "death-note",
+      "tier": "impossible",
+      "questionTextPrefix": "In the pilot chapter/one-shot of Death Note, what was differ",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "5c34a9313281d4b2",
+      "anime": "demon-slayer",
+      "tier": "hard",
+      "questionTextPrefix": "Which Hashira and Demon Slayers fought together against Uppe",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "5de7bca7e7d35efa",
+      "anime": "death-note",
+      "tier": "impossible",
+      "questionTextPrefix": "What does the Shinigami Rem do to save Misa from being caugh",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "5fc5f7e07cf39b85",
+      "anime": "my-hero-academia",
+      "tier": "impossible",
+      "questionTextPrefix": "What is Gran Torino's connection to the previous One For All",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "60deed66a7e48cb6",
+      "anime": "my-hero-academia",
+      "tier": "medium",
+      "questionTextPrefix": "What is Tomura Shigaraki's Quirk?",
+      "kind": "strictly-shortest"
+    },
+    {
+      "key": "624a8fe710d15a3e",
+      "anime": "my-hero-academia",
+      "tier": "impossible",
+      "questionTextPrefix": "What is Hawks' real name?",
+      "kind": "strictly-shortest"
+    },
+    {
+      "key": "625df0768ff131d1",
+      "anime": "jujutsu-kaisen",
+      "tier": "medium",
+      "questionTextPrefix": "What is a Domain Expansion in Jujutsu Kaisen?",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "62effda731e05cbd",
+      "anime": "attack-on-titan",
+      "tier": "medium",
+      "questionTextPrefix": "What are the three military branches within the walls?",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "6387396afca7cf2b",
+      "anime": "my-hero-academia",
+      "tier": "impossible",
+      "questionTextPrefix": "What is the official name of Bakugo's ultimate super move?",
+      "kind": "strictly-shortest"
+    },
+    {
+      "key": "64b0be93ffe1b423",
+      "anime": "demon-slayer",
+      "tier": "impossible",
+      "questionTextPrefix": "What is Daki's (Upper Moon 6) specific Blood Demon Art?",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "654cbaec96041fcb",
+      "anime": "my-hero-academia",
+      "tier": "impossible",
+      "questionTextPrefix": "What is Eri's Quirk called, and how specifically does it wor",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "6689bf834619d84a",
+      "anime": "demon-slayer",
+      "tier": "impossible",
+      "questionTextPrefix": "What is the name of Inosuke Hashibira's mother?",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "66c6b4b03e54f147",
+      "anime": "my-hero-academia",
+      "tier": "impossible",
+      "questionTextPrefix": "What is the name of the leader of the Meta Liberation Army?",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "67faa8c0be08ae08",
+      "anime": "attack-on-titan",
+      "tier": "impossible",
+      "questionTextPrefix": "How many distinct Titan shifter powers (the Nine Titans) exi",
+      "kind": "strictly-shortest"
+    },
+    {
+      "key": "6cfa6523ad7838ab",
+      "anime": "naruto",
+      "tier": "impossible",
+      "questionTextPrefix": "In which specific arc does Rock Lee first use his Drunken Fi",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "6d0fe336946a0313",
+      "anime": "death-note",
+      "tier": "impossible",
+      "questionTextPrefix": "Who directed the Death Note anime series?",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "6d181395b1ef0f5e",
+      "anime": "attack-on-titan",
+      "tier": "impossible",
+      "questionTextPrefix": "Which Titan shifter has the specific ability to call and con",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "6dd055065a0dc025",
+      "anime": "death-note",
+      "tier": "impossible",
+      "questionTextPrefix": "According to the Death Note rules, what happens if the cause",
+      "kind": "strictly-shortest"
+    },
+    {
+      "key": "6f960fc292ace169",
+      "anime": "naruto",
+      "tier": "impossible",
+      "questionTextPrefix": "What animal does the Third Hokage (Hiruzen Sarutobi) summon ",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "726f22e5da0bdd38",
+      "anime": "jujutsu-kaisen",
+      "tier": "medium",
+      "questionTextPrefix": "What is a Binding Vow in Jujutsu Kaisen?",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "72aa7e01660dda34",
+      "anime": "naruto",
+      "tier": "hard",
+      "questionTextPrefix": "According to Madara Uchiha, what is the purpose of the Infin",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "72fdfacec5f7b7f3",
+      "anime": "attack-on-titan",
+      "tier": "hard",
+      "questionTextPrefix": "What is Eren's true motivation as revealed at the end of the",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "740609777b2fc021",
+      "anime": "my-hero-academia",
+      "tier": "impossible",
+      "questionTextPrefix": "Who is the Japanese voice actor (seiyuu) for All Might?",
+      "kind": "strictly-shortest"
+    },
+    {
+      "key": "79701d4b6716ded9",
+      "anime": "attack-on-titan",
+      "tier": "medium",
+      "questionTextPrefix": "What is the Founding Titan's special ability?",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "79fbffca9f482371",
+      "anime": "dragon-ball-z",
+      "tier": "impossible",
+      "questionTextPrefix": "On which planet did Goku train under 100x Earth's gravity wh",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "7d7dce818a3a40e4",
+      "anime": "demon-slayer",
+      "tier": "impossible",
+      "questionTextPrefix": "What is the exact name of Shinobu Kocho's unique fighting st",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "7e08f0e942a3669d",
+      "anime": "naruto",
+      "tier": "impossible",
+      "questionTextPrefix": "Whose eyes did Madara Uchiha take to awaken his Eternal Mang",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "7fe9bca8407768e5",
+      "anime": "jujutsu-kaisen",
+      "tier": "hard",
+      "questionTextPrefix": "What is the significance of Sukuna having exactly 20 fingers",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "82d5ea0f01a159bc",
+      "anime": "demon-slayer",
+      "tier": "medium",
+      "questionTextPrefix": "What is the group of Muzan's most powerful demons called?",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "82dd65700f86f158",
+      "anime": "jujutsu-kaisen",
+      "tier": "easy",
+      "questionTextPrefix": "What are the evil supernatural beings in Jujutsu Kaisen call",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "842a38590ddc3fef",
+      "anime": "one-piece",
+      "tier": "hard",
+      "questionTextPrefix": "What is Nico Robin's ultimate dream?",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "865ae70e9b536858",
+      "anime": "death-note",
+      "tier": "hard",
+      "questionTextPrefix": "How does Light ultimately get exposed as Kira in the series ",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "872f17cb7ea0d037",
+      "anime": "my-hero-academia",
+      "tier": "hard",
+      "questionTextPrefix": "What is notable about the name of All For One's Quirk?",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "88c35fea06aafdb1",
+      "anime": "death-note",
+      "tier": "impossible",
+      "questionTextPrefix": "Which member of the Yotsuba Group is chosen to temporarily w",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "88d2af4e6f274bdd",
+      "anime": "dragon-ball-z",
+      "tier": "impossible",
+      "questionTextPrefix": "What is Frieza's stated maximum power level in his final for",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "89c2190fde8d0c11",
+      "anime": "demon-slayer",
+      "tier": "impossible",
+      "questionTextPrefix": "What is Kokushibo's human name before he became a demon?",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "8a3c80848f156ad8",
+      "anime": "dragon-ball-z",
+      "tier": "impossible",
+      "questionTextPrefix": "What is the full Japanese name of the technique Goku learns ",
+      "kind": "strictly-shortest"
+    },
+    {
+      "key": "8aec70dc046790ea",
+      "anime": "my-hero-academia",
+      "tier": "medium",
+      "questionTextPrefix": "Who is the principal of U.A. High School?",
+      "kind": "strictly-shortest"
+    },
+    {
+      "key": "8de617ce70397cb3",
+      "anime": "my-hero-academia",
+      "tier": "medium",
+      "questionTextPrefix": "Who is the homeroom teacher of Class 1-A?",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "8e49b39d6f6232a4",
+      "anime": "naruto",
+      "tier": "medium",
+      "questionTextPrefix": "Who is the leader of the Akatsuki as publicly known to the w",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "8eed568b5c73cb79",
+      "anime": "jujutsu-kaisen",
+      "tier": "hard",
+      "questionTextPrefix": "What is the Six Eyes ability that Gojo possesses, and what d",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "8f40503092509cdf",
+      "anime": "naruto",
+      "tier": "medium",
+      "questionTextPrefix": "What is the name of the technique Sasuke learns from Kakashi",
+      "kind": "strictly-shortest"
+    },
+    {
+      "key": "90ae7acc95849783",
+      "anime": "jujutsu-kaisen",
+      "tier": "impossible",
+      "questionTextPrefix": "Why was Yuta Okkotsu classified as Special Grade upon enteri",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "927010f6b96edb9e",
+      "anime": "demon-slayer",
+      "tier": "easy",
+      "questionTextPrefix": "What is Zenitsu's primary emotional state during battles?",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "92c20f01d693a135",
+      "anime": "naruto",
+      "tier": "easy",
+      "questionTextPrefix": "What does Naruto dream of becoming?",
+      "kind": "strictly-shortest"
+    },
+    {
+      "key": "94966bdf6bbd25b2",
+      "anime": "demon-slayer",
+      "tier": "hard",
+      "questionTextPrefix": "What was Kokushibo's human name, and what is his relation to",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "94aa9dc94bb61fcc",
+      "anime": "jujutsu-kaisen",
+      "tier": "impossible",
+      "questionTextPrefix": "What event is Suguru Geto infamous for committing that led t",
+      "kind": "strictly-shortest"
+    },
+    {
+      "key": "94cdc56541a73cd9",
+      "anime": "jujutsu-kaisen",
+      "tier": "medium",
+      "questionTextPrefix": "What is Nobara Kugisaki's cursed technique?",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "954a1e836d8e394e",
+      "anime": "death-note",
+      "tier": "medium",
+      "questionTextPrefix": "What is the Shinigami Eye deal?",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "95be0be59b4793cd",
+      "anime": "attack-on-titan",
+      "tier": "impossible",
+      "questionTextPrefix": "In which manga magazine was Attack on Titan originally seria",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "96bba471a9b31875",
+      "anime": "my-hero-academia",
+      "tier": "easy",
+      "questionTextPrefix": "Who is the main villain introduced in the first season of My",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "977aa7bc4fa1c178",
+      "anime": "attack-on-titan",
+      "tier": "medium",
+      "questionTextPrefix": "Who is known as humanity's strongest soldier?",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "97bd237f3d84be4c",
+      "anime": "jujutsu-kaisen",
+      "tier": "impossible",
+      "questionTextPrefix": "Who directed the first season of the Jujutsu Kaisen anime, a",
+      "kind": "strictly-shortest"
+    },
+    {
+      "key": "984dbd9ce7765627",
+      "anime": "death-note",
+      "tier": "hard",
+      "questionTextPrefix": "What is Near's real name?",
+      "kind": "strictly-shortest"
+    },
+    {
+      "key": "9a85087ef672b86b",
+      "anime": "naruto",
+      "tier": "easy",
+      "questionTextPrefix": "What is the name of the academy teacher who treats Naruto to",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "9b1bb742654f12f0",
+      "anime": "jujutsu-kaisen",
+      "tier": "easy",
+      "questionTextPrefix": "What is the energy source that jujutsu sorcerers use to fuel",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "9bc7f7c58a472be1",
+      "anime": "jujutsu-kaisen",
+      "tier": "hard",
+      "questionTextPrefix": "What is the Culling Game?",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "9dce77a62d7ce3db",
+      "anime": "attack-on-titan",
+      "tier": "hard",
+      "questionTextPrefix": "What was the name of Grisha Yeager's first wife in Marley, a",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "9e01be67d1016d49",
+      "anime": "one-piece",
+      "tier": "medium",
+      "questionTextPrefix": "What is the name of Zoro's signature three-sword fighting st",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "9f6d0f7ca1dac55d",
+      "anime": "one-piece",
+      "tier": "hard",
+      "questionTextPrefix": "What are the Road Poneglyphs and why are they important?",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "9fec320f1e6c66e7",
+      "anime": "my-hero-academia",
+      "tier": "medium",
+      "questionTextPrefix": "What is the name of the hero killer who targets heroes he co",
+      "kind": "strictly-shortest"
+    },
+    {
+      "key": "a06cce337e964436",
+      "anime": "my-hero-academia",
+      "tier": "impossible",
+      "questionTextPrefix": "What mental condition affects Twice (Jin Bubaigawara), and h",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "a0a1bdcb2381dfb9",
+      "anime": "attack-on-titan",
+      "tier": "hard",
+      "questionTextPrefix": "What is 'the Rumbling'?",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "a29912db29685c16",
+      "anime": "one-piece",
+      "tier": "easy",
+      "questionTextPrefix": "Who is the swordsman of the Straw Hat crew?",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "a29dd4a76e0b297c",
+      "anime": "jujutsu-kaisen",
+      "tier": "easy",
+      "questionTextPrefix": "Why is Yuji sentenced to death by the jujutsu higher-ups?",
+      "kind": "strictly-shortest"
+    },
+    {
+      "key": "a32a6360fa23b567",
+      "anime": "one-piece",
+      "tier": "impossible",
+      "questionTextPrefix": "What is the name of the island where the Straw Hat Pirates' ",
+      "kind": "strictly-shortest"
+    },
+    {
+      "key": "a42767cf9105abc4",
+      "anime": "demon-slayer",
+      "tier": "impossible",
+      "questionTextPrefix": "What is Upper Moon 3 Akaza's original human name?",
+      "kind": "strictly-shortest"
+    },
+    {
+      "key": "a4c6c6ec85b55883",
+      "anime": "my-hero-academia",
+      "tier": "easy",
+      "questionTextPrefix": "What is All Might's real name?",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "a5075fca799d40fc",
+      "anime": "attack-on-titan",
+      "tier": "impossible",
+      "questionTextPrefix": "What specific ability did King Karl Fritz use on the Eldians",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "a800052b6da5cd1f",
+      "anime": "naruto",
+      "tier": "impossible",
+      "questionTextPrefix": "What was the name of Jiraiya's spy network?",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "a919ea9df1df0ca3",
+      "anime": "naruto",
+      "tier": "hard",
+      "questionTextPrefix": "What are the names of all three Legendary Sannin?",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "a994bfc334629dc2",
+      "anime": "jujutsu-kaisen",
+      "tier": "impossible",
+      "questionTextPrefix": "How is Choso related to Yuji Itadori?",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "a9e4de077df76148",
+      "anime": "one-piece",
+      "tier": "hard",
+      "questionTextPrefix": "Who are the Five Elders (Gorosei)?",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "aba8cb42424db9e1",
+      "anime": "demon-slayer",
+      "tier": "impossible",
+      "questionTextPrefix": "What is the name of the mountain where the Demon Slayer Corp",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "abb212f8de9de4e8",
+      "anime": "attack-on-titan",
+      "tier": "easy",
+      "questionTextPrefix": "What is the name of the enormous Titan that kicks a hole in ",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "abfbad94be38d256",
+      "anime": "attack-on-titan",
+      "tier": "hard",
+      "questionTextPrefix": "What is Ymir Fritz's (the Founder's) connection to the origi",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "acb82f1a57e9e7eb",
+      "anime": "death-note",
+      "tier": "medium",
+      "questionTextPrefix": "What is L's real name?",
+      "kind": "strictly-shortest"
+    },
+    {
+      "key": "adc534a1470e1baa",
+      "anime": "one-piece",
+      "tier": "hard",
+      "questionTextPrefix": "What is Gear Fifth and how does it work?",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "ae10a8896a8ddf4d",
+      "anime": "attack-on-titan",
+      "tier": "hard",
+      "questionTextPrefix": "What is the 'Curse of Ymir' and how does it affect Titan shi",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "afbe0c20970aeb64",
+      "anime": "naruto",
+      "tier": "impossible",
+      "questionTextPrefix": "Who is the Japanese voice actress (seiyuu) for Naruto Uzumak",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "b0c69c142584af19",
+      "anime": "dragon-ball-z",
+      "tier": "impossible",
+      "questionTextPrefix": "What is the name of Majin Buu's original, most dangerous for",
+      "kind": "strictly-shortest"
+    },
+    {
+      "key": "b207eaf356ff5498",
+      "anime": "dragon-ball-z",
+      "tier": "hard",
+      "questionTextPrefix": "Who is the angel attendant of Universe 7's God of Destructio",
+      "kind": "strictly-shortest"
+    },
+    {
+      "key": "b266bdc848e464bc",
+      "anime": "jujutsu-kaisen",
+      "tier": "easy",
+      "questionTextPrefix": "What is Yuji Itadori's primary fighting style?",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "b3b69577c97339ab",
+      "anime": "dragon-ball-z",
+      "tier": "medium",
+      "questionTextPrefix": "What is Piccolo's home planet?",
+      "kind": "strictly-shortest"
+    },
+    {
+      "key": "b4e7d91f251dba45",
+      "anime": "death-note",
+      "tier": "impossible",
+      "questionTextPrefix": "What was Naomi Misora's specific connection to L before the ",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "b66f6c968832473b",
+      "anime": "jujutsu-kaisen",
+      "tier": "easy",
+      "questionTextPrefix": "What does Yuji swallow that completely changes his life?",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "b6744f62f3205bc5",
+      "anime": "death-note",
+      "tier": "easy",
+      "questionTextPrefix": "What is a Death Note?",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "b7246573358368e6",
+      "anime": "demon-slayer",
+      "tier": "hard",
+      "questionTextPrefix": "How does Nezuko eventually conquer the sun, and why does thi",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "b91b97eab7b17b11",
+      "anime": "naruto",
+      "tier": "impossible",
+      "questionTextPrefix": "What is the name of the forbidden scroll Naruto steals in th",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "ba95acbec621f5be",
+      "anime": "death-note",
+      "tier": "hard",
+      "questionTextPrefix": "What fake rule does Light write in the Death Note to trick t",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "be0ef174b8b76049",
+      "anime": "jujutsu-kaisen",
+      "tier": "impossible",
+      "questionTextPrefix": "What makes Toji Fushiguro unique among fighters in the Jujut",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "be22aa0c2a470fb0",
+      "anime": "jujutsu-kaisen",
+      "tier": "impossible",
+      "questionTextPrefix": "What are the three great vengeful spirits of Japan reference",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "be6c7e1e67f729c0",
+      "anime": "my-hero-academia",
+      "tier": "hard",
+      "questionTextPrefix": "What is the name of the government organization that oversee",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "bf0bfd9cf42e7352",
+      "anime": "my-hero-academia",
+      "tier": "impossible",
+      "questionTextPrefix": "What is Dabi's true identity as revealed in the manga?",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "c00c0a09ad0b134b",
+      "anime": "demon-slayer",
+      "tier": "impossible",
+      "questionTextPrefix": "What Demon Slayer Corps rank does Tanjiro hold at the end of",
+      "kind": "strictly-shortest"
+    },
+    {
+      "key": "c0eec2f3da1314e6",
+      "anime": "demon-slayer",
+      "tier": "easy",
+      "questionTextPrefix": "What is the name of the organization that fights demons in t",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "c142ff45bbd2bfcd",
+      "anime": "jujutsu-kaisen",
+      "tier": "easy",
+      "questionTextPrefix": "Who is known as the King of Curses?",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "c39fe2f5a322e5ad",
+      "anime": "demon-slayer",
+      "tier": "hard",
+      "questionTextPrefix": "What is the name of Upper Moon One, the strongest of the Twe",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "c682147322a8759a",
+      "anime": "demon-slayer",
+      "tier": "hard",
+      "questionTextPrefix": "What is the Demon Slayer Mark, and what is the major drawbac",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "c6b1db9632aaf767",
+      "anime": "my-hero-academia",
+      "tier": "impossible",
+      "questionTextPrefix": "What shocking secret about Yuga Aoyama is revealed in the ma",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "c6c8f72a6d02ae34",
+      "anime": "dragon-ball-z",
+      "tier": "easy",
+      "questionTextPrefix": "What is Goku's signature energy attack?",
+      "kind": "strictly-shortest"
+    },
+    {
+      "key": "c6f2229c31b953a1",
+      "anime": "jujutsu-kaisen",
+      "tier": "medium",
+      "questionTextPrefix": "What is the name of Megumi Fushiguro's inherited cursed tech",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "ca114457aa14afe1",
+      "anime": "naruto",
+      "tier": "easy",
+      "questionTextPrefix": "What is the name of the demon fox sealed inside Naruto?",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "ca6b4e2844fd883c",
+      "anime": "naruto",
+      "tier": "medium",
+      "questionTextPrefix": "What is Gaara's title after the time skip in Naruto Shippude",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "cdd30f75622d4970",
+      "anime": "dragon-ball-z",
+      "tier": "impossible",
+      "questionTextPrefix": "What is the name of Vegeta's father?",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "cf82eeb344d8a6b7",
+      "anime": "one-piece",
+      "tier": "hard",
+      "questionTextPrefix": "What is the name of Shanks' sword?",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "cf9bee5c0bae3c62",
+      "anime": "jujutsu-kaisen",
+      "tier": "impossible",
+      "questionTextPrefix": "What is Mechamaru's real name, and what is his Heavenly Rest",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "d781c832b9820964",
+      "anime": "dragon-ball-z",
+      "tier": "impossible",
+      "questionTextPrefix": "Which specific techniques did Cell copy from each Z Fighter ",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "d908a051e2f56863",
+      "anime": "demon-slayer",
+      "tier": "medium",
+      "questionTextPrefix": "What is the signature technique that Zenitsu is best known f",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "da537088b8404e41",
+      "anime": "my-hero-academia",
+      "tier": "impossible",
+      "questionTextPrefix": "What is Toga Himiko's Quirk called, and what does it require",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "dbe110bcae7e8ec4",
+      "anime": "demon-slayer",
+      "tier": "impossible",
+      "questionTextPrefix": "In which episode of the anime does Kyojuro Rengoku die fight",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "dc32d9ff8c84f2b5",
+      "anime": "death-note",
+      "tier": "hard",
+      "questionTextPrefix": "What is the name of the institution where L, Near, and Mello",
+      "kind": "strictly-shortest"
+    },
+    {
+      "key": "dcfc80856949dc7c",
+      "anime": "jujutsu-kaisen",
+      "tier": "medium",
+      "questionTextPrefix": "What is Satoru Gojo's cursed technique called?",
+      "kind": "strictly-shortest"
+    },
+    {
+      "key": "dd66c2561a5b2f6e",
+      "anime": "demon-slayer",
+      "tier": "hard",
+      "questionTextPrefix": "What is the true origin of the Hinokami Kagura (Dance of the",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "ded218be141f0ba2",
+      "anime": "my-hero-academia",
+      "tier": "impossible",
+      "questionTextPrefix": "What is Gigantomachia's role and relationship to All For One",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "df6becf8a0460546",
+      "anime": "death-note",
+      "tier": "medium",
+      "questionTextPrefix": "What does Light do with the Death Note to temporarily clear ",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "df7bbdafb80f3a02",
+      "anime": "one-piece",
+      "tier": "hard",
+      "questionTextPrefix": "What is the significance of the 'Will of D.' in One Piece?",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "e0510517a86fb55f",
+      "anime": "death-note",
+      "tier": "impossible",
+      "questionTextPrefix": "How does Light Yagami's death differ between the manga and t",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "e1a524f5386bcd9e",
+      "anime": "jujutsu-kaisen",
+      "tier": "impossible",
+      "questionTextPrefix": "In which manga magazine is Jujutsu Kaisen serialized?",
+      "kind": "strictly-shortest"
+    },
+    {
+      "key": "e347ba872c0d5a1f",
+      "anime": "demon-slayer",
+      "tier": "easy",
+      "questionTextPrefix": "How does Tanjiro protect Nezuko from sunlight while travelin",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "e4a89b87fb5ff3b3",
+      "anime": "naruto",
+      "tier": "medium",
+      "questionTextPrefix": "What organization does Itachi join after leaving the Hidden ",
+      "kind": "strictly-shortest"
+    },
+    {
+      "key": "e4be26e345e083b6",
+      "anime": "dragon-ball-z",
+      "tier": "hard",
+      "questionTextPrefix": "What is the name of the technique Tien uses to hold Semi-Per",
+      "kind": "strictly-shortest"
+    },
+    {
+      "key": "e630a7dd151f774c",
+      "anime": "death-note",
+      "tier": "impossible",
+      "questionTextPrefix": "What is the name of the Shinigami who originally owned the D",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "e64992f9e848fad0",
+      "anime": "death-note",
+      "tier": "impossible",
+      "questionTextPrefix": "What is Teru Mikami's repeated catchphrase when judging crim",
+      "kind": "strictly-shortest"
+    },
+    {
+      "key": "e6ed7a3ccf4161f1",
+      "anime": "demon-slayer",
+      "tier": "medium",
+      "questionTextPrefix": "What makes Nezuko unique compared to other demons?",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "e6fe45db096aa467",
+      "anime": "attack-on-titan",
+      "tier": "impossible",
+      "questionTextPrefix": "Who designed and created the anti-personnel vertical maneuve",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "e8d3096983dbefd5",
+      "anime": "jujutsu-kaisen",
+      "tier": "impossible",
+      "questionTextPrefix": "What is the origin of the Simple Domain technique?",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "e8fa5b27e62f96d7",
+      "anime": "jujutsu-kaisen",
+      "tier": "impossible",
+      "questionTextPrefix": "What is Panda's true nature? He is not actually a panda bear",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "eadc54882b053703",
+      "anime": "my-hero-academia",
+      "tier": "impossible",
+      "questionTextPrefix": "What is the official name of the hero licensing exam that Cl",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "ebd3e4640e5d5c6b",
+      "anime": "demon-slayer",
+      "tier": "medium",
+      "questionTextPrefix": "Who is the Love Hashira in the Demon Slayer Corps?",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "ec9cbaaf28293484",
+      "anime": "death-note",
+      "tier": "medium",
+      "questionTextPrefix": "What is the name of the second Kira?",
+      "kind": "strictly-shortest"
+    },
+    {
+      "key": "ecc9f92d4b487503",
+      "anime": "one-piece",
+      "tier": "impossible",
+      "questionTextPrefix": "What is the name of the Revolutionary Army's base of operati",
+      "kind": "strictly-shortest"
+    },
+    {
+      "key": "ef887864e56a1b56",
+      "anime": "attack-on-titan",
+      "tier": "easy",
+      "questionTextPrefix": "What military branch do Eren, Mikasa, and Armin join after g",
+      "kind": "strictly-shortest"
+    },
+    {
+      "key": "f03b05572f5d3b16",
+      "anime": "attack-on-titan",
+      "tier": "easy",
+      "questionTextPrefix": "Who is Eren's adopted sister?",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "f03c28143fd056da",
+      "anime": "demon-slayer",
+      "tier": "impossible",
+      "questionTextPrefix": "What is the name of the doctor who inadvertently turned Muza",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "f191b8fe7e7518f9",
+      "anime": "death-note",
+      "tier": "impossible",
+      "questionTextPrefix": "What signature habit does Near display during his investigat",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "f2b16c0086ac6e14",
+      "anime": "attack-on-titan",
+      "tier": "easy",
+      "questionTextPrefix": "What protects humanity from the Titans at the start of the s",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "f4b5080dbd46ed38",
+      "anime": "death-note",
+      "tier": "impossible",
+      "questionTextPrefix": "What is the name of Misa Amane's Shinigami who follows her?",
+      "kind": "strictly-shortest"
+    },
+    {
+      "key": "f5459657986a2552",
+      "anime": "naruto",
+      "tier": "impossible",
+      "questionTextPrefix": "What is the specific name of the forbidden jutsu Orochimaru ",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "f5a02e65ff8ff7f9",
+      "anime": "my-hero-academia",
+      "tier": "impossible",
+      "questionTextPrefix": "What was Shigaraki's original name before All For One took h",
+      "kind": "strictly-shortest"
+    },
+    {
+      "key": "f5c13e2d140e90f3",
+      "anime": "naruto",
+      "tier": "impossible",
+      "questionTextPrefix": "How many hand signs are required to perform the Shadow Clone",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "f5d67cafc8df44f0",
+      "anime": "naruto",
+      "tier": "impossible",
+      "questionTextPrefix": "Who was Dan Katō, and why is he significant to Tsunade?",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "f5dd55df4d0d7049",
+      "anime": "one-piece",
+      "tier": "impossible",
+      "questionTextPrefix": "What are the three Ancient Weapons mentioned in One Piece?",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "f70bbf775d8a943d",
+      "anime": "one-piece",
+      "tier": "easy",
+      "questionTextPrefix": "What Devil Fruit did Luffy eat as a child?",
+      "kind": "strictly-shortest"
+    },
+    {
+      "key": "f823eefe4b92c7b7",
+      "anime": "attack-on-titan",
+      "tier": "impossible",
+      "questionTextPrefix": "What specific condition must be met for the Founding Titan t",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "f8f430494062033a",
+      "anime": "one-piece",
+      "tier": "medium",
+      "questionTextPrefix": "What is the name of Sanji's fighting style that uses only ki",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "fa514e1b0220c986",
+      "anime": "naruto",
+      "tier": "easy",
+      "questionTextPrefix": "What village is Naruto from?",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "fcfef5cef33a88e0",
+      "anime": "demon-slayer",
+      "tier": "impossible",
+      "questionTextPrefix": "Why is the Blue Spider Lily so important to Muzan Kibutsuji?",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "fded0c2c8dc30d97",
+      "anime": "attack-on-titan",
+      "tier": "medium",
+      "questionTextPrefix": "What is the name of the district where Eren grew up?",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "fe139ac0d4bd77f3",
+      "anime": "jujutsu-kaisen",
+      "tier": "impossible",
+      "questionTextPrefix": "What is the name of the cursed tool that Toji Fushiguro uses",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "feb29d80e7e6e46c",
+      "anime": "one-piece",
+      "tier": "medium",
+      "questionTextPrefix": "Who is the doctor of the Straw Hat crew?",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "fed0bb57266914cb",
+      "anime": "naruto",
+      "tier": "impossible",
+      "questionTextPrefix": "In which manga magazine was Naruto originally serialized?",
+      "kind": "strictly-shortest"
+    },
+    {
+      "key": "fffe0908ca812cf1",
+      "anime": "attack-on-titan",
+      "tier": "easy",
+      "questionTextPrefix": "What is the name of the equipment soldiers use to fight Tita",
+      "kind": "strictly-longest"
+    },
+    {
+      "key": "fffe842b5d40f922",
+      "anime": "one-piece",
+      "tier": "easy",
+      "questionTextPrefix": "Who was known as the Pirate King before the start of the ser",
+      "kind": "strictly-shortest"
+    }
+  ]
+}
