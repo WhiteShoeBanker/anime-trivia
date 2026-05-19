@@ -577,6 +577,7 @@ const AuthPageContent = () => {
                 >
                   <Input
                     type="text"
+                    inputMode="numeric"
                     value={otpCode}
                     onChange={(e) =>
                       setOtpCode(e.target.value.replace(/\D/g, "").slice(0, 6))

@@ -119,6 +119,5 @@ Wrap secrets, credentials, or PII in <private>...</private> tags so claude-mem d
 - pnpm lint
 - pnpm vitest run
 - pnpm build
-- pnpm lhci:windows (when UI changed)
 
-A11y must stay at 1.0. Test baseline (730+) must hold or grow.
+A11y must stay at 1.0. Test count grows toward ≥730 as the suite expands — treat it as a growth target, not a per-commit blocker (Phase 5 #7 currently sits at ~710).

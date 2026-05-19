@@ -13,6 +13,17 @@ const eslintConfig = defineConfig([
     "build/**",
     "next-env.d.ts",
   ]),
+  {
+    // Allow intentionally-unused identifiers prefixed with `_` (destructure
+    // omits, signature-shape params). Preserves eslint-config-next's inherited
+    // `warn` severity; only adds the ignore patterns.
+    rules: {
+      "@typescript-eslint/no-unused-vars": [
+        "warn",
+        { varsIgnorePattern: "^_", argsIgnorePattern: "^_" },
+      ],
+    },
+  },
 ]);
 
 export default eslintConfig;
