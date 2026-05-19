@@ -15,7 +15,7 @@ interface SignOutErrorModalProps {
 /**
  * Session-safety-critical alertdialog: shown when sign-out fails.
  * - role="alertdialog" auto-couples non-dismissibility from <Modal>
- *   (no backdrop tap, no Escape — matches DESIGN.md L685).
+ *   (no backdrop tap, no Escape — matches DESIGN.md L693).
  * - initialFocusRef binds to "Try Again" so the safe recoverable
  *   action receives initial focus; the destructive Force Sign Out
  *   path (which hard-reloads the page) never receives initial focus

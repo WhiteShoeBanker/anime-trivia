@@ -655,6 +655,7 @@ Do:
 - **Every dismissible modal carries at least one dismissal affordance:** a top-right `<Button variant="icon">` X, an explicit footer dismiss button, or full-surface tap (the `BadgeCelebration` variant). Never zero affordances.
 - **Body scroll locks while any modal is open.** The `<Modal>` primitive owns `useScrollLock`; call sites never hand-roll `document.body.style.overflow`. The current Navbar mobile-menu inline lock migrates onto the hook in 7c (single source of truth).
 - **Consumer modals bind to the `z-modal` (80) band.** The named z-stack (`z-nav` 50 / `z-toast` 70 / `z-modal` 80 / `z-celebration` 90 / `z-admin` 100) is the single source of stacking order — see the Elevation & Depth z-index stack.
+- **A `surfaceless` Modal omits its container chrome for self-surfaced children.** When a consumer's content carries its own surface chrome (canonical case: the badge-detail modal wrapping `<BadgeCard selected />`), `<Modal surfaceless>` renders with the container `bg-surface` / `border-rule` / `rounded-card` / padding omitted so the child surface is the only visual chrome. The behavioral contract — focus trap, scroll lock, ARIA, `AnimatePresence` — is unchanged.
 
 Don't:
 

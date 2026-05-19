@@ -67,4 +67,41 @@ describe("useScrollLock", () => {
     expect(document.body.style.position).toBe("");
     expect(scrollToSpy).toHaveBeenCalledWith(0, SCROLL_Y);
   });
+
+  describe("concurrent locks (ref-counted)", () => {
+    it("two concurrent locks both keep the body locked", () => {
+      const a = renderHook(() => useScrollLock(true));
+      const b = renderHook(() => useScrollLock(true));
+      expect(document.body.style.position).toBe("fixed");
+      a.unmount();
+      b.unmount();
+    });
+
+    it("first unlock keeps the body locked while the second is still active", () => {
+      const a = renderHook(() => useScrollLock(true));
+      const b = renderHook(() => useScrollLock(true));
+      a.unmount();
+      expect(document.body.style.position).toBe("fixed");
+      expect(document.body.style.top).toBe(`-${SCROLL_Y}px`);
+      b.unmount();
+    });
+
+    it("the last unlock restores the body to its pre-lock state", () => {
+      const a = renderHook(() => useScrollLock(true));
+      const b = renderHook(() => useScrollLock(true));
+      a.unmount();
+      b.unmount();
+      expect(document.body.style.position).toBe("");
+      expect(document.body.style.top).toBe("");
+      expect(scrollToSpy).toHaveBeenCalledWith(0, SCROLL_Y);
+    });
+
+    it("lockCount resets between tests (cleanup hygiene — first lock here re-applies)", () => {
+      expect(document.body.style.position).toBe("");
+      const a = renderHook(() => useScrollLock(true));
+      expect(document.body.style.position).toBe("fixed");
+      a.unmount();
+      expect(document.body.style.position).toBe("");
+    });
+  });
 });

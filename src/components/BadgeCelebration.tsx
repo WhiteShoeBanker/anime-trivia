@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { ModalShell } from "@/components/ui/Modal";
+import { ModalShell } from "@/components/ui/ModalShell";
 import BadgeFoilCard from "@/components/BadgeFoilCard";
 import type { Badge } from "@/types";
 import useReducedMotion from "@/lib/use-reduced-motion";

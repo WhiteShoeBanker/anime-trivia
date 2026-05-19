@@ -10,7 +10,7 @@ import BadgeGrid from "@/components/BadgeGrid";
 import EmblemSelector from "@/components/EmblemSelector";
 import type { Badge, BadgeCategory } from "@/types";
 import { Button } from "@/components/ui/Button";
-import { ModalShell } from "@/components/ui/Modal";
+import { Modal } from "@/components/ui/Modal";
 import { Pill } from "@/components/ui/Pill";
 
 type TabFilter = "all" | "earned" | "locked";
@@ -236,35 +236,34 @@ const BadgesPage = () => {
         </div>
       )}
 
-      {/* Badge detail modal */}
-      <ModalShell
+      {/* Badge detail modal — surfaceless: BadgeCard carries its own
+          surface chrome, so Modal omits the container card. */}
+      <Modal
         isOpen={!!selectedBadge}
         onClose={() => setSelectedBadge(null)}
+        presentation="center"
+        surfaceless
         aria-label="Badge details"
-        backdropClassName="bg-ink/70 flex items-center justify-center px-4"
+        footer={
+          selectedBadge ? (
+            <Button
+              variant="secondary"
+              onClick={() => setSelectedBadge(null)}
+              className="w-full"
+            >
+              Close
+            </Button>
+          ) : undefined
+        }
       >
-        <div
-          className="w-full max-w-sm"
-          onClick={(event) => event.stopPropagation()}
-        >
-          {selectedBadge && (
-            <>
-              <BadgeCard
-                badge={selectedBadge}
-                earned={earnedIds.has(selectedBadge.id)}
-                selected
-              />
-              <Button
-                variant="secondary"
-                onClick={() => setSelectedBadge(null)}
-                className="w-full mt-2"
-              >
-                Close
-              </Button>
-            </>
-          )}
-        </div>
-      </ModalShell>
+        {selectedBadge && (
+          <BadgeCard
+            badge={selectedBadge}
+            earned={earnedIds.has(selectedBadge.id)}
+            selected
+          />
+        )}
+      </Modal>
 
       {/* Emblem selector */}
       {user && (

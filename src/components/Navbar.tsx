@@ -6,11 +6,12 @@ import { usePathname, useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { Menu, X, LogOut, Swords, ShoppingBag, BarChart3, Calendar } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
-import { ModalShell } from "@/components/ui/Modal";
+import { ModalShell } from "@/components/ui/ModalShell";
 import { SignOutErrorModal } from "@/components/SignOutErrorModal";
 import BadgeIcon from "@/components/BadgeIcon";
 import { Pill } from "@/components/ui/Pill";
 import { CountBadge } from "@/components/ui/CountBadge";
+import { Button } from "@/components/ui/Button";
 import type { Badge } from "@/types";
 import { getUserEmblem } from "@/lib/badges";
 import { createClient } from "@/lib/supabase/client";
@@ -132,7 +133,7 @@ const Navbar = () => {
 
   return (
     <>
-    <nav className="fixed top-0 left-0 right-0 z-50 h-16 bg-secondary/80 backdrop-blur-lg border-b border-white/10">
+    <nav className="fixed top-0 left-0 right-0 z-nav h-16 bg-secondary/80 backdrop-blur-lg border-b border-white/10">
       <div className="max-w-7xl mx-auto h-full px-4 flex items-center justify-between">
         {/* Brand */}
         <Link href="/" className="text-xl font-bold text-primary">
@@ -215,15 +216,16 @@ const Navbar = () => {
         </div>
 
         {/* Mobile hamburger */}
-        <button
-          className="md:hidden p-2"
+        <Button
+          variant="icon"
+          className="md:hidden"
           onClick={() => setMobileOpen(true)}
           aria-label="Open menu"
           aria-expanded={mobileOpen}
           aria-controls="mobile-menu"
         >
           <Menu size={24} />
-        </button>
+        </Button>
       </div>
     </nav>
 
@@ -244,13 +246,13 @@ const Navbar = () => {
             <Link href="/" className="text-xl font-bold text-primary">
               OtakuQuiz
             </Link>
-            <button
+            <Button
+              variant="icon"
               onClick={() => setMobileOpen(false)}
-              className="p-2"
               aria-label="Close menu"
             >
               <X size={24} aria-hidden="true" />
-            </button>
+            </Button>
           </div>
 
           {/* Scrollable link region — overscroll-contain prevents the

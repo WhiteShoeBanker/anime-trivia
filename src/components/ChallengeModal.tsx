@@ -117,7 +117,7 @@ const ChallengeModal = ({
                 e.target.value === "random" ? null : e.target.value
               )
             }
-            className="w-full bg-secondary border border-white/10 rounded-xl px-4 py-3 text-sm text-white appearance-none cursor-pointer focus:outline-none focus:border-primary/50"
+            className="w-full bg-secondary border border-white/10 rounded-sharp px-4 py-3 text-sm text-white appearance-none cursor-pointer focus:outline-none focus:border-primary/50"
           >
             <option value="random">Random Anime</option>
             {animeList.map((anime) => (

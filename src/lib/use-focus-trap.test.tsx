@@ -12,7 +12,10 @@ interface HarnessProps {
 
 // Renders a trigger button outside the trap + a container with three
 // focusable buttons (or none, when `empty`). Drives the hook exactly
-// as a Modal would.
+// as a Modal would. Everything is queried by accessible role/name
+// (CLAUDE.md: getByRole/getByLabel/getByText, never CSS selectors) —
+// the buttons carry visible text and the container is a labelled
+// group so it has an addressable accessible name.
 const Harness = ({
   active,
   useInitialFocusRef = false,
@@ -29,15 +32,13 @@ const Harness = ({
 
   return (
     <div>
-      <button data-testid="trigger">trigger</button>
-      <div ref={containerRef} data-testid="container">
+      <button>trigger</button>
+      <div ref={containerRef} role="group" aria-label="trap container">
         {empty ? null : (
           <>
-            <button data-testid="b1">one</button>
-            <button ref={secondRef} data-testid="b2">
-              two
-            </button>
-            <button data-testid="b3">three</button>
+            <button>one</button>
+            <button ref={secondRef}>two</button>
+            <button>three</button>
           </>
         )}
       </div>
@@ -45,15 +46,22 @@ const Harness = ({
   );
 };
 
+const trigger = () => screen.getByRole("button", { name: "trigger" });
+const b1 = () => screen.getByRole("button", { name: "one" });
+const b2 = () => screen.getByRole("button", { name: "two" });
+const b3 = () => screen.getByRole("button", { name: "three" });
+const container = () =>
+  screen.getByRole("group", { name: "trap container" });
+
 describe("useFocusTrap — initial focus", () => {
   it("focuses the first focusable in the container on activation", () => {
     render(<Harness active />);
-    expect(document.activeElement).toBe(screen.getByTestId("b1"));
+    expect(document.activeElement).toBe(b1());
   });
 
   it("focuses options.initialFocusRef when provided", () => {
     render(<Harness active useInitialFocusRef />);
-    expect(document.activeElement).toBe(screen.getByTestId("b2"));
+    expect(document.activeElement).toBe(b2());
   });
 
   it("does nothing while inactive", () => {
@@ -65,76 +73,71 @@ describe("useFocusTrap — initial focus", () => {
 describe("useFocusTrap — Tab cycling", () => {
   it("wraps from the last focusable forward to the first on Tab", () => {
     render(<Harness active />);
-    const container = screen.getByTestId("container");
-    screen.getByTestId("b3").focus();
+    b3().focus();
 
-    fireEvent.keyDown(container, { key: "Tab" });
+    fireEvent.keyDown(container(), { key: "Tab" });
 
-    expect(document.activeElement).toBe(screen.getByTestId("b1"));
+    expect(document.activeElement).toBe(b1());
   });
 
   it("wraps from the first focusable back to the last on Shift+Tab", () => {
     render(<Harness active />);
-    const container = screen.getByTestId("container");
-    screen.getByTestId("b1").focus();
+    b1().focus();
 
-    fireEvent.keyDown(container, { key: "Tab", shiftKey: true });
+    fireEvent.keyDown(container(), { key: "Tab", shiftKey: true });
 
-    expect(document.activeElement).toBe(screen.getByTestId("b3"));
+    expect(document.activeElement).toBe(b3());
   });
 
   it("does not hijack non-Tab keys", () => {
     render(<Harness active />);
-    const container = screen.getByTestId("container");
-    screen.getByTestId("b2").focus();
+    b2().focus();
 
-    fireEvent.keyDown(container, { key: "ArrowDown" });
+    fireEvent.keyDown(container(), { key: "ArrowDown" });
 
-    expect(document.activeElement).toBe(screen.getByTestId("b2"));
+    expect(document.activeElement).toBe(b2());
   });
 });
 
 describe("useFocusTrap — focus restoration", () => {
   it("restores focus to the trigger when deactivated", () => {
     const { rerender } = render(<Harness active={false} />);
-    const trigger = screen.getByTestId("trigger");
-    trigger.focus();
-    expect(document.activeElement).toBe(trigger);
+    trigger().focus();
+    expect(document.activeElement).toBe(trigger());
 
     rerender(<Harness active />);
-    expect(document.activeElement).toBe(screen.getByTestId("b1"));
+    expect(document.activeElement).toBe(b1());
 
     rerender(<Harness active={false} />);
-    expect(document.activeElement).toBe(trigger);
+    expect(document.activeElement).toBe(trigger());
   });
 
   it("does NOT restore focus when restoreFocus is false", () => {
     const { rerender } = render(
       <Harness active={false} restoreFocus={false} />,
     );
-    const trigger = screen.getByTestId("trigger");
-    trigger.focus();
+    trigger().focus();
 
     rerender(<Harness active restoreFocus={false} />);
-    expect(document.activeElement).toBe(screen.getByTestId("b1"));
+    expect(document.activeElement).toBe(b1());
 
     rerender(<Harness active={false} restoreFocus={false} />);
-    expect(document.activeElement).not.toBe(trigger);
-    expect(document.activeElement).toBe(screen.getByTestId("b1"));
+    expect(document.activeElement).not.toBe(trigger());
+    expect(document.activeElement).toBe(b1());
   });
 });
 
 describe("useFocusTrap — empty container", () => {
   it("does not crash and focuses the container itself", () => {
     render(<Harness active empty />);
-    const container = screen.getByTestId("container");
-    expect(container).toHaveAttribute("tabindex", "-1");
-    expect(document.activeElement).toBe(container);
+    expect(container()).toHaveAttribute("tabindex", "-1");
+    expect(document.activeElement).toBe(container());
   });
 
   it("preventDefaults Tab without crashing when there are no focusables", () => {
     render(<Harness active empty />);
-    const container = screen.getByTestId("container");
-    expect(() => fireEvent.keyDown(container, { key: "Tab" })).not.toThrow();
+    expect(() =>
+      fireEvent.keyDown(container(), { key: "Tab" }),
+    ).not.toThrow();
   });
 });

@@ -25,31 +25,22 @@ const CONTAINER_SHEET =
 const CONTAINER_CENTER =
   "w-full max-w-md bg-surface rounded-card border border-rule p-5 max-h-[80vh] overflow-hidden flex flex-col";
 
+// Surfaceless siblings: sizing + flex layout only — no bg/border/
+// rounded/padding. For consumers whose child carries its own surface
+// chrome (canonical case: badge-detail wrapping <BadgeCard selected />),
+// so the child surface is the only visual chrome. Static class strings
+// (Tailwind v4 build-time extractor) — no template composition.
+const CONTAINER_SHEET_BARE =
+  "w-full max-w-md max-h-[80vh] overflow-hidden flex flex-col";
+const CONTAINER_CENTER_BARE =
+  "w-full max-w-md max-h-[80vh] overflow-hidden flex flex-col";
+
 // Header + footer are pinned outside the scroll region; only the body
 // (an unstyled flex child so a <Card> consumer doesn't double the
 // surface chrome) scrolls.
 const HEADER_CLASS = "mb-4";
 const BODY_CLASS = "flex-1 overflow-y-auto";
 const FOOTER_CLASS = "mt-4 flex gap-2 justify-end";
-
-// ── ModalShell ────────────────────────────────────────────────────
-// Full-bleed surface: no card, caller animates its own children. Only
-// the backdrop fades by default.
-const SHELL_BACKDROP_BASE = "fixed inset-0";
-
-// Maps the public zIndex prop to a static Tailwind z-* utility. Static
-// keys + values so Tailwind v4's build-time extractor sees every class
-// (DifficultyChip precedent). "nav" / "modal" / "celebration" are the
-// three named bands ModalShell consumers use today (Navbar
-// mobile-overlay, default, BadgeCelebration); "toast" / "admin" are
-// reserved for future surfaces and not exposed.
-const SHELL_Z_CLASS = {
-  nav: "z-nav",
-  modal: "z-modal",
-  celebration: "z-celebration",
-} as const;
-
-type ModalZIndex = keyof typeof SHELL_Z_CLASS;
 
 interface ModalProps {
   isOpen: boolean;
@@ -62,22 +53,9 @@ interface ModalProps {
   dismissOnBackdrop?: boolean;
   closeOnEscape?: boolean;
   initialFocusRef?: RefObject<HTMLElement | null>;
+  surfaceless?: boolean;
   "aria-label"?: string;
   className?: string;
-}
-
-interface ModalShellProps {
-  isOpen: boolean;
-  onClose: () => void;
-  role?: "dialog" | "alertdialog";
-  zIndex?: ModalZIndex;
-  id?: string; // optional DOM id passthrough; enables aria-controls binding from a trigger button
-  children: ReactNode;
-  dismissOnBackdrop?: boolean;
-  closeOnEscape?: boolean;
-  initialFocusRef?: RefObject<HTMLElement | null>;
-  backdropClassName?: string;
-  "aria-label": string;
 }
 
 // Single source of truth for app modals: focus trap, scroll lock,
@@ -97,6 +75,7 @@ export const Modal = ({
   dismissOnBackdrop,
   closeOnEscape,
   initialFocusRef,
+  surfaceless = false,
   "aria-label": ariaLabel,
   className,
 }: ModalProps) => {
@@ -158,7 +137,13 @@ export const Modal = ({
             aria-labelledby={labelledBy}
             aria-label={ariaLabelProp}
             className={cn(
-              isSheet ? CONTAINER_SHEET : CONTAINER_CENTER,
+              isSheet
+                ? surfaceless
+                  ? CONTAINER_SHEET_BARE
+                  : CONTAINER_SHEET
+                : surfaceless
+                  ? CONTAINER_CENTER_BARE
+                  : CONTAINER_CENTER,
               className,
             )}
             onClick={(event) => event.stopPropagation()}
@@ -199,63 +184,4 @@ export const Modal = ({
   );
 };
 
-// Full-bleed sibling of <Modal>: same focus / scroll / Escape / ARIA
-// wiring, but renders {children} directly inside the backdrop with no
-// container card. The caller owns its own surface + entrance animation
-// (BadgeCelebration's bespoke spring, Navbar's mobile-overlay fade);
-// only the backdrop fades here.
-export const ModalShell = ({
-  isOpen,
-  onClose,
-  role = "dialog",
-  zIndex = "modal",
-  id,
-  children,
-  dismissOnBackdrop = true,
-  closeOnEscape = true,
-  initialFocusRef,
-  backdropClassName,
-  "aria-label": ariaLabel,
-}: ModalShellProps) => {
-  const reduced = useReducedMotion();
-  const containerRef = useRef<HTMLDivElement>(null);
-
-  useFocusTrap(isOpen, containerRef, { initialFocusRef });
-  useScrollLock(isOpen);
-
-  useEffect(() => {
-    if (!isOpen || !closeOnEscape) return;
-    const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") onClose();
-    };
-    document.addEventListener("keydown", onKeyDown);
-    return () => document.removeEventListener("keydown", onKeyDown);
-  }, [isOpen, closeOnEscape, onClose]);
-
-  return (
-    <AnimatePresence>
-      {isOpen && (
-        <motion.div
-          ref={containerRef}
-          id={id}
-          role={role}
-          aria-modal="true"
-          aria-label={ariaLabel}
-          className={cn(
-            SHELL_BACKDROP_BASE,
-            SHELL_Z_CLASS[zIndex],
-            backdropClassName,
-          )}
-          onClick={dismissOnBackdrop ? onClose : undefined}
-          initial={reduced ? false : { opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-        >
-          {children}
-        </motion.div>
-      )}
-    </AnimatePresence>
-  );
-};
-
-export type { ModalProps, ModalShellProps, ModalZIndex };
+export type { ModalProps };

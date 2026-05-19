@@ -19,7 +19,8 @@ import { FieldError } from "@/components/ui/FieldError";
 import { Input } from "@/components/ui/Input";
 import { Field } from "@/components/ui/Field";
 import { Button } from "@/components/ui/Button";
-import { Modal, ModalShell } from "@/components/ui/Modal";
+import { Modal } from "@/components/ui/Modal";
+import { ModalShell } from "@/components/ui/ModalShell";
 import { Search } from "lucide-react";
 
 // --- Mock Data ---
