@@ -674,7 +674,7 @@ VALUES (
   'Why does Tanjiro decide to become a Demon Slayer?',
   'multiple_choice',
   'easy',
-  '[{"text":"To become the strongest swordsman in Japan","isCorrect":false},{"text":"To avenge his family and find a cure for his sister Nezuko","isCorrect":true},{"text":"To earn money for his village","isCorrect":false},{"text":"To follow in his father''s footsteps","isCorrect":false}]'::jsonb,
+  '[{"text":"To become the strongest swordsman in Japan","isCorrect":false},{"text":"To avenge his family and find a cure for his sister Nezuko","isCorrect":true},{"text":"To earn money for his impoverished mountain village in winter","isCorrect":false},{"text":"To follow in his father''s footsteps as a respected charcoal seller","isCorrect":false}]'::jsonb,
   'After a demon slaughtered most of his family, Tanjiro set out to become a Demon Slayer to avenge them and find a way to turn his sister Nezuko, who was transformed into a demon, back into a human.'
 );
 
@@ -694,7 +694,7 @@ VALUES (
   'How does Tanjiro protect Nezuko from sunlight while traveling?',
   'multiple_choice',
   'easy',
-  '[{"text":"He covers her with a special cloak","isCorrect":false},{"text":"She wears a bamboo muzzle and is carried in a wooden box on his back","isCorrect":true},{"text":"She hides underground during the day","isCorrect":false},{"text":"He uses a breathing technique to create shade","isCorrect":false}]'::jsonb,
+  '[{"text":"He covers her with a heavy black cloak treated to block direct sunlight","isCorrect":false},{"text":"She wears a bamboo muzzle and is carried in a wooden box on his back","isCorrect":true},{"text":"She hides underground during the day","isCorrect":false},{"text":"He uses a breathing technique to create shade","isCorrect":false}]'::jsonb,
   'Tanjiro carries Nezuko in a specially made wooden box on his back to shield her from sunlight. She also wears a bamboo muzzle to prevent her from biting anyone.'
 );
 
@@ -704,7 +704,7 @@ VALUES (
   'What is the name of the organization that fights demons in the series?',
   'multiple_choice',
   'easy',
-  '[{"text":"The Hashira Order","isCorrect":false},{"text":"The Demon Slayer Corps","isCorrect":true},{"text":"The Twelve Kizuki","isCorrect":false},{"text":"The Breathing Guild","isCorrect":false}]'::jsonb,
+  '[{"text":"The Hashira Order","isCorrect":false},{"text":"The Demon Slayer Corps","isCorrect":true},{"text":"The Twelve Kizuki","isCorrect":false},{"text":"The Ancient Breathing Guild","isCorrect":false}]'::jsonb,
   'The Demon Slayer Corps is a centuries-old organization dedicated to protecting humanity from demons. It operates in secret and is not officially recognized by the government.'
 );
 
@@ -714,7 +714,7 @@ VALUES (
   'Who is the main villain and king of all demons in Demon Slayer?',
   'multiple_choice',
   'easy',
-  '[{"text":"Akaza","isCorrect":false},{"text":"Kokushibo","isCorrect":false},{"text":"Muzan Kibutsuji","isCorrect":true},{"text":"Enmu","isCorrect":false}]'::jsonb,
+  '[{"text":"Akaza, leader of the Upper Moons","isCorrect":false},{"text":"Kokushibo","isCorrect":false},{"text":"Muzan Kibutsuji","isCorrect":true},{"text":"Enmu","isCorrect":false}]'::jsonb,
   'Muzan Kibutsuji is the first and most powerful demon, as well as the progenitor of almost all other demons. He is the one who killed Tanjiro''s family and turned Nezuko into a demon.'
 );
 
@@ -724,7 +724,7 @@ VALUES (
   'Which two companions regularly travel and fight alongside Tanjiro?',
   'multiple_choice',
   'easy',
-  '[{"text":"Giyu Tomioka and Shinobu Kocho","isCorrect":false},{"text":"Zenitsu Agatsuma and Inosuke Hashibira","isCorrect":true},{"text":"Kanao Tsuyuri and Genya Shinazugawa","isCorrect":false},{"text":"Muichiro Tokito and Mitsuri Kanroji","isCorrect":false}]'::jsonb,
+  '[{"text":"Giyu Tomioka, the Water Hashira, and Shinobu Kocho, the Insect Hashira","isCorrect":false},{"text":"Zenitsu Agatsuma and Inosuke Hashibira","isCorrect":true},{"text":"Kanao Tsuyuri and Genya Shinazugawa","isCorrect":false},{"text":"Muichiro Tokito and Mitsuri Kanroji","isCorrect":false}]'::jsonb,
   'Zenitsu Agatsuma, a cowardly but surprisingly powerful Thunder Breathing user, and Inosuke Hashibira, a wild boar-mask-wearing Beast Breathing user, become Tanjiro''s closest companions throughout the series.'
 );
 
@@ -754,7 +754,7 @@ VALUES (
   'What is Zenitsu''s primary emotional state during battles?',
   'multiple_choice',
   'easy',
-  '[{"text":"Uncontrollable rage","isCorrect":false},{"text":"Extreme fear — he often fights while asleep or unconscious","isCorrect":true},{"text":"Calm and collected focus","isCorrect":false},{"text":"Overconfident arrogance","isCorrect":false}]'::jsonb,
+  '[{"text":"Uncontrollable rage","isCorrect":false},{"text":"Extreme fear — he often fights while asleep or unconscious","isCorrect":true},{"text":"Calm and collected focus he learned from his master Jigoro Kuwajima","isCorrect":false},{"text":"Overconfident arrogance","isCorrect":false}]'::jsonb,
   'Zenitsu is overwhelmed by fear in battle and often passes out from sheer terror. Ironically, when unconscious, he unleashes his true power and executes his Thunder Breathing techniques with incredible speed and precision.'
 );
 
@@ -774,7 +774,7 @@ VALUES (
   'What is the signature technique that Zenitsu is best known for?',
   'multiple_choice',
   'medium',
-  '[{"text":"Water Breathing, Second Form: Water Wheel","isCorrect":false},{"text":"Beast Breathing, First Fang: Pierce","isCorrect":false},{"text":"Thunder Breathing, First Form: Thunderclap and Flash","isCorrect":true},{"text":"Flame Breathing, First Form: Unknowing Fire","isCorrect":false}]'::jsonb,
+  '[{"text":"Water Breathing, Second Form: Water Wheel","isCorrect":false},{"text":"Beast Breathing, First Fang: Pierce","isCorrect":false},{"text":"Thunder Breathing, First Form: Thunderclap and Flash","isCorrect":true},{"text":"Flame Breathing, First Form: Unknowing Fire of the Setting Sun","isCorrect":false}]'::jsonb,
   'Zenitsu mastered only the First Form of Thunder Breathing — Thunderclap and Flash — but refined it to an extraordinary degree. This lightning-fast technique allows him to close distances and strike with blinding speed.'
 );
 
@@ -804,7 +804,7 @@ VALUES (
   'What is the group of Muzan''s most powerful demons called?',
   'multiple_choice',
   'medium',
-  '[{"text":"The Demon Moons","isCorrect":false},{"text":"The Twelve Kizuki (Twelve Demon Moons)","isCorrect":true},{"text":"The Shadow Demons","isCorrect":false},{"text":"The Blood Demons","isCorrect":false}]'::jsonb,
+  '[{"text":"The Demon Moons","isCorrect":false},{"text":"The Twelve Kizuki (Twelve Demon Moons)","isCorrect":true},{"text":"The Twelve Shadow Moons (Imperial Court)","isCorrect":false},{"text":"The Blood Demons","isCorrect":false}]'::jsonb,
   'The Twelve Kizuki are Muzan''s twelve most powerful demons, divided into six Upper Ranks (Upper Moons) and six Lower Ranks (Lower Moons). The Upper Ranks are significantly more powerful and have killed many Hashira over the centuries.'
 );
 
@@ -824,7 +824,7 @@ VALUES (
   'What makes Nezuko unique compared to other demons?',
   'multiple_choice',
   'medium',
-  '[{"text":"She can use Breathing techniques like a Demon Slayer","isCorrect":false},{"text":"She doesn''t need to eat humans and recovers energy by sleeping instead","isCorrect":true},{"text":"She can speak fluently despite being a demon","isCorrect":false},{"text":"She was born as a demon rather than turned into one","isCorrect":false}]'::jsonb,
+  '[{"text":"She can use Breathing techniques like a Demon Slayer","isCorrect":false},{"text":"She doesn''t need to eat humans and recovers energy by sleeping instead","isCorrect":true},{"text":"She can speak fluently despite being a demon, even quoting human poetry","isCorrect":false},{"text":"She was born as a demon rather than turned into one","isCorrect":false}]'::jsonb,
   'Unlike other demons who must consume human flesh or blood to sustain themselves and grow stronger, Nezuko recovers her energy through sleep. This is extraordinarily rare and is one reason Tanjiro believes she can be turned back into a human.'
 );
 
@@ -834,7 +834,7 @@ VALUES (
   'What is the name of the hidden village where Demon Slayers'' swords are forged?',
   'multiple_choice',
   'medium',
-  '[{"text":"The Butterfly Mansion","isCorrect":false},{"text":"The Swordsmith Village","isCorrect":true},{"text":"The Ubuyashiki Estate","isCorrect":false},{"text":"The Infinity Castle","isCorrect":false}]'::jsonb,
+  '[{"text":"The Butterfly Mansion","isCorrect":false},{"text":"The Swordsmith Village","isCorrect":true},{"text":"The Ubuyashiki Family Estate","isCorrect":false},{"text":"The Infinity Castle","isCorrect":false}]'::jsonb,
   'The Swordsmith Village is a secret, hidden location where skilled artisans forge the Nichirin swords used by the Demon Slayer Corps. Its location is kept highly confidential to protect the swordsmiths from demon attacks.'
 );
 
@@ -854,7 +854,7 @@ VALUES (
   'Who is the Love Hashira in the Demon Slayer Corps?',
   'multiple_choice',
   'medium',
-  '[{"text":"Shinobu Kocho","isCorrect":false},{"text":"Kanao Tsuyuri","isCorrect":false},{"text":"Mitsuri Kanroji","isCorrect":true},{"text":"Nezuko Kamado","isCorrect":false}]'::jsonb,
+  '[{"text":"Shinobu Kocho","isCorrect":false},{"text":"Kanao Tsuyuri","isCorrect":false},{"text":"Mitsuri Kanroji","isCorrect":true},{"text":"Nezuko Kamado, after joining","isCorrect":false}]'::jsonb,
   'Mitsuri Kanroji is the Love Hashira. She uses Love Breathing, a style she derived from Flame Breathing. She possesses a unique muscular composition eight times denser than a normal person''s, giving her incredible strength and flexibility.'
 );
 
@@ -864,7 +864,7 @@ VALUES (
   'What is the name of Upper Moon One, the strongest of the Twelve Kizuki?',
   'multiple_choice',
   'hard',
-  '[{"text":"Akaza","isCorrect":false},{"text":"Doma","isCorrect":false},{"text":"Kokushibo","isCorrect":true},{"text":"Hantengu","isCorrect":false}]'::jsonb,
+  '[{"text":"Akaza","isCorrect":false},{"text":"Doma","isCorrect":false},{"text":"Kokushibo","isCorrect":true},{"text":"Hantengu (Upper Moon 4)","isCorrect":false}]'::jsonb,
   'Kokushibo holds the position of Upper Moon One, making him the most powerful demon under Muzan Kibutsuji. He is an ancient demon who has lived for over 400 years and uses Moon Breathing, a combat style he developed from his human days as a swordsman.'
 );
 
@@ -874,7 +874,7 @@ VALUES (
   'What was Kokushibo''s human name, and what is his relation to the legendary Demon Slayer Yoriichi Tsugikuni?',
   'multiple_choice',
   'hard',
-  '[{"text":"Michikatsu Tsugikuni — he was Yoriichi''s twin brother","isCorrect":true},{"text":"Hakuji — he was Yoriichi''s student","isCorrect":false},{"text":"Sumiyoshi — he was Yoriichi''s son","isCorrect":false},{"text":"Kaigaku — he was Yoriichi''s rival from another clan","isCorrect":false}]'::jsonb,
+  '[{"text":"Michikatsu Tsugikuni — he was Yoriichi''s twin brother","isCorrect":true},{"text":"Hakuji — he was Yoriichi''s student in the Final Selection era","isCorrect":false},{"text":"Sumiyoshi — he was Yoriichi''s son","isCorrect":false},{"text":"Kaigaku — he was Yoriichi''s rival from another clan","isCorrect":false}]'::jsonb,
   'Kokushibo was born as Michikatsu Tsugikuni, the twin brother of Yoriichi Tsugikuni, the strongest Demon Slayer in history. Consumed by jealousy of his brother''s unmatched talent, Michikatsu eventually accepted Muzan''s blood and became a demon to surpass the limits of human life.'
 );
 
@@ -884,7 +884,7 @@ VALUES (
   'What is the original Breathing Style from which all other Breathing Styles are derived?',
   'multiple_choice',
   'hard',
-  '[{"text":"Water Breathing","isCorrect":false},{"text":"Flame Breathing","isCorrect":false},{"text":"Moon Breathing","isCorrect":false},{"text":"Sun Breathing, created by Yoriichi Tsugikuni","isCorrect":true}]'::jsonb,
+  '[{"text":"Water Breathing, perfected by Sakonji Urokodaki of the Final Selection era","isCorrect":false},{"text":"Flame Breathing","isCorrect":false},{"text":"Moon Breathing","isCorrect":false},{"text":"Sun Breathing, created by Yoriichi Tsugikuni","isCorrect":true}]'::jsonb,
   'Sun Breathing (Hinokami Kagura) is the first and most powerful Breathing Style, created by Yoriichi Tsugikuni during the Sengoku era. All other Breathing Styles — Water, Flame, Wind, Thunder, and Stone — are derived from Sun Breathing, adapted by swordsmen who couldn''t master the original.'
 );
 
@@ -894,7 +894,7 @@ VALUES (
   'Which Hashira and Demon Slayers fought together against Upper Moon One Kokushibo?',
   'multiple_choice',
   'hard',
-  '[{"text":"Giyu Tomioka, Shinobu Kocho, Mitsuri Kanroji, and Obanai Iguro","isCorrect":false},{"text":"Gyomei Himejima, Sanemi Shinazugawa, Muichiro Tokito, and Genya Shinazugawa","isCorrect":true},{"text":"Tengen Uzui, Kyojuro Rengoku, Tanjiro Kamado, and Zenitsu Agatsuma","isCorrect":false},{"text":"Obanai Iguro, Mitsuri Kanroji, Tanjiro Kamado, and Inosuke Hashibira","isCorrect":false}]'::jsonb,
+  '[{"text":"Giyu Tomioka, Shinobu Kocho, Mitsuri Kanroji, and Obanai Iguro","isCorrect":false},{"text":"Gyomei Himejima, Sanemi Shinazugawa, Muichiro Tokito, and Genya Shinazugawa","isCorrect":true},{"text":"Tengen Uzui, Kyojuro Rengoku, Tanjiro Kamado, and Zenitsu Agatsuma","isCorrect":false},{"text":"Obanai Iguro, Mitsuri Kanroji, Tanjiro Kamado, and Inosuke Hashibira together","isCorrect":false}]'::jsonb,
   'The battle against Upper Moon One Kokushibo required four fighters: Stone Hashira Gyomei Himejima, Wind Hashira Sanemi Shinazugawa, Mist Hashira Muichiro Tokito, and Genya Shinazugawa. It was one of the most devastating battles, showcasing Kokushibo''s overwhelming power.'
 );
 
@@ -914,7 +914,7 @@ VALUES (
   'What is Muzan''s blood curse and how does it control demons?',
   'multiple_choice',
   'hard',
-  '[{"text":"It allows him to read all demons'' minds at any time","isCorrect":false},{"text":"Demons who speak Muzan''s name or reveal information about him can be destroyed by the curse in his blood","isCorrect":true},{"text":"It forces demons to return to Muzan every full moon","isCorrect":false},{"text":"It gives Muzan the ability to control demons like puppets at will","isCorrect":false}]'::jsonb,
+  '[{"text":"It allows him to read all demons'' minds at any time","isCorrect":false},{"text":"Demons who speak Muzan''s name or reveal information about him can be destroyed by the curse in his blood","isCorrect":true},{"text":"It forces demons to return to Muzan every full moon","isCorrect":false},{"text":"It gives Muzan the ability to telepathically control demons like puppets at will, anywhere in the world at once","isCorrect":false}]'::jsonb,
   'Muzan''s blood contains a powerful curse. Demons who have received his blood are unable to speak his name or divulge critical information about him to others — doing so triggers the curse, which can destroy the demon from within. This is how Muzan maintains control and secrecy over his demon army.'
 );
 
@@ -924,7 +924,7 @@ VALUES (
   'What is the Demon Slayer Mark, and what is the major drawback of manifesting one?',
   'multiple_choice',
   'hard',
-  '[{"text":"A mark that makes the wielder immune to demon poison, but causes blindness over time","isCorrect":false},{"text":"A mark that greatly enhances physical abilities, but bearers typically die before reaching the age of 25","isCorrect":true},{"text":"A mark that allows communication with other slayers, but slowly erases memories","isCorrect":false},{"text":"A mark that increases sword sharpness, but causes the wielder''s sword to eventually shatter","isCorrect":false}]'::jsonb,
+  '[{"text":"A mark that makes the wielder immune to demon poison, but causes blindness over time","isCorrect":false},{"text":"A mark that greatly enhances physical abilities, but bearers typically die before reaching the age of 25","isCorrect":true},{"text":"A mark that allows communication with other slayers, but slowly erases the wielder''s memories of family and friends","isCorrect":false},{"text":"A mark that increases sword sharpness, but causes the wielder''s sword to eventually shatter","isCorrect":false}]'::jsonb,
   'The Demon Slayer Mark is a special marking that appears on talented Demon Slayers, dramatically boosting their physical abilities, reaction speed, and strength. However, it comes at a terrible cost — every known bearer of the mark has died before turning 25, with Yoriichi Tsugikuni being the sole exception.'
 );
 
@@ -934,7 +934,7 @@ VALUES (
   'What special materials are Nichirin swords forged from, and why are they effective against demons?',
   'multiple_choice',
   'hard',
-  '[{"text":"Scarlet Crimson Iron Sand and Scarlet Crimson Ore from mountains closest to the sun, which absorb sunlight","isCorrect":true},{"text":"Meteoric iron blessed by shrine priests during a solar eclipse","isCorrect":false},{"text":"Steel mixed with the blood of ancient Hashira warriors","isCorrect":false},{"text":"Enchanted copper mined from caves where demons were first sealed away","isCorrect":false}]'::jsonb,
+  '[{"text":"Scarlet Crimson Iron Sand and Scarlet Crimson Ore from mountains closest to the sun, which absorb sunlight","isCorrect":true},{"text":"Meteoric iron blessed by Shinto shrine priests during a solar eclipse high on the slopes of sacred Mount Fuji","isCorrect":false},{"text":"Steel mixed with the blood of ancient Hashira warriors","isCorrect":false},{"text":"Enchanted copper mined from caves where demons were first sealed away","isCorrect":false}]'::jsonb,
   'Nichirin swords are forged from Scarlet Crimson Iron Sand and Scarlet Crimson Ore, materials found on high-altitude mountains that receive enormous amounts of sunlight year-round. Because these ores have absorbed sunlight, the blades are one of the few weapons capable of killing demons, essentially channeling the power of the sun.'
 );
 
@@ -944,7 +944,7 @@ VALUES (
   'What is the true origin of the Hinokami Kagura (Dance of the Fire God) that Tanjiro''s family passed down for generations?',
   'multiple_choice',
   'hard',
-  '[{"text":"It was a Fire Breathing technique taught to charcoal burners by the Flame Hashira","isCorrect":false},{"text":"It is a corrupted form of Sun Breathing, passed from Yoriichi to the Kamado family ancestor and preserved as a ritual dance","isCorrect":true},{"text":"It was created by Tanjiro''s great-grandfather who was once a Demon Slayer","isCorrect":false},{"text":"It is an entirely original technique developed by the Kamado family''s charcoal-burning practice","isCorrect":false}]'::jsonb,
+  '[{"text":"It was a Fire Breathing technique taught to charcoal burners by the Flame Hashira","isCorrect":false},{"text":"It is a corrupted form of Sun Breathing, passed from Yoriichi to the Kamado family ancestor and preserved as a ritual dance","isCorrect":true},{"text":"It was created by Tanjiro''s great-grandfather who was once a Demon Slayer apprenticed to the Flame Hashira of the Sengoku era","isCorrect":false},{"text":"It is an entirely original technique developed by the Kamado family''s charcoal-burning practice","isCorrect":false}]'::jsonb,
   'The Hinokami Kagura is actually a form of Sun Breathing, the original and most powerful Breathing Style. Yoriichi Tsugikuni befriended Tanjiro''s ancestor Sumiyoshi and showed him the forms of Sun Breathing. The Kamado family preserved these techniques across generations as a ceremonial dance performed each New Year, unknowingly keeping the lost art of Sun Breathing alive.'
 );
 
@@ -954,7 +954,7 @@ VALUES (
   'How does Nezuko eventually conquer the sun, and why does this make her so important to Muzan?',
   'multiple_choice',
   'hard',
-  '[{"text":"She uses a special breathing technique to filter sunlight, making Muzan want to learn it","isCorrect":false},{"text":"She develops natural immunity to sunlight, making Muzan obsessed with devouring her to gain the same ability","isCorrect":true},{"text":"She wears enchanted armor forged from Nichirin ore that blocks sunlight","isCorrect":false},{"text":"She merges with a Hashira''s blood to neutralize sunlight, which Muzan wants to replicate","isCorrect":false}]'::jsonb,
+  '[{"text":"She uses a special breathing technique to filter sunlight, making Muzan want to learn it","isCorrect":false},{"text":"She develops natural immunity to sunlight, making Muzan obsessed with devouring her to gain the same ability","isCorrect":true},{"text":"She wears enchanted armor forged from Nichirin ore that blocks sunlight from reaching her body during the day","isCorrect":false},{"text":"She merges with a Hashira''s blood to neutralize sunlight, which Muzan wants to replicate","isCorrect":false}]'::jsonb,
   'Nezuko spontaneously develops complete immunity to sunlight, becoming the first demon in history to conquer the sun. This makes her Muzan''s ultimate target — for over a thousand years, Muzan has desperately sought a way to overcome his vulnerability to sunlight, and devouring Nezuko could grant him that ability, making him truly invincible.'
 );
 

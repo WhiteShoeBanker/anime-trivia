@@ -29,7 +29,7 @@ VALUES (
   'What is the name of the creator/mangaka of Demon Slayer: Kimetsu no Yaiba?',
   'multiple_choice',
   'impossible',
-  '[{"text":"Hajime Isayama","isCorrect":false},{"text":"Gege Akutami","isCorrect":false},{"text":"Koyoharu Gotouge","isCorrect":true},{"text":"Eiichiro Oda","isCorrect":false}]'::jsonb,
+  '[{"text":"Hajime Isayama","isCorrect":false},{"text":"Gege Akutami","isCorrect":false},{"text":"Koyoharu Gotouge","isCorrect":true},{"text":"Eiichiro Oda, longtime Weekly Shōnen Jump mainstay","isCorrect":false}]'::jsonb,
   'Koyoharu Gotouge is the creator of Demon Slayer. They are notably private, using a crocodile wearing glasses as their author avatar. Demon Slayer was their first serialized work, beginning in Weekly Shōnen Jump in 2016 and becoming one of the best-selling manga of all time.'
 );
 
@@ -39,7 +39,7 @@ VALUES (
   'What is the exact name of Shinobu Kocho''s unique fighting style as the Insect Hashira?',
   'multiple_choice',
   'impossible',
-  '[{"text":"She uses standard Insect Breathing sword strikes to cut demon necks","isCorrect":false},{"text":"She uses a modified katana with a thin stinger-like blade to inject wisteria-based poison into demons since she lacks the physical strength to behead them","isCorrect":true},{"text":"She summons poisonous insects to fight for her","isCorrect":false},{"text":"She coats her entire body in wisteria poison and fights bare-handed","isCorrect":false}]'::jsonb,
+  '[{"text":"She uses standard Insect Breathing sword strikes to cut demon necks","isCorrect":false},{"text":"A modified katana that injects wisteria poison instead of beheading","isCorrect":true},{"text":"She summons poisonous insects to fight for her","isCorrect":false},{"text":"She coats her entire body in wisteria poison and fights bare-handed","isCorrect":false}]'::jsonb,
   'Shinobu is the only Hashira who cannot cut a demon''s head off due to her small stature and lack of raw strength. Instead, she uses a specially modified katana with a thin, needle-like tip to stab demons and inject lethal doses of wisteria-derived poison. She created this fighting method herself.'
 );
 

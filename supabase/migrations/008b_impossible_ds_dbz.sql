@@ -40,7 +40,7 @@ VALUES (
   'What is the name of the doctor who inadvertently turned Muzan Kibutsuji into a demon?',
   'multiple_choice',
   'impossible',
-  '[{"text":"Dr. Tamayo","isCorrect":false},{"text":"The doctor''s name is unknown — he was killed by Muzan before completing treatment","isCorrect":true},{"text":"Dr. Kagaya","isCorrect":false},{"text":"Dr. Yushiro","isCorrect":false}]'::jsonb,
+  '[{"text":"Dr. Tamayo","isCorrect":false},{"text":"The doctor''s name is unknown — he was killed by Muzan before completing treatment","isCorrect":true},{"text":"Dr. Kagaya, the Demon Slayer Corps physician who treated young Muzan during the late Heian period","isCorrect":false},{"text":"Dr. Yushiro","isCorrect":false}]'::jsonb,
   'The doctor who treated Muzan is never named in the series. He used a prototype medicine containing the Blue Spider Lily to treat Muzan''s terminal illness. When Muzan didn''t see immediate results, he killed the doctor in a rage, only to realize afterward that the treatment was working — but had turned him into a demon.'
 );
 
@@ -50,7 +50,7 @@ VALUES (
   'What is Kokushibo''s human name before he became a demon?',
   'multiple_choice',
   'impossible',
-  '[{"text":"Yoriichi Tsugikuni","isCorrect":false},{"text":"Michikatsu Tsugikuni","isCorrect":true},{"text":"Akaza Hakuji","isCorrect":false},{"text":"Kaigaku","isCorrect":false}]'::jsonb,
+  '[{"text":"Yoriichi Tsugikuni","isCorrect":false},{"text":"Michikatsu Tsugikuni","isCorrect":true},{"text":"Akaza Hakuji of the Soryu School","isCorrect":false},{"text":"Kaigaku","isCorrect":false}]'::jsonb,
   'Kokushibo''s human name was Michikatsu Tsugikuni. He was the twin brother of Yoriichi Tsugikuni, the creator of Sun Breathing. Consumed by jealousy of his brother''s talent, Michikatsu accepted Muzan''s blood and became Upper Moon One.'
 );
 
@@ -60,7 +60,7 @@ VALUES (
   'What is unique about Zenitsu''s mastery of Thunder Breathing?',
   'multiple_choice',
   'impossible',
-  '[{"text":"He created his own original seventh form","isCorrect":false},{"text":"He can only perform the First Form: Thunderclap and Flash, but has perfected it to an extreme degree","isCorrect":true},{"text":"He mastered all six forms faster than any other student","isCorrect":false},{"text":"He can combine Thunder Breathing with Water Breathing","isCorrect":false}]'::jsonb,
+  '[{"text":"He created his own original seventh form","isCorrect":false},{"text":"He can only perform the First Form: Thunderclap and Flash, but has perfected it to an extreme degree","isCorrect":true},{"text":"He mastered all six standard Thunder Breathing forms faster than any other student under master Jigoro Kuwajima","isCorrect":false},{"text":"He can combine Thunder Breathing with Water Breathing","isCorrect":false}]'::jsonb,
   'Zenitsu could only learn the First Form of Thunder Breathing: Thunderclap and Flash (Ichi no Kata: Hekireki Issen). However, he refined this single form to an extraordinary level, developing multiple speed variations. He later creates his own original form, the Seventh Form: Honoikazuchi no Kami.'
 );
 
@@ -80,7 +80,7 @@ VALUES (
   'What type of weapon does the Stone Hashira Gyomei Himejima use, which is unique among the Hashira?',
   'multiple_choice',
   'impossible',
-  '[{"text":"A massive stone hammer","isCorrect":false},{"text":"A spiked iron ball and axe connected by a chain","isCorrect":true},{"text":"Twin stone gauntlets","isCorrect":false},{"text":"A stone-bladed naginata","isCorrect":false}]'::jsonb,
+  '[{"text":"A massive stone hammer carved from a single Nichirin block","isCorrect":false},{"text":"A spiked iron ball and axe connected by a chain","isCorrect":true},{"text":"Twin stone gauntlets","isCorrect":false},{"text":"A stone-bladed naginata","isCorrect":false}]'::jsonb,
   'Gyomei Himejima uses a hand-axe and a spiked flail ball connected by a long chain, both made of the same Nichirin ore. This is unique among the Hashira, who typically use Nichirin swords. He is considered the strongest active Hashira.'
 );
 
@@ -100,7 +100,7 @@ VALUES (
   'What is Upper Moon 4 Hantengu''s unique ability when his head is cut off?',
   'multiple_choice',
   'impossible',
-  '[{"text":"He regenerates instantly from any severed part","isCorrect":false},{"text":"He splits into multiple smaller demons, each embodying a different emotion","isCorrect":true},{"text":"His body turns to stone and reforms","isCorrect":false},{"text":"He creates an illusion of himself while hiding his real body","isCorrect":false}]'::jsonb,
+  '[{"text":"He regenerates instantly from any severed part, even when struck multiple times in succession","isCorrect":false},{"text":"He splits into multiple smaller demons, each embodying a different emotion","isCorrect":true},{"text":"His body turns to stone and reforms","isCorrect":false},{"text":"He creates an illusion of himself while hiding his real body","isCorrect":false}]'::jsonb,
   'When Hantengu is beheaded, he splits into multiple demons, each representing a different emotion: Sekido (anger), Karaku (pleasure), Aizetsu (sorrow), and Urogi (joy). These can further combine into Zōhakuten (hatred). His real body is a tiny demon that hides while the clones fight.'
 );
 
@@ -140,7 +140,7 @@ VALUES (
   'What is the name of the mountain where the Demon Slayer Corps'' Final Selection takes place?',
   'multiple_choice',
   'impossible',
-  '[{"text":"Mount Natagumo","isCorrect":false},{"text":"Mount Kumotori","isCorrect":false},{"text":"Mount Fujikasane","isCorrect":true},{"text":"Mount Sagiri","isCorrect":false}]'::jsonb,
+  '[{"text":"Mount Natagumo","isCorrect":false},{"text":"Mount Kumotori","isCorrect":false},{"text":"Mount Fujikasane","isCorrect":true},{"text":"Mount Sagiri, a peak ringed with wisteria","isCorrect":false}]'::jsonb,
   'Final Selection takes place on Mount Fujikasane (Fujikasane-yama), a mountain covered in wisteria flowers that bloom year-round. Demon Slayer candidates must survive seven days on the mountain among trapped demons to pass.'
 );
 
@@ -160,7 +160,7 @@ VALUES (
   'What is the name of Inosuke Hashibira''s mother?',
   'multiple_choice',
   'impossible',
-  '[{"text":"Kotoha Hashibira","isCorrect":true},{"text":"Kie Kamado","isCorrect":false},{"text":"Ruka Rengoku","isCorrect":false},{"text":"Kanae Kocho","isCorrect":false}]'::jsonb,
+  '[{"text":"Kotoha Hashibira","isCorrect":true},{"text":"Kie Kamado","isCorrect":false},{"text":"Ruka Rengoku, mother of the Flame Hashira","isCorrect":false},{"text":"Kanae Kocho","isCorrect":false}]'::jsonb,
   'Inosuke''s mother was Kotoha Hashibira. She fled from her abusive husband to the Paradise Faith cult led by Doma (Upper Moon Two). When she discovered Doma was eating his followers, she tried to escape and threw baby Inosuke off a cliff into a river to save him before Doma killed her.'
 );
 
@@ -170,7 +170,7 @@ VALUES (
   'What is Daki''s (Upper Moon 6) specific Blood Demon Art?',
   'multiple_choice',
   'impossible',
-  '[{"text":"She creates poisonous flower petals","isCorrect":false},{"text":"She manipulates Obi sashes that can cut and store humans","isCorrect":true},{"text":"She generates illusions of beautiful women","isCorrect":false},{"text":"She controls fire from her hairpins","isCorrect":false}]'::jsonb,
+  '[{"text":"She creates poisonous flower petals","isCorrect":false},{"text":"She manipulates Obi sashes that can cut and store humans","isCorrect":true},{"text":"She generates illusions of beautiful courtesan women in the district","isCorrect":false},{"text":"She controls fire from her hairpins","isCorrect":false}]'::jsonb,
   'Daki''s Blood Demon Art allows her to create and manipulate sentient Obi sashes (fabric strips) from her body. These sashes can extend great distances, slice through flesh, and store captured humans alive inside them for later consumption.'
 );
 
@@ -200,7 +200,7 @@ VALUES (
   'What is Kanao Tsuyuri''s specific reason for flipping a coin to make decisions?',
   'multiple_choice',
   'impossible',
-  '[{"text":"She has a superstitious belief in fate","isCorrect":false},{"text":"She was so emotionally shut down from abuse that she couldn''t make decisions on her own","isCorrect":true},{"text":"It was a training exercise from her Hashira master","isCorrect":false},{"text":"The coin contains a special demon-detecting property","isCorrect":false}]'::jsonb,
+  '[{"text":"She has a superstitious belief in fate","isCorrect":false},{"text":"She was so emotionally shut down from abuse that she couldn''t make decisions on her own","isCorrect":true},{"text":"It was a training exercise from her Hashira master Shinobu Kocho of the Insect breathing style","isCorrect":false},{"text":"The coin contains a special demon-detecting property","isCorrect":false}]'::jsonb,
   'Kanao suffered severe abuse as a child that left her emotionally numb and unable to make choices for herself. Kanae Kocho gave her a coin and told her to flip it whenever she needed to decide something. Tanjiro later told her to follow her heart, helping her begin making her own decisions.'
 );
 
@@ -210,7 +210,7 @@ VALUES (
   'What is Upper Moon 3 Akaza''s original human name?',
   'multiple_choice',
   'impossible',
-  '[{"text":"Hakuji","isCorrect":true},{"text":"Kaigaku","isCorrect":false},{"text":"Michikatsu","isCorrect":false},{"text":"Gyutaro","isCorrect":false}]'::jsonb,
+  '[{"text":"Hakuji of Edo","isCorrect":true},{"text":"Kaigaku","isCorrect":false},{"text":"Michikatsu Tsugikuni","isCorrect":false},{"text":"Gyutaro","isCorrect":false}]'::jsonb,
   'Akaza''s human name was Hakuji. He was a martial artist who cared for his sick father and later his master''s daughter Koyuki. After both were poisoned by a rival dojo, he slaughtered 67 people bare-handed before Muzan found and turned him into a demon.'
 );
 
@@ -220,7 +220,7 @@ VALUES (
   'Why is the Blue Spider Lily so important to Muzan Kibutsuji?',
   'multiple_choice',
   'impossible',
-  '[{"text":"It is the only flower that can permanently kill him","isCorrect":false},{"text":"It was the key ingredient in the medicine that turned him into a demon, and he believes it can help him conquer sunlight","isCorrect":true},{"text":"It grows only where demon blood has been spilled","isCorrect":false},{"text":"It is needed to create new Upper Rank demons","isCorrect":false}]'::jsonb,
+  '[{"text":"It is the only flower native to Japan that, when properly distilled into an elixir, is capable of permanently killing a demon of his rank","isCorrect":false},{"text":"It was the key ingredient in the medicine that turned him into a demon, and he believes it can help him conquer sunlight","isCorrect":true},{"text":"It grows only where demon blood has been spilled","isCorrect":false},{"text":"It is needed to create new Upper Rank demons","isCorrect":false}]'::jsonb,
   'The Blue Spider Lily was an ingredient in the medicine the doctor used to turn Muzan into a demon. Muzan has searched for it for over 1,000 years, believing it is the key to conquering his weakness to sunlight and achieving true immortality.'
 );
 
@@ -240,7 +240,7 @@ VALUES (
   'What specific Water Breathing technique does Tanjiro use in combination with Hinokami Kagura to defeat Lower Moon 5 Rui?',
   'multiple_choice',
   'impossible',
-  '[{"text":"Water Breathing Tenth Form: Constant Flux combined with Hinokami Kagura: Dance","isCorrect":true},{"text":"Water Breathing First Form: Water Surface Slash combined with Hinokami Kagura: Burning Bones","isCorrect":false},{"text":"Water Breathing Fourth Form: Striking Tide combined with Hinokami Kagura: Clear Blue Sky","isCorrect":false},{"text":"Water Breathing Eighth Form: Waterfall Basin combined with Hinokami Kagura: Sunflower Thrust","isCorrect":false}]'::jsonb,
+  '[{"text":"Water Breathing Tenth Form: Constant Flux (Seiseiruten) combined with Hinokami Kagura: Dance","isCorrect":true},{"text":"Water Breathing First Form: Water Surface Slash combined with Hinokami Kagura: Burning Bones","isCorrect":false},{"text":"Water Breathing Fourth Form: Striking Tide combined with Hinokami Kagura: Clear Blue Sky","isCorrect":false},{"text":"Water Breathing Eighth Form: Waterfall Basin combined with Hinokami Kagura: Sunflower Thrust","isCorrect":false}]'::jsonb,
   'In the iconic Episode 19 fight against Rui, Tanjiro uses Water Breathing Tenth Form: Constant Flux but transitions mid-attack into Hinokami Kagura: Dance, combining both breathing styles. This moment, animated spectacularly by Ufotable, became one of the most celebrated scenes in anime history.'
 );
 
@@ -250,7 +250,7 @@ VALUES (
   'What Demon Slayer Corps rank does Tanjiro hold at the end of the manga?',
   'multiple_choice',
   'impossible',
-  '[{"text":"Hashira","isCorrect":false},{"text":"Tsuchinoto","isCorrect":false},{"text":"Kinoe","isCorrect":true},{"text":"Hinoto","isCorrect":false}]'::jsonb,
+  '[{"text":"Hashira","isCorrect":false},{"text":"Tsuchinoto","isCorrect":false},{"text":"Kinoe rank","isCorrect":true},{"text":"Hinoto","isCorrect":false}]'::jsonb,
   'Tanjiro reaches the rank of Kinoe, the highest rank below Hashira, by the end of the manga. Despite his incredible feats, he never officially becomes a Hashira. The ranking system goes: Mizunoto, Mizunoe, Kanoto, Kanoe, Tsuchinoto, Tsuchinoe, Hinoto, Hinoe, Kinoto, Kinoe, then Hashira.'
 );
 
@@ -260,7 +260,7 @@ VALUES (
   'In which manga magazine was Demon Slayer: Kimetsu no Yaiba serialized?',
   'multiple_choice',
   'impossible',
-  '[{"text":"Weekly Shōnen Magazine","isCorrect":false},{"text":"Weekly Shōnen Jump","isCorrect":true},{"text":"Monthly Shōnen Gangan","isCorrect":false},{"text":"Bessatsu Shōnen Magazine","isCorrect":false}]'::jsonb,
+  '[{"text":"Weekly Shōnen Magazine","isCorrect":false},{"text":"Weekly Shōnen Jump","isCorrect":true},{"text":"Shōnen Gangan","isCorrect":false},{"text":"Bessatsu Shōnen Magazine","isCorrect":false}]'::jsonb,
   'Demon Slayer was serialized in Weekly Shōnen Jump from February 2016 to May 2020, running for 205 chapters across 23 volumes. It was created by Koyoharu Gotouge.'
 );
 
@@ -270,7 +270,7 @@ VALUES (
   'In which episode of the anime does Kyojuro Rengoku die fighting Akaza?',
   'multiple_choice',
   'impossible',
-  '[{"text":"Episode 18 of Season 1","isCorrect":false},{"text":"The final act of the Mugen Train movie / Episode 7 of Mugen Train Arc","isCorrect":true},{"text":"Episode 1 of the Entertainment District Arc","isCorrect":false},{"text":"Episode 10 of the Swordsmith Village Arc","isCorrect":false}]'::jsonb,
+  '[{"text":"Episode 18 of Season 1, just before the Final Selection conclusion episode","isCorrect":false},{"text":"The final act of the Mugen Train movie / Episode 7 of Mugen Train Arc","isCorrect":true},{"text":"Episode 1 of the Entertainment District Arc","isCorrect":false},{"text":"Episode 10 of the Swordsmith Village Arc","isCorrect":false}]'::jsonb,
   'Rengoku dies at the end of the Mugen Train movie (also adapted as Episode 7 of the Mugen Train TV arc). After defeating Lower Moon One Enmu, he fights Upper Moon Three Akaza until dawn, ultimately dying from his injuries while Akaza flees from the sunlight.'
 );
 
