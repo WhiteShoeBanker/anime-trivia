@@ -10,7 +10,7 @@ VALUES (
   'Who is the Japanese voice actress (seiyuu) for Naruto Uzumaki?',
   'multiple_choice',
   'impossible',
-  '[{"text":"Nana Mizuki","isCorrect":false},{"text":"Junko Takeuchi","isCorrect":true},{"text":"Chie Nakamura","isCorrect":false},{"text":"Romi Park","isCorrect":false}]'::jsonb,
+  '[{"text":"Nana Mizuki","isCorrect":false},{"text":"Junko Takeuchi","isCorrect":true},{"text":"Chie Nakamura (Sakura)","isCorrect":false},{"text":"Romi Park","isCorrect":false}]'::jsonb,
   'Junko Takeuchi has voiced Naruto Uzumaki since the original series in 2002 through Naruto Shippuden and Boruto. Nana Mizuki voices Hinata Hyuga, and Chie Nakamura voices Sakura Haruno.'
 );
 
@@ -20,7 +20,7 @@ VALUES (
   'How many hand signs are required to perform the Shadow Clone Jutsu?',
   'multiple_choice',
   'impossible',
-  '[{"text":"Three hand signs","isCorrect":false},{"text":"Twelve hand signs","isCorrect":false},{"text":"One — a single cross-shaped hand sign","isCorrect":true},{"text":"Five hand signs","isCorrect":false}]'::jsonb,
+  '[{"text":"Three hand signs","isCorrect":false},{"text":"Twelve hand signs","isCorrect":false},{"text":"One — a single cross-shaped hand sign","isCorrect":true},{"text":"Five hand signs (Tiger, Boar, Ox, Dog, Snake)","isCorrect":false}]'::jsonb,
   'The Shadow Clone Jutsu (Kage Bunshin no Jutsu) requires only a single hand sign — the cross-shaped seal where the user crosses their index and middle fingers from both hands. Despite its simplicity, it is classified as a forbidden technique due to its massive chakra cost.'
 );
 
@@ -50,7 +50,7 @@ VALUES (
   'What is the name of the forbidden scroll Naruto steals in the very first episode?',
   'multiple_choice',
   'impossible',
-  '[{"text":"The Scroll of Forbidden Seals","isCorrect":false},{"text":"The Scroll of Seals (Fūin no Sho)","isCorrect":true},{"text":"The Sacred Hokage Scroll","isCorrect":false},{"text":"The Forbidden Jutsu Archive","isCorrect":false}]'::jsonb,
+  '[{"text":"The Great Scroll of Forbidden Seals","isCorrect":false},{"text":"The Scroll of Seals (Fūin no Sho)","isCorrect":true},{"text":"The Sacred Hokage Scroll","isCorrect":false},{"text":"The Forbidden Jutsu Archive","isCorrect":false}]'::jsonb,
   'The Scroll of Seals (Fūin no Sho), also called the Forbidden Scroll, is a large scroll containing dangerous jutsu compiled by the First Hokage. Naruto stole it after being tricked by Mizuki, and from it he learned the Multi Shadow Clone Jutsu that became his signature technique.'
 );
 
@@ -60,7 +60,7 @@ VALUES (
   'What is the specific mechanism of Minato''s Flying Thunder God technique (Hiraishin)?',
   'multiple_choice',
   'impossible',
-  '[{"text":"He moves at the speed of light between two points","isCorrect":false},{"text":"He teleports instantly to special seal markers he has placed on objects or people","isCorrect":true},{"text":"He creates shadow clones at distant locations and switches consciousness","isCorrect":false},{"text":"He bends space-time in a radius around himself","isCorrect":false}]'::jsonb,
+  '[{"text":"He moves at the speed of light between two points","isCorrect":false},{"text":"He teleports instantly to special seal markers he has placed on objects or people","isCorrect":true},{"text":"He creates shadow clones at distant locations and switches consciousness between them","isCorrect":false},{"text":"He bends space-time in a radius around himself","isCorrect":false}]'::jsonb,
   'The Flying Thunder God Technique (Hiraishin no Jutsu) allows Minato to teleport instantly to any location where he has placed his special seal formula/marker. He places these markers on kunai, people, and locations. The technique was originally created by the Second Hokage Tobirama Senju.'
 );
 
@@ -100,7 +100,7 @@ VALUES (
   'What was the name of Jiraiya''s spy network?',
   'multiple_choice',
   'impossible',
-  '[{"text":"The Toad Network","isCorrect":false},{"text":"He didn''t have a formal name for it — it was simply his intelligence network","isCorrect":true},{"text":"The Shadow Web","isCorrect":false},{"text":"The Sage''s Eyes","isCorrect":false}]'::jsonb,
+  '[{"text":"The Toad Network — Mount Myōboku''s secret frog summoning intelligence operatives","isCorrect":false},{"text":"He didn''t have a formal name for it — it was simply his intelligence network","isCorrect":true},{"text":"The Shadow Web","isCorrect":false},{"text":"The Sage''s Eyes","isCorrect":false}]'::jsonb,
   'Jiraiya''s spy network was never given a formal name in the series. It was simply referred to as his "intelligence network" or "spy network." He built it during his decades of traveling across the ninja world, gathering informants in various villages and organizations.'
 );
 
@@ -110,7 +110,7 @@ VALUES (
   'In which manga magazine was Naruto originally serialized?',
   'multiple_choice',
   'impossible',
-  '[{"text":"Weekly Shōnen Magazine","isCorrect":false},{"text":"Monthly Shōnen Jump","isCorrect":false},{"text":"Weekly Shōnen Sunday","isCorrect":false},{"text":"Weekly Shōnen Jump","isCorrect":true}]'::jsonb,
+  '[{"text":"Weekly Shōnen Magazine","isCorrect":false},{"text":"Monthly Shōnen Jump","isCorrect":false},{"text":"Shōnen Sunday","isCorrect":false},{"text":"Weekly Shōnen Jump","isCorrect":true}]'::jsonb,
   'Naruto was serialized in Weekly Shōnen Jump (Shueisha) from September 1999 to November 2014, running for 700 chapters across 72 volumes. It was created by Masashi Kishimoto and became one of the magazine''s best-selling series of all time.'
 );
 
@@ -120,7 +120,7 @@ VALUES (
   'Whose eyes did Madara Uchiha take to awaken his Eternal Mangekyō Sharingan?',
   'multiple_choice',
   'impossible',
-  '[{"text":"Obito Uchiha''s eyes","isCorrect":false},{"text":"Shisui Uchiha''s eyes","isCorrect":false},{"text":"His brother Izuna Uchiha''s eyes","isCorrect":true},{"text":"Fugaku Uchiha''s eyes","isCorrect":false}]'::jsonb,
+  '[{"text":"Obito Uchiha''s right Mangekyō eye","isCorrect":false},{"text":"Shisui Uchiha''s eyes","isCorrect":false},{"text":"His brother Izuna Uchiha''s eyes","isCorrect":true},{"text":"Fugaku Uchiha''s eyes","isCorrect":false}]'::jsonb,
   'Madara transplanted his younger brother Izuna Uchiha''s Mangekyō Sharingan to awaken the Eternal Mangekyō Sharingan, which halted his blindness. Izuna gave his eyes either willingly (Madara''s version) or by force (Itachi''s retelling), depending on which account is believed.'
 );
 
@@ -140,7 +140,7 @@ VALUES (
   'In which specific arc does Rock Lee first use his Drunken Fist fighting style?',
   'multiple_choice',
   'impossible',
-  '[{"text":"The Chūnin Exams arc","isCorrect":false},{"text":"The Sasuke Recovery Mission arc (the Kimimaro fight)","isCorrect":true},{"text":"The Pain Invasion arc","isCorrect":false},{"text":"The Fourth Great Ninja War arc","isCorrect":false}]'::jsonb,
+  '[{"text":"The Chūnin Exams arc","isCorrect":false},{"text":"The Sasuke Recovery Mission arc (the Kimimaro fight)","isCorrect":true},{"text":"The Pain Invasion arc","isCorrect":false},{"text":"The Fourth Great Ninja War arc (against the Ten-Tails)","isCorrect":false}]'::jsonb,
   'Rock Lee first uses the Drunken Fist (Suiken) during the Sasuke Recovery Mission arc, specifically in his fight against Kimimaro. Lee accidentally drank sake thinking it was his medicine, activating his natural talent for the unpredictable drunken fighting style.'
 );
 
@@ -160,7 +160,7 @@ VALUES (
   'What animal does the Third Hokage (Hiruzen Sarutobi) summon in battle?',
   'multiple_choice',
   'impossible',
-  '[{"text":"A hawk","isCorrect":false},{"text":"A monkey (Monkey King Enma)","isCorrect":true},{"text":"A tiger","isCorrect":false},{"text":"A snake","isCorrect":false}]'::jsonb,
+  '[{"text":"A hawk","isCorrect":false},{"text":"A monkey (Monkey King Enma)","isCorrect":true},{"text":"A tiger","isCorrect":false},{"text":"A snake (an Orochimaru-affiliated summon)","isCorrect":false}]'::jsonb,
   'Hiruzen Sarutobi summons Monkey King Enma, who can transform into an adamantine staff called the Vajra Nyoi. Enma is one of the most powerful summon animals and fought alongside Hiruzen during his final battle against Orochimaru during the Konoha Crush arc.'
 );
 
@@ -210,7 +210,7 @@ VALUES (
   'Who was Dan Katō, and why is he significant to Tsunade?',
   'multiple_choice',
   'impossible',
-  '[{"text":"He was Tsunade''s teacher who died in the First Great Ninja War","isCorrect":false},{"text":"He was Tsunade''s lover who dreamed of becoming Hokage but died in the Second Great Ninja War","isCorrect":true},{"text":"He was Tsunade''s brother who was killed by Orochimaru","isCorrect":false},{"text":"He was Tsunade''s father and the previous Hokage","isCorrect":false}]'::jsonb,
+  '[{"text":"He was Tsunade''s teacher who taught her medical ninjutsu and died in the First Great Ninja War","isCorrect":false},{"text":"He was Tsunade''s lover who dreamed of becoming Hokage but died in the Second Great Ninja War","isCorrect":true},{"text":"He was Tsunade''s brother who was killed by Orochimaru","isCorrect":false},{"text":"He was Tsunade''s father and the previous Hokage","isCorrect":false}]'::jsonb,
   'Dan Katō was Tsunade''s lover and Shizune''s uncle. He dreamed of becoming Hokage to protect the village but died during the Second Great Ninja War. His death, combined with her younger brother Nawaki''s death, caused Tsunade''s hemophobia (fear of blood) and her reluctance to return to Konoha.'
 );
 
@@ -220,7 +220,7 @@ VALUES (
   'What is the specific name of the forbidden jutsu Orochimaru uses to reanimate the dead?',
   'multiple_choice',
   'impossible',
-  '[{"text":"Shinigami Summoning","isCorrect":false},{"text":"Cursed Resurrection Technique","isCorrect":false},{"text":"Edo Tensei (Reanimation Jutsu)","isCorrect":true},{"text":"Forbidden Soul Return","isCorrect":false}]'::jsonb,
+  '[{"text":"Shinigami Summoning","isCorrect":false},{"text":"The Cursed Resurrection Technique","isCorrect":false},{"text":"Edo Tensei (Reanimation Jutsu)","isCorrect":true},{"text":"Forbidden Soul Return","isCorrect":false}]'::jsonb,
   'The Edo Tensei (Summoning: Impure World Reincarnation) was originally created by the Second Hokage Tobirama Senju and later perfected by Orochimaru and Kabuto. It requires a living human sacrifice and the DNA of the deceased to reanimate them with near-unlimited chakra and regeneration.'
 );
 
@@ -250,7 +250,7 @@ VALUES (
   'What is Naruto''s intelligence rating in the official Part 1 databook (out of 5)?',
   'multiple_choice',
   'impossible',
-  '[{"text":"3 out of 5","isCorrect":false},{"text":"2 out of 5","isCorrect":false},{"text":"1.5 out of 5","isCorrect":true},{"text":"1 out of 5","isCorrect":false}]'::jsonb,
+  '[{"text":"3 out of 5","isCorrect":false},{"text":"2.5 out of 5","isCorrect":false},{"text":"1.5 out of 5","isCorrect":true},{"text":"1 out of 5","isCorrect":false}]'::jsonb,
   'In the first official Naruto databook, Naruto''s intelligence is rated at 1.5 out of 5, one of his lowest stats. His highest stats are stamina (4) and his nine-tails chakra potential. His low intelligence rating reflects his poor academic performance and impulsive nature in Part 1.'
 );
 
@@ -260,7 +260,7 @@ VALUES (
   'What is the specific origin of Kabuto Yakushi? How did he end up at Konoha''s orphanage?',
   'multiple_choice',
   'impossible',
-  '[{"text":"He was found as a baby on the battlefield by Nonō, a nun who ran the orphanage, and raised there","isCorrect":true},{"text":"He was Orochimaru''s experiment who was placed in the orphanage as a sleeper agent","isCorrect":false},{"text":"He was the son of a rogue ninja who was killed, and the Third Hokage placed him in care","isCorrect":false},{"text":"He was born in the orphanage to one of the caretakers","isCorrect":false}]'::jsonb,
+  '[{"text":"He was found as a baby on the battlefield by Nonō, a nun who ran the orphanage, and raised there","isCorrect":true},{"text":"He was Orochimaru''s experiment who was placed in the orphanage as a sleeper agent","isCorrect":false},{"text":"He was the son of a rogue ninja killed in action, and the Third Hokage personally placed him in care","isCorrect":false},{"text":"He was born in the orphanage to one of the caretakers","isCorrect":false}]'::jsonb,
   'Kabuto was found as an injured child on a battlefield by Nonō Yakushi, the Mother Superior of the Konoha orphanage. She healed him and gave him the name Kabuto and her surname. He was later recruited by Danzō''s Root and sent on spy missions, eventually being manipulated into attacking Nonō, which drove him to Orochimaru.'
 );
 

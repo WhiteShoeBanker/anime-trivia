@@ -133,7 +133,7 @@ VALUES (
   'What is the name of Naruto''s signature technique that combines a Rasengan with his Wind chakra nature?',
   'multiple_choice',
   'impossible',
-  '[{"text":"Wind Style: Rasengan","isCorrect":false},{"text":"Rasenshuriken","isCorrect":true},{"text":"Rasen-Tarengan","isCorrect":false},{"text":"Oodama Rasengan","isCorrect":false}]'::jsonb,
+  '[{"text":"Wind Style: Rasengan","isCorrect":false},{"text":"Fūton: Rasenshuriken","isCorrect":true},{"text":"Rasen-Tarengan","isCorrect":false},{"text":"Oodama Rasengan","isCorrect":false}]'::jsonb,
   'The Rasenshuriken (Wind Release: Rasenshuriken) combines the Rasengan with Wind chakra nature, creating microscopic wind blades that sever chakra pathways at the cellular level. Tsunade initially forbade its use because it also damaged Naruto''s arm. He later learned to throw it using Sage Mode, solving the self-damage problem.'
 );
 
@@ -143,7 +143,7 @@ VALUES (
   'What is the name of the location where Naruto trained to control the Nine-Tails'' chakra?',
   'multiple_choice',
   'impossible',
-  '[{"text":"Mount Myōboku","isCorrect":false},{"text":"The Falls of Truth on the Island Turtle","isCorrect":true},{"text":"The Forest of Death","isCorrect":false},{"text":"The Valley of the End","isCorrect":false}]'::jsonb,
+  '[{"text":"Mount Myōboku","isCorrect":false},{"text":"The Falls of Truth on the Island Turtle","isCorrect":true},{"text":"The Forest of Death","isCorrect":false},{"text":"The Valley of the End (Final Battle Site)","isCorrect":false}]'::jsonb,
   'Naruto trained to control Kurama''s chakra at the Falls of Truth, located on a giant moving island turtle (Genbu). Killer Bee guided him through the process. At the Falls of Truth, Naruto first had to confront and accept his inner darkness (Dark Naruto) before he could challenge the Nine-Tails for its chakra.'
 );
 
