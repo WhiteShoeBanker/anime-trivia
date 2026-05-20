@@ -7,7 +7,7 @@
       { "text": "Konohagakure (Hidden Leaf Village)", "isCorrect": true },
       { "text": "Sunagakure (Hidden Sand Village)", "isCorrect": false },
       { "text": "Kirigakure (Hidden Mist Village)", "isCorrect": false },
-      { "text": "Kumogakure (Hidden Cloud Village)", "isCorrect": false }
+      { "text": "Kumogakure (the Hidden Cloud Village)", "isCorrect": false }
     ],
     "explanation": "Naruto Uzumaki was born and raised in Konohagakure, also known as the Hidden Leaf Village, which is the main setting of the series."
   },
@@ -28,10 +28,10 @@
     "question_type": "multiple_choice",
     "difficulty": "easy",
     "options": [
-      { "text": "Shukaku", "isCorrect": false },
-      { "text": "Matatabi", "isCorrect": false },
+      { "text": "Shukaku (One-Tail)", "isCorrect": false },
+      { "text": "Matatabi (Two-Tails)", "isCorrect": false },
       { "text": "Kurama (Nine-Tails)", "isCorrect": true },
-      { "text": "Son Goku", "isCorrect": false }
+      { "text": "Son Goku (Four-Tails)", "isCorrect": false }
     ],
     "explanation": "The Nine-Tailed Fox, later revealed to be named Kurama, was sealed inside Naruto by his father Minato Namikaze on the day of his birth."
   },
@@ -65,7 +65,7 @@
     "difficulty": "easy",
     "options": [
       { "text": "The strongest ninja in the world", "isCorrect": false },
-      { "text": "Hokage", "isCorrect": true },
+      { "text": "Hokage of the Hidden Leaf", "isCorrect": true },
       { "text": "An ANBU captain", "isCorrect": false },
       { "text": "A Legendary Sannin", "isCorrect": false }
     ],
@@ -76,7 +76,7 @@
     "question_type": "multiple_choice",
     "difficulty": "easy",
     "options": [
-      { "text": "Ino Yamanaka", "isCorrect": false },
+      { "text": "Ino Yamanaka (Team 10)", "isCorrect": false },
       { "text": "Hinata Hyuga", "isCorrect": false },
       { "text": "Sakura Haruno", "isCorrect": true },
       { "text": "Tenten", "isCorrect": false }
@@ -91,7 +91,7 @@
       { "text": "Mizuki", "isCorrect": false },
       { "text": "Iruka Umino", "isCorrect": true },
       { "text": "Ebisu", "isCorrect": false },
-      { "text": "Konohamaru", "isCorrect": false }
+      { "text": "Konohamaru Sarutobi", "isCorrect": false }
     ],
     "explanation": "Iruka Umino is Naruto's academy teacher and one of the first people to truly acknowledge Naruto. He often treats Naruto to his favorite food at Ichiraku Ramen."
   },
@@ -103,7 +103,7 @@
       { "text": "Chakra band", "isCorrect": false },
       { "text": "Ninja crown", "isCorrect": false },
       { "text": "Forehead protector", "isCorrect": true },
-      { "text": "Village crest", "isCorrect": false }
+      { "text": "Konoha village crest", "isCorrect": false }
     ],
     "explanation": "The headband is called a forehead protector (hitai-ate). It is engraved with the symbol of the ninja's village — in Naruto's case, the Hidden Leaf symbol."
   },
@@ -115,7 +115,7 @@
       { "text": "Sushi", "isCorrect": false },
       { "text": "Onigiri (rice balls)", "isCorrect": false },
       { "text": "Ramen from Ichiraku Ramen", "isCorrect": true },
-      { "text": "Dango", "isCorrect": false }
+      { "text": "Dango (sweet rice dumplings)", "isCorrect": false }
     ],
     "explanation": "Naruto's favorite food is ramen, specifically from Ichiraku Ramen, a small ramen stand in the Hidden Leaf Village run by Teuchi and his daughter Ayame."
   },
@@ -174,7 +174,7 @@
     "options": [
       { "text": "The Foundation (Root)", "isCorrect": false },
       { "text": "The Sound Four", "isCorrect": false },
-      { "text": "Akatsuki", "isCorrect": true },
+      { "text": "Akatsuki (Dawn)", "isCorrect": true },
       { "text": "The Seven Ninja Swordsmen", "isCorrect": false }
     ],
     "explanation": "Itachi joins the Akatsuki, a criminal organization of S-rank rogue ninja. The Akatsuki's goal is to capture all nine tailed beasts."
@@ -196,7 +196,7 @@
     "question_type": "multiple_choice",
     "difficulty": "medium",
     "options": [
-      { "text": "A fire-based jutsu passed down in the Uchiha clan", "isCorrect": false },
+      { "text": "A fire-based jutsu passed down in the Uchiha clan (Katon)", "isCorrect": false },
       { "text": "A spinning ball of chakra created by the Fourth Hokage", "isCorrect": true },
       { "text": "A summoning technique that calls giant toads", "isCorrect": false },
       { "text": "A lightning-based assassination technique", "isCorrect": false }
@@ -208,7 +208,7 @@
     "question_type": "multiple_choice",
     "difficulty": "medium",
     "options": [
-      { "text": "Obito Uchiha", "isCorrect": false },
+      { "text": "Obito Uchiha (Tobi)", "isCorrect": false },
       { "text": "Konan", "isCorrect": false },
       { "text": "Pain (Nagato)", "isCorrect": true },
       { "text": "Orochimaru", "isCorrect": false }
@@ -221,7 +221,7 @@
     "difficulty": "medium",
     "options": [
       { "text": "Mizukage", "isCorrect": false },
-      { "text": "Tsuchikage", "isCorrect": false },
+      { "text": "Fourth Tsuchikage", "isCorrect": false },
       { "text": "Fifth Kazekage", "isCorrect": true },
       { "text": "Raikage", "isCorrect": false }
     ],
@@ -233,7 +233,7 @@
     "difficulty": "medium",
     "options": [
       { "text": "Rasengan", "isCorrect": false },
-      { "text": "Chidori", "isCorrect": true },
+      { "text": "Chidori Jutsu", "isCorrect": true },
       { "text": "Fire Ball Jutsu", "isCorrect": false },
       { "text": "Shadow Clone Jutsu", "isCorrect": false }
     ],
@@ -245,7 +245,7 @@
     "difficulty": "hard",
     "options": [
       { "text": "Jiraiya, Tsunade, and Orochimaru", "isCorrect": true },
-      { "text": "Jiraiya, Tsunade, and Kabuto", "isCorrect": false },
+      { "text": "Jiraiya, Tsunade, and Kabuto Yakushi", "isCorrect": false },
       { "text": "Minato, Tsunade, and Orochimaru", "isCorrect": false },
       { "text": "Jiraiya, Sakumo, and Orochimaru", "isCorrect": false }
     ],
@@ -257,7 +257,7 @@
     "difficulty": "hard",
     "options": [
       { "text": "Primary Lotus", "isCorrect": false },
-      { "text": "Morning Peacock", "isCorrect": false },
+      { "text": "Morning Peacock (Eight Inner Gates technique)", "isCorrect": false },
       { "text": "Night Guy (Eight Gates: Gate of Death)", "isCorrect": true },
       { "text": "Afternoon Tiger", "isCorrect": false }
     ],
@@ -280,7 +280,7 @@
     "question_type": "multiple_choice",
     "difficulty": "hard",
     "options": [
-      { "text": "Rinne Rebirth", "isCorrect": false },
+      { "text": "Rinne Rebirth (an Outer Path Rinnegan revival jutsu)", "isCorrect": false },
       { "text": "Edo Tensei (Summoning: Impure World Reincarnation)", "isCorrect": true },
       { "text": "Izanagi", "isCorrect": false },
       { "text": "Reanimation Seal Jutsu", "isCorrect": false }
@@ -295,7 +295,7 @@
       { "text": "Sakumo Hatake, the White Fang of the Leaf", "isCorrect": true },
       { "text": "Saizo Hatake, the Silver Shadow", "isCorrect": false },
       { "text": "Kenshi Hatake, the Lightning Fang", "isCorrect": false },
-      { "text": "Takeshi Hatake, the Ghost of the Leaf", "isCorrect": false }
+      { "text": "Takeshi Hatake, the Phantom Ghost of the Leaf", "isCorrect": false }
     ],
     "explanation": "Kakashi's father is Sakumo Hatake, known as the White Fang of the Leaf. He was said to be even more powerful than the Legendary Sannin. He took his own life after being shamed for choosing to save his comrades over completing a mission."
   },
@@ -328,10 +328,10 @@
     "question_type": "multiple_choice",
     "difficulty": "hard",
     "options": [
-      { "text": "Hamura Otsutsuki", "isCorrect": false },
-      { "text": "Ashura Otsutsuki", "isCorrect": false },
+      { "text": "Hamura Otsutsuki (Hagoromo's twin brother)", "isCorrect": false },
+      { "text": "Ashura Otsutsuki (Hagoromo's younger son)", "isCorrect": false },
       { "text": "Hagoromo Otsutsuki (Sage of Six Paths)", "isCorrect": true },
-      { "text": "Kaguya Otsutsuki", "isCorrect": false }
+      { "text": "Kaguya Otsutsuki (the Rabbit Goddess)", "isCorrect": false }
     ],
     "explanation": "Hagoromo Otsutsuki, known as the Sage of Six Paths, is the legendary figure who created ninjutsu (ninshuu) and used his Creation of All Things technique to divide the Ten-Tails' chakra into the nine separate tailed beasts before sealing its body as the moon."
   },
@@ -355,7 +355,7 @@
       { "text": "To destroy all ninja villages and start over", "isCorrect": false },
       { "text": "To resurrect all fallen Uchiha clan members", "isCorrect": false },
       { "text": "To create a world of endless dreams where suffering does not exist", "isCorrect": true },
-      { "text": "To grant the caster immortality and ultimate power", "isCorrect": false }
+      { "text": "To grant the caster eternal immortality and unstoppable godlike power", "isCorrect": false }
     ],
     "explanation": "Madara believed the Infinite Tsukuyomi would cast a genjutsu over the entire world, trapping everyone in an eternal dream where they would experience their ideal reality. In his view, this was the only way to end all war, hatred, and suffering — creating a perfect but illusory peace."
   }

@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generatedAt": "2026-05-20T22:41:12.278Z",
+  "generatedAt": "2026-05-20T23:15:13.380Z",
   "entries": [
     {
       "key": "02346c835febedc0",
@@ -14,27 +14,6 @@
       "anime": "my-hero-academia",
       "tier": "medium",
       "questionTextPrefix": "What is Ochaco Uraraka's Quirk?",
-      "kind": "strictly-longest"
-    },
-    {
-      "key": "07a390e9395aadac",
-      "anime": "naruto",
-      "tier": "easy",
-      "questionTextPrefix": "What is Naruto's favorite food?",
-      "kind": "strictly-longest"
-    },
-    {
-      "key": "085ecb4c27e7b8df",
-      "anime": "naruto",
-      "tier": "hard",
-      "questionTextPrefix": "What is Kakashi's father's name and his famous nickname?",
-      "kind": "strictly-longest"
-    },
-    {
-      "key": "0ca57b97938e3973",
-      "anime": "naruto",
-      "tier": "easy",
-      "questionTextPrefix": "What is the name of the headband that Naruto and other ninja",
       "kind": "strictly-longest"
     },
     {
@@ -66,13 +45,6 @@
       "kind": "strictly-shortest"
     },
     {
-      "key": "12269f53d85ddcb2",
-      "anime": "naruto",
-      "tier": "impossible",
-      "questionTextPrefix": "What is the specific origin of Kabuto Yakushi? How did he en",
-      "kind": "strictly-longest"
-    },
-    {
       "key": "13cc392677b6c82f",
       "anime": "my-hero-academia",
       "tier": "impossible",
@@ -98,13 +70,6 @@
       "anime": "my-hero-academia",
       "tier": "impossible",
       "questionTextPrefix": "What is the real name of All For One's personal doctor who h",
-      "kind": "strictly-longest"
-    },
-    {
-      "key": "1bd9db3872c1b312",
-      "anime": "naruto",
-      "tier": "impossible",
-      "questionTextPrefix": "What is Naruto's intelligence rating in the official Part 1 ",
       "kind": "strictly-longest"
     },
     {
@@ -227,13 +192,6 @@
       "kind": "strictly-shortest"
     },
     {
-      "key": "37c328b68f937627",
-      "anime": "naruto",
-      "tier": "medium",
-      "questionTextPrefix": "What is the Rasengan?",
-      "kind": "strictly-longest"
-    },
-    {
       "key": "3b0271ad39c70f90",
       "anime": "one-piece",
       "tier": "hard",
@@ -246,27 +204,6 @@
       "tier": "impossible",
       "questionTextPrefix": "Which district of Wall Maria was breached in the initial Tit",
       "kind": "strictly-longest"
-    },
-    {
-      "key": "3dbfd2f10c3b1f2f",
-      "anime": "naruto",
-      "tier": "hard",
-      "questionTextPrefix": "What is the name of the forbidden jutsu that reanimates the ",
-      "kind": "strictly-longest"
-    },
-    {
-      "key": "3e16adfc77bfee99",
-      "anime": "naruto",
-      "tier": "easy",
-      "questionTextPrefix": "What is the name of the pink-haired member of Team 7?",
-      "kind": "strictly-longest"
-    },
-    {
-      "key": "3f7ce3b7d6e541ca",
-      "anime": "naruto",
-      "tier": "impossible",
-      "questionTextPrefix": "What is the name of Naruto's signature technique that combin",
-      "kind": "strictly-shortest"
     },
     {
       "key": "41f269a8ac035222",
@@ -283,13 +220,6 @@
       "kind": "strictly-shortest"
     },
     {
-      "key": "45bb6e605d95ee80",
-      "anime": "naruto",
-      "tier": "impossible",
-      "questionTextPrefix": "What is the specific mechanism of Minato's Flying Thunder Go",
-      "kind": "strictly-longest"
-    },
-    {
       "key": "4ac8a6addcbdf734",
       "anime": "death-note",
       "tier": "impossible",
@@ -301,20 +231,6 @@
       "anime": "one-piece",
       "tier": "impossible",
       "questionTextPrefix": "What was the name of Oda's original one-shot manga that even",
-      "kind": "strictly-longest"
-    },
-    {
-      "key": "4da224bfecca3d61",
-      "anime": "naruto",
-      "tier": "impossible",
-      "questionTextPrefix": "What is the name of the location where Naruto trained to con",
-      "kind": "strictly-longest"
-    },
-    {
-      "key": "4ff5c65d0d8a5e09",
-      "anime": "naruto",
-      "tier": "hard",
-      "questionTextPrefix": "What is the name of the sage who created ninjutsu and divide",
       "kind": "strictly-longest"
     },
     {
@@ -337,13 +253,6 @@
       "tier": "hard",
       "questionTextPrefix": "Approximately how many individual rules govern how the Death",
       "kind": "strictly-shortest"
-    },
-    {
-      "key": "55c2d7c5dfdca97a",
-      "anime": "naruto",
-      "tier": "hard",
-      "questionTextPrefix": "What is the name of Might Guy's ultimate technique that he u",
-      "kind": "strictly-longest"
     },
     {
       "key": "55ca7486b89e3bd7",
@@ -444,13 +353,6 @@
       "kind": "strictly-shortest"
     },
     {
-      "key": "6cfa6523ad7838ab",
-      "anime": "naruto",
-      "tier": "impossible",
-      "questionTextPrefix": "In which specific arc does Rock Lee first use his Drunken Fi",
-      "kind": "strictly-longest"
-    },
-    {
       "key": "6d0fe336946a0313",
       "anime": "death-note",
       "tier": "impossible",
@@ -472,20 +374,6 @@
       "kind": "strictly-shortest"
     },
     {
-      "key": "6f960fc292ace169",
-      "anime": "naruto",
-      "tier": "impossible",
-      "questionTextPrefix": "What animal does the Third Hokage (Hiruzen Sarutobi) summon ",
-      "kind": "strictly-longest"
-    },
-    {
-      "key": "72aa7e01660dda34",
-      "anime": "naruto",
-      "tier": "hard",
-      "questionTextPrefix": "According to Madara Uchiha, what is the purpose of the Infin",
-      "kind": "strictly-longest"
-    },
-    {
       "key": "72fdfacec5f7b7f3",
       "anime": "attack-on-titan",
       "tier": "hard",
@@ -504,13 +392,6 @@
       "anime": "attack-on-titan",
       "tier": "medium",
       "questionTextPrefix": "What is the Founding Titan's special ability?",
-      "kind": "strictly-longest"
-    },
-    {
-      "key": "7e08f0e942a3669d",
-      "anime": "naruto",
-      "tier": "impossible",
-      "questionTextPrefix": "Whose eyes did Madara Uchiha take to awaken his Eternal Mang",
       "kind": "strictly-longest"
     },
     {
@@ -556,27 +437,6 @@
       "kind": "strictly-longest"
     },
     {
-      "key": "8e49b39d6f6232a4",
-      "anime": "naruto",
-      "tier": "medium",
-      "questionTextPrefix": "Who is the leader of the Akatsuki as publicly known to the w",
-      "kind": "strictly-longest"
-    },
-    {
-      "key": "8f40503092509cdf",
-      "anime": "naruto",
-      "tier": "medium",
-      "questionTextPrefix": "What is the name of the technique Sasuke learns from Kakashi",
-      "kind": "strictly-shortest"
-    },
-    {
-      "key": "92c20f01d693a135",
-      "anime": "naruto",
-      "tier": "easy",
-      "questionTextPrefix": "What does Naruto dream of becoming?",
-      "kind": "strictly-shortest"
-    },
-    {
       "key": "954a1e836d8e394e",
       "anime": "death-note",
       "tier": "medium",
@@ -610,13 +470,6 @@
       "tier": "hard",
       "questionTextPrefix": "What is Near's real name?",
       "kind": "strictly-shortest"
-    },
-    {
-      "key": "9a85087ef672b86b",
-      "anime": "naruto",
-      "tier": "easy",
-      "questionTextPrefix": "What is the name of the academy teacher who treats Naruto to",
-      "kind": "strictly-longest"
     },
     {
       "key": "9dce77a62d7ce3db",
@@ -689,20 +542,6 @@
       "kind": "strictly-longest"
     },
     {
-      "key": "a800052b6da5cd1f",
-      "anime": "naruto",
-      "tier": "impossible",
-      "questionTextPrefix": "What was the name of Jiraiya's spy network?",
-      "kind": "strictly-longest"
-    },
-    {
-      "key": "a919ea9df1df0ca3",
-      "anime": "naruto",
-      "tier": "hard",
-      "questionTextPrefix": "What are the names of all three Legendary Sannin?",
-      "kind": "strictly-longest"
-    },
-    {
       "key": "a9e4de077df76148",
       "anime": "one-piece",
       "tier": "hard",
@@ -745,13 +584,6 @@
       "kind": "strictly-longest"
     },
     {
-      "key": "afbe0c20970aeb64",
-      "anime": "naruto",
-      "tier": "impossible",
-      "questionTextPrefix": "Who is the Japanese voice actress (seiyuu) for Naruto Uzumak",
-      "kind": "strictly-longest"
-    },
-    {
       "key": "b4e7d91f251dba45",
       "anime": "death-note",
       "tier": "impossible",
@@ -763,13 +595,6 @@
       "anime": "death-note",
       "tier": "easy",
       "questionTextPrefix": "What is a Death Note?",
-      "kind": "strictly-longest"
-    },
-    {
-      "key": "b91b97eab7b17b11",
-      "anime": "naruto",
-      "tier": "impossible",
-      "questionTextPrefix": "What is the name of the forbidden scroll Naruto steals in th",
       "kind": "strictly-longest"
     },
     {
@@ -798,20 +623,6 @@
       "anime": "my-hero-academia",
       "tier": "impossible",
       "questionTextPrefix": "What shocking secret about Yuga Aoyama is revealed in the ma",
-      "kind": "strictly-longest"
-    },
-    {
-      "key": "ca114457aa14afe1",
-      "anime": "naruto",
-      "tier": "easy",
-      "questionTextPrefix": "What is the name of the demon fox sealed inside Naruto?",
-      "kind": "strictly-longest"
-    },
-    {
-      "key": "ca6b4e2844fd883c",
-      "anime": "naruto",
-      "tier": "medium",
-      "questionTextPrefix": "What is Gaara's title after the time skip in Naruto Shippude",
       "kind": "strictly-longest"
     },
     {
@@ -862,13 +673,6 @@
       "tier": "impossible",
       "questionTextPrefix": "How does Light Yagami's death differ between the manga and t",
       "kind": "strictly-longest"
-    },
-    {
-      "key": "e4a89b87fb5ff3b3",
-      "anime": "naruto",
-      "tier": "medium",
-      "questionTextPrefix": "What organization does Itachi join after leaving the Hidden ",
-      "kind": "strictly-shortest"
     },
     {
       "key": "e630a7dd151f774c",
@@ -948,32 +752,11 @@
       "kind": "strictly-shortest"
     },
     {
-      "key": "f5459657986a2552",
-      "anime": "naruto",
-      "tier": "impossible",
-      "questionTextPrefix": "What is the specific name of the forbidden jutsu Orochimaru ",
-      "kind": "strictly-longest"
-    },
-    {
       "key": "f5a02e65ff8ff7f9",
       "anime": "my-hero-academia",
       "tier": "impossible",
       "questionTextPrefix": "What was Shigaraki's original name before All For One took h",
       "kind": "strictly-shortest"
-    },
-    {
-      "key": "f5c13e2d140e90f3",
-      "anime": "naruto",
-      "tier": "impossible",
-      "questionTextPrefix": "How many hand signs are required to perform the Shadow Clone",
-      "kind": "strictly-longest"
-    },
-    {
-      "key": "f5d67cafc8df44f0",
-      "anime": "naruto",
-      "tier": "impossible",
-      "questionTextPrefix": "Who was Dan Katō, and why is he significant to Tsunade?",
-      "kind": "strictly-longest"
     },
     {
       "key": "f5dd55df4d0d7049",
@@ -1004,13 +787,6 @@
       "kind": "strictly-longest"
     },
     {
-      "key": "fa514e1b0220c986",
-      "anime": "naruto",
-      "tier": "easy",
-      "questionTextPrefix": "What village is Naruto from?",
-      "kind": "strictly-longest"
-    },
-    {
       "key": "fded0c2c8dc30d97",
       "anime": "attack-on-titan",
       "tier": "medium",
@@ -1023,13 +799,6 @@
       "tier": "medium",
       "questionTextPrefix": "Who is the doctor of the Straw Hat crew?",
       "kind": "strictly-longest"
-    },
-    {
-      "key": "fed0bb57266914cb",
-      "anime": "naruto",
-      "tier": "impossible",
-      "questionTextPrefix": "In which manga magazine was Naruto originally serialized?",
-      "kind": "strictly-shortest"
     },
     {
       "key": "fffe0908ca812cf1",
