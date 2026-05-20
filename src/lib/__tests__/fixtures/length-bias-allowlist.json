@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generatedAt": "2026-05-20T00:39:18.519Z",
+  "generatedAt": "2026-05-20T22:41:12.278Z",
   "entries": [
     {
       "key": "02346c835febedc0",
@@ -31,24 +31,10 @@
       "kind": "strictly-longest"
     },
     {
-      "key": "0a6aa508e53a86b3",
-      "anime": "jujutsu-kaisen",
-      "tier": "hard",
-      "questionTextPrefix": "What is the name of Gojo's Domain Expansion?",
-      "kind": "strictly-shortest"
-    },
-    {
       "key": "0ca57b97938e3973",
       "anime": "naruto",
       "tier": "easy",
       "questionTextPrefix": "What is the name of the headband that Naruto and other ninja",
-      "kind": "strictly-longest"
-    },
-    {
-      "key": "0d4ddd5a53dc12f9",
-      "anime": "jujutsu-kaisen",
-      "tier": "hard",
-      "questionTextPrefix": "What is Kenjaku's ultimate goal involving Tengen and the pop",
       "kind": "strictly-longest"
     },
     {
@@ -157,13 +143,6 @@
       "kind": "strictly-shortest"
     },
     {
-      "key": "20d11cc64d4f33ef",
-      "anime": "jujutsu-kaisen",
-      "tier": "impossible",
-      "questionTextPrefix": "How does the Reverse Cursed Technique work mechanically?",
-      "kind": "strictly-longest"
-    },
-    {
       "key": "20e07b2b206c4a03",
       "anime": "death-note",
       "tier": "impossible",
@@ -213,20 +192,6 @@
       "kind": "strictly-longest"
     },
     {
-      "key": "2889c9d13285784b",
-      "anime": "jujutsu-kaisen",
-      "tier": "easy",
-      "questionTextPrefix": "Who are Yuji's two classmates as first-year students at Toky",
-      "kind": "strictly-longest"
-    },
-    {
-      "key": "2964824900212814",
-      "anime": "jujutsu-kaisen",
-      "tier": "impossible",
-      "questionTextPrefix": "What is the Japanese name of Gojo Satoru's Domain Expansion?",
-      "kind": "strictly-shortest"
-    },
-    {
       "key": "2c974a903b737606",
       "anime": "one-piece",
       "tier": "impossible",
@@ -262,13 +227,6 @@
       "kind": "strictly-shortest"
     },
     {
-      "key": "3775e122767879ac",
-      "anime": "jujutsu-kaisen",
-      "tier": "hard",
-      "questionTextPrefix": "What is a Reverse Cursed Technique?",
-      "kind": "strictly-longest"
-    },
-    {
       "key": "37c328b68f937627",
       "anime": "naruto",
       "tier": "medium",
@@ -280,13 +238,6 @@
       "anime": "one-piece",
       "tier": "hard",
       "questionTextPrefix": "What is the name and type of Kaido's Devil Fruit?",
-      "kind": "strictly-longest"
-    },
-    {
-      "key": "3ccdcdc957bf4aae",
-      "anime": "jujutsu-kaisen",
-      "tier": "impossible",
-      "questionTextPrefix": "What is the exact multiplier applied to a Black Flash attack",
       "kind": "strictly-longest"
     },
     {
@@ -311,13 +262,6 @@
       "kind": "strictly-longest"
     },
     {
-      "key": "3ebbe0cbba0ddb4d",
-      "anime": "jujutsu-kaisen",
-      "tier": "impossible",
-      "questionTextPrefix": "Who is Kenjaku, and whose body did he possess before taking ",
-      "kind": "strictly-longest"
-    },
-    {
       "key": "3f7ce3b7d6e541ca",
       "anime": "naruto",
       "tier": "impossible",
@@ -325,25 +269,11 @@
       "kind": "strictly-shortest"
     },
     {
-      "key": "40ebb56058b256ce",
-      "anime": "jujutsu-kaisen",
-      "tier": "impossible",
-      "questionTextPrefix": "What is Naobito Zenin's cursed technique, and what is its un",
-      "kind": "strictly-longest"
-    },
-    {
       "key": "41f269a8ac035222",
       "anime": "attack-on-titan",
       "tier": "hard",
       "questionTextPrefix": "What is the name of the Eldian king who created the walls an",
       "kind": "strictly-longest"
-    },
-    {
-      "key": "43330d7ddbd105c5",
-      "anime": "jujutsu-kaisen",
-      "tier": "impossible",
-      "questionTextPrefix": "What is the name of the binding vow/condition Sukuna imposed",
-      "kind": "strictly-shortest"
     },
     {
       "key": "44c035b2796768e2",
@@ -357,13 +287,6 @@
       "anime": "naruto",
       "tier": "impossible",
       "questionTextPrefix": "What is the specific mechanism of Minato's Flying Thunder Go",
-      "kind": "strictly-longest"
-    },
-    {
-      "key": "48cdcb164b4955b2",
-      "anime": "jujutsu-kaisen",
-      "tier": "impossible",
-      "questionTextPrefix": "What self-estimated temperature does Jogo claim his Domain E",
       "kind": "strictly-longest"
     },
     {
@@ -486,13 +409,6 @@
       "kind": "strictly-shortest"
     },
     {
-      "key": "625df0768ff131d1",
-      "anime": "jujutsu-kaisen",
-      "tier": "medium",
-      "questionTextPrefix": "What is a Domain Expansion in Jujutsu Kaisen?",
-      "kind": "strictly-longest"
-    },
-    {
       "key": "62effda731e05cbd",
       "anime": "attack-on-titan",
       "tier": "medium",
@@ -563,13 +479,6 @@
       "kind": "strictly-longest"
     },
     {
-      "key": "726f22e5da0bdd38",
-      "anime": "jujutsu-kaisen",
-      "tier": "medium",
-      "questionTextPrefix": "What is a Binding Vow in Jujutsu Kaisen?",
-      "kind": "strictly-longest"
-    },
-    {
       "key": "72aa7e01660dda34",
       "anime": "naruto",
       "tier": "hard",
@@ -602,20 +511,6 @@
       "anime": "naruto",
       "tier": "impossible",
       "questionTextPrefix": "Whose eyes did Madara Uchiha take to awaken his Eternal Mang",
-      "kind": "strictly-longest"
-    },
-    {
-      "key": "7fe9bca8407768e5",
-      "anime": "jujutsu-kaisen",
-      "tier": "hard",
-      "questionTextPrefix": "What is the significance of Sukuna having exactly 20 fingers",
-      "kind": "strictly-longest"
-    },
-    {
-      "key": "82dd65700f86f158",
-      "anime": "jujutsu-kaisen",
-      "tier": "easy",
-      "questionTextPrefix": "What are the evil supernatural beings in Jujutsu Kaisen call",
       "kind": "strictly-longest"
     },
     {
@@ -668,13 +563,6 @@
       "kind": "strictly-longest"
     },
     {
-      "key": "8eed568b5c73cb79",
-      "anime": "jujutsu-kaisen",
-      "tier": "hard",
-      "questionTextPrefix": "What is the Six Eyes ability that Gojo possesses, and what d",
-      "kind": "strictly-longest"
-    },
-    {
       "key": "8f40503092509cdf",
       "anime": "naruto",
       "tier": "medium",
@@ -682,32 +570,11 @@
       "kind": "strictly-shortest"
     },
     {
-      "key": "90ae7acc95849783",
-      "anime": "jujutsu-kaisen",
-      "tier": "impossible",
-      "questionTextPrefix": "Why was Yuta Okkotsu classified as Special Grade upon enteri",
-      "kind": "strictly-longest"
-    },
-    {
       "key": "92c20f01d693a135",
       "anime": "naruto",
       "tier": "easy",
       "questionTextPrefix": "What does Naruto dream of becoming?",
       "kind": "strictly-shortest"
-    },
-    {
-      "key": "94aa9dc94bb61fcc",
-      "anime": "jujutsu-kaisen",
-      "tier": "impossible",
-      "questionTextPrefix": "What event is Suguru Geto infamous for committing that led t",
-      "kind": "strictly-shortest"
-    },
-    {
-      "key": "94cdc56541a73cd9",
-      "anime": "jujutsu-kaisen",
-      "tier": "medium",
-      "questionTextPrefix": "What is Nobara Kugisaki's cursed technique?",
-      "kind": "strictly-longest"
     },
     {
       "key": "954a1e836d8e394e",
@@ -738,13 +605,6 @@
       "kind": "strictly-longest"
     },
     {
-      "key": "97bd237f3d84be4c",
-      "anime": "jujutsu-kaisen",
-      "tier": "impossible",
-      "questionTextPrefix": "Who directed the first season of the Jujutsu Kaisen anime, a",
-      "kind": "strictly-shortest"
-    },
-    {
       "key": "984dbd9ce7765627",
       "anime": "death-note",
       "tier": "hard",
@@ -756,20 +616,6 @@
       "anime": "naruto",
       "tier": "easy",
       "questionTextPrefix": "What is the name of the academy teacher who treats Naruto to",
-      "kind": "strictly-longest"
-    },
-    {
-      "key": "9b1bb742654f12f0",
-      "anime": "jujutsu-kaisen",
-      "tier": "easy",
-      "questionTextPrefix": "What is the energy source that jujutsu sorcerers use to fuel",
-      "kind": "strictly-longest"
-    },
-    {
-      "key": "9bc7f7c58a472be1",
-      "anime": "jujutsu-kaisen",
-      "tier": "hard",
-      "questionTextPrefix": "What is the Culling Game?",
       "kind": "strictly-longest"
     },
     {
@@ -822,13 +668,6 @@
       "kind": "strictly-longest"
     },
     {
-      "key": "a29dd4a76e0b297c",
-      "anime": "jujutsu-kaisen",
-      "tier": "easy",
-      "questionTextPrefix": "Why is Yuji sentenced to death by the jujutsu higher-ups?",
-      "kind": "strictly-shortest"
-    },
-    {
       "key": "a32a6360fa23b567",
       "anime": "one-piece",
       "tier": "impossible",
@@ -861,13 +700,6 @@
       "anime": "naruto",
       "tier": "hard",
       "questionTextPrefix": "What are the names of all three Legendary Sannin?",
-      "kind": "strictly-longest"
-    },
-    {
-      "key": "a994bfc334629dc2",
-      "anime": "jujutsu-kaisen",
-      "tier": "impossible",
-      "questionTextPrefix": "How is Choso related to Yuji Itadori?",
       "kind": "strictly-longest"
     },
     {
@@ -920,24 +752,10 @@
       "kind": "strictly-longest"
     },
     {
-      "key": "b266bdc848e464bc",
-      "anime": "jujutsu-kaisen",
-      "tier": "easy",
-      "questionTextPrefix": "What is Yuji Itadori's primary fighting style?",
-      "kind": "strictly-longest"
-    },
-    {
       "key": "b4e7d91f251dba45",
       "anime": "death-note",
       "tier": "impossible",
       "questionTextPrefix": "What was Naomi Misora's specific connection to L before the ",
-      "kind": "strictly-longest"
-    },
-    {
-      "key": "b66f6c968832473b",
-      "anime": "jujutsu-kaisen",
-      "tier": "easy",
-      "questionTextPrefix": "What does Yuji swallow that completely changes his life?",
       "kind": "strictly-longest"
     },
     {
@@ -962,20 +780,6 @@
       "kind": "strictly-longest"
     },
     {
-      "key": "be0ef174b8b76049",
-      "anime": "jujutsu-kaisen",
-      "tier": "impossible",
-      "questionTextPrefix": "What makes Toji Fushiguro unique among fighters in the Jujut",
-      "kind": "strictly-longest"
-    },
-    {
-      "key": "be22aa0c2a470fb0",
-      "anime": "jujutsu-kaisen",
-      "tier": "impossible",
-      "questionTextPrefix": "What are the three great vengeful spirits of Japan reference",
-      "kind": "strictly-longest"
-    },
-    {
       "key": "be6c7e1e67f729c0",
       "anime": "my-hero-academia",
       "tier": "hard",
@@ -990,24 +794,10 @@
       "kind": "strictly-longest"
     },
     {
-      "key": "c142ff45bbd2bfcd",
-      "anime": "jujutsu-kaisen",
-      "tier": "easy",
-      "questionTextPrefix": "Who is known as the King of Curses?",
-      "kind": "strictly-longest"
-    },
-    {
       "key": "c6b1db9632aaf767",
       "anime": "my-hero-academia",
       "tier": "impossible",
       "questionTextPrefix": "What shocking secret about Yuga Aoyama is revealed in the ma",
-      "kind": "strictly-longest"
-    },
-    {
-      "key": "c6f2229c31b953a1",
-      "anime": "jujutsu-kaisen",
-      "tier": "medium",
-      "questionTextPrefix": "What is the name of Megumi Fushiguro's inherited cursed tech",
       "kind": "strictly-longest"
     },
     {
@@ -1032,13 +822,6 @@
       "kind": "strictly-longest"
     },
     {
-      "key": "cf9bee5c0bae3c62",
-      "anime": "jujutsu-kaisen",
-      "tier": "impossible",
-      "questionTextPrefix": "What is Mechamaru's real name, and what is his Heavenly Rest",
-      "kind": "strictly-longest"
-    },
-    {
       "key": "da537088b8404e41",
       "anime": "my-hero-academia",
       "tier": "impossible",
@@ -1050,13 +833,6 @@
       "anime": "death-note",
       "tier": "hard",
       "questionTextPrefix": "What is the name of the institution where L, Near, and Mello",
-      "kind": "strictly-shortest"
-    },
-    {
-      "key": "dcfc80856949dc7c",
-      "anime": "jujutsu-kaisen",
-      "tier": "medium",
-      "questionTextPrefix": "What is Satoru Gojo's cursed technique called?",
       "kind": "strictly-shortest"
     },
     {
@@ -1088,13 +864,6 @@
       "kind": "strictly-longest"
     },
     {
-      "key": "e1a524f5386bcd9e",
-      "anime": "jujutsu-kaisen",
-      "tier": "impossible",
-      "questionTextPrefix": "In which manga magazine is Jujutsu Kaisen serialized?",
-      "kind": "strictly-shortest"
-    },
-    {
       "key": "e4a89b87fb5ff3b3",
       "anime": "naruto",
       "tier": "medium",
@@ -1120,20 +889,6 @@
       "anime": "attack-on-titan",
       "tier": "impossible",
       "questionTextPrefix": "Who designed and created the anti-personnel vertical maneuve",
-      "kind": "strictly-longest"
-    },
-    {
-      "key": "e8d3096983dbefd5",
-      "anime": "jujutsu-kaisen",
-      "tier": "impossible",
-      "questionTextPrefix": "What is the origin of the Simple Domain technique?",
-      "kind": "strictly-longest"
-    },
-    {
-      "key": "e8fa5b27e62f96d7",
-      "anime": "jujutsu-kaisen",
-      "tier": "impossible",
-      "questionTextPrefix": "What is Panda's true nature? He is not actually a panda bear",
       "kind": "strictly-longest"
     },
     {
@@ -1260,13 +1015,6 @@
       "anime": "attack-on-titan",
       "tier": "medium",
       "questionTextPrefix": "What is the name of the district where Eren grew up?",
-      "kind": "strictly-longest"
-    },
-    {
-      "key": "fe139ac0d4bd77f3",
-      "anime": "jujutsu-kaisen",
-      "tier": "impossible",
-      "questionTextPrefix": "What is the name of the cursed tool that Toji Fushiguro uses",
       "kind": "strictly-longest"
     },
     {

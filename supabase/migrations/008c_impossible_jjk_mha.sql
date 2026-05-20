@@ -20,7 +20,7 @@ VALUES (
   'What is the Japanese name of Gojo Satoru''s Domain Expansion?',
   'multiple_choice',
   'impossible',
-  '[{"text":"Fukuma Mizushi","isCorrect":false},{"text":"Chimera Shadow Garden","isCorrect":false},{"text":"Muryōkūsho","isCorrect":true},{"text":"Jigoku Rakuen","isCorrect":false}]'::jsonb,
+  '[{"text":"Fukuma Mizushi","isCorrect":false},{"text":"Chimera Shadow Garden (Megumi''s max)","isCorrect":false},{"text":"Muryōkūsho (Unlimited Void)","isCorrect":true},{"text":"Jigoku Rakuen","isCorrect":false}]'::jsonb,
   'Gojo''s Domain Expansion is Muryōkūsho (無量空処), translated as "Unlimited Void" or "Infinite Void." It overwhelms the target with infinite information, paralyzing them. Fukuma Mizushi is Megumi''s incomplete domain.'
 );
 
@@ -50,7 +50,7 @@ VALUES (
   'What is the name of the binding vow/condition Sukuna imposed on Yuji during the fight with the finger-bearer?',
   'multiple_choice',
   'impossible',
-  '[{"text":"Contract of Dominion","isCorrect":false},{"text":"Enchain","isCorrect":true},{"text":"Vow of Subjugation","isCorrect":false},{"text":"Pact of the King","isCorrect":false}]'::jsonb,
+  '[{"text":"Contract of Dominion (Sukuna)","isCorrect":false},{"text":"Enchain (Binding Vow)","isCorrect":true},{"text":"Vow of Subjugation","isCorrect":false},{"text":"Pact of the King","isCorrect":false}]'::jsonb,
   'The binding vow is called "Enchain" — Sukuna proposed conditions where he could take over Yuji''s body for one minute when he chants "Enchain," and Yuji would forget this agreement. This happened after Sukuna let Yuji die and revived him.'
 );
 
@@ -60,7 +60,7 @@ VALUES (
   'What makes Toji Fushiguro unique among fighters in the Jujutsu Kaisen world?',
   'multiple_choice',
   'impossible',
-  '[{"text":"He possesses the strongest cursed technique ever recorded","isCorrect":false},{"text":"He has absolutely zero cursed energy due to a Heavenly Restriction that gave him superhuman physical abilities","isCorrect":true},{"text":"He can absorb cursed energy from his opponents","isCorrect":false},{"text":"He was born with a Domain Expansion but no cursed technique","isCorrect":false}]'::jsonb,
+  '[{"text":"He possesses the strongest cursed technique ever recorded in the Zenin clan''s official family registry of all time","isCorrect":false},{"text":"He has absolutely zero cursed energy due to a Heavenly Restriction that gave him superhuman physical abilities","isCorrect":true},{"text":"He can absorb cursed energy from his opponents at a constant exchange rate during combat","isCorrect":false},{"text":"He was born with a Domain Expansion but no cursed technique to anchor it to","isCorrect":false}]'::jsonb,
   'Toji Fushiguro (born Toji Zenin) has a Heavenly Restriction that traded all of his cursed energy for extraordinary physical prowess. He has literally zero cursed energy, making him invisible to jujutsu sorcerers who sense opponents through cursed energy. This allowed him to nearly kill young Gojo.'
 );
 
@@ -70,7 +70,7 @@ VALUES (
   'What event is Suguru Geto infamous for committing that led to his expulsion and designation as a curse user?',
   'multiple_choice',
   'impossible',
-  '[{"text":"He attempted to assassinate the higher-ups of Jujutsu society","isCorrect":false},{"text":"He massacred an entire village of over 100 civilians","isCorrect":true},{"text":"He released all the curses sealed in the barrier of Tokyo","isCorrect":false},{"text":"He killed his own parents to absorb their cursed energy","isCorrect":false}]'::jsonb,
+  '[{"text":"He attempted to assassinate Jujutsu society''s higher-ups","isCorrect":false},{"text":"He massacred an entire village of over 100 civilians","isCorrect":true},{"text":"He released all the curses sealed in the Tokyo barrier","isCorrect":false},{"text":"He killed his own parents for their cursed energy","isCorrect":false}]'::jsonb,
   'Geto massacred over 100 civilians in a village in September 2007, an event known as the "Star Plasma Vessel Incident" aftermath. Disillusioned with protecting non-sorcerers, he killed the entire village (including his own parents) and was expelled from Jujutsu High, becoming a wanted curse user.'
 );
 
@@ -100,7 +100,7 @@ VALUES (
   'Who is Kenjaku, and whose body did he possess before taking over Geto''s corpse?',
   'multiple_choice',
   'impossible',
-  '[{"text":"He is an ancient sorcerer who previously inhabited Yuji''s mother, Kaori Itadori","isCorrect":true},{"text":"He is a curse spirit who previously inhabited Mechamaru","isCorrect":false},{"text":"He is Sukuna''s twin who previously inhabited Toji Fushiguro","isCorrect":false},{"text":"He is a Heian-era sorcerer who only ever possessed Geto","isCorrect":false}]'::jsonb,
+  '[{"text":"He is an ancient sorcerer who previously inhabited Yuji''s mother, Kaori Itadori","isCorrect":true},{"text":"He is a curse spirit who previously inhabited Mechamaru from a young age in the Zenin household","isCorrect":false},{"text":"He is Sukuna''s twin who previously inhabited Toji Fushiguro","isCorrect":false},{"text":"He is a Heian-era sorcerer who only ever possessed Geto","isCorrect":false}]'::jsonb,
   'Kenjaku is an ancient sorcerer whose cursed technique allows him to transplant his brain into other bodies. Before possessing Geto''s corpse, he inhabited the body of Yuji''s mother (shown with the characteristic stitched forehead), making Kenjaku technically Yuji''s "parent."'
 );
 
@@ -120,7 +120,7 @@ VALUES (
   'Who directed the first season of the Jujutsu Kaisen anime, and which studio produced it?',
   'multiple_choice',
   'impossible',
-  '[{"text":"Haruo Sotozaki at Ufotable","isCorrect":false},{"text":"Sunghoo Park at MAPPA","isCorrect":true},{"text":"Tetsurō Araki at WIT Studio","isCorrect":false},{"text":"Takeshi Obata at Bones","isCorrect":false}]'::jsonb,
+  '[{"text":"Haruo Sotozaki at Ufotable","isCorrect":false},{"text":"Sunghoo Park at MAPPA Studio","isCorrect":true},{"text":"Tetsurō Araki at WIT Studio (AoT)","isCorrect":false},{"text":"Takeshi Obata at Bones","isCorrect":false}]'::jsonb,
   'Sunghoo Park directed JJK Season 1 at MAPPA studio. His dynamic action direction, particularly in fights like Yuji and Todo vs. Hanami, earned widespread acclaim. Shōta Goshozono took over directing duties for Season 2.'
 );
 
@@ -170,7 +170,7 @@ VALUES (
   'Why was Yuta Okkotsu classified as Special Grade upon entering Jujutsu High?',
   'multiple_choice',
   'impossible',
-  '[{"text":"He could use Reverse Cursed Technique from birth","isCorrect":false},{"text":"He was haunted by the immensely powerful cursed spirit of his childhood friend Rika Orimoto","isCorrect":true},{"text":"He possessed a natural Domain Expansion","isCorrect":false},{"text":"He had inherited the Six Eyes like Gojo","isCorrect":false}]'::jsonb,
+  '[{"text":"He could use Reverse Cursed Technique from birth without any formal training at Jujutsu High at all","isCorrect":false},{"text":"He was haunted by the immensely powerful cursed spirit of his childhood friend Rika Orimoto","isCorrect":true},{"text":"He possessed a natural Domain Expansion at age fifteen","isCorrect":false},{"text":"He had inherited the Six Eyes like Satoru Gojo","isCorrect":false}]'::jsonb,
   'Yuta was classified as Special Grade because he was connected to the extremely powerful cursed spirit Rika Orimoto — his childhood friend who died and became a vengeful curse bound to him. Rika was called the "Queen of Curses" and possessed near-infinite cursed energy.'
 );
 
@@ -180,7 +180,7 @@ VALUES (
   'What are the three great vengeful spirits of Japan referenced in Jujutsu Kaisen lore?',
   'multiple_choice',
   'impossible',
-  '[{"text":"Sukuna, Kenjaku, and Tengen","isCorrect":false},{"text":"Sugawara Michizane, Taira no Masakado, and Emperor Sutoku","isCorrect":true},{"text":"Amaterasu, Tsukuyomi, and Susanoo","isCorrect":false},{"text":"Izanagi, Izanami, and Raijin","isCorrect":false}]'::jsonb,
+  '[{"text":"Sukuna, Kenjaku, and Tengen (Jujutsu Kaisen''s modern villain trio)","isCorrect":false},{"text":"Sugawara Michizane, Taira no Masakado, and Emperor Sutoku","isCorrect":true},{"text":"Amaterasu, Tsukuyomi, and Susanoo","isCorrect":false},{"text":"Izanagi, Izanami, and Raijin","isCorrect":false}]'::jsonb,
   'The three great vengeful spirits of Japan are Sugawara Michizane, Taira no Masakado, and Emperor Sutoku. In JJK, Yuta Okkotsu is a descendant of Sugawara Michizane, which partly explains his enormous cursed energy reserves.'
 );
 
@@ -190,7 +190,7 @@ VALUES (
   'How is Choso related to Yuji Itadori?',
   'multiple_choice',
   'impossible',
-  '[{"text":"They are completely unrelated — Choso is delusional","isCorrect":false},{"text":"They share the same mother through Kenjaku, who possessed both Choso''s and Yuji''s mothers","isCorrect":true},{"text":"Yuji is a reincarnation of one of Choso''s brothers","isCorrect":false},{"text":"They were both created by Sukuna in the Heian era","isCorrect":false}]'::jsonb,
+  '[{"text":"They are completely unrelated — Choso is delusional about the death-painting bond and family ties","isCorrect":false},{"text":"They share the same mother through Kenjaku, who possessed both Choso''s and Yuji''s mothers","isCorrect":true},{"text":"Yuji is a reincarnation of one of Choso''s brothers","isCorrect":false},{"text":"They were both created by Sukuna in the Heian era","isCorrect":false}]'::jsonb,
   'Choso and Yuji are half-brothers through Kenjaku. Kenjaku (the brain-transplanting sorcerer) possessed a woman 150 years ago and mixed her blood with cursed spirits to create the Death Painting Wombs (Choso and his brothers). Kenjaku later possessed Yuji''s mother to give birth to Yuji. Thus Kenjaku is the "parent" of both.'
 );
 
@@ -210,7 +210,7 @@ VALUES (
   'How does the Reverse Cursed Technique work mechanically?',
   'multiple_choice',
   'impossible',
-  '[{"text":"It reverses time on injured tissue","isCorrect":false},{"text":"It multiplies negative cursed energy by itself to create positive energy, which heals","isCorrect":true},{"text":"It absorbs cursed energy from the environment to restore cells","isCorrect":false},{"text":"It converts physical pain into healing factor","isCorrect":false}]'::jsonb,
+  '[{"text":"It reverses the natural decay of time on injured tissue at the cellular level, regenerating wounds","isCorrect":false},{"text":"It multiplies negative cursed energy by itself to create positive energy, which heals","isCorrect":true},{"text":"It absorbs cursed energy from the environment to restore cells","isCorrect":false},{"text":"It converts physical pain into healing factor","isCorrect":false}]'::jsonb,
   'Reverse Cursed Technique works by multiplying negative cursed energy by negative cursed energy, producing positive energy (a negative times a negative equals a positive). This positive energy can heal injuries. Very few sorcerers can perform this — Gojo and Shoko Ieiri being notable exceptions.'
 );
 
@@ -220,7 +220,7 @@ VALUES (
   'What is Mechamaru''s real name, and what is his Heavenly Restriction?',
   'multiple_choice',
   'impossible',
-  '[{"text":"Kokichi Muta — born with a fragile body but can control cursed energy puppets from vast distances","isCorrect":true},{"text":"Takuma Ino — born blind but can see through cursed energy","isCorrect":false},{"text":"Arata Nitta — born mute but can communicate through barriers","isCorrect":false},{"text":"Panda — an artificial being with no human body at all","isCorrect":false}]'::jsonb,
+  '[{"text":"Kokichi Muta — born with a fragile body but can control cursed energy puppets from vast distances","isCorrect":true},{"text":"Takuma Ino — born blind but can see through cursed energy when handling cursed energy directly through touch contact","isCorrect":false},{"text":"Arata Nitta — born mute but can communicate through barriers","isCorrect":false},{"text":"Panda — an artificial being with no human body at all","isCorrect":false}]'::jsonb,
   'Mechamaru''s real name is Kokichi Muta. His Heavenly Restriction gave him an immobile, sickly body (he''s bedridden and covered in bandages) but in exchange, his cursed energy output covers the entire country of Japan, allowing him to control the puppet "Mechamaru" from anywhere.'
 );
 
@@ -230,7 +230,7 @@ VALUES (
   'What is the origin of the Simple Domain technique?',
   'multiple_choice',
   'impossible',
-  '[{"text":"It was created by Gojo''s ancestor","isCorrect":false},{"text":"New Shadow Style — a school of swordsmanship that developed it as a counter to Domain Expansions","isCorrect":true},{"text":"It is a natural ability that all Grade 1 sorcerers develop","isCorrect":false},{"text":"It was stolen from the cursed spirits of the Heian era","isCorrect":false}]'::jsonb,
+  '[{"text":"It was created by Gojo''s ancestor during the Heian-era founding of the Gojo clan in central Kyoto","isCorrect":false},{"text":"New Shadow Style — a school of swordsmanship that developed it as a counter to Domain Expansions","isCorrect":true},{"text":"It is a natural ability that all Grade 1 sorcerers develop","isCorrect":false},{"text":"It was stolen from the cursed spirits of the Heian era","isCorrect":false}]'::jsonb,
   'Simple Domain (Ryuiki Tenkai) originates from the New Shadow Style school of swordsmanship. It was developed as a counter to Domain Expansions, creating a small domain around the user that neutralizes the guaranteed-hit effect of an enemy''s domain. Miwa''s swordsmanship comes from this school.'
 );
 
@@ -250,7 +250,7 @@ VALUES (
   'What is Naobito Zenin''s cursed technique, and what is its unique mechanic?',
   'multiple_choice',
   'impossible',
-  '[{"text":"Projection Sorcery — divides one second into 24 frames and allows pre-set movements within that timeframe","isCorrect":true},{"text":"Time Freeze — stops time for everyone except himself for 3 seconds","isCorrect":false},{"text":"Speed Demon — doubles his movement speed for each consecutive hit","isCorrect":false},{"text":"Flash Step — teleports short distances by burning cursed energy","isCorrect":false}]'::jsonb,
+  '[{"text":"Projection Sorcery — divides one second into 24 frames and allows pre-set movements within that timeframe","isCorrect":true},{"text":"Time Freeze — stops time for everyone except himself for three full seconds at a stretch","isCorrect":false},{"text":"Speed Demon — doubles his movement speed for each consecutive hit landed on his opponent during a chain combo","isCorrect":false},{"text":"Flash Step — teleports short distances by burning cursed energy","isCorrect":false}]'::jsonb,
   'Naobito''s Projection Sorcery divides one second into 24 frames (like animation), and he can trace a predetermined set of movements within that 1/24th of a second. Anyone who cannot keep up with this frame rate when touched by him gets frozen for one second in an animation frame.'
 );
 
@@ -260,7 +260,7 @@ VALUES (
   'In which manga magazine is Jujutsu Kaisen serialized?',
   'multiple_choice',
   'impossible',
-  '[{"text":"Monthly Shōnen Gangan","isCorrect":false},{"text":"Weekly Shōnen Magazine","isCorrect":false},{"text":"Weekly Shōnen Jump","isCorrect":true},{"text":"Bessatsu Shōnen Magazine","isCorrect":false}]'::jsonb,
+  '[{"text":"Monthly Shōnen Gangan","isCorrect":false},{"text":"Weekly Shōnen Magazine","isCorrect":false},{"text":"Weekly Shōnen Jump (Shueisha)","isCorrect":true},{"text":"Bessatsu Shōnen Magazine (Kodansha)","isCorrect":false}]'::jsonb,
   'Jujutsu Kaisen by Gege Akutami is serialized in Weekly Shōnen Jump (Shueisha) since March 2018. It is one of the magazine''s flagship titles alongside One Piece. Akutami previously published "Tokyo Metropolitan Curse Technical School" (JJK 0) in Jump GIGA.'
 );
 
@@ -270,7 +270,7 @@ VALUES (
   'What is the exact multiplier applied to a Black Flash attack compared to a normal cursed energy attack?',
   'multiple_choice',
   'impossible',
-  '[{"text":"2.0x the normal impact","isCorrect":false},{"text":"3.5x the normal impact","isCorrect":false},{"text":"2.5x the normal impact (to the power of 2.5)","isCorrect":true},{"text":"5.0x the normal impact","isCorrect":false}]'::jsonb,
+  '[{"text":"2.0x the normal impact (basic Black Flash threshold)","isCorrect":false},{"text":"3.5x the normal impact","isCorrect":false},{"text":"2.5x the normal impact (to the power of 2.5)","isCorrect":true},{"text":"5.0x the normal impact","isCorrect":false}]'::jsonb,
   'A Black Flash creates a spatial distortion when cursed energy is applied within 0.000001 seconds of a physical hit. The resulting impact is equal to the normal hit raised to the power of 2.5 (not simply multiplied by 2.5). This makes Black Flash exponentially more powerful than normal attacks.'
 );
 
@@ -280,7 +280,7 @@ VALUES (
   'What self-estimated temperature does Jogo claim his Domain Expansion can reach?',
   'multiple_choice',
   'impossible',
-  '[{"text":"The surface of the sun","isCorrect":false},{"text":"Over 1,000 degrees Celsius","isCorrect":false},{"text":"He never specified a temperature","isCorrect":false},{"text":"Hot enough to instantly burn a normal human to ash","isCorrect":true}]'::jsonb,
+  '[{"text":"The surface temperature of the sun at noon in mid-July","isCorrect":false},{"text":"Over 1,000 degrees Celsius in the inner core","isCorrect":false},{"text":"He never specified a temperature on screen","isCorrect":false},{"text":"Hot enough to instantly burn a normal human to ash","isCorrect":true}]'::jsonb,
   'Jogo''s Domain Expansion "Coffin of the Iron Mountain" creates a volcanic environment so hot that any normal human caught inside would be instantly incinerated. Gojo was the only one to survive it unscathed due to his Infinity technique. Jogo boasted his domain''s heat was unmatched.'
 );
 
