@@ -71,7 +71,7 @@ VALUES (
   'What is the name of the cursed tool that Toji Fushiguro uses to bypass cursed energy defenses?',
   'multiple_choice',
   'impossible',
-  '[{"text":"The Playful Cloud","isCorrect":false},{"text":"The Inverted Spear of Heaven","isCorrect":true},{"text":"The Black Rope","isCorrect":false},{"text":"Dragon-Bone","isCorrect":false}]'::jsonb,
+  '[{"text":"The Playful Cloud","isCorrect":false},{"text":"Inverted Spear","isCorrect":true},{"text":"The Black Rope","isCorrect":false},{"text":"Dragon-Bone","isCorrect":false}]'::jsonb,
   'The Inverted Spear of Heaven (Tengyoku) is a cursed tool that can nullify any cursed technique it touches. Toji used it to bypass Gojo''s Infinity during their fight in the Hidden Inventory arc. It is one of the most powerful anti-sorcery weapons in existence.'
 );
 
@@ -81,7 +81,7 @@ VALUES (
   'What is Panda''s true nature? He is not actually a panda bear.',
   'multiple_choice',
   'impossible',
-  '[{"text":"He is a cursed spirit shaped like a panda","isCorrect":false},{"text":"He is an Abrupt Mutated Cursed Corpse created by Principal Yaga with three cores","isCorrect":true},{"text":"He is a transformed shikigami bound to Yaga","isCorrect":false},{"text":"He is a real panda that gained sentience from cursed energy exposure","isCorrect":false}]'::jsonb,
+  '[{"text":"He is a cursed spirit shaped like a panda","isCorrect":false},{"text":"He is an Abrupt Mutated Cursed Corpse created by Principal Yaga with three cores","isCorrect":true},{"text":"He is a transformed shikigami bound to Yaga","isCorrect":false},{"text":"He is a real panda that gained sentience from cursed energy exposure in the wild over time","isCorrect":false}]'::jsonb,
   'Panda is an Abrupt Mutated Cursed Corpse, a puppet created by Tokyo Jujutsu High''s principal Masamichi Yaga. Unlike normal cursed corpses, Panda has his own will and three cores: Panda (balanced), Gorilla (power), and a third triceratops-like core. Each core gives him different fighting abilities.'
 );
 
