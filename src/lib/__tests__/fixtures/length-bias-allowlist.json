@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generatedAt": "2026-05-19T23:12:00.194Z",
+  "generatedAt": "2026-05-20T00:39:18.519Z",
   "entries": [
     {
       "key": "02346c835febedc0",
@@ -14,13 +14,6 @@
       "anime": "my-hero-academia",
       "tier": "medium",
       "questionTextPrefix": "What is Ochaco Uraraka's Quirk?",
-      "kind": "strictly-longest"
-    },
-    {
-      "key": "052ad00c16edcd8f",
-      "anime": "demon-slayer",
-      "tier": "easy",
-      "questionTextPrefix": "Who is the main villain and king of all demons in Demon Slay",
       "kind": "strictly-longest"
     },
     {
@@ -45,13 +38,6 @@
       "kind": "strictly-shortest"
     },
     {
-      "key": "0b3751ea82bd51bf",
-      "anime": "demon-slayer",
-      "tier": "impossible",
-      "questionTextPrefix": "What is the name of the creator/mangaka of Demon Slayer: Kim",
-      "kind": "strictly-longest"
-    },
-    {
       "key": "0ca57b97938e3973",
       "anime": "naruto",
       "tier": "easy",
@@ -70,20 +56,6 @@
       "anime": "one-piece",
       "tier": "impossible",
       "questionTextPrefix": "Who or what is Joy Boy, and what is his significance to the ",
-      "kind": "strictly-longest"
-    },
-    {
-      "key": "0daf2ef3ef3c7ff9",
-      "anime": "demon-slayer",
-      "tier": "impossible",
-      "questionTextPrefix": "In which manga magazine was Demon Slayer: Kimetsu no Yaiba s",
-      "kind": "strictly-shortest"
-    },
-    {
-      "key": "0e9a8bc8b9112e9c",
-      "anime": "demon-slayer",
-      "tier": "impossible",
-      "questionTextPrefix": "What is Upper Moon 4 Hantengu's unique ability when his head",
       "kind": "strictly-longest"
     },
     {
@@ -143,13 +115,6 @@
       "kind": "strictly-longest"
     },
     {
-      "key": "1b08412cc695a031",
-      "anime": "demon-slayer",
-      "tier": "impossible",
-      "questionTextPrefix": "What specific Water Breathing technique does Tanjiro use in ",
-      "kind": "strictly-shortest"
-    },
-    {
       "key": "1bd9db3872c1b312",
       "anime": "naruto",
       "tier": "impossible",
@@ -175,13 +140,6 @@
       "anime": "one-piece",
       "tier": "impossible",
       "questionTextPrefix": "How many Road Poneglyphs exist, and what is their purpose?",
-      "kind": "strictly-longest"
-    },
-    {
-      "key": "1ec5861b4d7d5de8",
-      "anime": "demon-slayer",
-      "tier": "easy",
-      "questionTextPrefix": "Why does Tanjiro decide to become a Demon Slayer?",
       "kind": "strictly-longest"
     },
     {
@@ -234,13 +192,6 @@
       "kind": "strictly-longest"
     },
     {
-      "key": "269bc36d375d9257",
-      "anime": "demon-slayer",
-      "tier": "impossible",
-      "questionTextPrefix": "What is Kanao Tsuyuri's specific reason for flipping a coin ",
-      "kind": "strictly-longest"
-    },
-    {
       "key": "26af0f106566e6e7",
       "anime": "my-hero-academia",
       "tier": "medium",
@@ -259,13 +210,6 @@
       "anime": "one-piece",
       "tier": "impossible",
       "questionTextPrefix": "What is the name of Zoro's strongest Three Sword Style techn",
-      "kind": "strictly-longest"
-    },
-    {
-      "key": "2785db21c27cb0c0",
-      "anime": "demon-slayer",
-      "tier": "hard",
-      "questionTextPrefix": "What is the original Breathing Style from which all other Br",
       "kind": "strictly-longest"
     },
     {
@@ -316,20 +260,6 @@
       "tier": "impossible",
       "questionTextPrefix": "What is the name of the support course student who frequentl",
       "kind": "strictly-shortest"
-    },
-    {
-      "key": "35268bc0d2b31e25",
-      "anime": "demon-slayer",
-      "tier": "easy",
-      "questionTextPrefix": "Which two companions regularly travel and fight alongside Ta",
-      "kind": "strictly-longest"
-    },
-    {
-      "key": "35db769072e33b2f",
-      "anime": "demon-slayer",
-      "tier": "impossible",
-      "questionTextPrefix": "What type of weapon does the Stone Hashira Gyomei Himejima u",
-      "kind": "strictly-longest"
     },
     {
       "key": "3775e122767879ac",
@@ -430,20 +360,6 @@
       "kind": "strictly-longest"
     },
     {
-      "key": "480a4388cfdadacc",
-      "anime": "demon-slayer",
-      "tier": "hard",
-      "questionTextPrefix": "What is Muzan's blood curse and how does it control demons?",
-      "kind": "strictly-longest"
-    },
-    {
-      "key": "48464ee9956ec113",
-      "anime": "demon-slayer",
-      "tier": "impossible",
-      "questionTextPrefix": "What is unique about Zenitsu's mastery of Thunder Breathing?",
-      "kind": "strictly-longest"
-    },
-    {
       "key": "48cdcb164b4955b2",
       "anime": "jujutsu-kaisen",
       "tier": "impossible",
@@ -493,20 +409,6 @@
       "kind": "strictly-shortest"
     },
     {
-      "key": "520495b8dafaccb6",
-      "anime": "demon-slayer",
-      "tier": "hard",
-      "questionTextPrefix": "What special materials are Nichirin swords forged from, and ",
-      "kind": "strictly-longest"
-    },
-    {
-      "key": "54f136ae94694082",
-      "anime": "demon-slayer",
-      "tier": "medium",
-      "questionTextPrefix": "What is the name of the hidden village where Demon Slayers' ",
-      "kind": "strictly-longest"
-    },
-    {
       "key": "55b1e2cec70041a8",
       "anime": "death-note",
       "tier": "hard",
@@ -553,13 +455,6 @@
       "anime": "death-note",
       "tier": "impossible",
       "questionTextPrefix": "In the pilot chapter/one-shot of Death Note, what was differ",
-      "kind": "strictly-longest"
-    },
-    {
-      "key": "5c34a9313281d4b2",
-      "anime": "demon-slayer",
-      "tier": "hard",
-      "questionTextPrefix": "Which Hashira and Demon Slayers fought together against Uppe",
       "kind": "strictly-longest"
     },
     {
@@ -612,24 +507,10 @@
       "kind": "strictly-shortest"
     },
     {
-      "key": "64b0be93ffe1b423",
-      "anime": "demon-slayer",
-      "tier": "impossible",
-      "questionTextPrefix": "What is Daki's (Upper Moon 6) specific Blood Demon Art?",
-      "kind": "strictly-longest"
-    },
-    {
       "key": "654cbaec96041fcb",
       "anime": "my-hero-academia",
       "tier": "impossible",
       "questionTextPrefix": "What is Eri's Quirk called, and how specifically does it wor",
-      "kind": "strictly-longest"
-    },
-    {
-      "key": "6689bf834619d84a",
-      "anime": "demon-slayer",
-      "tier": "impossible",
-      "questionTextPrefix": "What is the name of Inosuke Hashibira's mother?",
       "kind": "strictly-longest"
     },
     {
@@ -717,13 +598,6 @@
       "kind": "strictly-longest"
     },
     {
-      "key": "7d7dce818a3a40e4",
-      "anime": "demon-slayer",
-      "tier": "impossible",
-      "questionTextPrefix": "What is the exact name of Shinobu Kocho's unique fighting st",
-      "kind": "strictly-longest"
-    },
-    {
       "key": "7e08f0e942a3669d",
       "anime": "naruto",
       "tier": "impossible",
@@ -735,13 +609,6 @@
       "anime": "jujutsu-kaisen",
       "tier": "hard",
       "questionTextPrefix": "What is the significance of Sukuna having exactly 20 fingers",
-      "kind": "strictly-longest"
-    },
-    {
-      "key": "82d5ea0f01a159bc",
-      "anime": "demon-slayer",
-      "tier": "medium",
-      "questionTextPrefix": "What is the group of Muzan's most powerful demons called?",
       "kind": "strictly-longest"
     },
     {
@@ -777,13 +644,6 @@
       "anime": "death-note",
       "tier": "impossible",
       "questionTextPrefix": "Which member of the Yotsuba Group is chosen to temporarily w",
-      "kind": "strictly-longest"
-    },
-    {
-      "key": "89c2190fde8d0c11",
-      "anime": "demon-slayer",
-      "tier": "impossible",
-      "questionTextPrefix": "What is Kokushibo's human name before he became a demon?",
       "kind": "strictly-longest"
     },
     {
@@ -829,25 +689,11 @@
       "kind": "strictly-longest"
     },
     {
-      "key": "927010f6b96edb9e",
-      "anime": "demon-slayer",
-      "tier": "easy",
-      "questionTextPrefix": "What is Zenitsu's primary emotional state during battles?",
-      "kind": "strictly-longest"
-    },
-    {
       "key": "92c20f01d693a135",
       "anime": "naruto",
       "tier": "easy",
       "questionTextPrefix": "What does Naruto dream of becoming?",
       "kind": "strictly-shortest"
-    },
-    {
-      "key": "94966bdf6bbd25b2",
-      "anime": "demon-slayer",
-      "tier": "hard",
-      "questionTextPrefix": "What was Kokushibo's human name, and what is his relation to",
-      "kind": "strictly-longest"
     },
     {
       "key": "94aa9dc94bb61fcc",
@@ -990,13 +836,6 @@
       "kind": "strictly-shortest"
     },
     {
-      "key": "a42767cf9105abc4",
-      "anime": "demon-slayer",
-      "tier": "impossible",
-      "questionTextPrefix": "What is Upper Moon 3 Akaza's original human name?",
-      "kind": "strictly-shortest"
-    },
-    {
       "key": "a4c6c6ec85b55883",
       "anime": "my-hero-academia",
       "tier": "easy",
@@ -1036,13 +875,6 @@
       "anime": "one-piece",
       "tier": "hard",
       "questionTextPrefix": "Who are the Five Elders (Gorosei)?",
-      "kind": "strictly-longest"
-    },
-    {
-      "key": "aba8cb42424db9e1",
-      "anime": "demon-slayer",
-      "tier": "impossible",
-      "questionTextPrefix": "What is the name of the mountain where the Demon Slayer Corp",
       "kind": "strictly-longest"
     },
     {
@@ -1116,13 +948,6 @@
       "kind": "strictly-longest"
     },
     {
-      "key": "b7246573358368e6",
-      "anime": "demon-slayer",
-      "tier": "hard",
-      "questionTextPrefix": "How does Nezuko eventually conquer the sun, and why does thi",
-      "kind": "strictly-longest"
-    },
-    {
       "key": "b91b97eab7b17b11",
       "anime": "naruto",
       "tier": "impossible",
@@ -1165,38 +990,10 @@
       "kind": "strictly-longest"
     },
     {
-      "key": "c00c0a09ad0b134b",
-      "anime": "demon-slayer",
-      "tier": "impossible",
-      "questionTextPrefix": "What Demon Slayer Corps rank does Tanjiro hold at the end of",
-      "kind": "strictly-shortest"
-    },
-    {
-      "key": "c0eec2f3da1314e6",
-      "anime": "demon-slayer",
-      "tier": "easy",
-      "questionTextPrefix": "What is the name of the organization that fights demons in t",
-      "kind": "strictly-longest"
-    },
-    {
       "key": "c142ff45bbd2bfcd",
       "anime": "jujutsu-kaisen",
       "tier": "easy",
       "questionTextPrefix": "Who is known as the King of Curses?",
-      "kind": "strictly-longest"
-    },
-    {
-      "key": "c39fe2f5a322e5ad",
-      "anime": "demon-slayer",
-      "tier": "hard",
-      "questionTextPrefix": "What is the name of Upper Moon One, the strongest of the Twe",
-      "kind": "strictly-longest"
-    },
-    {
-      "key": "c682147322a8759a",
-      "anime": "demon-slayer",
-      "tier": "hard",
-      "questionTextPrefix": "What is the Demon Slayer Mark, and what is the major drawbac",
       "kind": "strictly-longest"
     },
     {
@@ -1242,24 +1039,10 @@
       "kind": "strictly-longest"
     },
     {
-      "key": "d908a051e2f56863",
-      "anime": "demon-slayer",
-      "tier": "medium",
-      "questionTextPrefix": "What is the signature technique that Zenitsu is best known f",
-      "kind": "strictly-longest"
-    },
-    {
       "key": "da537088b8404e41",
       "anime": "my-hero-academia",
       "tier": "impossible",
       "questionTextPrefix": "What is Toga Himiko's Quirk called, and what does it require",
-      "kind": "strictly-longest"
-    },
-    {
-      "key": "dbe110bcae7e8ec4",
-      "anime": "demon-slayer",
-      "tier": "impossible",
-      "questionTextPrefix": "In which episode of the anime does Kyojuro Rengoku die fight",
       "kind": "strictly-longest"
     },
     {
@@ -1275,13 +1058,6 @@
       "tier": "medium",
       "questionTextPrefix": "What is Satoru Gojo's cursed technique called?",
       "kind": "strictly-shortest"
-    },
-    {
-      "key": "dd66c2561a5b2f6e",
-      "anime": "demon-slayer",
-      "tier": "hard",
-      "questionTextPrefix": "What is the true origin of the Hinokami Kagura (Dance of the",
-      "kind": "strictly-longest"
     },
     {
       "key": "ded218be141f0ba2",
@@ -1319,13 +1095,6 @@
       "kind": "strictly-shortest"
     },
     {
-      "key": "e347ba872c0d5a1f",
-      "anime": "demon-slayer",
-      "tier": "easy",
-      "questionTextPrefix": "How does Tanjiro protect Nezuko from sunlight while travelin",
-      "kind": "strictly-longest"
-    },
-    {
       "key": "e4a89b87fb5ff3b3",
       "anime": "naruto",
       "tier": "medium",
@@ -1345,13 +1114,6 @@
       "tier": "impossible",
       "questionTextPrefix": "What is Teru Mikami's repeated catchphrase when judging crim",
       "kind": "strictly-shortest"
-    },
-    {
-      "key": "e6ed7a3ccf4161f1",
-      "anime": "demon-slayer",
-      "tier": "medium",
-      "questionTextPrefix": "What makes Nezuko unique compared to other demons?",
-      "kind": "strictly-longest"
     },
     {
       "key": "e6fe45db096aa467",
@@ -1382,13 +1144,6 @@
       "kind": "strictly-longest"
     },
     {
-      "key": "ebd3e4640e5d5c6b",
-      "anime": "demon-slayer",
-      "tier": "medium",
-      "questionTextPrefix": "Who is the Love Hashira in the Demon Slayer Corps?",
-      "kind": "strictly-longest"
-    },
-    {
       "key": "ec9cbaaf28293484",
       "anime": "death-note",
       "tier": "medium",
@@ -1414,13 +1169,6 @@
       "anime": "attack-on-titan",
       "tier": "easy",
       "questionTextPrefix": "Who is Eren's adopted sister?",
-      "kind": "strictly-longest"
-    },
-    {
-      "key": "f03c28143fd056da",
-      "anime": "demon-slayer",
-      "tier": "impossible",
-      "questionTextPrefix": "What is the name of the doctor who inadvertently turned Muza",
       "kind": "strictly-longest"
     },
     {
@@ -1505,13 +1253,6 @@
       "anime": "naruto",
       "tier": "easy",
       "questionTextPrefix": "What village is Naruto from?",
-      "kind": "strictly-longest"
-    },
-    {
-      "key": "fcfef5cef33a88e0",
-      "anime": "demon-slayer",
-      "tier": "impossible",
-      "questionTextPrefix": "Why is the Blue Spider Lily so important to Muzan Kibutsuji?",
       "kind": "strictly-longest"
     },
     {
