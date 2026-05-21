@@ -92,7 +92,7 @@ VALUES (
   'What is the name of the support course student who frequently builds gadgets for Deku?',
   'multiple_choice',
   'impossible',
-  '[{"text":"Mei Hatsume","isCorrect":true},{"text":"Ibara Shiozaki","isCorrect":false},{"text":"Momo Yaoyorozu","isCorrect":false},{"text":"Melissa Shield","isCorrect":false}]'::jsonb,
+  '[{"text":"Mei Hatsume","isCorrect":true},{"text":"Ibara Shiozaki","isCorrect":false},{"text":"Momo Yaoyorozu","isCorrect":false},{"text":"Koji Koda","isCorrect":false}]'::jsonb,
   'Mei Hatsume is a support course student at UA known for her eccentric personality and obsession with creating inventions she calls her "babies." She developed several support items for Deku, including his upgraded gloves and air force boots that help him fight without destroying his body.'
 );
 
@@ -112,7 +112,7 @@ VALUES (
   'What is Dabi''s true identity as revealed in the manga?',
   'multiple_choice',
   'impossible',
-  '[{"text":"He is a clone of Endeavor created by Dr. Garaki","isCorrect":false},{"text":"He is Toya Todoroki, Endeavor''s eldest son who was presumed dead","isCorrect":true},{"text":"He is an escaped Nomu with fire powers","isCorrect":false},{"text":"He is Natsuo Todoroki with a disguise Quirk","isCorrect":false}]'::jsonb,
+  '[{"text":"He is an artificial clone of Endeavor secretly created by Dr. Garaki","isCorrect":false},{"text":"He is Toya Todoroki, Endeavor''s eldest son who was presumed dead","isCorrect":true},{"text":"He is an escaped Nomu with fire powers","isCorrect":false},{"text":"He is Natsuo Todoroki with a disguise Quirk","isCorrect":false}]'::jsonb,
   'Dabi is Toya Todoroki, Endeavor''s eldest son who was believed to have died in a training accident. He survived with severe burn scars covering his body and spent years plotting revenge against Endeavor. He revealed his identity publicly during the Paranormal Liberation War to destroy Endeavor''s reputation.'
 );
 
@@ -122,7 +122,7 @@ VALUES (
   'What is Toga Himiko''s Quirk called, and what does it require to activate?',
   'multiple_choice',
   'impossible',
-  '[{"text":"Transform — she must consume the target''s blood to take their appearance and, when awakened, their Quirk","isCorrect":true},{"text":"Mimic — she copies anyone she sees for up to one hour","isCorrect":false},{"text":"Shapeshift — she can become anyone at will with no requirements","isCorrect":false},{"text":"Blood Clone — she creates duplicates from blood samples","isCorrect":false}]'::jsonb,
+  '[{"text":"Transform — she must consume the target''s blood to take their appearance and, when awakened, their Quirk","isCorrect":true},{"text":"Mimic — she copies anyone she sees for up to one hour","isCorrect":false},{"text":"Shapeshift — she can instantly become anyone she has ever seen at will, with no blood, contact, or other requirement","isCorrect":false},{"text":"Blood Clone — she creates duplicates from blood samples","isCorrect":false}]'::jsonb,
   'Toga''s Quirk is called Transform. She must ingest a target''s blood to take on their physical appearance. The duration depends on how much blood she consumes. After her Quirk awakened during the Meta Liberation Army arc, she gained the ability to also copy the Quirks of people she transforms into.'
 );
 

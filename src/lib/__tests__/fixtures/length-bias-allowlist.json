@@ -1,19 +1,12 @@
 {
   "version": 1,
-  "generatedAt": "2026-05-20T23:15:13.380Z",
+  "generatedAt": "2026-05-21T22:40:56.514Z",
   "entries": [
     {
       "key": "02346c835febedc0",
       "anime": "attack-on-titan",
       "tier": "hard",
       "questionTextPrefix": "What is 'the Coordinate' in the context of Attack on Titan?",
-      "kind": "strictly-longest"
-    },
-    {
-      "key": "045958ef0096f00e",
-      "anime": "my-hero-academia",
-      "tier": "medium",
-      "questionTextPrefix": "What is Ochaco Uraraka's Quirk?",
       "kind": "strictly-longest"
     },
     {
@@ -45,45 +38,10 @@
       "kind": "strictly-shortest"
     },
     {
-      "key": "13cc392677b6c82f",
-      "anime": "my-hero-academia",
-      "tier": "impossible",
-      "questionTextPrefix": "What is the Japanese name for U.A. High School?",
-      "kind": "strictly-shortest"
-    },
-    {
-      "key": "14636794be9b43c3",
-      "anime": "my-hero-academia",
-      "tier": "hard",
-      "questionTextPrefix": "What is Eri's Quirk and why is it significant to the villain",
-      "kind": "strictly-longest"
-    },
-    {
-      "key": "16a9658ad9691e0b",
-      "anime": "my-hero-academia",
-      "tier": "impossible",
-      "questionTextPrefix": "What is Mirio Togata's hero name, and what is the specific m",
-      "kind": "strictly-longest"
-    },
-    {
-      "key": "17236084fad624a4",
-      "anime": "my-hero-academia",
-      "tier": "impossible",
-      "questionTextPrefix": "What is the real name of All For One's personal doctor who h",
-      "kind": "strictly-longest"
-    },
-    {
       "key": "1d2795d4a3e9dba8",
       "anime": "attack-on-titan",
       "tier": "easy",
       "questionTextPrefix": "What is the weak spot on a Titan's body that soldiers must s",
-      "kind": "strictly-longest"
-    },
-    {
-      "key": "1d3c020af3866159",
-      "anime": "my-hero-academia",
-      "tier": "impossible",
-      "questionTextPrefix": "What is Stain's real name, and what is his core ideology?",
       "kind": "strictly-longest"
     },
     {
@@ -122,31 +80,10 @@
       "kind": "strictly-shortest"
     },
     {
-      "key": "247a9ceefb800781",
-      "anime": "my-hero-academia",
-      "tier": "impossible",
-      "questionTextPrefix": "Who was the original first user of One For All?",
-      "kind": "strictly-longest"
-    },
-    {
       "key": "24817e10bded2f3d",
       "anime": "one-piece",
       "tier": "hard",
       "questionTextPrefix": "What is the Void Century in the world of One Piece?",
-      "kind": "strictly-longest"
-    },
-    {
-      "key": "26af0f106566e6e7",
-      "anime": "my-hero-academia",
-      "tier": "medium",
-      "questionTextPrefix": "What makes One For All unique compared to most other Quirks?",
-      "kind": "strictly-longest"
-    },
-    {
-      "key": "26b069c95c2098b1",
-      "anime": "my-hero-academia",
-      "tier": "medium",
-      "questionTextPrefix": "What is Shoto Todoroki's Quirk?",
       "kind": "strictly-longest"
     },
     {
@@ -171,25 +108,11 @@
       "kind": "strictly-longest"
     },
     {
-      "key": "2f0ebbb955b02ea9",
-      "anime": "my-hero-academia",
-      "tier": "impossible",
-      "questionTextPrefix": "How many Quirks are stockpiled within One For All that Deku ",
-      "kind": "strictly-longest"
-    },
-    {
       "key": "30c9639ef12515ad",
       "anime": "one-piece",
       "tier": "easy",
       "questionTextPrefix": "What is the name of the Straw Hat Pirates' second ship?",
       "kind": "strictly-longest"
-    },
-    {
-      "key": "34c061104313213b",
-      "anime": "my-hero-academia",
-      "tier": "impossible",
-      "questionTextPrefix": "What is the name of the support course student who frequentl",
-      "kind": "strictly-shortest"
     },
     {
       "key": "3b0271ad39c70f90",
@@ -297,52 +220,10 @@
       "kind": "strictly-longest"
     },
     {
-      "key": "5fc5f7e07cf39b85",
-      "anime": "my-hero-academia",
-      "tier": "impossible",
-      "questionTextPrefix": "What is Gran Torino's connection to the previous One For All",
-      "kind": "strictly-longest"
-    },
-    {
-      "key": "60deed66a7e48cb6",
-      "anime": "my-hero-academia",
-      "tier": "medium",
-      "questionTextPrefix": "What is Tomura Shigaraki's Quirk?",
-      "kind": "strictly-shortest"
-    },
-    {
-      "key": "624a8fe710d15a3e",
-      "anime": "my-hero-academia",
-      "tier": "impossible",
-      "questionTextPrefix": "What is Hawks' real name?",
-      "kind": "strictly-shortest"
-    },
-    {
       "key": "62effda731e05cbd",
       "anime": "attack-on-titan",
       "tier": "medium",
       "questionTextPrefix": "What are the three military branches within the walls?",
-      "kind": "strictly-longest"
-    },
-    {
-      "key": "6387396afca7cf2b",
-      "anime": "my-hero-academia",
-      "tier": "impossible",
-      "questionTextPrefix": "What is the official name of Bakugo's ultimate super move?",
-      "kind": "strictly-shortest"
-    },
-    {
-      "key": "654cbaec96041fcb",
-      "anime": "my-hero-academia",
-      "tier": "impossible",
-      "questionTextPrefix": "What is Eri's Quirk called, and how specifically does it wor",
-      "kind": "strictly-longest"
-    },
-    {
-      "key": "66c6b4b03e54f147",
-      "anime": "my-hero-academia",
-      "tier": "impossible",
-      "questionTextPrefix": "What is the name of the leader of the Meta Liberation Army?",
       "kind": "strictly-longest"
     },
     {
@@ -381,13 +262,6 @@
       "kind": "strictly-longest"
     },
     {
-      "key": "740609777b2fc021",
-      "anime": "my-hero-academia",
-      "tier": "impossible",
-      "questionTextPrefix": "Who is the Japanese voice actor (seiyuu) for All Might?",
-      "kind": "strictly-shortest"
-    },
-    {
       "key": "79701d4b6716ded9",
       "anime": "attack-on-titan",
       "tier": "medium",
@@ -409,31 +283,10 @@
       "kind": "strictly-longest"
     },
     {
-      "key": "872f17cb7ea0d037",
-      "anime": "my-hero-academia",
-      "tier": "hard",
-      "questionTextPrefix": "What is notable about the name of All For One's Quirk?",
-      "kind": "strictly-longest"
-    },
-    {
       "key": "88c35fea06aafdb1",
       "anime": "death-note",
       "tier": "impossible",
       "questionTextPrefix": "Which member of the Yotsuba Group is chosen to temporarily w",
-      "kind": "strictly-longest"
-    },
-    {
-      "key": "8aec70dc046790ea",
-      "anime": "my-hero-academia",
-      "tier": "medium",
-      "questionTextPrefix": "Who is the principal of U.A. High School?",
-      "kind": "strictly-shortest"
-    },
-    {
-      "key": "8de617ce70397cb3",
-      "anime": "my-hero-academia",
-      "tier": "medium",
-      "questionTextPrefix": "Who is the homeroom teacher of Class 1-A?",
       "kind": "strictly-longest"
     },
     {
@@ -448,13 +301,6 @@
       "anime": "attack-on-titan",
       "tier": "impossible",
       "questionTextPrefix": "In which manga magazine was Attack on Titan originally seria",
-      "kind": "strictly-longest"
-    },
-    {
-      "key": "96bba471a9b31875",
-      "anime": "my-hero-academia",
-      "tier": "easy",
-      "questionTextPrefix": "Who is the main villain introduced in the first season of My",
       "kind": "strictly-longest"
     },
     {
@@ -493,20 +339,6 @@
       "kind": "strictly-longest"
     },
     {
-      "key": "9fec320f1e6c66e7",
-      "anime": "my-hero-academia",
-      "tier": "medium",
-      "questionTextPrefix": "What is the name of the hero killer who targets heroes he co",
-      "kind": "strictly-shortest"
-    },
-    {
-      "key": "a06cce337e964436",
-      "anime": "my-hero-academia",
-      "tier": "impossible",
-      "questionTextPrefix": "What mental condition affects Twice (Jin Bubaigawara), and h",
-      "kind": "strictly-longest"
-    },
-    {
       "key": "a0a1bdcb2381dfb9",
       "anime": "attack-on-titan",
       "tier": "hard",
@@ -526,13 +358,6 @@
       "tier": "impossible",
       "questionTextPrefix": "What is the name of the island where the Straw Hat Pirates' ",
       "kind": "strictly-shortest"
-    },
-    {
-      "key": "a4c6c6ec85b55883",
-      "anime": "my-hero-academia",
-      "tier": "easy",
-      "questionTextPrefix": "What is All Might's real name?",
-      "kind": "strictly-longest"
     },
     {
       "key": "a5075fca799d40fc",
@@ -605,38 +430,10 @@
       "kind": "strictly-longest"
     },
     {
-      "key": "be6c7e1e67f729c0",
-      "anime": "my-hero-academia",
-      "tier": "hard",
-      "questionTextPrefix": "What is the name of the government organization that oversee",
-      "kind": "strictly-longest"
-    },
-    {
-      "key": "bf0bfd9cf42e7352",
-      "anime": "my-hero-academia",
-      "tier": "impossible",
-      "questionTextPrefix": "What is Dabi's true identity as revealed in the manga?",
-      "kind": "strictly-longest"
-    },
-    {
-      "key": "c6b1db9632aaf767",
-      "anime": "my-hero-academia",
-      "tier": "impossible",
-      "questionTextPrefix": "What shocking secret about Yuga Aoyama is revealed in the ma",
-      "kind": "strictly-longest"
-    },
-    {
       "key": "cf82eeb344d8a6b7",
       "anime": "one-piece",
       "tier": "hard",
       "questionTextPrefix": "What is the name of Shanks' sword?",
-      "kind": "strictly-longest"
-    },
-    {
-      "key": "da537088b8404e41",
-      "anime": "my-hero-academia",
-      "tier": "impossible",
-      "questionTextPrefix": "What is Toga Himiko's Quirk called, and what does it require",
       "kind": "strictly-longest"
     },
     {
@@ -645,13 +442,6 @@
       "tier": "hard",
       "questionTextPrefix": "What is the name of the institution where L, Near, and Mello",
       "kind": "strictly-shortest"
-    },
-    {
-      "key": "ded218be141f0ba2",
-      "anime": "my-hero-academia",
-      "tier": "impossible",
-      "questionTextPrefix": "What is Gigantomachia's role and relationship to All For One",
-      "kind": "strictly-longest"
     },
     {
       "key": "df6becf8a0460546",
@@ -693,13 +483,6 @@
       "anime": "attack-on-titan",
       "tier": "impossible",
       "questionTextPrefix": "Who designed and created the anti-personnel vertical maneuve",
-      "kind": "strictly-longest"
-    },
-    {
-      "key": "eadc54882b053703",
-      "anime": "my-hero-academia",
-      "tier": "impossible",
-      "questionTextPrefix": "What is the official name of the hero licensing exam that Cl",
       "kind": "strictly-longest"
     },
     {
@@ -749,13 +532,6 @@
       "anime": "death-note",
       "tier": "impossible",
       "questionTextPrefix": "What is the name of Misa Amane's Shinigami who follows her?",
-      "kind": "strictly-shortest"
-    },
-    {
-      "key": "f5a02e65ff8ff7f9",
-      "anime": "my-hero-academia",
-      "tier": "impossible",
-      "questionTextPrefix": "What was Shigaraki's original name before All For One took h",
       "kind": "strictly-shortest"
     },
     {

@@ -294,7 +294,7 @@ VALUES (
   'Who is the Japanese voice actor (seiyuu) for All Might?',
   'multiple_choice',
   'impossible',
-  '[{"text":"Hiroshi Kamiya","isCorrect":false},{"text":"Kenta Miyake","isCorrect":true},{"text":"Tomokazu Sugita","isCorrect":false},{"text":"Katsuyuki Konishi","isCorrect":false}]'::jsonb,
+  '[{"text":"Daisuke Ono","isCorrect":false},{"text":"Kenta Miyake","isCorrect":true},{"text":"Tomokazu Sugita","isCorrect":false},{"text":"Katsuyuki Konishi","isCorrect":false}]'::jsonb,
   'Kenta Miyake voices All Might in both his muscular and true (deflated) forms. He brings enormous energy to the role, making All Might''s "Plus Ultra!" battle cries iconic in the anime community.'
 );
 
@@ -324,7 +324,7 @@ VALUES (
   'What is the real name of All For One''s personal doctor who helps him create Nomu?',
   'multiple_choice',
   'impossible',
-  '[{"text":"Dr. Tsubasa","isCorrect":false},{"text":"Dr. Kyudai Garaki","isCorrect":true},{"text":"Dr. Shiga Maruta","isCorrect":false},{"text":"Dr. Ujiko Daruma","isCorrect":false}]'::jsonb,
+  '[{"text":"Dr. Tsubasa Nakano","isCorrect":false},{"text":"Dr. Kyudai Garaki","isCorrect":true},{"text":"Dr. Shiga Maruta","isCorrect":false},{"text":"Dr. Ujiko Daruma","isCorrect":false}]'::jsonb,
   'The doctor''s real name is Dr. Kyudai Garaki. He was previously known as "Daruma Ujiko" before a name change by the author. He has been All For One''s loyal follower for over a century, using his Quirk research to create the Nomu and duplicate Quirks.'
 );
 
@@ -334,7 +334,7 @@ VALUES (
   'Who was the original first user of One For All?',
   'multiple_choice',
   'impossible',
-  '[{"text":"Nana Shimura","isCorrect":false},{"text":"All Might","isCorrect":false},{"text":"Yoichi Shigaraki, All For One''s younger brother","isCorrect":true},{"text":"Hikage Shinomori","isCorrect":false}]'::jsonb,
+  '[{"text":"Nana Shimura, the seventh One For All user and All Might''s mentor","isCorrect":false},{"text":"All Might","isCorrect":false},{"text":"Yoichi Shigaraki, All For One''s younger brother","isCorrect":true},{"text":"Hikage Shinomori","isCorrect":false}]'::jsonb,
   'The first user of One For All was Yoichi Shigaraki, the younger brother of All For One. He was thought to be Quirkless, but he actually had a power-stockpiling Quirk. When AFO forcibly gave him a power-transfer Quirk, it merged with his existing Quirk to create One For All.'
 );
 
@@ -364,7 +364,7 @@ VALUES (
   'What is the official name of the hero licensing exam that Class 1-A takes?',
   'multiple_choice',
   'impossible',
-  '[{"text":"The Hero Certification Trial","isCorrect":false},{"text":"The Provisional Hero License Exam","isCorrect":true},{"text":"The National Hero Assessment","isCorrect":false},{"text":"The Pro Hero Qualification Test","isCorrect":false}]'::jsonb,
+  '[{"text":"The Hero Certification Trial","isCorrect":false},{"text":"The Provisional Hero License Exam","isCorrect":true},{"text":"The National Hero Licensing Assessment","isCorrect":false},{"text":"The Pro Hero Qualification Test","isCorrect":false}]'::jsonb,
   'The Provisional Hero License Exam is held annually and allows students to use their Quirks in emergency situations before graduating. The exam consists of thinning rounds and a rescue exercise. Bakugo and Todoroki famously failed their first attempt.'
 );
 
@@ -374,7 +374,7 @@ VALUES (
   'What is Mirio Togata''s hero name, and what is the specific mechanic of his Quirk "Permeation"?',
   'multiple_choice',
   'impossible',
-  '[{"text":"Lemillion — he can phase through solid matter but loses all his senses while phased and falls through the ground if not careful","isCorrect":true},{"text":"Suneater — he can pass through walls but only for 3 seconds at a time","isCorrect":false},{"text":"Phantom — he becomes invisible and intangible simultaneously","isCorrect":false},{"text":"Lemillion — he teleports short distances through solid objects","isCorrect":false}]'::jsonb,
+  '[{"text":"Lemillion — he can phase through solid matter but loses all his senses while phased and falls through the ground if not careful","isCorrect":true},{"text":"Suneater — he can pass through walls but only for 3 seconds at a time before his body is forcefully ejected back into the physical world","isCorrect":false},{"text":"Phantom — he becomes invisible and intangible simultaneously","isCorrect":false},{"text":"Lemillion — he teleports short distances through solid objects","isCorrect":false}]'::jsonb,
   'Mirio''s hero name is Lemillion (from his goal to save a million people). His Quirk "Permeation" lets him phase through matter, but while active, he can''t see, hear, or breathe since light, sound, and air also pass through him. He must constantly toggle it on body parts to fight, requiring immense training.'
 );
 
@@ -384,8 +384,8 @@ VALUES (
   'What is Hawks'' real name?',
   'multiple_choice',
   'impossible',
-  '[{"text":"Takami Keigo","isCorrect":true},{"text":"Todoroki Toya","isCorrect":false},{"text":"Bubaigawara Jin","isCorrect":false},{"text":"Shimura Tenko","isCorrect":false}]'::jsonb,
-  'Hawks'' real name is Keigo Takami. He became the No. 2 Hero at age 22 — the youngest top hero in history. His real name was kept secret for most of the series. Todoroki Toya is Dabi, Bubaigawara Jin is Twice, and Shimura Tenko is Shigaraki.'
+  '[{"text":"Takami Keigo","isCorrect":true},{"text":"Todoroki Toya","isCorrect":false},{"text":"Bubaigawara Jin","isCorrect":false},{"text":"Mirai Sasaki","isCorrect":false}]'::jsonb,
+  'Hawks'' real name is Keigo Takami. He became the No. 2 Hero at age 22 — the youngest top hero in history. His real name was kept secret for most of the series. Todoroki Toya is Dabi, Bubaigawara Jin is Twice, and Mirai Sasaki is Sir Nighteye.'
 );
 
 INSERT INTO questions (anime_id, question_text, question_type, difficulty, options, explanation)
@@ -394,7 +394,7 @@ VALUES (
   'What mental condition affects Twice (Jin Bubaigawara), and how does it impact his Quirk?',
   'multiple_choice',
   'impossible',
-  '[{"text":"Dissociative identity disorder — his clones have different personalities he can''t control","isCorrect":false},{"text":"A trauma-induced identity crisis — he once cloned himself, his clones fought over who was the original, and the trauma left him unable to use his Quirk without a mental breakdown","isCorrect":true},{"text":"Amnesia — he forgets which clone is the real him","isCorrect":false},{"text":"Paranoia — he believes all his allies are secretly his clones","isCorrect":false}]'::jsonb,
+  '[{"text":"Dissociative identity disorder — his clones each develop distinct personalities he cannot control, and over time they begin acting on their own and turning against him during major battles","isCorrect":false},{"text":"A trauma-induced identity crisis — he once cloned himself, his clones fought over who was the original, and the trauma left him unable to use his Quirk without a mental breakdown","isCorrect":true},{"text":"Amnesia — he forgets which clone is the real him","isCorrect":false},{"text":"Paranoia — he believes all his allies are secretly his clones","isCorrect":false}]'::jsonb,
   'Twice cloned himself to ease his loneliness, but his clones argued over who was real and killed each other. The trauma gave him a severe identity crisis, making him unable to clone himself without breaking down. He overcame this during the Meta Liberation Army arc, becoming extremely powerful before Hawks killed him.'
 );
 
@@ -404,7 +404,7 @@ VALUES (
   'What is the name of the leader of the Meta Liberation Army?',
   'multiple_choice',
   'impossible',
-  '[{"text":"Trumpet","isCorrect":false},{"text":"Skeptic","isCorrect":false},{"text":"Re-Destro (Rikiya Yotsubashi)","isCorrect":true},{"text":"Curious","isCorrect":false}]'::jsonb,
+  '[{"text":"Trumpet (real name Koku Hanabata)","isCorrect":false},{"text":"Skeptic","isCorrect":false},{"text":"Re-Destro (Rikiya Yotsubashi)","isCorrect":true},{"text":"Curious","isCorrect":false}]'::jsonb,
   'Re-Destro, real name Rikiya Yotsubashi, is the leader of the Meta Liberation Army and CEO of Detnerat. He is the son of Destro, the original Meta Liberation Army founder. After being defeated by Shigaraki, he submits and merges his army with the League of Villains to form the Paranormal Liberation Front.'
 );
 
@@ -414,7 +414,7 @@ VALUES (
   'What is Gigantomachia''s role and relationship to All For One?',
   'multiple_choice',
   'impossible',
-  '[{"text":"He is All For One''s bodyguard and most loyal servant, designed to only obey his master","isCorrect":true},{"text":"He is a Nomu prototype that went out of control","isCorrect":false},{"text":"He is All For One''s brother transformed into a giant","isCorrect":false},{"text":"He is a natural-born villain with no connection to All For One","isCorrect":false}]'::jsonb,
+  '[{"text":"He is All For One''s bodyguard and most loyal servant, designed to only obey his master","isCorrect":true},{"text":"He is a Nomu prototype that went out of control","isCorrect":false},{"text":"He is All For One''s brother transformed into a giant","isCorrect":false},{"text":"He is a natural-born villain of immense strength with no connection whatsoever to All For One","isCorrect":false}]'::jsonb,
   'Gigantomachia is All For One''s most devoted bodyguard and servant. He possesses multiple Quirks given to him by AFO and was ordered to test and serve AFO''s successor, Shigaraki. He only submits to those he recognizes as his master, rampaging for 48 hours straight to test Shigaraki''s worthiness.'
 );
 
@@ -424,7 +424,7 @@ VALUES (
   'What is Eri''s Quirk called, and how specifically does it work?',
   'multiple_choice',
   'impossible',
-  '[{"text":"Restore — it heals any injury by reversing cellular damage","isCorrect":false},{"text":"Rewind — it reverses a living being''s body to a previous state by rewinding their biological clock","isCorrect":true},{"text":"Reset — it returns objects and people to their original factory state","isCorrect":false},{"text":"Regress — it de-ages anyone she touches by exactly one year","isCorrect":false}]'::jsonb,
+  '[{"text":"Restore — it heals any injury by reversing cellular damage","isCorrect":false},{"text":"Rewind — it reverses a living being''s body to a previous state by rewinding their biological clock","isCorrect":true},{"text":"Reset — it returns objects and people to their original factory state from the moment they were first created","isCorrect":false},{"text":"Regress — it de-ages anyone she touches by exactly one year","isCorrect":false}]'::jsonb,
   'Eri''s Quirk is called Rewind. It can reverse a living being''s body to a previous state — she can heal injuries, remove Quirks (by rewinding to before the Quirk manifested), or even rewind someone out of existence entirely. Overhaul exploited her Quirk to create Quirk-destroying bullets.'
 );
 
@@ -444,7 +444,7 @@ VALUES (
   'What was Shigaraki''s original name before All For One took him in?',
   'multiple_choice',
   'impossible',
-  '[{"text":"Tenko Shimura","isCorrect":true},{"text":"Tomura Shimura","isCorrect":false},{"text":"Tenko Shigaraki","isCorrect":false},{"text":"Kotaro Shimura","isCorrect":false}]'::jsonb,
+  '[{"text":"Tenko Shimura","isCorrect":true},{"text":"Hana Shimura","isCorrect":false},{"text":"Tenko Shigaraki","isCorrect":false},{"text":"Kotaro Shimura","isCorrect":false}]'::jsonb,
   'Shigaraki''s birth name was Tenko Shimura. He is the grandson of Nana Shimura (the 7th One For All user). After his Quirk "Decay" accidentally killed his entire family, All For One found him and renamed him Tomura Shigaraki, raising him as his successor. Kotaro was his father''s name.'
 );
 
@@ -454,7 +454,7 @@ VALUES (
   'How many Quirks are stockpiled within One For All that Deku can access?',
   'multiple_choice',
   'impossible',
-  '[{"text":"5 Quirks from previous users","isCorrect":false},{"text":"8 Quirks from all previous users","isCorrect":false},{"text":"7 Quirks — 6 from previous users plus the base power-stockpiling Quirk","isCorrect":true},{"text":"9 Quirks — one from each user","isCorrect":false}]'::jsonb,
+  '[{"text":"5 Quirks from previous users","isCorrect":false},{"text":"8 Quirks — one inherited from each of the previous holders of One For All","isCorrect":false},{"text":"7 Quirks — 6 from previous users plus the base power-stockpiling Quirk","isCorrect":true},{"text":"9 Quirks — one from each user","isCorrect":false}]'::jsonb,
   'One For All contains 7 Quirks total: the base stockpiling Quirk, plus 6 Quirks from the 2nd through 7th users. All Might (8th) was Quirkless, so he didn''t add a Quirk. The 6 additional Quirks include Blackwhip, Float, Danger Sense, Smokescreen, Fa Jin, and the 2nd user''s Quirk (Gearshift).'
 );
 
@@ -464,7 +464,7 @@ VALUES (
   'What is the Japanese name for U.A. High School?',
   'multiple_choice',
   'impossible',
-  '[{"text":"Yūei Kōkō","isCorrect":true},{"text":"Hīrō Gakuen","isCorrect":false},{"text":"Boku no Kōkō","isCorrect":false},{"text":"Akademī Kōtōgakkō","isCorrect":false}]'::jsonb,
+  '[{"text":"Yūei Kōkō (雄英高校)","isCorrect":true},{"text":"Hīrō Gakuen","isCorrect":false},{"text":"Boku no Kōkō","isCorrect":false},{"text":"Akademī Kōtōgakkō","isCorrect":false}]'::jsonb,
   'U.A. High School is called Yūei Kōkō (雄英高校) in Japanese. "Yūei" is a play on words — it sounds like the English letters "U.A." but the kanji characters mean "heroic" or "outstanding." The school''s acceptance rate is less than 1 in 300.'
 );
 
@@ -474,7 +474,7 @@ VALUES (
   'What is Stain''s real name, and what is his core ideology?',
   'multiple_choice',
   'impossible',
-  '[{"text":"Chizome Akaguro — he believes only All Might is a true hero, and all others are fakes motivated by fame and money","isCorrect":true},{"text":"Dabi — he believes heroes are hypocrites who hide their true nature","isCorrect":false},{"text":"Gentle Criminal — he believes heroism should be accessible to everyone","isCorrect":false},{"text":"Stendhal — he believes society itself is the true villain","isCorrect":false}]'::jsonb,
+  '[{"text":"Chizome Akaguro — he believes only All Might is a true hero, and all others are fakes motivated by fame and money","isCorrect":true},{"text":"Dabi — he believes heroes are hypocrites who hide their true nature","isCorrect":false},{"text":"Gentle Criminal — he believes heroism should be accessible to everyone, not only to licensed professionals chosen by society","isCorrect":false},{"text":"Stendhal — he believes society itself is the true villain","isCorrect":false}]'::jsonb,
   'Stain''s real name is Chizome Akaguro (also known as "Hero Killer: Stain"). His ideology is that modern heroes are corrupt, motivated by fame and money rather than true heroism. He believes only All Might embodies real heroism. He previously went by "Stendhal" before becoming Stain.'
 );
 
@@ -494,7 +494,7 @@ VALUES (
   'What shocking secret about Yuga Aoyama is revealed in the manga?',
   'multiple_choice',
   'impossible',
-  '[{"text":"He is actually a Nomu in disguise","isCorrect":false},{"text":"He was the UA traitor, forced to spy for All For One who gave him his Quirk","isCorrect":true},{"text":"He is related to All For One by blood","isCorrect":false},{"text":"His Quirk is actually stolen from another hero","isCorrect":false}]'::jsonb,
+  '[{"text":"He is actually a Nomu in disguise","isCorrect":false},{"text":"He was the UA traitor, forced to spy for All For One who gave him his Quirk","isCorrect":true},{"text":"He is related to All For One by blood","isCorrect":false},{"text":"His Quirk is actually stolen from another hero whose identity was erased from every record","isCorrect":false}]'::jsonb,
   'Aoyama is revealed as the UA traitor. He was originally Quirkless, and his parents made a deal with All For One, who gave Aoyama the Navel Laser Quirk (which his body can''t fully handle). In exchange, Aoyama was forced to feed information about UA to All For One. He eventually turns against AFO with the help of his classmates.'
 );
 
@@ -524,7 +524,7 @@ VALUES (
   'What is Gran Torino''s connection to the previous One For All user?',
   'multiple_choice',
   'impossible',
-  '[{"text":"He was Nana Shimura''s close friend and sworn protector who helped train All Might","isCorrect":true},{"text":"He was the 6th user of One For All","isCorrect":false},{"text":"He was All Might''s father","isCorrect":false},{"text":"He was All For One''s former ally who defected","isCorrect":false}]'::jsonb,
+  '[{"text":"He was Nana Shimura''s close friend and sworn protector who helped train All Might","isCorrect":true},{"text":"He was the 6th user of One For All","isCorrect":false},{"text":"He was All Might''s father","isCorrect":false},{"text":"He was All For One''s former ally who defected and went into hiding for years to escape retribution","isCorrect":false}]'::jsonb,
   'Gran Torino (Sorahiko Torino) was close friends with Nana Shimura, the 7th One For All user. After Nana''s death at All For One''s hands, Gran Torino took on the role of training the young Toshinori Yagi (All Might) and later helped train Deku as well.'
 );
 
@@ -534,7 +534,7 @@ VALUES (
   'What is the official name of Bakugo''s ultimate super move?',
   'multiple_choice',
   'impossible',
-  '[{"text":"Explosion God Dynamite","isCorrect":false},{"text":"AP Shot: Auto Cannon","isCorrect":false},{"text":"Howitzer Impact","isCorrect":true},{"text":"Stun Grenade Maximum","isCorrect":false}]'::jsonb,
+  '[{"text":"Explosion God Dynamite","isCorrect":false},{"text":"AP Shot: Auto Cannon","isCorrect":false},{"text":"Howitzer Impact","isCorrect":true},{"text":"Stun Grenade","isCorrect":false}]'::jsonb,
   'Bakugo''s ultimate move is Howitzer Impact. He spins in the air to build up sweat (nitroglycerin), then releases it all in a massive explosion. He first uses it in the Sports Festival finals against Todoroki. AP Shot is a focused blast technique, not his ultimate move.'
 );
 
