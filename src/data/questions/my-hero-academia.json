@@ -52,7 +52,7 @@
     "question_type": "multiple_choice",
     "difficulty": "easy",
     "options": [
-      { "text": "Enji Todoroki", "isCorrect": false },
+      { "text": "Enji Todoroki (Endeavor)", "isCorrect": false },
       { "text": "Toshinori Yagi", "isCorrect": true },
       { "text": "Keigo Takami", "isCorrect": false },
       { "text": "Mirai Sasaki", "isCorrect": false }
@@ -76,7 +76,7 @@
     "question_type": "multiple_choice",
     "difficulty": "easy",
     "options": [
-      { "text": "Stain", "isCorrect": false },
+      { "text": "Stain the Hero Killer", "isCorrect": false },
       { "text": "Overhaul", "isCorrect": false },
       { "text": "Tomura Shigaraki", "isCorrect": true },
       { "text": "Dabi", "isCorrect": false }
@@ -127,7 +127,7 @@
       { "text": "It can only be used once per day", "isCorrect": false },
       { "text": "It can be passed from one person to another, stockpiling power with each generation", "isCorrect": true },
       { "text": "It only activates during a full moon", "isCorrect": false },
-      { "text": "It requires a special device to activate", "isCorrect": false }
+      { "text": "It requires a special support device engineered by a licensed hero agency to recharge after every use", "isCorrect": false }
     ],
     "explanation": "One For All is a transferable Quirk that stockpiles power. Each successive user adds their own strength to it before passing it on, making it stronger with every generation."
   },
@@ -136,7 +136,7 @@
     "question_type": "multiple_choice",
     "difficulty": "medium",
     "options": [
-      { "text": "Present Mic", "isCorrect": false },
+      { "text": "Present Mic (Hizashi Yamada)", "isCorrect": false },
       { "text": "Midnight", "isCorrect": false },
       { "text": "Shota Aizawa (Eraser Head)", "isCorrect": true },
       { "text": "All Might", "isCorrect": false }
@@ -148,7 +148,7 @@
     "question_type": "multiple_choice",
     "difficulty": "medium",
     "options": [
-      { "text": "Hellflame", "isCorrect": false },
+      { "text": "Hellflame (Endeavor's Quirk)", "isCorrect": false },
       { "text": "Half-Cold Half-Hot", "isCorrect": true },
       { "text": "Cremation", "isCorrect": false },
       { "text": "Ice Wall", "isCorrect": false }
@@ -174,7 +174,7 @@
     "options": [
       { "text": "Disintegration", "isCorrect": false },
       { "text": "Decay", "isCorrect": true },
-      { "text": "Erosion", "isCorrect": false },
+      { "text": "Rust", "isCorrect": false },
       { "text": "Warp Gate", "isCorrect": false }
     ],
     "explanation": "Shigaraki's Quirk is called Decay. It allows him to disintegrate anything he touches with all five fingers. As he grows stronger, the Quirk evolves to spread beyond direct contact."
@@ -197,7 +197,7 @@
     "difficulty": "medium",
     "options": [
       { "text": "Gentle Criminal", "isCorrect": false },
-      { "text": "Stain", "isCorrect": true },
+      { "text": "Stain (Akaguro)", "isCorrect": true },
       { "text": "Muscular", "isCorrect": false },
       { "text": "Moonfish", "isCorrect": false }
     ],
@@ -209,7 +209,7 @@
     "difficulty": "medium",
     "options": [
       { "text": "Levitation", "isCorrect": false },
-      { "text": "Telekinesis", "isCorrect": false },
+      { "text": "Psychokinesis", "isCorrect": false },
       { "text": "Zero Gravity", "isCorrect": true },
       { "text": "Float", "isCorrect": false }
     ],
@@ -220,9 +220,9 @@
     "question_type": "multiple_choice",
     "difficulty": "medium",
     "options": [
-      { "text": "All Might", "isCorrect": false },
+      { "text": "All Might (Toshinori Yagi)", "isCorrect": false },
       { "text": "Recovery Girl", "isCorrect": false },
-      { "text": "Nezu", "isCorrect": true },
+      { "text": "Nezu (High Specs)", "isCorrect": true },
       { "text": "Gran Torino", "isCorrect": false }
     ],
     "explanation": "Nezu is the principal of U.A. High School. He is a rare case of an animal who developed a Quirk (High Specs), giving him superintelligence far beyond any human."
@@ -258,7 +258,7 @@
     "options": [
       { "text": "It changes name depending on which Quirk he last stole", "isCorrect": false },
       { "text": "The Quirk shares the same name as the villain himself -- All For One", "isCorrect": true },
-      { "text": "It has no official name and is simply called 'the nameless Quirk'", "isCorrect": false },
+      { "text": "It has no official name and is simply called 'the nameless Quirk' in the databook", "isCorrect": false },
       { "text": "Its true name is Steal and Transfer", "isCorrect": false }
     ],
     "explanation": "The villain All For One is named after his own Quirk, which is also called All For One. This Quirk allows him to steal other people's Quirks and give them to others, the inverse of One For All."
@@ -306,7 +306,7 @@
     "options": [
       { "text": "The Hero Association", "isCorrect": false },
       { "text": "Hero Public Safety Commission", "isCorrect": true },
-      { "text": "The Pro Hero Bureau", "isCorrect": false },
+      { "text": "The Pro Hero Regulatory Bureau", "isCorrect": false },
       { "text": "Quirk Regulatory Authority", "isCorrect": false }
     ],
     "explanation": "The Hero Public Safety Commission (HPSC) is the government body responsible for managing and regulating pro heroes, issuing hero licenses, and coordinating hero operations across Japan."
@@ -330,7 +330,7 @@
     "options": [
       { "text": "Heal -- she can heal any wound, and Overhaul uses her blood to create healing serums", "isCorrect": false },
       { "text": "Rewind -- she can revert a person's body to a previous state, and Overhaul uses her to manufacture Quirk-destroying bullets", "isCorrect": true },
-      { "text": "Time Stop -- she can freeze time around her, and Overhaul uses her power to avoid capture", "isCorrect": false },
+      { "text": "Time Stop -- she can freeze time around her, and Overhaul uses her power to avoid capture whenever heroes manage to corner him in battle", "isCorrect": false },
       { "text": "Copy -- she can duplicate any Quirk, and Overhaul uses her to stockpile Quirks", "isCorrect": false }
     ],
     "explanation": "Eri's Quirk is Rewind, which allows her to revert a living being's body to a previous state. Overhaul (Kai Chisaki) exploited Eri by using her body to create bullets that could permanently destroy a person's Quirk."

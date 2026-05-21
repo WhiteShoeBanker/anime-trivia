@@ -1658,7 +1658,7 @@ VALUES (
   'What is All Might''s real name?',
   'multiple_choice',
   'easy',
-  '[{"text":"Enji Todoroki","isCorrect":false},{"text":"Toshinori Yagi","isCorrect":true},{"text":"Keigo Takami","isCorrect":false},{"text":"Mirai Sasaki","isCorrect":false}]'::jsonb,
+  '[{"text":"Enji Todoroki (Endeavor)","isCorrect":false},{"text":"Toshinori Yagi","isCorrect":true},{"text":"Keigo Takami","isCorrect":false},{"text":"Mirai Sasaki","isCorrect":false}]'::jsonb,
   'All Might''s true identity is Toshinori Yagi. He keeps a frail, skeletal true form hidden from the public after suffering a severe injury.'
 );
 
@@ -1678,7 +1678,7 @@ VALUES (
   'Who is the main villain introduced in the first season of My Hero Academia?',
   'multiple_choice',
   'easy',
-  '[{"text":"Stain","isCorrect":false},{"text":"Overhaul","isCorrect":false},{"text":"Tomura Shigaraki","isCorrect":true},{"text":"Dabi","isCorrect":false}]'::jsonb,
+  '[{"text":"Stain the Hero Killer","isCorrect":false},{"text":"Overhaul","isCorrect":false},{"text":"Tomura Shigaraki","isCorrect":true},{"text":"Dabi","isCorrect":false}]'::jsonb,
   'Tomura Shigaraki is the primary antagonist introduced during the USJ attack in Season 1. He leads the League of Villains.'
 );
 
@@ -1718,7 +1718,7 @@ VALUES (
   'What makes One For All unique compared to most other Quirks?',
   'multiple_choice',
   'medium',
-  '[{"text":"It can only be used once per day","isCorrect":false},{"text":"It can be passed from one person to another, stockpiling power with each generation","isCorrect":true},{"text":"It only activates during a full moon","isCorrect":false},{"text":"It requires a special device to activate","isCorrect":false}]'::jsonb,
+  '[{"text":"It can only be used once per day","isCorrect":false},{"text":"It can be passed from one person to another, stockpiling power with each generation","isCorrect":true},{"text":"It only activates during a full moon","isCorrect":false},{"text":"It requires a special support device engineered by a licensed hero agency to recharge after every use","isCorrect":false}]'::jsonb,
   'One For All is a transferable Quirk that stockpiles power. Each successive user adds their own strength to it before passing it on, making it stronger with every generation.'
 );
 
@@ -1728,7 +1728,7 @@ VALUES (
   'Who is the homeroom teacher of Class 1-A?',
   'multiple_choice',
   'medium',
-  '[{"text":"Present Mic","isCorrect":false},{"text":"Midnight","isCorrect":false},{"text":"Shota Aizawa (Eraser Head)","isCorrect":true},{"text":"All Might","isCorrect":false}]'::jsonb,
+  '[{"text":"Present Mic (Hizashi Yamada)","isCorrect":false},{"text":"Midnight","isCorrect":false},{"text":"Shota Aizawa (Eraser Head)","isCorrect":true},{"text":"All Might","isCorrect":false}]'::jsonb,
   'Shota Aizawa, the pro hero known as Eraser Head, is the homeroom teacher of Class 1-A. His Quirk, Erasure, allows him to nullify others'' Quirks by looking at them.'
 );
 
@@ -1738,7 +1738,7 @@ VALUES (
   'What is Shoto Todoroki''s Quirk?',
   'multiple_choice',
   'medium',
-  '[{"text":"Hellflame","isCorrect":false},{"text":"Half-Cold Half-Hot","isCorrect":true},{"text":"Cremation","isCorrect":false},{"text":"Ice Wall","isCorrect":false}]'::jsonb,
+  '[{"text":"Hellflame (Endeavor''s Quirk)","isCorrect":false},{"text":"Half-Cold Half-Hot","isCorrect":true},{"text":"Cremation","isCorrect":false},{"text":"Ice Wall","isCorrect":false}]'::jsonb,
   'Todoroki''s Quirk is Half-Cold Half-Hot. He can generate ice from his right side and fire from his left side. He inherited aspects of both his father Endeavor''s and his mother''s Quirks.'
 );
 
@@ -1758,7 +1758,7 @@ VALUES (
   'What is Tomura Shigaraki''s Quirk?',
   'multiple_choice',
   'medium',
-  '[{"text":"Disintegration","isCorrect":false},{"text":"Decay","isCorrect":true},{"text":"Erosion","isCorrect":false},{"text":"Warp Gate","isCorrect":false}]'::jsonb,
+  '[{"text":"Disintegration","isCorrect":false},{"text":"Decay","isCorrect":true},{"text":"Rust","isCorrect":false},{"text":"Warp Gate","isCorrect":false}]'::jsonb,
   'Shigaraki''s Quirk is called Decay. It allows him to disintegrate anything he touches with all five fingers. As he grows stronger, the Quirk evolves to spread beyond direct contact.'
 );
 
@@ -1778,7 +1778,7 @@ VALUES (
   'What is the name of the hero killer who targets heroes he considers unworthy?',
   'multiple_choice',
   'medium',
-  '[{"text":"Gentle Criminal","isCorrect":false},{"text":"Stain","isCorrect":true},{"text":"Muscular","isCorrect":false},{"text":"Moonfish","isCorrect":false}]'::jsonb,
+  '[{"text":"Gentle Criminal","isCorrect":false},{"text":"Stain (Akaguro)","isCorrect":true},{"text":"Muscular","isCorrect":false},{"text":"Moonfish","isCorrect":false}]'::jsonb,
   'Stain, whose real name is Chizome Akaguro, is the Hero Killer. He believes most pro heroes are fakes motivated by money and fame rather than true justice, and he targets those he deems unworthy.'
 );
 
@@ -1788,7 +1788,7 @@ VALUES (
   'What is Ochaco Uraraka''s Quirk?',
   'multiple_choice',
   'medium',
-  '[{"text":"Levitation","isCorrect":false},{"text":"Telekinesis","isCorrect":false},{"text":"Zero Gravity","isCorrect":true},{"text":"Float","isCorrect":false}]'::jsonb,
+  '[{"text":"Levitation","isCorrect":false},{"text":"Psychokinesis","isCorrect":false},{"text":"Zero Gravity","isCorrect":true},{"text":"Float","isCorrect":false}]'::jsonb,
   'Uraraka''s Quirk is Zero Gravity. She can make objects weightless by touching them with the pads on her fingertips. Using it too much on herself causes nausea.'
 );
 
@@ -1798,7 +1798,7 @@ VALUES (
   'Who is the principal of U.A. High School?',
   'multiple_choice',
   'medium',
-  '[{"text":"All Might","isCorrect":false},{"text":"Recovery Girl","isCorrect":false},{"text":"Nezu","isCorrect":true},{"text":"Gran Torino","isCorrect":false}]'::jsonb,
+  '[{"text":"All Might (Toshinori Yagi)","isCorrect":false},{"text":"Recovery Girl","isCorrect":false},{"text":"Nezu (High Specs)","isCorrect":true},{"text":"Gran Torino","isCorrect":false}]'::jsonb,
   'Nezu is the principal of U.A. High School. He is a rare case of an animal who developed a Quirk (High Specs), giving him superintelligence far beyond any human.'
 );
 
@@ -1828,7 +1828,7 @@ VALUES (
   'What is notable about the name of All For One''s Quirk?',
   'multiple_choice',
   'hard',
-  '[{"text":"It changes name depending on which Quirk he last stole","isCorrect":false},{"text":"The Quirk shares the same name as the villain himself -- All For One","isCorrect":true},{"text":"It has no official name and is simply called ''the nameless Quirk''","isCorrect":false},{"text":"Its true name is Steal and Transfer","isCorrect":false}]'::jsonb,
+  '[{"text":"It changes name depending on which Quirk he last stole","isCorrect":false},{"text":"The Quirk shares the same name as the villain himself -- All For One","isCorrect":true},{"text":"It has no official name and is simply called ''the nameless Quirk'' in the databook","isCorrect":false},{"text":"Its true name is Steal and Transfer","isCorrect":false}]'::jsonb,
   'The villain All For One is named after his own Quirk, which is also called All For One. This Quirk allows him to steal other people''s Quirks and give them to others, the inverse of One For All.'
 );
 
@@ -1868,7 +1868,7 @@ VALUES (
   'What is the name of the government organization that oversees hero licensing and regulation?',
   'multiple_choice',
   'hard',
-  '[{"text":"The Hero Association","isCorrect":false},{"text":"Hero Public Safety Commission","isCorrect":true},{"text":"The Pro Hero Bureau","isCorrect":false},{"text":"Quirk Regulatory Authority","isCorrect":false}]'::jsonb,
+  '[{"text":"The Hero Association","isCorrect":false},{"text":"Hero Public Safety Commission","isCorrect":true},{"text":"The Pro Hero Regulatory Bureau","isCorrect":false},{"text":"Quirk Regulatory Authority","isCorrect":false}]'::jsonb,
   'The Hero Public Safety Commission (HPSC) is the government body responsible for managing and regulating pro heroes, issuing hero licenses, and coordinating hero operations across Japan.'
 );
 
@@ -1888,7 +1888,7 @@ VALUES (
   'What is Eri''s Quirk and why is it significant to the villain Overhaul?',
   'multiple_choice',
   'hard',
-  '[{"text":"Heal -- she can heal any wound, and Overhaul uses her blood to create healing serums","isCorrect":false},{"text":"Rewind -- she can revert a person''s body to a previous state, and Overhaul uses her to manufacture Quirk-destroying bullets","isCorrect":true},{"text":"Time Stop -- she can freeze time around her, and Overhaul uses her power to avoid capture","isCorrect":false},{"text":"Copy -- she can duplicate any Quirk, and Overhaul uses her to stockpile Quirks","isCorrect":false}]'::jsonb,
+  '[{"text":"Heal -- she can heal any wound, and Overhaul uses her blood to create healing serums","isCorrect":false},{"text":"Rewind -- she can revert a person''s body to a previous state, and Overhaul uses her to manufacture Quirk-destroying bullets","isCorrect":true},{"text":"Time Stop -- she can freeze time around her, and Overhaul uses her power to avoid capture whenever heroes manage to corner him in battle","isCorrect":false},{"text":"Copy -- she can duplicate any Quirk, and Overhaul uses her to stockpile Quirks","isCorrect":false}]'::jsonb,
   'Eri''s Quirk is Rewind, which allows her to revert a living being''s body to a previous state. Overhaul (Kai Chisaki) exploited Eri by using her body to create bullets that could permanently destroy a person''s Quirk.'
 );
 
