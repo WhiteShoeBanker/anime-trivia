@@ -53,7 +53,7 @@ const Timer = ({ totalSeconds, timeLeft }: TimerProps) => {
           transition={{ duration: 0.5, ease: "linear" }}
         />
       </svg>
-      <span className="absolute text-sm font-bold" style={{ color }}>
+      <span className="absolute text-sm font-bold tabular-nums" style={{ color }}>
         {timeLeft}
       </span>
     </motion.div>

@@ -92,7 +92,7 @@ const ScoreDisplay = ({
           />
         </svg>
         <div className="absolute flex flex-col items-center">
-          <span className="text-3xl font-bold" style={{ color: ringColor }}>
+          <span className="text-3xl font-bold tabular-nums" style={{ color: ringColor }}>
             {displayScore}
           </span>
           <span className="text-xs text-white/50">/ {maxScore}</span>
