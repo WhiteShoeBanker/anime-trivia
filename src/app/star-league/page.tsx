@@ -2,10 +2,12 @@
 
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { Diamond, Trophy, Users, Crown } from "lucide-react";
+import { Trophy, Users, Crown, Star } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import { Field } from "@/components/ui/Field";
 import { Input } from "@/components/ui/Input";
+import PrestigeCertificate from "@/components/PrestigeCertificate";
+import StarLeagueEmblem from "@/components/StarLeagueEmblem";
 
 const FEATURES = [
   {
@@ -72,19 +74,30 @@ const StarLeaguePage = () => {
 
   return (
     <div className="max-w-3xl mx-auto px-4 py-12">
-      {/* Hero */}
+      {/* Hero — Champion Foil membership emblem above the paper-mode
+          Hanko Decree certificate (DESIGN.md prestige Directions 1 + 2). */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="text-center mb-12"
+        className="flex flex-col items-center mb-12"
       >
-        <Diamond size={48} className="mx-auto text-primary mb-4" />
-        <h1 className="text-3xl md:text-4xl font-bold mb-3">
-          Star League — Coming Soon
-        </h1>
-        <p className="text-white/50 text-lg max-w-lg mx-auto">
-          The ultimate competitive arena for OtakuQuiz's elite players.
-        </p>
+        <div className="mb-8">
+          <StarLeagueEmblem />
+        </div>
+        <PrestigeCertificate
+          title="Star League"
+          eyebrow="Coming Soon"
+          sealIcon={Star}
+          className="w-full max-w-xl"
+        >
+          <p className="text-center text-lg">
+            The ultimate competitive arena for OtakuQuiz&apos;s elite players.
+          </p>
+          <p className="mt-4 text-center text-sm">
+            <span className="font-semibold text-ink">Requirement:</span>{" "}
+            Reach Diamond League + Pro subscription
+          </p>
+        </PrestigeCertificate>
       </motion.div>
 
       {/* Features */}
@@ -103,19 +116,6 @@ const StarLeaguePage = () => {
           </motion.div>
         ))}
       </div>
-
-      {/* Requirement */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.4 }}
-        className="bg-primary/10 border border-primary/30 rounded-2xl p-5 text-center mb-8"
-      >
-        <p className="text-sm text-white/70">
-          <span className="font-semibold text-primary">Requirement:</span>{" "}
-          Reach Diamond League + Pro subscription
-        </p>
-      </motion.div>
 
       {/* Waitlist */}
       <motion.div

@@ -165,4 +165,26 @@ describe("<BadgeFoilCard>", () => {
     // Static defaults preserved — the handler early-returns when !earned.
     expect(el.style.getPropertyValue("--foil-x")).toBe(before);
   });
+
+  it("applies foil-prestige + border-tier-6 and bypasses the rarity foil class when prestige is set", () => {
+    const { container } = render(
+      <BadgeFoilCard badge={baseBadge} earned prestige />,
+    );
+    const wrapper = container.firstChild as HTMLElement;
+    expect(wrapper.className).toContain("foil-prestige");
+    expect(wrapper.className).toContain("border-tier-6");
+    // baseBadge.rarity is "rare" — the rarity foil + border must NOT apply.
+    expect(wrapper.className).not.toContain("foil-rare");
+    expect(wrapper.className).not.toContain("border-blue-500");
+  });
+
+  it("leaves the rarity path unchanged when prestige is absent", () => {
+    const { container } = render(
+      <BadgeFoilCard badge={{ ...baseBadge, rarity: "legendary" }} earned />,
+    );
+    const wrapper = container.firstChild as HTMLElement;
+    expect(wrapper.className).toContain("foil-legendary");
+    expect(wrapper.className).not.toContain("foil-prestige");
+    expect(wrapper.className).not.toContain("border-tier-6");
+  });
 });

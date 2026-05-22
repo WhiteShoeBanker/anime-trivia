@@ -16,6 +16,14 @@ interface BadgeFoilCardProps {
   size?: BadgeFoilCardSize;
   onClick?: () => void;
   className?: string;
+  /**
+   * Apex "Champion Foil" treatment (DESIGN.md badge-foil-prestige). When true,
+   * applies `.foil-prestige` + `border-tier-6`, bypassing the rarity foil/border
+   * maps. Collectible emblems ONLY — never apply to page chrome per DESIGN.md
+   * principle #2 ("Don't apply foil to every surface"). Implemented as an opt-in
+   * prop, not a BadgeRarity enum value, so prestige can't leak into normal badges.
+   */
+  prestige?: boolean;
 }
 
 // Width + icon sizes per the DESIGN.md badge-foil-card token (96px default
@@ -59,6 +67,7 @@ const BadgeFoilCard = ({
   size = "md",
   onClick,
   className,
+  prestige = false,
 }: BadgeFoilCardProps) => {
   const reducedMotion = useReducedMotion();
   const ref = useRef<HTMLDivElement | HTMLButtonElement | null>(null);
@@ -111,11 +120,15 @@ const BadgeFoilCard = ({
   }
   const IconComponent = ResolvedIcon ?? LucideIcons.HelpCircle;
 
+  // Prestige opt-in (Champion Foil) overrides the rarity foil + border maps.
+  const foilClass = prestige ? "foil-prestige" : FOIL_CLASS_MAP[badge.rarity];
+  const borderClass = prestige ? "border-tier-6" : rarityColors[badge.rarity].border;
+
   const wrapperClass = cn(
     "relative aspect-[3/4] rounded-card border-2 shadow-ink overflow-hidden flex flex-col",
     sizeConfig.width,
-    rarityColors[badge.rarity].border,
-    FOIL_CLASS_MAP[badge.rarity],
+    borderClass,
+    foilClass,
     !earned && "opacity-60 grayscale",
     onClick &&
       "cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-secondary",
