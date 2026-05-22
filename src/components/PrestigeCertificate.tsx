@@ -15,6 +15,9 @@ interface PrestigeCertificateProps {
   sealIcon: LucideIcon;
   /** Optional eyebrow label above the title (e.g. "Coming Soon"). */
   eyebrow?: string;
+  /** Semantic heading level for the title. Default "h2"; pass "h1" when the
+   *  certificate is the page's top-level title (e.g. /star-league). */
+  headingLevel?: "h1" | "h2";
   children?: ReactNode;
   className?: string;
 }
@@ -28,10 +31,12 @@ const PrestigeCertificate = ({
   title,
   sealIcon: SealIcon,
   eyebrow,
+  headingLevel = "h2",
   children,
   className,
 }: PrestigeCertificateProps) => {
   const reducedMotion = useReducedMotion();
+  const Heading = headingLevel;
 
   return (
     <section
@@ -61,9 +66,9 @@ const PrestigeCertificate = ({
           </p>
         )}
 
-        <h2 className="mt-2 font-display text-4xl md:text-5xl text-ink">
+        <Heading className="mt-2 font-display text-4xl md:text-5xl text-ink">
           {title}
-        </h2>
+        </Heading>
       </div>
 
       {children && <div className="mt-6 text-ink/70">{children}</div>}
