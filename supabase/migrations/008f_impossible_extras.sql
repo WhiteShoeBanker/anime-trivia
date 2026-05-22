@@ -154,7 +154,7 @@ VALUES (
   'What is the name of the island where the Straw Hat Pirates'' ship Thousand Sunny was built?',
   'multiple_choice',
   'impossible',
-  '[{"text":"Enies Lobby","isCorrect":false},{"text":"Water 7","isCorrect":true},{"text":"Sabaody Archipelago","isCorrect":false},{"text":"Thriller Bark","isCorrect":false}]'::jsonb,
+  '[{"text":"Zou","isCorrect":false},{"text":"Water 7","isCorrect":true},{"text":"Sabaody Archipelago","isCorrect":false},{"text":"Thriller Bark","isCorrect":false}]'::jsonb,
   'The Thousand Sunny was built at Water 7 by Franky (with help from the Galley-La Company shipwrights) using wood from the Treasure Tree Adam. It replaced the Going Merry, which was given a Viking funeral after the Enies Lobby arc. Water 7 is the world''s premier shipbuilding island.'
 );
 
@@ -174,6 +174,6 @@ VALUES (
   'What is the name of Zoro''s strongest Three Sword Style technique before the timeskip?',
   'multiple_choice',
   'impossible',
-  '[{"text":"Oni Giri","isCorrect":false},{"text":"Sanzen Sekai (Three Thousand Worlds)","isCorrect":true},{"text":"Tatsumaki","isCorrect":false},{"text":"Shishi Sonson","isCorrect":false}]'::jsonb,
+  '[{"text":"Oni Giri (Demon Slash, a three-sword strike)","isCorrect":false},{"text":"Sanzen Sekai (Three Thousand Worlds)","isCorrect":true},{"text":"Tatsumaki","isCorrect":false},{"text":"Shishi Sonson","isCorrect":false}]'::jsonb,
   'Sanzen Sekai (Three Thousand Worlds) is Zoro''s strongest pre-timeskip Three Sword Style technique, where he spins his two hand swords in a helicopter-like motion while charging. He first uses it against Mihawk at the Baratie. Oni Giri is his basic three-sword attack, and Shishi Sonson is a one-sword technique.'
 );
