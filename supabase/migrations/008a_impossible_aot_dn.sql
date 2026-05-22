@@ -180,7 +180,7 @@ VALUES (
   'In which manga magazine was Attack on Titan originally serialized?',
   'multiple_choice',
   'impossible',
-  '[{"text":"Weekly Shōnen Jump","isCorrect":false},{"text":"Bessatsu Shōnen Magazine","isCorrect":true},{"text":"Monthly Shōnen Gangan","isCorrect":false},{"text":"Weekly Shōnen Magazine","isCorrect":false}]'::jsonb,
+  '[{"text":"Weekly Shōnen Jump","isCorrect":false},{"text":"Bessatsu Shōnen Magazine","isCorrect":true},{"text":"Monthly Shōnen Gangan (Square Enix)","isCorrect":false},{"text":"Weekly Shōnen Magazine","isCorrect":false}]'::jsonb,
   'Attack on Titan was serialized in Bessatsu Shōnen Magazine (a monthly publication by Kodansha) from September 2009 to April 2021. Creator Hajime Isayama was famously rejected by Weekly Shōnen Jump.'
 );
 
@@ -210,7 +210,7 @@ VALUES (
   'What specific ability did King Karl Fritz use on the Eldians inside the walls?',
   'multiple_choice',
   'impossible',
-  '[{"text":"He removed their ability to transform into Titans","isCorrect":false},{"text":"He implanted false memories of a peaceful history","isCorrect":false},{"text":"He erased their memories of the world outside the walls","isCorrect":true},{"text":"He altered their bloodline to prevent royal succession","isCorrect":false}]'::jsonb,
+  '[{"text":"He removed their ability to transform into Titans","isCorrect":false},{"text":"He implanted false memories of a peaceful history","isCorrect":false},{"text":"He erased their memories of the world outside the walls","isCorrect":true},{"text":"He altered their bloodline to prevent any future royal succession","isCorrect":false}]'::jsonb,
   'Karl Fritz used the Founding Titan''s power to erase the memories of all Subjects of Ymir within the walls, making them forget the outside world, the existence of Marley, and the true history of the Eldian Empire.'
 );
 
@@ -220,7 +220,7 @@ VALUES (
   'What specific condition must be met for the Founding Titan to use its full power?',
   'multiple_choice',
   'impossible',
-  '[{"text":"The user must be within the Coordinate dimension","isCorrect":false},{"text":"The user must possess all Nine Titan powers simultaneously","isCorrect":false},{"text":"The user must make physical contact with a Titan of royal blood","isCorrect":true},{"text":"The user must consume a serum derived from spinal fluid","isCorrect":false}]'::jsonb,
+  '[{"text":"The user must be within the Coordinate dimension","isCorrect":false},{"text":"The user must possess all Nine Titan powers within the walls simultaneously","isCorrect":false},{"text":"The user must make physical contact with a Titan of royal blood","isCorrect":true},{"text":"The user must consume a serum derived from spinal fluid","isCorrect":false}]'::jsonb,
   'A non-royal Founding Titan holder must make physical contact with a Titan who has royal blood to access the Founding Titan''s full power. This is why Eren needed Zeke (who has royal blood through Dina Fritz) and why touching Dina''s Titan temporarily activated his power.'
 );
 
@@ -250,7 +250,7 @@ VALUES (
   'Who designed and created the anti-personnel vertical maneuvering equipment used by Kenny''s squad?',
   'multiple_choice',
   'impossible',
-  '[{"text":"Hange Zoë","isCorrect":false},{"text":"Angel Aaltonen","isCorrect":true},{"text":"Moblit Berner","isCorrect":false},{"text":"Dimo Reeves","isCorrect":false}]'::jsonb,
+  '[{"text":"Hange Zoë","isCorrect":false},{"text":"Angel Aaltonen","isCorrect":true},{"text":"Moblit Berner (Survey Corps)","isCorrect":false},{"text":"Dimo Reeves","isCorrect":false}]'::jsonb,
   'Angel Aaltonen is credited as the inventor and developer of the anti-personnel ODM gear. This modified version replaced the sword blades with firearms, specifically designed for combat against humans rather than Titans.'
 );
 
@@ -260,7 +260,7 @@ VALUES (
   'Which district of Wall Maria was breached in the initial Titan attack?',
   'multiple_choice',
   'impossible',
-  '[{"text":"Trost District","isCorrect":false},{"text":"Karanes District","isCorrect":false},{"text":"Shiganshina District","isCorrect":true},{"text":"Stohess District","isCorrect":false}]'::jsonb,
+  '[{"text":"Trost District (Wall Rose)","isCorrect":false},{"text":"Karanes District","isCorrect":false},{"text":"Shiganshina District","isCorrect":true},{"text":"Stohess District","isCorrect":false}]'::jsonb,
   'Shiganshina District, on the southern edge of Wall Maria, was the first district breached by the Colossal and Armored Titans in 845. Trost is a district of Wall Rose, and Stohess is a district of Wall Sheena.'
 );
 
@@ -270,7 +270,7 @@ VALUES (
   'How many distinct Titan shifter powers (the Nine Titans) exist in total?',
   'multiple_choice',
   'impossible',
-  '[{"text":"Seven","isCorrect":false},{"text":"Eight","isCorrect":false},{"text":"Nine","isCorrect":true},{"text":"Thirteen","isCorrect":false}]'::jsonb,
+  '[{"text":"Seven","isCorrect":false},{"text":"Six","isCorrect":false},{"text":"Nine","isCorrect":true},{"text":"Thirteen","isCorrect":false}]'::jsonb,
   'There are exactly Nine Titans: the Founding Titan, Attack Titan, Colossal Titan, Armored Titan, Female Titan, Beast Titan, Jaw Titan, Cart Titan, and War Hammer Titan. They originate from Ymir Fritz''s power splitting among her descendants.'
 );
 
@@ -280,7 +280,7 @@ VALUES (
   'Which Titan shifter has the specific ability to call and control Pure Titans using a scream, but only due to royal blood?',
   'multiple_choice',
   'impossible',
-  '[{"text":"The Founding Titan only","isCorrect":false},{"text":"The Female Titan","isCorrect":false},{"text":"Any Beast Titan holder","isCorrect":false},{"text":"Zeke Yeager''s Beast Titan, due to his royal blood","isCorrect":true}]'::jsonb,
+  '[{"text":"The Founding Titan only","isCorrect":false},{"text":"The Female Titan","isCorrect":false},{"text":"Any Beast Titan holder regardless of their bloodline","isCorrect":false},{"text":"Zeke Yeager''s Beast Titan, due to his royal blood","isCorrect":true}]'::jsonb,
   'While the Beast Titan does not inherently control Pure Titans, Zeke Yeager''s royal blood (through his mother Dina Fritz) gives his Beast Titan the ability to create and command Pure Titans through his spinal fluid and scream. This is unique to Zeke, not the Beast Titan itself.'
 );
 

@@ -1,14 +1,7 @@
 {
   "version": 1,
-  "generatedAt": "2026-05-22T00:26:23.902Z",
+  "generatedAt": "2026-05-22T01:09:47.602Z",
   "entries": [
-    {
-      "key": "02346c835febedc0",
-      "anime": "attack-on-titan",
-      "tier": "hard",
-      "questionTextPrefix": "What is 'the Coordinate' in the context of Attack on Titan?",
-      "kind": "strictly-longest"
-    },
     {
       "key": "0d930bbd6b3ef972",
       "anime": "one-piece",
@@ -24,25 +17,11 @@
       "kind": "strictly-shortest"
     },
     {
-      "key": "1d2795d4a3e9dba8",
-      "anime": "attack-on-titan",
-      "tier": "easy",
-      "questionTextPrefix": "What is the weak spot on a Titan's body that soldiers must s",
-      "kind": "strictly-longest"
-    },
-    {
       "key": "1eab70610546fab6",
       "anime": "one-piece",
       "tier": "impossible",
       "questionTextPrefix": "How many Road Poneglyphs exist, and what is their purpose?",
       "kind": "strictly-longest"
-    },
-    {
-      "key": "203663ec460599da",
-      "anime": "attack-on-titan",
-      "tier": "medium",
-      "questionTextPrefix": "Who is revealed to be the Armored Titan?",
-      "kind": "strictly-shortest"
     },
     {
       "key": "24817e10bded2f3d",
@@ -80,32 +59,11 @@
       "kind": "strictly-longest"
     },
     {
-      "key": "3d136a42fef14599",
-      "anime": "attack-on-titan",
-      "tier": "impossible",
-      "questionTextPrefix": "Which district of Wall Maria was breached in the initial Tit",
-      "kind": "strictly-longest"
-    },
-    {
-      "key": "41f269a8ac035222",
-      "anime": "attack-on-titan",
-      "tier": "hard",
-      "questionTextPrefix": "What is the name of the Eldian king who created the walls an",
-      "kind": "strictly-longest"
-    },
-    {
       "key": "4d18891969f968c1",
       "anime": "one-piece",
       "tier": "impossible",
       "questionTextPrefix": "What was the name of Oda's original one-shot manga that even",
       "kind": "strictly-longest"
-    },
-    {
-      "key": "51fae37b1bd45aeb",
-      "anime": "attack-on-titan",
-      "tier": "easy",
-      "questionTextPrefix": "What is the name of the main character in Attack on Titan?",
-      "kind": "strictly-shortest"
     },
     {
       "key": "55ca7486b89e3bd7",
@@ -122,73 +80,10 @@
       "kind": "strictly-longest"
     },
     {
-      "key": "5a614c4c9b14e56a",
-      "anime": "attack-on-titan",
-      "tier": "hard",
-      "questionTextPrefix": "What is the Ackerman clan's special trait that sets them apa",
-      "kind": "strictly-longest"
-    },
-    {
-      "key": "62effda731e05cbd",
-      "anime": "attack-on-titan",
-      "tier": "medium",
-      "questionTextPrefix": "What are the three military branches within the walls?",
-      "kind": "strictly-longest"
-    },
-    {
-      "key": "67faa8c0be08ae08",
-      "anime": "attack-on-titan",
-      "tier": "impossible",
-      "questionTextPrefix": "How many distinct Titan shifter powers (the Nine Titans) exi",
-      "kind": "strictly-shortest"
-    },
-    {
-      "key": "6d181395b1ef0f5e",
-      "anime": "attack-on-titan",
-      "tier": "impossible",
-      "questionTextPrefix": "Which Titan shifter has the specific ability to call and con",
-      "kind": "strictly-longest"
-    },
-    {
-      "key": "72fdfacec5f7b7f3",
-      "anime": "attack-on-titan",
-      "tier": "hard",
-      "questionTextPrefix": "What is Eren's true motivation as revealed at the end of the",
-      "kind": "strictly-longest"
-    },
-    {
-      "key": "79701d4b6716ded9",
-      "anime": "attack-on-titan",
-      "tier": "medium",
-      "questionTextPrefix": "What is the Founding Titan's special ability?",
-      "kind": "strictly-longest"
-    },
-    {
       "key": "842a38590ddc3fef",
       "anime": "one-piece",
       "tier": "hard",
       "questionTextPrefix": "What is Nico Robin's ultimate dream?",
-      "kind": "strictly-longest"
-    },
-    {
-      "key": "95be0be59b4793cd",
-      "anime": "attack-on-titan",
-      "tier": "impossible",
-      "questionTextPrefix": "In which manga magazine was Attack on Titan originally seria",
-      "kind": "strictly-longest"
-    },
-    {
-      "key": "977aa7bc4fa1c178",
-      "anime": "attack-on-titan",
-      "tier": "medium",
-      "questionTextPrefix": "Who is known as humanity's strongest soldier?",
-      "kind": "strictly-longest"
-    },
-    {
-      "key": "9dce77a62d7ce3db",
-      "anime": "attack-on-titan",
-      "tier": "hard",
-      "questionTextPrefix": "What was the name of Grisha Yeager's first wife in Marley, a",
       "kind": "strictly-longest"
     },
     {
@@ -206,13 +101,6 @@
       "kind": "strictly-longest"
     },
     {
-      "key": "a0a1bdcb2381dfb9",
-      "anime": "attack-on-titan",
-      "tier": "hard",
-      "questionTextPrefix": "What is 'the Rumbling'?",
-      "kind": "strictly-longest"
-    },
-    {
       "key": "a29912db29685c16",
       "anime": "one-piece",
       "tier": "easy",
@@ -227,13 +115,6 @@
       "kind": "strictly-shortest"
     },
     {
-      "key": "a5075fca799d40fc",
-      "anime": "attack-on-titan",
-      "tier": "impossible",
-      "questionTextPrefix": "What specific ability did King Karl Fritz use on the Eldians",
-      "kind": "strictly-longest"
-    },
-    {
       "key": "a9e4de077df76148",
       "anime": "one-piece",
       "tier": "hard",
@@ -241,31 +122,10 @@
       "kind": "strictly-longest"
     },
     {
-      "key": "abb212f8de9de4e8",
-      "anime": "attack-on-titan",
-      "tier": "easy",
-      "questionTextPrefix": "What is the name of the enormous Titan that kicks a hole in ",
-      "kind": "strictly-longest"
-    },
-    {
-      "key": "abfbad94be38d256",
-      "anime": "attack-on-titan",
-      "tier": "hard",
-      "questionTextPrefix": "What is Ymir Fritz's (the Founder's) connection to the origi",
-      "kind": "strictly-longest"
-    },
-    {
       "key": "adc534a1470e1baa",
       "anime": "one-piece",
       "tier": "hard",
       "questionTextPrefix": "What is Gear Fifth and how does it work?",
-      "kind": "strictly-longest"
-    },
-    {
-      "key": "ae10a8896a8ddf4d",
-      "anime": "attack-on-titan",
-      "tier": "hard",
-      "questionTextPrefix": "What is the 'Curse of Ymir' and how does it affect Titan shi",
       "kind": "strictly-longest"
     },
     {
@@ -283,39 +143,11 @@
       "kind": "strictly-longest"
     },
     {
-      "key": "e6fe45db096aa467",
-      "anime": "attack-on-titan",
-      "tier": "impossible",
-      "questionTextPrefix": "Who designed and created the anti-personnel vertical maneuve",
-      "kind": "strictly-longest"
-    },
-    {
       "key": "ecc9f92d4b487503",
       "anime": "one-piece",
       "tier": "impossible",
       "questionTextPrefix": "What is the name of the Revolutionary Army's base of operati",
       "kind": "strictly-shortest"
-    },
-    {
-      "key": "ef887864e56a1b56",
-      "anime": "attack-on-titan",
-      "tier": "easy",
-      "questionTextPrefix": "What military branch do Eren, Mikasa, and Armin join after g",
-      "kind": "strictly-shortest"
-    },
-    {
-      "key": "f03b05572f5d3b16",
-      "anime": "attack-on-titan",
-      "tier": "easy",
-      "questionTextPrefix": "Who is Eren's adopted sister?",
-      "kind": "strictly-longest"
-    },
-    {
-      "key": "f2b16c0086ac6e14",
-      "anime": "attack-on-titan",
-      "tier": "easy",
-      "questionTextPrefix": "What protects humanity from the Titans at the start of the s",
-      "kind": "strictly-longest"
     },
     {
       "key": "f5dd55df4d0d7049",
@@ -332,13 +164,6 @@
       "kind": "strictly-shortest"
     },
     {
-      "key": "f823eefe4b92c7b7",
-      "anime": "attack-on-titan",
-      "tier": "impossible",
-      "questionTextPrefix": "What specific condition must be met for the Founding Titan t",
-      "kind": "strictly-longest"
-    },
-    {
       "key": "f8f430494062033a",
       "anime": "one-piece",
       "tier": "medium",
@@ -346,24 +171,10 @@
       "kind": "strictly-longest"
     },
     {
-      "key": "fded0c2c8dc30d97",
-      "anime": "attack-on-titan",
-      "tier": "medium",
-      "questionTextPrefix": "What is the name of the district where Eren grew up?",
-      "kind": "strictly-longest"
-    },
-    {
       "key": "feb29d80e7e6e46c",
       "anime": "one-piece",
       "tier": "medium",
       "questionTextPrefix": "Who is the doctor of the Straw Hat crew?",
-      "kind": "strictly-longest"
-    },
-    {
-      "key": "fffe0908ca812cf1",
-      "anime": "attack-on-titan",
-      "tier": "easy",
-      "questionTextPrefix": "What is the name of the equipment soldiers use to fight Tita",
       "kind": "strictly-longest"
     },
     {
