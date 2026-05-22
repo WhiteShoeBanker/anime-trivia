@@ -125,25 +125,26 @@ shortest option; ties at either extreme are allowed.
 
 **Rationale:** an unconstrained corpus drifts toward "the longest option is the
 answer" — a content tell that makes the game trivially pattern-solvable without
-knowing the anime. The Track B investigation found 240/480 questions violating
-this before the guardrail existed.
+knowing the anime.
 
 **Authoring rule:** when writing or editing a multiple-choice question, keep the
 correct answer within the distractor length range. If the true answer is
-naturally long, lengthen a distractor (or trim the answer's parenthetical) so
-the correct option is no longer the unique extremum in either direction.
+naturally long, lengthen a distractor so the correct option is no longer the
+unique extremum in either direction. Elaborate a decoy — do not trim the correct
+answer.
 
 **Tooling:**
 
-- Audit: `pnpm tsx scripts/audit-question-lengths.ts --detail` (also `--summary`, `--suggestions`)
-- Gate (CI): `pnpm test src/lib/__tests__/length-bias-corpus` — fails on any
-  non-allowlisted violation or stale allowlist entry.
+- Audit before committing: `pnpm tsx scripts/audit-question-lengths.ts --summary`
+  (or `--detail` for per-question output).
+- Gate (CI): `pnpm vitest run src/lib/__tests__/length-bias-corpus` — runs the
+  invariant **strictly** across all 480 questions; any violation fails the test.
 
-**Allowlist:** the pre-existing violations are recorded in
-`src/lib/__tests__/fixtures/length-bias-allowlist.json` and are being burned
-down over the T2–Tn normalization track. New violations fail CI. Adding an entry
-to the allowlist (regenerating via `--emit-allowlist`) requires explicit
-justification in the PR — the default is to fix the question, not allowlist it.
+**History:** length-bias normalization was completed via Track B (T1 guardrail
+through T9 + T_final, 2026-05-18 → 2026-05-22). 240 violations were resolved
+across 8 per-anime batches (DBZ 18, DS 37, JJK 36, naruto 33, MHA 32, DN 31,
+AoT 27, OP 26). The burn-down allowlist was removed at closeout; the validator
+now runs strict — every new or edited question must comply on its own.
 
 ## Test gates (must pass before any commit)
 
