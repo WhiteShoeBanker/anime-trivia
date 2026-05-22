@@ -1,7 +1,8 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { createRef } from "react";
 import { fireEvent, render, screen } from "@testing-library/react";
-import { DifficultyChip, type DifficultyTone } from "./DifficultyChip";
+import { DifficultyChip } from "./DifficultyChip";
+import type { DifficultyTone } from "@/themes";
 
 const ACTIVE_EXPECTATIONS: { tone: DifficultyTone; bg: RegExp; text: RegExp }[] =
   [

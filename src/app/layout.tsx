@@ -7,7 +7,7 @@ import AnnouncementBanner from "@/components/AnnouncementBanner";
 import ToastContainer from "@/components/ToastContainer";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { getConfig } from "@/lib/admin-config";
-import { palette } from "@/themes/manga-ink/palette";
+import { palette } from "@/themes";
 
 const anton = Anton({
   variable: "--font-display",

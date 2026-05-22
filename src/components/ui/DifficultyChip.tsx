@@ -3,13 +3,7 @@
 import { forwardRef } from "react";
 import type { ButtonHTMLAttributes, ReactNode } from "react";
 import { cn } from "@/lib/utils";
-
-export type DifficultyTone =
-  | "easy"
-  | "medium"
-  | "hard"
-  | "impossible"
-  | "mixed";
+import type { DifficultyTone } from "@/themes";
 
 // Tone → utility-class lookup tables (active / inactive). Static strings so
 // Tailwind v4's build-time extractor can see every class — no template
