@@ -125,9 +125,23 @@ JS consumers: import from `@/themes`:
 - `tierColors` — `Array<{ tier, name, color }>`, six entries
 - `chartPalette` — 8-color string array for Recharts series
 - `confettiPalette` — 5-color string array for celebration effects
-- `rarityColors` — badge rarity → Tailwind class mapping
+- `rarityColors` — badge rarity → Tailwind class mapping (frame: border + bg)
+- `rarityLabels` — badge rarity → label text + text-color class (BadgeCard, BadgeCelebration)
+- `difficultyLabels` — difficulty tone → display label (QuizCard, DifficultySelector, ChallengeModal, DuelClient)
 - `palette` — full keyed palette for one-off color reads
 - `activeThemeName` — current theme slug
+
+Type exports (also from `@/themes`):
+- `TierColor` — `{ tier, name, color }`
+- `Rarity` — badge rarity union
+- `DifficultyTone` — alias of `@/types` `DuelDifficulty` (`Difficulty | "mixed"`); the
+  name is kept for design-system consumers (DuelClient, DifficultyChip)
+
+Reserved exports (no current consumers — kept as the JS-side seed for the deferred
+admin Recharts migration documented in Known TODOs below; see also DESIGN.md L505):
+- `difficultyPalette` — difficulty tone → hex (easy/medium/hard reference
+  `audiencePalette`; impossible/mixed are standalone)
+- `audiencePalette` — audience tier → hex
 
 ## Known TODOs
 

@@ -9,10 +9,8 @@ import ProgressBar from "@/components/ProgressBar";
 import AnswerButton from "@/components/AnswerButton";
 import QuizCard from "@/components/QuizCard";
 import ScoreDisplay from "@/components/ScoreDisplay";
-import {
-  DifficultyChip,
-  type DifficultyTone,
-} from "@/components/ui/DifficultyChip";
+import { DifficultyChip } from "@/components/ui/DifficultyChip";
+import type { DifficultyTone } from "@/themes";
 import { Label } from "@/components/ui/Label";
 import { FieldHint } from "@/components/ui/FieldHint";
 import { FieldError } from "@/components/ui/FieldError";

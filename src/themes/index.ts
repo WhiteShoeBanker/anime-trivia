@@ -9,6 +9,8 @@
 //
 // Contract: src/themes/README.md.
 
+import type { DuelDifficulty } from "@/types";
+
 import { palette } from "./manga-ink/palette";
 
 export const activeThemeName: string =
@@ -89,25 +91,23 @@ export const audiencePalette = {
   mature: "#ef4444",
 } as const;
 
-export type AudienceTier = keyof typeof audiencePalette;
-
-// Difficulty palette. easy/medium/hard reuse audience hues (same visual
-// register, different semantic axis); impossible + mixed are net-new.
-// Mirrors --color-difficulty-impossible / --color-difficulty-mixed in
-// tokens.css. Replaces the inline difficulty maps previously redeclared
-// in QuizCard.tsx and duels/[duelId]/DuelClient.tsx.
+// Difficulty palette. easy/medium/hard reference the audience hues directly
+// (same visual register, different semantic axis — the "easy reuses
+// audience-junior" contract is enforced here in code, not just in comments);
+// impossible + mixed are net-new. Mirrors --color-difficulty-impossible /
+// --color-difficulty-mixed in tokens.css.
 export const difficultyPalette = {
-  easy: "#10b981",
-  medium: "#facc15",
-  hard: "#ef4444",
+  easy: audiencePalette.junior,
+  medium: audiencePalette.teen,
+  hard: audiencePalette.mature,
   impossible: "#a855f7",
   mixed: "#60a5fa",
 } as const;
 
-// Named DifficultyTone (not Difficulty) to avoid colliding with @/types/Difficulty
-// — the types-level Difficulty is the question.difficulty enum (4 values, no
-// "mixed"); this superset adds "mixed" for the DuelClient pre-quiz chip.
-export type DifficultyTone = keyof typeof difficultyPalette;
+// DifficultyTone aliases the canonical @/types DuelDifficulty (= Difficulty |
+// "mixed"). The name is kept so existing consumers (DuelClient, DifficultyChip)
+// don't churn; the single source of truth is the types layer.
+export type DifficultyTone = DuelDifficulty;
 
 export const difficultyLabels: Record<DifficultyTone, string> = {
   easy: "Easy",
