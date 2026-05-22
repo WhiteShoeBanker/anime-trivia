@@ -29,7 +29,8 @@
   .foil-uncommon,
   .foil-rare,
   .foil-epic,
-  .foil-legendary {
+  .foil-legendary,
+  .foil-prestige {
     --foil-x: 50%;
     --foil-y: 50%;
   }
@@ -172,6 +173,59 @@
     opacity: 0;
   }
 
+  /* ── prestige: champion-foil apex (legendary holo+sparkle, tier-6
+   *    red-foil glow). SCOPE: collectible Star League membership
+   *    emblem ONLY — never page chrome, nav, panels, or text surfaces.
+   *    See DESIGN.md badge-foil-prestige restraint clause (principle
+   *    #2 / "Don't apply foil to every surface"). Dormant until 5#9b
+   *    wires it to a consuming component. ─────────────────────────── */
+  .foil-prestige {
+    background-color: var(--color-surface);
+    box-shadow:
+      0 0 32px rgba(220, 38, 38, 0.6),
+      0 0 12px rgba(250, 204, 21, 0.4),
+      0 4px 0 0 rgba(0, 0, 0, 0.4);
+  }
+  .foil-prestige::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    border-radius: inherit;
+    background: conic-gradient(
+      from 0deg at var(--foil-x) var(--foil-y),
+      #ff7eb3,
+      #ff758c,
+      #ff9966,
+      #facc15,
+      #84cc16,
+      #22d3ee,
+      #818cf8,
+      #ff7eb3
+    );
+    mix-blend-mode: color-dodge;
+    opacity: 0.95;
+    filter: saturate(1.4);
+  }
+  .foil-prestige::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    border-radius: inherit;
+    background-image:
+      radial-gradient(circle 2.5px at 20% 30%, rgba(255, 255, 255, 1), transparent 60%),
+      radial-gradient(circle 2px   at 70% 60%, rgba(255, 255, 255, 1), transparent 60%),
+      radial-gradient(circle 1.5px at 40% 80%, rgba(255, 255, 255, 0.95), transparent 60%),
+      radial-gradient(circle 1.5px at 85% 25%, rgba(255, 255, 255, 0.95), transparent 60%),
+      radial-gradient(circle 2.5px at 55% 50%, rgba(255, 255, 255, 1), transparent 60%),
+      radial-gradient(circle 1.5px at 30% 65%, rgba(255, 255, 255, 0.95), transparent 60%),
+      radial-gradient(circle 1.5px at 78% 80%, rgba(255, 255, 255, 0.95), transparent 60%),
+      radial-gradient(circle 1px   at 15% 50%, rgba(255, 255, 255, 0.9), transparent 60%);
+    animation: sparkle-stagger 3s ease-in-out infinite;
+    opacity: 0;
+  }
+
   /* ── keyframes ─────────────────────────────────────────────── */
   @keyframes foil-sheen {
     0% {
@@ -212,7 +266,8 @@
   @media (prefers-reduced-motion: reduce) {
     .foil-uncommon::after,
     .foil-rare,
-    .foil-legendary::after {
+    .foil-legendary::after,
+    .foil-prestige::after {
       animation: none;
     }
     .foil-uncommon::after {
@@ -225,6 +280,13 @@
       opacity: 0.65;
     }
     .foil-legendary::after {
+      opacity: 0.6;
+      transform: scale(0.85);
+    }
+    .foil-prestige::before {
+      opacity: 0.65;
+    }
+    .foil-prestige::after {
       opacity: 0.6;
       transform: scale(0.85);
     }
