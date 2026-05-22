@@ -356,7 +356,7 @@ VALUES (
   'What is a Death Note?',
   'multiple_choice',
   'easy',
-  '[{"text":"A cursed sword that steals souls","isCorrect":false},{"text":"A supernatural notebook — anyone whose name is written in it will die","isCorrect":true},{"text":"A list of people targeted by Shinigami","isCorrect":false},{"text":"A diary that predicts future deaths","isCorrect":false}]'::jsonb,
+  '[{"text":"A cursed sword that steals souls","isCorrect":false},{"text":"A supernatural notebook — anyone whose name is written in it will die","isCorrect":true},{"text":"A list of people targeted by Shinigami","isCorrect":false},{"text":"An enchanted diary that foretells the exact date and time of every future death","isCorrect":false}]'::jsonb,
   'The Death Note is a supernatural notebook originally belonging to a Shinigami (god of death). Any human whose name is written in it will die.'
 );
 
@@ -386,7 +386,7 @@ VALUES (
   'Who is the genius detective trying to catch Kira?',
   'multiple_choice',
   'easy',
-  '[{"text":"Near","isCorrect":false},{"text":"Mello","isCorrect":false},{"text":"L","isCorrect":true},{"text":"Watari","isCorrect":false}]'::jsonb,
+  '[{"text":"Near","isCorrect":false},{"text":"Mello","isCorrect":false},{"text":"L Lawliet","isCorrect":true},{"text":"Watari (Quillsh Wammy)","isCorrect":false}]'::jsonb,
   'L (also known as L Lawliet) is the world''s greatest detective. He is the primary antagonist to Light and leads the initial investigation to unmask Kira.'
 );
 
@@ -416,7 +416,7 @@ VALUES (
   'What is Light''s father''s occupation?',
   'multiple_choice',
   'easy',
-  '[{"text":"A university professor","isCorrect":false},{"text":"A private detective","isCorrect":false},{"text":"Chief of the NPA and head of the Kira investigation","isCorrect":true},{"text":"A lawyer for the Japanese government","isCorrect":false}]'::jsonb,
+  '[{"text":"A university professor","isCorrect":false},{"text":"A private detective","isCorrect":false},{"text":"Chief of the NPA and head of the Kira investigation","isCorrect":true},{"text":"A senior defense lawyer working for the Japanese government","isCorrect":false}]'::jsonb,
   'Soichiro Yagami is the chief of the National Police Agency (NPA) in Japan and leads the Kira investigation task force, which puts him directly at odds with his own son without knowing it.'
 );
 
@@ -426,7 +426,7 @@ VALUES (
   'What is L''s signature sitting position?',
   'multiple_choice',
   'easy',
-  '[{"text":"Cross-legged on the floor","isCorrect":false},{"text":"Crouched with his knees drawn up to his chest","isCorrect":true},{"text":"Lying on his side across the chair","isCorrect":false},{"text":"Standing at all times because he never sits","isCorrect":false}]'::jsonb,
+  '[{"text":"Cross-legged on the floor","isCorrect":false},{"text":"Crouched with his knees drawn up to his chest","isCorrect":true},{"text":"Lying on his side across the chair","isCorrect":false},{"text":"Standing at all times because he refuses to ever sit down","isCorrect":false}]'::jsonb,
   'L always sits in a crouched position with his knees pulled up to his chest. He claims that sitting normally would reduce his reasoning ability by approximately 40%.'
 );
 
@@ -436,7 +436,7 @@ VALUES (
   'What kind of student is Light Yagami?',
   'multiple_choice',
   'easy',
-  '[{"text":"An average student who struggles in school","isCorrect":false},{"text":"A genius-level student who is ranked number one in Japan","isCorrect":true},{"text":"A talented athlete who gets by on sports scholarships","isCorrect":false},{"text":"A dropout who studies on his own","isCorrect":false}]'::jsonb,
+  '[{"text":"An average student who struggles in school","isCorrect":false},{"text":"A genius-level student who is ranked number one in Japan","isCorrect":true},{"text":"A talented athlete who gets by purely on his sports scholarships","isCorrect":false},{"text":"A dropout who studies on his own","isCorrect":false}]'::jsonb,
   'Light Yagami is an exceptionally gifted student, scoring number one in national practice exams across all of Japan. His intelligence is a key part of his ability to evade detection as Kira.'
 );
 
@@ -456,7 +456,7 @@ VALUES (
   'What is the name of the second Kira?',
   'multiple_choice',
   'medium',
-  '[{"text":"Kiyomi Takada","isCorrect":false},{"text":"Naomi Misora","isCorrect":false},{"text":"Misa Amane","isCorrect":true},{"text":"Sayu Yagami","isCorrect":false}]'::jsonb,
+  '[{"text":"Kiyomi Takada","isCorrect":false},{"text":"Naomi Misora","isCorrect":false},{"text":"Misa Amane","isCorrect":true},{"text":"Mikami","isCorrect":false}]'::jsonb,
   'Misa Amane is a popular model and actress who obtains a Death Note from the Shinigami Rem. She becomes the second Kira and is devoted to Light, whom she sees as her savior.'
 );
 
@@ -466,7 +466,7 @@ VALUES (
   'What is the Shinigami Eye deal?',
   'multiple_choice',
   'medium',
-  '[{"text":"A human gains the ability to see through walls in exchange for their eyesight in one eye","isCorrect":false},{"text":"A human trades half their remaining lifespan to see any person''s real name and lifespan above their head","isCorrect":true},{"text":"A human can see Shinigami in exchange for ten years of their life","isCorrect":false},{"text":"A human gains future sight in exchange for giving up their Death Note","isCorrect":false}]'::jsonb,
+  '[{"text":"A human gains the ability to see through solid walls in exchange for permanently losing the eyesight in one eye","isCorrect":false},{"text":"A human trades half their remaining lifespan to see any person''s real name and lifespan above their head","isCorrect":true},{"text":"A human can see Shinigami in exchange for ten years of their life","isCorrect":false},{"text":"A human gains future sight in exchange for giving up their Death Note","isCorrect":false}]'::jsonb,
   'The Shinigami Eye deal allows a human to see the real name and remaining lifespan of any person by looking at their face. The cost is half of the human''s remaining lifespan. Misa makes this deal twice.'
 );
 
@@ -476,7 +476,7 @@ VALUES (
   'What is the name of the task force assembled to catch Kira?',
   'multiple_choice',
   'medium',
-  '[{"text":"The SPK","isCorrect":false},{"text":"The Kira Investigation Team (Japanese Task Force)","isCorrect":true},{"text":"The Death Note Bureau","isCorrect":false},{"text":"Interpol Special Division","isCorrect":false}]'::jsonb,
+  '[{"text":"The SPK","isCorrect":false},{"text":"The Kira Investigation Team (Japanese Task Force)","isCorrect":true},{"text":"The Death Note Bureau","isCorrect":false},{"text":"The Interpol Special Anti-Kira Investigation Division","isCorrect":false}]'::jsonb,
   'The Kira Investigation Team, also known as the Japanese Task Force, is a small group of dedicated NPA officers who work directly with L to catch Kira. Most police officers quit due to fear of Kira.'
 );
 
@@ -486,7 +486,7 @@ VALUES (
   'What is L''s real name?',
   'multiple_choice',
   'medium',
-  '[{"text":"Nate River","isCorrect":false},{"text":"Mihael Keehl","isCorrect":false},{"text":"L Lawliet","isCorrect":true},{"text":"Quillsh Wammy","isCorrect":false}]'::jsonb,
+  '[{"text":"Ryuzaki","isCorrect":false},{"text":"Mihael Keehl","isCorrect":false},{"text":"L Lawliet","isCorrect":true},{"text":"Quillsh Wammy","isCorrect":false}]'::jsonb,
   'L''s full real name is L Lawliet. He keeps this name a closely guarded secret because anyone with a Death Note who knows his name and face could kill him.'
 );
 
@@ -496,7 +496,7 @@ VALUES (
   'Who is Misa Amane''s Shinigami?',
   'multiple_choice',
   'medium',
-  '[{"text":"Ryuk","isCorrect":false},{"text":"Sidoh","isCorrect":false},{"text":"Rem","isCorrect":true},{"text":"Gelus","isCorrect":false}]'::jsonb,
+  '[{"text":"Ryuk","isCorrect":false},{"text":"Nu","isCorrect":false},{"text":"Rem","isCorrect":true},{"text":"Gelus","isCorrect":false}]'::jsonb,
   'Rem is the Shinigami who accompanies Misa Amane. Rem inherited the Death Note that originally belonged to Gelus after Gelus died saving Misa''s life, and Rem gave it to Misa.'
 );
 
@@ -516,7 +516,7 @@ VALUES (
   'What does Light do with the Death Note to temporarily clear his name during the investigation?',
   'multiple_choice',
   'medium',
-  '[{"text":"He hides it in a secret compartment in his desk","isCorrect":false},{"text":"He burns it to destroy the evidence","isCorrect":false},{"text":"He gives up ownership of the Death Note, which erases his memories of it","isCorrect":true},{"text":"He passes it to Misa to hold temporarily","isCorrect":false}]'::jsonb,
+  '[{"text":"He hides it in a secret compartment built into the underside of his desk","isCorrect":false},{"text":"He burns it to destroy the evidence","isCorrect":false},{"text":"He gives up ownership of the Death Note, which erases his memories of it","isCorrect":true},{"text":"He passes it to Misa to hold temporarily","isCorrect":false}]'::jsonb,
   'Light voluntarily relinquishes ownership of his Death Note, which causes him to lose all memories related to it. This allows him to genuinely act innocent during confinement, as he truly no longer remembers being Kira.'
 );
 
@@ -536,7 +536,7 @@ VALUES (
   'What does L suspect about Light from very early in the investigation?',
   'multiple_choice',
   'medium',
-  '[{"text":"That Light is secretly working with the police","isCorrect":false},{"text":"That Light is Kira","isCorrect":true},{"text":"That Light has Shinigami Eyes","isCorrect":false},{"text":"That Light is the second Kira","isCorrect":false}]'::jsonb,
+  '[{"text":"That Light is secretly working with the police","isCorrect":false},{"text":"That Light is almost certainly Kira","isCorrect":true},{"text":"That Light has Shinigami Eyes","isCorrect":false},{"text":"That Light is the second Kira","isCorrect":false}]'::jsonb,
   'L suspects Light of being Kira almost immediately after their first meeting. Despite lacking concrete proof, L''s intuition and deductive reasoning lead him to place Light as his prime suspect throughout the investigation.'
 );
 
@@ -546,7 +546,7 @@ VALUES (
   'What is Near''s real name?',
   'multiple_choice',
   'hard',
-  '[{"text":"Mail Jeevas","isCorrect":false},{"text":"Mihael Keehl","isCorrect":false},{"text":"Nate River","isCorrect":true},{"text":"Quillsh Wammy","isCorrect":false}]'::jsonb,
+  '[{"text":"Roger","isCorrect":false},{"text":"Mihael Keehl","isCorrect":false},{"text":"Nate River","isCorrect":true},{"text":"Quillsh Wammy","isCorrect":false}]'::jsonb,
   'Near''s real name is Nate River. He is one of L''s successors raised at Wammy''s House and ultimately becomes the one who exposes Light as Kira in the series finale.'
 );
 
@@ -566,7 +566,7 @@ VALUES (
   'What organization does Near lead to investigate Kira?',
   'multiple_choice',
   'hard',
-  '[{"text":"The Kira Investigation Team","isCorrect":false},{"text":"The FBI Kira Division","isCorrect":false},{"text":"The SPK (Special Provision for Kira)","isCorrect":true},{"text":"Wammy''s Intelligence Network","isCorrect":false}]'::jsonb,
+  '[{"text":"The Kira Investigation Team","isCorrect":false},{"text":"The FBI Kira Division","isCorrect":false},{"text":"The SPK (Special Provision for Kira)","isCorrect":true},{"text":"The Wammy''s House Global Intelligence Network","isCorrect":false}]'::jsonb,
   'Near leads the SPK, which stands for Special Provision for Kira. It is a secret organization formed by the United States government specifically to investigate and apprehend Kira after L''s death.'
 );
 
@@ -576,7 +576,7 @@ VALUES (
   'What fake rule does Light write in the Death Note to trick the investigators?',
   'multiple_choice',
   'hard',
-  '[{"text":"A rule stating the notebook cannot kill anyone under 18","isCorrect":false},{"text":"A rule stating burning the notebook kills its owner","isCorrect":false},{"text":"The 13-day rule: if the user fails to write names within 13 days, the user will die","isCorrect":true},{"text":"A rule stating only one name can be written per day","isCorrect":false}]'::jsonb,
+  '[{"text":"A rule stating that the notebook cannot be used to kill anyone who is under the age of 18","isCorrect":false},{"text":"A rule stating burning the notebook kills its owner","isCorrect":false},{"text":"The 13-day rule: if the user fails to write names within 13 days, the user will die","isCorrect":true},{"text":"A rule stating only one name can be written per day","isCorrect":false}]'::jsonb,
   'Light had Ryuk write the fake 13-day rule into the Death Note''s rules. This rule states that if the user does not write a name every 13 days, they will die. It was used to clear Light''s suspicion since he was confined for over 13 days without dying.'
 );
 
@@ -586,7 +586,7 @@ VALUES (
   'How does Light ultimately get exposed as Kira in the series finale?',
   'multiple_choice',
   'hard',
-  '[{"text":"Ryuk betrays Light and reveals his identity to Near","isCorrect":false},{"text":"Misa confesses to the police and implicates Light","isCorrect":false},{"text":"Near replaces Mikami''s Death Note with a fake, so when Mikami writes the SPK members'' names and they don''t die, Light is exposed","isCorrect":true},{"text":"L left behind a secret recording that proved Light was Kira","isCorrect":false}]'::jsonb,
+  '[{"text":"Ryuk betrays Light and reveals his identity to Near","isCorrect":false},{"text":"Misa confesses to the police and implicates Light","isCorrect":false},{"text":"Near replaces Mikami''s Death Note with a fake, so when Mikami writes the SPK members'' names and they don''t die, Light is exposed","isCorrect":true},{"text":"Before his death, L secretly recorded a detailed video confession that, when finally played back at the warehouse, proved Light Yagami had been Kira all along","isCorrect":false}]'::jsonb,
   'Near and his team replace Teru Mikami''s Death Note with a carefully crafted replica. At the final confrontation in the Yellow Box warehouse, Mikami writes everyone''s names but no one dies, proving the notebook is real and exposing Light as the one who orchestrated the killings.'
 );
 
@@ -606,7 +606,7 @@ VALUES (
   'Approximately how many individual rules govern how the Death Note works, as detailed throughout the manga?',
   'multiple_choice',
   'hard',
-  '[{"text":"About 15 rules","isCorrect":false},{"text":"About 30 rules","isCorrect":false},{"text":"Over 60 rules","isCorrect":true},{"text":"Exactly 100 rules","isCorrect":false}]'::jsonb,
+  '[{"text":"About 15 rules","isCorrect":false},{"text":"About 30 rules","isCorrect":false},{"text":"Over sixty rules","isCorrect":true},{"text":"Exactly 100 rules","isCorrect":false}]'::jsonb,
   'The Death Note has an extensive set of rules detailed across the manga volumes in the ''How to Use It'' sections. There are over 60 individual rules covering everything from causes of death, time limits, ownership transfers, the Shinigami Eye deal, and more.'
 );
 
@@ -636,7 +636,7 @@ VALUES (
   'What is the name of the institution where L, Near, and Mello were raised?',
   'multiple_choice',
   'hard',
-  '[{"text":"The Winchester Academy for the Gifted","isCorrect":false},{"text":"The Lawliet Foundation","isCorrect":false},{"text":"Wammy''s House","isCorrect":true},{"text":"The British Intelligence Youth Program","isCorrect":false}]'::jsonb,
+  '[{"text":"The Winchester Academy for the Gifted","isCorrect":false},{"text":"The Lawliet Foundation","isCorrect":false},{"text":"Wammy''s House orphanage","isCorrect":true},{"text":"The British Intelligence Youth Program","isCorrect":false}]'::jsonb,
   'Wammy''s House is an orphanage for extraordinarily gifted children located in Winchester, England. It was founded by Quillsh Wammy (Watari) and serves as a training ground for potential successors to L.'
 );
 

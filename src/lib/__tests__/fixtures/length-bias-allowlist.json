@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generatedAt": "2026-05-21T22:40:56.514Z",
+  "generatedAt": "2026-05-22T00:26:23.902Z",
   "entries": [
     {
       "key": "02346c835febedc0",
@@ -17,24 +17,10 @@
       "kind": "strictly-longest"
     },
     {
-      "key": "0f15fbc1d91f3acc",
-      "anime": "death-note",
-      "tier": "easy",
-      "questionTextPrefix": "What is L's signature sitting position?",
-      "kind": "strictly-longest"
-    },
-    {
       "key": "11103c134499143f",
       "anime": "one-piece",
       "tier": "easy",
       "questionTextPrefix": "What is the name of the legendary treasure that all pirates ",
-      "kind": "strictly-shortest"
-    },
-    {
-      "key": "11ef1ef13d9096d1",
-      "anime": "death-note",
-      "tier": "medium",
-      "questionTextPrefix": "What does L suspect about Light from very early in the inves",
       "kind": "strictly-shortest"
     },
     {
@@ -52,31 +38,10 @@
       "kind": "strictly-longest"
     },
     {
-      "key": "1fb6f4d59370abbf",
-      "anime": "death-note",
-      "tier": "medium",
-      "questionTextPrefix": "What is the name of the task force assembled to catch Kira?",
-      "kind": "strictly-longest"
-    },
-    {
       "key": "203663ec460599da",
       "anime": "attack-on-titan",
       "tier": "medium",
       "questionTextPrefix": "Who is revealed to be the Armored Titan?",
-      "kind": "strictly-shortest"
-    },
-    {
-      "key": "20e07b2b206c4a03",
-      "anime": "death-note",
-      "tier": "impossible",
-      "questionTextPrefix": "What is L's real full name as revealed in supplementary mate",
-      "kind": "strictly-shortest"
-    },
-    {
-      "key": "2323f975de1b7eca",
-      "anime": "death-note",
-      "tier": "medium",
-      "questionTextPrefix": "Who is Misa Amane's Shinigami?",
       "kind": "strictly-shortest"
     },
     {
@@ -99,13 +64,6 @@
       "tier": "impossible",
       "questionTextPrefix": "What are the three main classifications of Devil Fruit types",
       "kind": "strictly-shortest"
-    },
-    {
-      "key": "2ed3c11e0805908b",
-      "anime": "death-note",
-      "tier": "easy",
-      "questionTextPrefix": "What is Light's father's occupation?",
-      "kind": "strictly-longest"
     },
     {
       "key": "30c9639ef12515ad",
@@ -136,31 +94,10 @@
       "kind": "strictly-longest"
     },
     {
-      "key": "44c035b2796768e2",
-      "anime": "death-note",
-      "tier": "easy",
-      "questionTextPrefix": "Who is the genius detective trying to catch Kira?",
-      "kind": "strictly-shortest"
-    },
-    {
-      "key": "4ac8a6addcbdf734",
-      "anime": "death-note",
-      "tier": "impossible",
-      "questionTextPrefix": "What fraction of their remaining lifespan does a person give",
-      "kind": "strictly-shortest"
-    },
-    {
       "key": "4d18891969f968c1",
       "anime": "one-piece",
       "tier": "impossible",
       "questionTextPrefix": "What was the name of Oda's original one-shot manga that even",
-      "kind": "strictly-longest"
-    },
-    {
-      "key": "5096b3012319fbc3",
-      "anime": "death-note",
-      "tier": "easy",
-      "questionTextPrefix": "What kind of student is Light Yagami?",
       "kind": "strictly-longest"
     },
     {
@@ -171,24 +108,10 @@
       "kind": "strictly-shortest"
     },
     {
-      "key": "55b1e2cec70041a8",
-      "anime": "death-note",
-      "tier": "hard",
-      "questionTextPrefix": "Approximately how many individual rules govern how the Death",
-      "kind": "strictly-shortest"
-    },
-    {
       "key": "55ca7486b89e3bd7",
       "anime": "one-piece",
       "tier": "easy",
       "questionTextPrefix": "What is the name of Luffy's pirate crew?",
-      "kind": "strictly-longest"
-    },
-    {
-      "key": "58e5c8d4ed70dc0b",
-      "anime": "death-note",
-      "tier": "hard",
-      "questionTextPrefix": "What organization does Near lead to investigate Kira?",
       "kind": "strictly-longest"
     },
     {
@@ -206,20 +129,6 @@
       "kind": "strictly-longest"
     },
     {
-      "key": "5b25460f45a7b056",
-      "anime": "death-note",
-      "tier": "impossible",
-      "questionTextPrefix": "In the pilot chapter/one-shot of Death Note, what was differ",
-      "kind": "strictly-longest"
-    },
-    {
-      "key": "5de7bca7e7d35efa",
-      "anime": "death-note",
-      "tier": "impossible",
-      "questionTextPrefix": "What does the Shinigami Rem do to save Misa from being caugh",
-      "kind": "strictly-longest"
-    },
-    {
       "key": "62effda731e05cbd",
       "anime": "attack-on-titan",
       "tier": "medium",
@@ -234,25 +143,11 @@
       "kind": "strictly-shortest"
     },
     {
-      "key": "6d0fe336946a0313",
-      "anime": "death-note",
-      "tier": "impossible",
-      "questionTextPrefix": "Who directed the Death Note anime series?",
-      "kind": "strictly-longest"
-    },
-    {
       "key": "6d181395b1ef0f5e",
       "anime": "attack-on-titan",
       "tier": "impossible",
       "questionTextPrefix": "Which Titan shifter has the specific ability to call and con",
       "kind": "strictly-longest"
-    },
-    {
-      "key": "6dd055065a0dc025",
-      "anime": "death-note",
-      "tier": "impossible",
-      "questionTextPrefix": "According to the Death Note rules, what happens if the cause",
-      "kind": "strictly-shortest"
     },
     {
       "key": "72fdfacec5f7b7f3",
@@ -276,27 +171,6 @@
       "kind": "strictly-longest"
     },
     {
-      "key": "865ae70e9b536858",
-      "anime": "death-note",
-      "tier": "hard",
-      "questionTextPrefix": "How does Light ultimately get exposed as Kira in the series ",
-      "kind": "strictly-longest"
-    },
-    {
-      "key": "88c35fea06aafdb1",
-      "anime": "death-note",
-      "tier": "impossible",
-      "questionTextPrefix": "Which member of the Yotsuba Group is chosen to temporarily w",
-      "kind": "strictly-longest"
-    },
-    {
-      "key": "954a1e836d8e394e",
-      "anime": "death-note",
-      "tier": "medium",
-      "questionTextPrefix": "What is the Shinigami Eye deal?",
-      "kind": "strictly-longest"
-    },
-    {
       "key": "95be0be59b4793cd",
       "anime": "attack-on-titan",
       "tier": "impossible",
@@ -309,13 +183,6 @@
       "tier": "medium",
       "questionTextPrefix": "Who is known as humanity's strongest soldier?",
       "kind": "strictly-longest"
-    },
-    {
-      "key": "984dbd9ce7765627",
-      "anime": "death-note",
-      "tier": "hard",
-      "questionTextPrefix": "What is Near's real name?",
-      "kind": "strictly-shortest"
     },
     {
       "key": "9dce77a62d7ce3db",
@@ -388,13 +255,6 @@
       "kind": "strictly-longest"
     },
     {
-      "key": "acb82f1a57e9e7eb",
-      "anime": "death-note",
-      "tier": "medium",
-      "questionTextPrefix": "What is L's real name?",
-      "kind": "strictly-shortest"
-    },
-    {
       "key": "adc534a1470e1baa",
       "anime": "one-piece",
       "tier": "hard",
@@ -409,45 +269,10 @@
       "kind": "strictly-longest"
     },
     {
-      "key": "b4e7d91f251dba45",
-      "anime": "death-note",
-      "tier": "impossible",
-      "questionTextPrefix": "What was Naomi Misora's specific connection to L before the ",
-      "kind": "strictly-longest"
-    },
-    {
-      "key": "b6744f62f3205bc5",
-      "anime": "death-note",
-      "tier": "easy",
-      "questionTextPrefix": "What is a Death Note?",
-      "kind": "strictly-longest"
-    },
-    {
-      "key": "ba95acbec621f5be",
-      "anime": "death-note",
-      "tier": "hard",
-      "questionTextPrefix": "What fake rule does Light write in the Death Note to trick t",
-      "kind": "strictly-longest"
-    },
-    {
       "key": "cf82eeb344d8a6b7",
       "anime": "one-piece",
       "tier": "hard",
       "questionTextPrefix": "What is the name of Shanks' sword?",
-      "kind": "strictly-longest"
-    },
-    {
-      "key": "dc32d9ff8c84f2b5",
-      "anime": "death-note",
-      "tier": "hard",
-      "questionTextPrefix": "What is the name of the institution where L, Near, and Mello",
-      "kind": "strictly-shortest"
-    },
-    {
-      "key": "df6becf8a0460546",
-      "anime": "death-note",
-      "tier": "medium",
-      "questionTextPrefix": "What does Light do with the Death Note to temporarily clear ",
       "kind": "strictly-longest"
     },
     {
@@ -458,39 +283,11 @@
       "kind": "strictly-longest"
     },
     {
-      "key": "e0510517a86fb55f",
-      "anime": "death-note",
-      "tier": "impossible",
-      "questionTextPrefix": "How does Light Yagami's death differ between the manga and t",
-      "kind": "strictly-longest"
-    },
-    {
-      "key": "e630a7dd151f774c",
-      "anime": "death-note",
-      "tier": "impossible",
-      "questionTextPrefix": "What is the name of the Shinigami who originally owned the D",
-      "kind": "strictly-longest"
-    },
-    {
-      "key": "e64992f9e848fad0",
-      "anime": "death-note",
-      "tier": "impossible",
-      "questionTextPrefix": "What is Teru Mikami's repeated catchphrase when judging crim",
-      "kind": "strictly-shortest"
-    },
-    {
       "key": "e6fe45db096aa467",
       "anime": "attack-on-titan",
       "tier": "impossible",
       "questionTextPrefix": "Who designed and created the anti-personnel vertical maneuve",
       "kind": "strictly-longest"
-    },
-    {
-      "key": "ec9cbaaf28293484",
-      "anime": "death-note",
-      "tier": "medium",
-      "questionTextPrefix": "What is the name of the second Kira?",
-      "kind": "strictly-shortest"
     },
     {
       "key": "ecc9f92d4b487503",
@@ -514,25 +311,11 @@
       "kind": "strictly-longest"
     },
     {
-      "key": "f191b8fe7e7518f9",
-      "anime": "death-note",
-      "tier": "impossible",
-      "questionTextPrefix": "What signature habit does Near display during his investigat",
-      "kind": "strictly-longest"
-    },
-    {
       "key": "f2b16c0086ac6e14",
       "anime": "attack-on-titan",
       "tier": "easy",
       "questionTextPrefix": "What protects humanity from the Titans at the start of the s",
       "kind": "strictly-longest"
-    },
-    {
-      "key": "f4b5080dbd46ed38",
-      "anime": "death-note",
-      "tier": "impossible",
-      "questionTextPrefix": "What is the name of Misa Amane's Shinigami who follows her?",
-      "kind": "strictly-shortest"
     },
     {
       "key": "f5dd55df4d0d7049",
