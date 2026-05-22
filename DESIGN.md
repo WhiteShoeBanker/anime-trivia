@@ -106,7 +106,14 @@ motion:
     maxRotate: 12deg
     transitionStiffness: 200
     transitionDamping: 20
-  reducedMotionFallback: "static foil image; no tilt; no animation"
+  stamp-press:
+    scaleFrom: 1.6
+    scaleTo: 1
+    rotateFrom: -8deg
+    rotateTo: 0deg
+    durationMs: 360
+    oneShot: true
+  reducedMotionFallback: "static foil image; no tilt; no animation; stamp renders settled (no press)"
 components:
   button-primary:
     backgroundColor: "{colors.primary}"
@@ -208,6 +215,12 @@ components:
     treatment: secret-rare
     overlay: conic-rainbow-parallax-with-sparkles
     animation: foil-shimmer-tilt-driven + sparkle-stagger-3s
+  badge-foil-prestige:
+    treatment: champion-foil
+    overlay: conic-rainbow-parallax-with-sparkles
+    glow: "{colors.tier-6}"
+    animation: foil-shimmer-tilt-driven + sparkle-stagger-3s
+    scope: collectible-emblem-only
   pill-sm:
     rounded: "{rounded.pill}"
     padding: 2px 8px
@@ -400,6 +413,31 @@ components:
     borderColor: "{colors.rule}"
     rounded: "{rounded.card}"
     padding: 20px
+  prestige-certificate:
+    backgroundColor: "{colors.paper}"
+    textColor: "{colors.ink}"
+    borderColor: "{colors.rule-paper}"
+    typography: "{typography.display}"
+    rounded: "{rounded.card}"
+    padding: 24px 28px
+  prestige-seal:
+    backgroundColor: "{colors.primary}"
+    textColor: "{colors.paper}"
+    rounded: "{rounded.pill}"
+    width: 64px
+    height: 64px
+  footer-surface:
+    backgroundColor: "{colors.secondary}"
+    borderColor: "{colors.rule}"
+  footer-header:
+    textColor: "{colors.text}"
+    typography: "{typography.label}"
+  footer-link:
+    textColor: "{colors.text-muted}"
+    typography: "{typography.body-sm}"
+  footer-note:
+    textColor: "{colors.text-muted}"
+    typography: "{typography.caption}"
 ---
 
 ## Overview
@@ -551,6 +589,7 @@ Currently captured in YAML:
 - **panel-warning** — canonical caution surface for heads-up notices that aren't action-bearing: missed-promotion banners, diminishing-returns nudges, time-pressure callouts. Composes warning-tinted text on warning `/10` fill with warning `/30` border (the YAML anchors the palette; the `/10`–`/30` composition is enforced at call sites via Tailwind opacity modifiers — `bg-warning/10`, `border-warning/30`, `text-warning`). Uses `rounded-card` per the dwell-vs-act principle (panels are read, not clicked). Don't reach for accent (blood ink) — accent is reserved for incorrect-answer flashes and danger states; warning is heads-up, not alarm.
 - **badge-foil-card** — collectible card primitive for showcase badge surfaces. 3:4 aspect ratio (TCG-canonical), 96 px default width (md), card-rounded corners, rarity-tinted glow halo via `box-shadow` (uncommon emerald, rare blue, epic purple, legendary yellow) layered over the manga-panel ink shadow. The card title uses the app's default sans (DM Sans) at 11/12/14 px (sm/md/lg), uppercase, tight tracking, `line-clamp-2` so longer badge names wrap rather than clip. Phase 6c first smoke tested Anton at 13 px and dropped it — the condensed display face didn't carry at small sizes; sans-condensed-uppercase reads cleaner. The icon-hero zone consumes the full center; the foil overlay (per-rarity, see below) sits between background and icon. Composes `<BadgeFoilCard>` at the call site, which adds 3D tilt + Pointer Events for showcase surfaces (Badges page grid, BadgeCelebration overlay, EmblemSelector picker, profile featured-emblem, daily completion row, landing showcase). Utility surfaces (Navbar chip, profile avatar overlap, leagues roster) keep the matte tile primitive (`BadgeIcon`) — foil signals collectible, not navigation.
 - **badge-foil-{common, uncommon, rare, epic, legendary}** — foil treatment tokens that intensify up the rarity ladder. `common` is matte cardboard (no overlay). `uncommon` adds a slow linear sheen sweeping diagonally. `rare` applies a reverse-holo (rainbow conic gradient on the card background, the icon-hero zone stays clean — Pokémon TCG convention). `epic` applies a full-holo (rainbow conic gradient parallaxing against the 3D tilt; gradient origin tracks pointer position via CSS custom properties `--foil-x` / `--foil-y`). `legendary` inherits `epic` + adds animated radial-gradient sparkle particles staggered over a 3 s loop. All treatments degrade to static foil under `prefers-reduced-motion` (no tilt, no animation, lower-intensity static gradient).
+- **badge-foil-prestige** — the apex foil tier, one step above `legendary`, introduced Phase 5 #9a for the Star League membership-card emblem (Direction 2, "Champion Foil"). Inherits the `legendary` full-holo + sparkle treatment and swaps the glow halo to the `tier-6` red-foil champion hue (#dc2626) — the same red-foil register the Champion league wears, signalling "top of the ladder" rather than another rarity. **Strict scope: collectible artifacts only.** This is the foil register's hard exception clause (principle #2 / the "Don't apply foil to every surface" rule): `foil-prestige` is reserved for the single Star League membership emblem and never touches page chrome, navigation, panels, or text surfaces. The `.foil-prestige` CSS class lives in `foil.css` alongside the rarity ladder; it is **dormant until 5#9b** wires it to a consuming component (it is intentionally not yet in the `BadgeRarity` union or `FOIL_CLASS_MAP` — that is app code, out of 9a's tokens-only scope). Degrades to a static red-glow foil under `prefers-reduced-motion`, same contract as `legendary`.
 - **answer-tile-default** — base quiz answer-choice tile. Sharp corners (action surface, per the L398 sharp-defaults list — quiz tiles are explicitly named there), `body-sm` typography, 56 px minimum height (answer-tile-specific exception above the 44 px floor; tap density during quiz play warrants the extra room). Composes `bg-surface` fill with `border-rule` hairline (call-site `border-white/10` is the near-equivalent the codebase ships today). Hover and focus-visible deepen neutrally per the L495 10/20% convention (`border-white/20`, `bg-white/5` overlay) — explicitly NOT brand-tinted; the brand tint is reserved for the `selected` state, not for pre-commit hover.
 - **answer-tile-{selected, correct, incorrect, disabled}** — reveal-state variants. Each extends the default and only overrides the palette anchor: `selected` → `{colors.primary}`, `correct` → `{colors.success}`, `incorrect` → `{colors.accent}` (closes audit L444 `red-500` drift — accent is reserved per L307 for incorrect-answer flashes), `disabled` keeps the default palette and layers `opacity-50` at the call site. Tile composition is ghost (`bg-{tone}/10 border-{tone}`); the `/10` (rather than `pill-difficulty-*`'s `/20`) is intentional because the tile carries body-length answer copy that needs to read against the tinted fill. The inner letter-chip (32×32 px, `rounded-pill`) flips to filled treatment paired with the tile state: `selected` → `bg-primary` + `text-white`; `correct` → `bg-success` + `text-ink` (6.0:1 AA, beats `text-white` at 3.3:1); `incorrect` → `bg-accent` + `text-white` (6.5:1 AA, beats `text-ink` at 3.1:1). The asymmetry between correct (text-ink) and incorrect (text-white) is contrast-driven, not stylistic.
 - **difficulty-chip** — interactive pill primitive for the quiz-idle difficulty cluster (`DifficultySelector`) and the duel `ChallengeModal` picker. `rounded-pill`, `label` typography, 10 px × 14 px padding (matches `pill-interactive`), `min-h-[44px]` floor. Distinct from `pill-interactive` because each chip carries its own identity hue rather than the brand-color toggle pattern.
@@ -562,6 +601,9 @@ Currently captured in YAML:
 - **modal-backdrop** — the dimming scrim behind any modal. Anchors `{colors.ink}` (#0a0a0a — the darkest warm-black token, never raw `#000` per the no-raw-black reservation); the `/70` alpha is composed at the call site, same YAML-anchors-palette / prose-composes-alpha precedent as `panel-warning`'s `/10`–`/30` and `answer-tile`'s `/10`. No blur in the base (the `BadgeCelebration` `backdrop-blur-sm` is the documented exception, see Elevation & Depth). On the near-black Manga Ink canvas the scrim is a low-contrast intent layer — it catches outside-clicks and signals the page is inert more than it visibly darkens; the modal's separation comes from `modal-container`'s lighter `bg-surface`, the `border-rule` hairline, and bright bone content, not from the scrim.
 - **modal-container** — the centered dialog surface. Raised-stone `bg-surface` fill, `border-rule` hairline, `rounded-card` (modals are dwell surfaces — see the Shapes amendment), 20 px padding, `max-w-md` (28 rem) width cap, `max-h-[80vh]` with the body region scrolling (`overflow-y-auto`) inside a vertical flex column so a header and footer stay pinned. No `--shadow-ink` — the shadow rule below explicitly excludes modal surfaces; surface contrast plus the hairline carry the elevation. Consumers: the sign-in prompt, badge-detail modal, Navbar sign-out `alertdialog`. (`max-w`/`max-h`/overflow are prose-bound, not YAML — the linter's recognized sub-tokens don't cover them, same precedent as `answer-tile`'s prose-bound `min-h-[56px]`.)
 - **modal-sheet** — the bottom-sheet variant; extends `modal-container`. Below `sm` it pins to the viewport bottom, spans full width, takes `rounded-t-card` only (soft top corners, sharp bottom flush to the screen edge), and slides up from `y:100`. At `sm` and up it becomes the centered `max-w-md` `rounded-card` container. Consumers: `ChallengeModal`, `EmblemSelector`. The current `rounded-t-3xl sm:rounded-3xl` (24 px) is the off-register drift 5#7c binds to `rounded-t-card` / `rounded-card`.
+- **prestige-certificate** — the paper-mode prestige surface, introduced Phase 5 #9a (Direction 1, "Hanko Decree"). Cashes in the paper-mode primitives reserved since the foundation pass for "certificates, end-game splash screens, prestige badges — applied in later phases" (see the Colors paper-mode note and Overview principle #5). Inverts the canonical dark palette: `paper` (#f7f3eb) cream surface, `ink` (#0a0a0a) type, `rule-paper` (#d6d3d1) hairline dividers, `rounded-card` (dwell surface), 24 px × 28 px padding. Depth comes from the hard `--shadow-ink` offset (prose-bound per the shadow-usage rule — never a soft blur). The signature headline binds to the `display` typography token (Anton) — **this is Anton's first canonical consumer**, the homepage-hero / rank-up-splash / prestige-certificate use case reserved on L486; the live call site lands in 5#9b. Body copy on the certificate uses `body-sm` over `ink`. **Restraint clause: paper-mode is for prestige surfaces only — Star League page chrome and future certificate/splash UI. Never bind it to regular dark-canvas UI.** Sole consumer surface in this phase is `/star-league`; the Champion/Diamond weekly-league surfaces stay in the existing `tierColors` register and do not invert.
+- **prestige-seal** — the hanko stamp that anchors a `prestige-certificate`, introduced 5#9a. A 64 px round (`rounded-pill`) `primary` (#d4451d) vermillion seal carrying a single `paper`-colored Lucide **glyph** (never body text) — the single trust color doing official-decree duty, the way a Hokage's appointment scroll carries the village stamp, the carved symbol showing through as paper negative space. **Contrast note:** paper-on-vermillion measures 4.06:1, which is below the 4.5:1 *text* bar (SC 1.4.3) but clears the 3:1 *non-text / graphical-object* bar (SC 1.4.11) that governs the seal's icon — the seal is a graphical mark, so this is compliant. The linter flags 4.06:1 because the token declares `textColor`; the warning is accepted-by-design. The seal must therefore stay icon-only: never place a letter or word inside it (that would fall under the 4.5:1 text bar and fail). Animates once on mount via the `stamp-press` motion token (scale-down + settle, `useReducedMotion()`-gated so reduced-motion renders it settled with no press). The vermillion-on-paper pairing is the inversion of the canonical vermillion-on-ink; it stays the reserved trust color, not decoration.
+- **footer-surface / footer-header / footer-link / footer-note** — the footer chrome token set, introduced 5#9a (the footer was previously the last uncaptured chrome surface — see the former "Not captured" note below). `footer-surface` is the `secondary` ink-black canvas with a `rule` (#262626) hairline top border. `footer-header` is the column eyebrow: bone `text` on the `label` typography token (12 px / 700 / 0.04em tracked), so headers read as eyebrows rather than the current shrunk `text-sm` body. `footer-link` is the nav link at `text-muted` (#a3a097) on `body-sm`, deepening to `primary` on hover per the canonical hover convention (vermillion-on-hover is sanctioned for body links). `footer-note` is the disclaimer + copyright at `text-muted` on `caption` typography. **AA-contrast requirement: `footer-note` and `footer-link` bind to `text-muted` (#a3a097), which clears AA on the `secondary` canvas (~7:1) — they must never drift back to the current `text-white/20`–`/40` raw-alpha-bone, which fails AA at the lower stops.** Call-site migration lands in 5#9c. The footer takes no `--shadow-ink` (chrome, not a tactile collectible) and no foil (foil signals collectible, not navigation).
 
 **Rarity contract.** Badge visual styling resolves through two independent axes:
 
@@ -615,9 +657,8 @@ Not captured (deferred):
 
 - Tables (admin analytics, leagues, leaderboards)
 - Navigation (lifted Navbar mobile overlay just shipped — fix/mobile-nav-overlay)
-- Footer
 
-Each of these will get its own Phase 5 prompt with named tokens added to DESIGN.md alongside the component refactor.
+Each of these will get its own Phase 5 prompt with named tokens added to DESIGN.md alongside the component refactor. Footer graduated out of this list in 5#9a (see the `footer-*` tokens above); its call-site migration lands in 5#9c.
 
 ## Do's and Don'ts
 
@@ -631,7 +672,7 @@ Do:
 - Maintain 44×44px touch targets. Junior-tier users are real users; their thumbs are smaller.
 - Hoist repeated label/color maps into `src/themes/index.ts` as named exports. The duplicated `RARITY_LABELS` object between `BadgeCard.tsx` and `BadgeCelebration.tsx` is the canonical anti-pattern this fixes — single source of truth, theme-portable. Phase 5 #2a hoists `rarityLabels`; future passes hoist analogous repeated maps as they're identified (difficulty palette, audience-fit palette, etc., per audit spec gaps #1–#2).
 - **tier-3 (sun gold) vs warning (amber).** Both sit in the warm-yellow register; their semantics differ. `tier-3` signals achievement — the Gold league foil, top-3 medal rank 1, monthly emblem frame, achievement-gold register. `warning` signals caution — almost-out states, missed-promotion banners, diminishing-returns nudges. When reaching for "warm yellow," ask: is this a reward or a heads-up? Don't grab `text-yellow-400` or `text-amber-400` — bind to the right semantic token.
-- **Anton is loaded but currently unused.** The font ships at the body via `--font-display` for any future surface that earns a display register, but as of Phase 6c there are zero canonical consumers. The Phase 6c first smoke pass tried Anton on foil-card badge titles at 13 px; it didn't carry — the condensed display face lost character at that scale and the descender clearance fought the 3:4 card aspect. Card titles reverted to DM Sans (the body sans, condensed via uppercase + tight tracking). When a future surface reaches for Anton (homepage hero, rank-up splash, prestige certificate UI), confirm at the rendered size before committing — Anton wants ≥32 px to read as intended. Don't introduce a third typeface; pair Anton with DM Sans when both display drama and body legibility are needed in the same view.
+- **Anton is loaded but currently unused.** The font ships at the body via `--font-display` for any future surface that earns a display register, but as of Phase 6c there are zero canonical consumers. Phase 5 #9a designates the `prestige-certificate` headline (Star League / paper-mode prestige UI) as Anton's first canonical consumer — the live call site lands in 5#9b, at which point this "currently unused" note retires. The Phase 6c first smoke pass tried Anton on foil-card badge titles at 13 px; it didn't carry — the condensed display face lost character at that scale and the descender clearance fought the 3:4 card aspect. Card titles reverted to DM Sans (the body sans, condensed via uppercase + tight tracking). When a future surface reaches for Anton (homepage hero, rank-up splash, prestige certificate UI), confirm at the rendered size before committing — Anton wants ≥32 px to read as intended. Don't introduce a third typeface; pair Anton with DM Sans when both display drama and body legibility are needed in the same view.
 - **Filled fill = identity. Ghost (color/20) fill = status.** The pill family resolves through two treatments. *Filled* (`bg-{color}` at full alpha + contrast-paired text) signals identity — PRO, age-tier (Jr/T/M for the user), content-rating (E/T/M for the content). *Ghost* (`bg-{color}/20 text-{color}` at full alpha) signals status — difficulty, duel result, leagues result, the active branch of an interactive filter. The two registers must stay legible side by side, so don't render the same semantic with both treatments. The stats-page PRO chip (`bg-primary/20 text-primary`, ghost) is the canonical violation — same brand mark as the Navbar PRO chip but a different register — and resolves to filled in the 5#4b refactor.
 - **Interactive pills carry `min-h-[44px]`.** Informational pills (PRO, Jr/T, content-rating, duel-result, leagues-result, the QuizCard difficulty indicator) stay text-tight at `pill-sm` or `pill-md`. *Interactive* pills (filter chips, toggle clusters — Badges category filter is the canonical case) must satisfy the 44 px touch-target floor that DESIGN.md L274 and CLAUDE.md enforce. The existing Badges category chip at ~28 px tall is the failure mode the `pill-interactive` token corrects.
 - **Audience yellow, warning amber, and tier-3 gold are three distinct hues for three distinct semantics.** `audience-teen` (#facc15 warm yellow) is heads-up identity for the 13+ register; `warning` (#d97706 amber) is heads-up caution for missed-promotion / almost-out states; `tier-3` (#eab308 sun gold) is achievement gold for the Gold league and monthly emblem frame. Reaching for "warm yellow" without picking the right semantic token is the same anti-pattern flagged in the existing tier-3-vs-warning rule above.
