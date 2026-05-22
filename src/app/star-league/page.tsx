@@ -88,6 +88,7 @@ const StarLeaguePage = () => {
           title="Star League"
           eyebrow="Coming Soon"
           sealIcon={Star}
+          headingLevel="h1"
           className="w-full max-w-xl"
         >
           <p className="text-center text-lg">

@@ -247,14 +247,23 @@ const LandingContent = ({ topAnime, stats }: LandingContentProps) => {
     return `${hours}h ${minutes}m`;
   };
 
-  const getLeagueName = () => {
-    const xp = profile?.total_xp ?? 0;
-    if (xp >= 10000) return "Diamond";
-    if (xp >= 5000) return "Platinum";
-    if (xp >= 2000) return "Gold";
-    if (xp >= 500) return "Silver";
-    return "Bronze";
-  };
+  // League name sourced from tierColors (the 6-tier source of truth) rather
+  // than a hardcoded string ladder. XP maps to a tier index; the display name
+  // follows tierColors so the two can't diverge. (Champion is the weekly
+  // placement-based apex tier, not XP-gated, so the XP chip caps at Diamond.)
+  const leagueXp = profile?.total_xp ?? 0;
+  const leagueName =
+    tierColors[
+      leagueXp >= 10000
+        ? 4
+        : leagueXp >= 5000
+          ? 3
+          : leagueXp >= 2000
+            ? 2
+            : leagueXp >= 500
+              ? 1
+              : 0
+    ].name;
 
   const getProMessage = () => {
     if (!profile) return null;
@@ -309,11 +318,11 @@ const LandingContent = ({ topAnime, stats }: LandingContentProps) => {
             {/* Quick stats row */}
             <div className="flex flex-wrap items-center justify-center gap-4 mt-4 mb-6">
               <div className="flex items-center gap-1.5 bg-surface rounded-lg px-3 py-2 border border-white/10">
-                <Crown size={14} className="text-yellow-400" />
-                <span className="text-sm font-medium">{getLeagueName()}</span>
+                <Crown size={14} className="text-tier-3" />
+                <span className="text-sm font-medium">{leagueName}</span>
               </div>
               <div className="flex items-center gap-1.5 bg-surface rounded-lg px-3 py-2 border border-white/10">
-                <Flame size={14} className="text-orange-400" />
+                <Flame size={14} className="text-tier-3" />
                 <span className="text-sm font-medium">
                   {profile.current_streak} day streak
                 </span>
@@ -350,7 +359,7 @@ const LandingContent = ({ topAnime, stats }: LandingContentProps) => {
                     <p className="text-sm font-medium group-hover:text-primary transition-colors">
                       Play Today&apos;s Challenge
                     </p>
-                    <p className="text-xs text-yellow-400 flex items-center gap-1">
+                    <p className="text-xs text-tier-3 flex items-center gap-1">
                       <Zap size={10} /> 1.5x XP Bonus
                     </p>
                   </div>
@@ -404,11 +413,9 @@ const LandingContent = ({ topAnime, stats }: LandingContentProps) => {
             <motion.h1
               initial={reducedMotion ? false : { opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight mb-4"
+              className="font-display text-4xl sm:text-5xl md:text-6xl tracking-tight mb-4 text-text"
             >
-              <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-                OtakuQuiz
-              </span>
+              OtakuQuiz
             </motion.h1>
 
             <motion.p
@@ -462,7 +469,7 @@ const LandingContent = ({ topAnime, stats }: LandingContentProps) => {
               </Button>
             </motion.div>
 
-            <div className="mt-8 h-1 w-24 mx-auto rounded-full bg-accent" />
+            <div className="mt-8 h-1 w-24 mx-auto rounded-full bg-primary" />
           </div>
         )}
       </section>
@@ -493,9 +500,9 @@ const LandingContent = ({ topAnime, stats }: LandingContentProps) => {
 
       {/* ── IMPOSSIBLE MODE ──────────────────────────────── */}
       <section className="max-w-5xl mx-auto px-4 py-8">
-        <div className="bg-gradient-to-br from-purple-900/30 to-purple-600/10 rounded-2xl border border-purple-500/20 p-6 md:p-8 text-center">
-          <Skull size={40} className="mx-auto text-purple-400 mb-4" />
-          <h2 className="text-xl md:text-2xl font-bold mb-2 text-purple-300">
+        <div className="bg-difficulty-impossible/10 rounded-2xl border border-difficulty-impossible/20 p-6 md:p-8 text-center">
+          <Skull size={40} className="mx-auto text-difficulty-impossible mb-4" />
+          <h2 className="text-xl md:text-2xl font-bold mb-2 text-difficulty-impossible">
             Impossible Mode
           </h2>
           <p className="text-sm text-white/50 max-w-md mx-auto mb-4">
@@ -504,7 +511,7 @@ const LandingContent = ({ topAnime, stats }: LandingContentProps) => {
           </p>
           <Link
             href="/browse"
-            className="inline-block px-6 py-3 rounded-xl bg-purple-600 text-white font-bold hover:bg-purple-500 transition-colors text-sm"
+            className="inline-block px-6 py-3 rounded-xl bg-difficulty-impossible text-ink font-bold hover:bg-difficulty-impossible/90 transition-colors text-sm"
           >
             Try Impossible Mode
           </Link>
@@ -591,7 +598,7 @@ const LandingContent = ({ topAnime, stats }: LandingContentProps) => {
       {/* ── GRAND PRIX ───────────────────────────────────── */}
       <section className="max-w-5xl mx-auto px-4 py-8">
         <Card className="border border-white/10 p-6 md:p-8 text-center">
-          <Trophy size={40} className="mx-auto text-yellow-400 mb-4" />
+          <Trophy size={40} className="mx-auto text-tier-3 mb-4" />
           <h2 className="text-xl md:text-2xl font-bold mb-2">Grand Prix</h2>
           <p className="text-sm text-white/50 max-w-md mx-auto mb-4">
             Monthly single-elimination tournaments. Qualify, compete through
@@ -599,7 +606,7 @@ const LandingContent = ({ topAnime, stats }: LandingContentProps) => {
           </p>
           <Link
             href="/grand-prix"
-            className="inline-block px-6 py-3 rounded-xl bg-yellow-500 text-black font-bold hover:bg-yellow-400 transition-colors text-sm"
+            className="inline-block px-6 py-3 rounded-xl bg-tier-3 text-ink font-bold hover:bg-tier-3/90 transition-colors text-sm"
           >
             View Grand Prix
           </Link>

@@ -110,4 +110,24 @@ describe("<PrestigeCertificate>", () => {
     const seal = container.querySelector('[data-seal-motion]') as HTMLElement;
     expect(seal.getAttribute("data-seal-motion")).toBe("stamp");
   });
+
+  it("renders the title as an h1 when headingLevel='h1'", () => {
+    const { getByRole } = render(
+      <PrestigeCertificate title="Star League" sealIcon={Star} headingLevel="h1">
+        body
+      </PrestigeCertificate>,
+    );
+    const heading = getByRole("heading", { level: 1 });
+    expect(heading.textContent).toBe("Star League");
+  });
+
+  it("renders the title as an h2 when headingLevel='h2' is explicit", () => {
+    const { getByRole } = render(
+      <PrestigeCertificate title="Star League" sealIcon={Star} headingLevel="h2">
+        body
+      </PrestigeCertificate>,
+    );
+    const heading = getByRole("heading", { level: 2 });
+    expect(heading.textContent).toBe("Star League");
+  });
 });
