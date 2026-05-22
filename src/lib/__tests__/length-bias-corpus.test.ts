@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { readFileSync, readdirSync } from "fs";
+import { readFileSync, readdirSync, existsSync } from "fs";
 import { join } from "path";
 import {
   validateCorpus,
@@ -10,8 +10,8 @@ import {
 /**
  * Corpus gate. On every commit this asserts the FULL question corpus
  * (240 JSON easy/medium/hard + 240 impossible-tier SQL) has no length
- * invariant violation outside the seeded allowlist, and that the allowlist
- * has no stale entries.
+ * invariant violation — strictly, with no allowlist (Track B closed at
+ * T_final; the burn-down allowlist fixture was removed).
  *
  * The loader is duplicated from scripts/audit-question-lengths.ts on purpose:
  * the validator stays pure (no fs), so there is no shared fs module. The
@@ -76,31 +76,27 @@ function loadCorpus(): CorpusItem[] {
   return items;
 }
 
-function loadAllowlist(): Allowlist {
-  const p = join(ROOT, "src", "lib", "__tests__", "fixtures", "length-bias-allowlist.json");
-  return JSON.parse(readFileSync(p, "utf-8")) as Allowlist;
-}
+// Track B closed at T_final: the burn-down allowlist was removed and the gate
+// now runs strict. validateCorpus still accepts an allowlist (kept for any
+// future propose-then-apply track); here we pass an empty one.
+const EMPTY_ALLOWLIST: Allowlist = { version: 1, generatedAt: "", entries: [] };
 
 describe("length-bias corpus gate", () => {
   const items = loadCorpus();
-  const allowlist = loadAllowlist();
-  const result = validateCorpus(items, allowlist);
+  const result = validateCorpus(items, EMPTY_ALLOWLIST);
 
   it("loads the full 480-question corpus", () => {
     expect(items.length).toBe(480);
   });
 
-  it("has zero non-allowlisted length-invariant violations", () => {
+  it("has zero length-invariant violations (strict — no allowlist)", () => {
     // If this fails: a new/edited question violates the symmetric length
-    // invariant and is not in the allowlist. Fix the question (preferred) or,
-    // with explicit PR justification, regenerate the allowlist via
-    // `pnpm tsx scripts/audit-question-lengths.ts --emit-allowlist <path>`.
+    // invariant. Fix the question — there is no allowlist to fall back on.
     expect(result.violations).toHaveLength(0);
   });
 
-  it("has zero stale allowlist entries", () => {
-    // If this fails: an allowlisted question was fixed/removed/retitled. Trim
-    // the stale entry from the fixture (regenerate the allowlist).
-    expect(result.unexpectedlyCompliant).toHaveLength(0);
+  it("the length-bias allowlist fixture is gone (removed at T_final)", () => {
+    const p = join(ROOT, "src", "lib", "__tests__", "fixtures", "length-bias-allowlist.json");
+    expect(existsSync(p)).toBe(false);
   });
 });

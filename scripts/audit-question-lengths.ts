@@ -8,19 +8,15 @@
  * Modes:
  *   --summary (default)        corpus + violation stats (investigation §2/§3 shape)
  *   --detail                   every violation, options annotated, sorted anime→tier
- *   --emit-allowlist <path>    write the full violation set as the allowlist JSON
- *   --suggestions              T2+ minimal-edit aid (stub in T1)
  *
  * Run: pnpm tsx scripts/audit-question-lengths.ts <mode>
  */
-import { readFileSync, readdirSync, writeFileSync } from "fs";
+import { readFileSync, readdirSync } from "fs";
 import { join } from "path";
 import {
   validateQuestion,
-  allowlistKey,
   type CorpusItem,
   type Violation,
-  type Allowlist,
 } from "../src/lib/content-validation";
 
 const ROOT = join(__dirname, "..");
@@ -166,30 +162,6 @@ function printDetail(violations: Violation[]): void {
   console.log(`\n${sorted.length} violations.`);
 }
 
-function emitAllowlist(violations: Violation[], outPath: string): void {
-  const entries = violations
-    .map((v) => ({
-      key: allowlistKey(v),
-      anime: v.anime,
-      tier: v.tier,
-      questionTextPrefix: v.questionText.slice(0, 60),
-      kind: v.kind,
-    }))
-    .sort((a, b) => a.key.localeCompare(b.key));
-  const allowlist: Allowlist = {
-    version: 1,
-    generatedAt: new Date().toISOString(),
-    entries,
-  };
-  writeFileSync(outPath, JSON.stringify(allowlist, null, 2) + "\n");
-  console.log(`Wrote ${entries.length} allowlist entries → ${outPath}`);
-}
-
-function printSuggestions(violations: Violation[]): void {
-  // T1 stub. T2 batches will flesh out the minimal-edit heuristic.
-  console.log(`TODO: T2 will exercise this (${violations.length} violations pending).`);
-}
-
 function main(): void {
   const argv = process.argv.slice(2);
   const mode = argv.find((a) => a.startsWith("--")) ?? "--summary";
@@ -199,18 +171,6 @@ function main(): void {
   switch (mode) {
     case "--detail":
       printDetail(violations);
-      break;
-    case "--emit-allowlist": {
-      const outPath = argv[argv.indexOf("--emit-allowlist") + 1];
-      if (!outPath) {
-        console.error("--emit-allowlist requires a path argument");
-        process.exit(1);
-      }
-      emitAllowlist(violations, join(process.cwd(), outPath));
-      break;
-    }
-    case "--suggestions":
-      printSuggestions(violations);
       break;
     case "--summary":
     default:
