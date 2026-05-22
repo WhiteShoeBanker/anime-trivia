@@ -314,7 +314,7 @@ VALUES (
   'What is L''s real full name as revealed in supplementary materials?',
   'multiple_choice',
   'impossible',
-  '[{"text":"L Lawliet","isCorrect":true},{"text":"L Lind Taylor","isCorrect":false},{"text":"L Liam Riviere","isCorrect":false},{"text":"L Lucian Wammy","isCorrect":false}]'::jsonb,
+  '[{"text":"L Lawliet","isCorrect":true},{"text":"L Lind Taylor","isCorrect":false},{"text":"L Liam Riviere","isCorrect":false},{"text":"L Wammy","isCorrect":false}]'::jsonb,
   'L''s real name is L Lawliet (pronounced "Law-light"), as confirmed in the Death Note 13: How to Read companion book. His first name is literally the letter L.'
 );
 
@@ -334,7 +334,7 @@ VALUES (
   'What is the name of Misa Amane''s Shinigami who follows her?',
   'multiple_choice',
   'impossible',
-  '[{"text":"Ryuk","isCorrect":false},{"text":"Sidoh","isCorrect":false},{"text":"Rem","isCorrect":true},{"text":"Gelus","isCorrect":false}]'::jsonb,
+  '[{"text":"Ryuk","isCorrect":false},{"text":"Nu","isCorrect":false},{"text":"Rem","isCorrect":true},{"text":"Gelus","isCorrect":false}]'::jsonb,
   'Rem is the Shinigami who accompanies Misa Amane. Rem inherited the Death Note from Gelus, who died saving Misa''s life out of love. Rem develops similar protective feelings for Misa, which Light exploits.'
 );
 
@@ -364,7 +364,7 @@ VALUES (
   'What signature habit does Near display during his investigation sessions?',
   'multiple_choice',
   'impossible',
-  '[{"text":"Eating sweets constantly","isCorrect":false},{"text":"Stacking and playing with toys, dice, and finger puppets","isCorrect":true},{"text":"Biting his thumbnail while thinking","isCorrect":false},{"text":"Drawing diagrams on the floor","isCorrect":false}]'::jsonb,
+  '[{"text":"Eating sweets constantly","isCorrect":false},{"text":"Stacking and playing with toys, dice, and finger puppets","isCorrect":true},{"text":"Biting and chewing on his thumbnail whenever he is deep in thought","isCorrect":false},{"text":"Drawing diagrams on the floor","isCorrect":false}]'::jsonb,
   'Near habitually plays with toys, stacks dice, builds card towers, and uses finger puppets during his investigations. This is his thinking method and a character trait that contrasts with L''s sweet-eating habits.'
 );
 
@@ -374,7 +374,7 @@ VALUES (
   'What is the name of the Shinigami who originally owned the Death Note before Ryuk dropped it in the human world?',
   'multiple_choice',
   'impossible',
-  '[{"text":"Gelus","isCorrect":false},{"text":"Ryuk always owned it — he stole a second notebook","isCorrect":true},{"text":"Sidoh","isCorrect":false},{"text":"Nu","isCorrect":false}]'::jsonb,
+  '[{"text":"Gelus owned it first and personally handed the notebook down to Ryuk","isCorrect":false},{"text":"Ryuk always owned it — he stole a second notebook","isCorrect":true},{"text":"Sidoh","isCorrect":false},{"text":"Nu","isCorrect":false}]'::jsonb,
   'Ryuk actually stole the second Death Note from Sidoh, another Shinigami who was too lazy to retrieve it. Ryuk tricked the Shinigami King into giving him a second notebook, but it was actually Sidoh''s stolen one that he dropped to Earth.'
 );
 
@@ -384,7 +384,7 @@ VALUES (
   'What fraction of their remaining lifespan does a person give up when making the Shinigami Eye deal?',
   'multiple_choice',
   'impossible',
-  '[{"text":"One third","isCorrect":false},{"text":"One quarter","isCorrect":false},{"text":"Half","isCorrect":true},{"text":"Two thirds","isCorrect":false}]'::jsonb,
+  '[{"text":"One third","isCorrect":false},{"text":"One quarter","isCorrect":false},{"text":"Half of it","isCorrect":true},{"text":"Two thirds","isCorrect":false}]'::jsonb,
   'The Shinigami Eye deal costs exactly half of the user''s remaining lifespan. In exchange, they gain the ability to see any human''s real name and remaining lifespan by looking at their face. Both Misa and Mikami made this deal.'
 );
 
@@ -424,7 +424,7 @@ VALUES (
   'What was Naomi Misora''s specific connection to L before the Kira case?',
   'multiple_choice',
   'impossible',
-  '[{"text":"She was L''s personal bodyguard","isCorrect":false},{"text":"She was an FBI agent who worked with L on the Los Angeles BB Murder Cases","isCorrect":true},{"text":"She was a childhood friend from Wammy''s House","isCorrect":false},{"text":"She was a former Interpol liaison to L","isCorrect":false}]'::jsonb,
+  '[{"text":"She was L''s personal bodyguard","isCorrect":false},{"text":"She was an FBI agent who worked with L on the Los Angeles BB Murder Cases","isCorrect":true},{"text":"She was a childhood friend of L''s from their years together at Wammy''s House","isCorrect":false},{"text":"She was a former Interpol liaison to L","isCorrect":false}]'::jsonb,
   'Naomi Misora was an FBI agent who previously collaborated with L on the Los Angeles BB (Beyond Birthday) Murder Cases, as detailed in the novel "Death Note: Another Note." Her investigative skills impressed L greatly.'
 );
 
@@ -434,7 +434,7 @@ VALUES (
   'Which member of the Yotsuba Group is chosen to temporarily wield the Death Note during the Yotsuba arc?',
   'multiple_choice',
   'impossible',
-  '[{"text":"Reiji Namikawa","isCorrect":false},{"text":"Shingo Mido","isCorrect":false},{"text":"Kyosuke Higuchi","isCorrect":true},{"text":"Takeshi Ooi","isCorrect":false}]'::jsonb,
+  '[{"text":"Reiji Namikawa","isCorrect":false},{"text":"Eiichi Takahashi","isCorrect":false},{"text":"Kyosuke Higuchi","isCorrect":true},{"text":"Takeshi Ooi","isCorrect":false}]'::jsonb,
   'Kyosuke Higuchi of the Yotsuba Group was the one who received the Death Note and acted as the third Kira. He used it for corporate murders to benefit Yotsuba. His capture by the task force was orchestrated by Light to regain the notebook.'
 );
 
@@ -454,7 +454,7 @@ VALUES (
   'Who directed the Death Note anime series?',
   'multiple_choice',
   'impossible',
-  '[{"text":"Tetsurou Araki","isCorrect":true},{"text":"Mamoru Hosoda","isCorrect":false},{"text":"Satoshi Kon","isCorrect":false},{"text":"Takeshi Obata","isCorrect":false}]'::jsonb,
+  '[{"text":"Tetsurou Araki","isCorrect":true},{"text":"Mamoru Hosoda","isCorrect":false},{"text":"Shinichiro Watanabe","isCorrect":false},{"text":"Takeshi Obata","isCorrect":false}]'::jsonb,
   'Tetsurō Araki directed the Death Note anime at Madhouse. He later went on to direct Attack on Titan at WIT Studio. Takeshi Obata is the manga artist, not the anime director.'
 );
 
@@ -484,7 +484,7 @@ VALUES (
   'What does the Shinigami Rem do to save Misa from being caught by L?',
   'multiple_choice',
   'impossible',
-  '[{"text":"Rem threatens to kill L directly using her Shinigami powers","isCorrect":false},{"text":"Rem writes L''s and Watari''s names in her Death Note, killing herself in the process","isCorrect":true},{"text":"Rem erases Misa''s memories of the Death Note","isCorrect":false},{"text":"Rem hides the Death Note in the Shinigami Realm","isCorrect":false}]'::jsonb,
+  '[{"text":"Rem openly threatens to kill L directly by turning her own Shinigami powers against him","isCorrect":false},{"text":"Rem writes L''s and Watari''s names in her Death Note, killing herself in the process","isCorrect":true},{"text":"Rem erases Misa''s memories of the Death Note","isCorrect":false},{"text":"Rem hides the Death Note in the Shinigami Realm","isCorrect":false}]'::jsonb,
   'Rem writes both Watari''s and L''s real names in her Death Note to protect Misa from L''s investigation. Because a Shinigami who extends a human''s life by killing for them will die, Rem turns to dust. Light manipulated this outcome as part of his plan to eliminate L.'
 );
 
@@ -494,7 +494,7 @@ VALUES (
   'What is Teru Mikami''s repeated catchphrase when judging criminals?',
   'multiple_choice',
   'impossible',
-  '[{"text":"Justice!","isCorrect":false},{"text":"Kira is God!","isCorrect":false},{"text":"Delete!","isCorrect":true},{"text":"Cleanse!","isCorrect":false}]'::jsonb,
+  '[{"text":"Judge!","isCorrect":false},{"text":"Kira is God!","isCorrect":false},{"text":"Delete!","isCorrect":true},{"text":"Cleanse!","isCorrect":false}]'::jsonb,
   'Mikami''s signature catchphrase is "Sakujo!" which translates to "Delete!" He repeats it obsessively while writing names in the Death Note, reflecting his zealous devotion to Kira''s cause and his belief in absolute justice.'
 );
 
@@ -514,7 +514,7 @@ VALUES (
   'How does Light Yagami''s death differ between the manga and the anime?',
   'multiple_choice',
   'impossible',
-  '[{"text":"In the manga Light escapes; in the anime Ryuk kills him","isCorrect":false},{"text":"In both versions Ryuk writes Light''s name in his Death Note","isCorrect":false},{"text":"In the manga Light dies in a warehouse after being shot; in the anime he dies on a staircase after fleeing","isCorrect":true},{"text":"In the manga Near shoots Light; in the anime Matsuda does","isCorrect":false}]'::jsonb,
+  '[{"text":"In the manga Light manages to flee the warehouse and escape, while in the anime Ryuk personally hunts him down","isCorrect":false},{"text":"In both versions Ryuk writes Light''s name in his Death Note","isCorrect":false},{"text":"In the manga Light dies in a warehouse after being shot; in the anime he dies on a staircase after fleeing","isCorrect":true},{"text":"In the manga Near shoots Light; in the anime Matsuda does","isCorrect":false}]'::jsonb,
   'In the manga, after being exposed, Matsuda shoots Light and he bleeds out in the warehouse while begging Ryuk for help, and Ryuk writes his name. In the anime, Light flees and runs through the city, eventually collapsing on a staircase where he sees a vision of his younger self before Ryuk writes his name.'
 );
 
@@ -574,7 +574,7 @@ VALUES (
   'According to the Death Note rules, what happens if the cause of death is not specified within 40 seconds of writing a name?',
   'multiple_choice',
   'impossible',
-  '[{"text":"The person dies of a heart attack","isCorrect":true},{"text":"The death is cancelled and the name becomes void","isCorrect":false},{"text":"The person dies within 23 days of natural causes","isCorrect":false},{"text":"The Death Note''s owner loses a year of their lifespan","isCorrect":false}]'::jsonb,
+  '[{"text":"The person simply dies of a heart attack by default","isCorrect":true},{"text":"The death is cancelled and the name becomes void","isCorrect":false},{"text":"The person dies within 23 days of natural causes","isCorrect":false},{"text":"The Death Note''s owner loses a year of their lifespan","isCorrect":false}]'::jsonb,
   'If the cause of death is not specified within 40 seconds, the victim will simply die of a heart attack. This is the default cause of death for the Death Note, which is why Kira''s victims are predominantly reported as dying from heart attacks.'
 );
 

@@ -18,7 +18,7 @@ VALUES (
   'In the pilot chapter/one-shot of Death Note, what was different about the notebook''s design compared to the final series?',
   'multiple_choice',
   'impossible',
-  '[{"text":"It was called the Death Eraser instead","isCorrect":false},{"text":"The pilot featured a \"Death Eraser\" that could undo the Death Note''s effect, which was removed from the final series","isCorrect":true},{"text":"The notebook was red instead of black","isCorrect":false},{"text":"There were two notebooks from the start","isCorrect":false}]'::jsonb,
+  '[{"text":"It was called the Death Eraser instead","isCorrect":false},{"text":"The pilot featured a \"Death Eraser\" that could undo the Death Note''s effect, which was removed from the final series","isCorrect":true},{"text":"In the pilot version the notebook was drawn bright red with gold trim instead of the plain matte black used all through the serialized manga","isCorrect":false},{"text":"There were two notebooks from the start","isCorrect":false}]'::jsonb,
   'In the original Death Note pilot one-shot by Ohba and Obata (published in 2003), there was a "Death Eraser" that could bring people back to life if used before they were cremated or fully decomposed. This concept was scrapped for the serialized manga to maintain higher dramatic stakes.'
 );
 
