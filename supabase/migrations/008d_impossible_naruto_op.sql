@@ -364,7 +364,7 @@ VALUES (
   'What are the three Ancient Weapons mentioned in One Piece?',
   'multiple_choice',
   'impossible',
-  '[{"text":"Pluton, Poseidon, and Uranus","isCorrect":true},{"text":"Pluton, Neptune, and Zeus","isCorrect":false},{"text":"Mars, Jupiter, and Saturn","isCorrect":false},{"text":"Hades, Poseidon, and Athena","isCorrect":false}]'::jsonb,
+  '[{"text":"Pluton, Poseidon, and Uranus","isCorrect":true},{"text":"Pluton, Neptune, and Zeus","isCorrect":false},{"text":"Mars, Jupiter, and Saturn","isCorrect":false},{"text":"Hades, Poseidon, and Aphrodite","isCorrect":false}]'::jsonb,
   'The three Ancient Weapons are Pluton (a massive warship built in Water 7), Poseidon (the ability to communicate with Sea Kings, currently embodied by Princess Shirahoshi), and Uranus (whose nature remains largely mysterious). Each has the power to destroy the world.'
 );
 
@@ -394,7 +394,7 @@ VALUES (
   'What are the three main classifications of Devil Fruit types?',
   'multiple_choice',
   'impossible',
-  '[{"text":"Paramecia, Zoan, and Logia","isCorrect":true},{"text":"Elemental, Physical, and Spiritual","isCorrect":false},{"text":"Natural, Artificial, and Mythical","isCorrect":false},{"text":"Common, Rare, and Legendary","isCorrect":false}]'::jsonb,
+  '[{"text":"Paramecia, Zoan, and Logia","isCorrect":true},{"text":"Elemental, Physical, and Spiritual","isCorrect":false},{"text":"Natural, Artificial, and Mythical","isCorrect":false},{"text":"Common, Rare, and Epic","isCorrect":false}]'::jsonb,
   'The three Devil Fruit types are: Paramecia (superhuman abilities like rubber or string), Zoan (animal transformations, including Ancient and Mythical subtypes), and Logia (elemental transformation and intangibility like fire, ice, or light). Logia are generally considered the rarest and most powerful.'
 );
 
@@ -454,7 +454,7 @@ VALUES (
   'How many Road Poneglyphs exist, and what is their purpose?',
   'multiple_choice',
   'impossible',
-  '[{"text":"4 — each reveals a coordinate, and together they pinpoint the location of Laugh Tale","isCorrect":true},{"text":"7 — one for each sea route on the Grand Line","isCorrect":false},{"text":"3 — they form a triangle pointing to the One Piece","isCorrect":false},{"text":"2 — one at the beginning and one at the end of the Grand Line","isCorrect":false}]'::jsonb,
+  '[{"text":"4 — each reveals a coordinate, and together they pinpoint the location of Laugh Tale","isCorrect":true},{"text":"7 — one for each sea route on the Grand Line","isCorrect":false},{"text":"3 — they form a triangle pointing to the One Piece","isCorrect":false},{"text":"2 — one hidden at the start of the Grand Line and the other at its far end in the New World","isCorrect":false}]'::jsonb,
   'There are exactly 4 Road Poneglyphs, each revealing a specific geographic coordinate. When all four coordinates are plotted together, they form an intersection point that reveals the location of Laugh Tale — the final island where the One Piece is located. Roger''s crew was the only known crew to find all four.'
 );
 
@@ -504,7 +504,7 @@ VALUES (
   'Who or what is Joy Boy, and what is his significance to the One Piece world?',
   'multiple_choice',
   'impossible',
-  '[{"text":"He was a figure from the Void Century who left a promise on the Poneglyph at Fish-Man Island and is connected to the treasure at Laugh Tale","isCorrect":true},{"text":"He is the name of Roger''s treasure at the end of the Grand Line","isCorrect":false},{"text":"He was the first King of the World Government","isCorrect":false},{"text":"He is a myth with no historical basis","isCorrect":false}]'::jsonb,
+  '[{"text":"He was a figure from the Void Century who left a promise on the Poneglyph at Fish-Man Island and is connected to the treasure at Laugh Tale","isCorrect":true},{"text":"He is the name given to the hidden treasure of Gol D. Roger that waits at the very end of the Grand Line, far beyond the final island of Laugh Tale in the New World","isCorrect":false},{"text":"He was the first King of the World Government","isCorrect":false},{"text":"He is a myth with no historical basis","isCorrect":false}]'::jsonb,
   'Joy Boy was a figure from the Void Century (800+ years ago) who left a message of apology on the Poneglyph at Fish-Man Island, promising to fulfill a covenant with the Fish-Men. He is connected to the treasure at Laugh Tale (which made Roger laugh) and to the Sun God Nika. Zunesha states that Luffy''s Gear 5 awakening is the "return of Joy Boy."'
 );
 
@@ -514,7 +514,7 @@ VALUES (
   'What is the name of the Revolutionary Army''s base of operations?',
   'multiple_choice',
   'impossible',
-  '[{"text":"Marineford","isCorrect":false},{"text":"Baltigo","isCorrect":true},{"text":"Enies Lobby","isCorrect":false},{"text":"Kamabakka Kingdom","isCorrect":false}]'::jsonb,
+  '[{"text":"Ohara","isCorrect":false},{"text":"Baltigo","isCorrect":true},{"text":"Enies Lobby","isCorrect":false},{"text":"Kamabakka Kingdom","isCorrect":false}]'::jsonb,
   'Baltigo is the island that served as the Revolutionary Army''s headquarters for years. It was eventually discovered and destroyed by the Blackbeard Pirates and the Marines. Monkey D. Dragon is the leader of the Revolutionary Army and Luffy''s father.'
 );
 
@@ -524,7 +524,7 @@ VALUES (
   'What was the name of Oda''s original one-shot manga that eventually became One Piece?',
   'multiple_choice',
   'impossible',
-  '[{"text":"Wanted!","isCorrect":false},{"text":"Romance Dawn","isCorrect":true},{"text":"Pirate King","isCorrect":false},{"text":"East Blue","isCorrect":false}]'::jsonb,
+  '[{"text":"Wanted!","isCorrect":false},{"text":"Romance Dawn","isCorrect":true},{"text":"Pirate King","isCorrect":false},{"text":"East Blue Saga","isCorrect":false}]'::jsonb,
   'Eiichiro Oda created two one-shot versions of "Romance Dawn" (in 1996 and 1997) before One Piece was serialized. These featured an early version of Luffy with similar rubber powers. The name "Romance Dawn" was later used as the title of One Piece''s first chapter and first arc.'
 );
 

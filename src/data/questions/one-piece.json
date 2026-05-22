@@ -16,7 +16,7 @@
     "question_type": "multiple_choice",
     "difficulty": "easy",
     "options": [
-      { "text": "Red Hair Pirates", "isCorrect": false },
+      { "text": "Red Hair Pirates (Shanks)", "isCorrect": false },
       { "text": "Straw Hat Pirates", "isCorrect": true },
       { "text": "Heart Pirates", "isCorrect": false },
       { "text": "Sun Pirates", "isCorrect": false }
@@ -30,7 +30,7 @@
     "options": [
       { "text": "Flame-Flame Fruit (Mera Mera no Mi)", "isCorrect": false },
       { "text": "Gum-Gum Fruit (Gomu Gomu no Mi)", "isCorrect": true },
-      { "text": "Chop-Chop Fruit (Bara Bara no Mi)", "isCorrect": false },
+      { "text": "Op-Op Fruit (Ope Ope no Mi)", "isCorrect": false },
       { "text": "Smoke-Smoke Fruit (Moku Moku no Mi)", "isCorrect": false }
     ],
     "explanation": "Luffy ate the Gum-Gum Fruit (Gomu Gomu no Mi) as a child, which turned his body into rubber."
@@ -43,7 +43,7 @@
       { "text": "The Grand Treasure", "isCorrect": false },
       { "text": "The Devil's Bounty", "isCorrect": false },
       { "text": "One Piece", "isCorrect": true },
-      { "text": "The Pirate's Gold", "isCorrect": false }
+      { "text": "El Dorado", "isCorrect": false }
     ],
     "explanation": "The One Piece is the legendary treasure left behind by the Pirate King, Gol D. Roger, at the final island of the Grand Line."
   },
@@ -52,7 +52,7 @@
     "question_type": "multiple_choice",
     "difficulty": "easy",
     "options": [
-      { "text": "Sanji", "isCorrect": false },
+      { "text": "Vinsmoke Sanji", "isCorrect": false },
       { "text": "Brook", "isCorrect": false },
       { "text": "Roronoa Zoro", "isCorrect": true },
       { "text": "Franky", "isCorrect": false }
@@ -66,7 +66,7 @@
     "options": [
       { "text": "Going Merry", "isCorrect": false },
       { "text": "Thousand Sunny", "isCorrect": true },
-      { "text": "Oro Jackson", "isCorrect": false },
+      { "text": "Oro Jackson (Roger's ship)", "isCorrect": false },
       { "text": "Red Force", "isCorrect": false }
     ],
     "explanation": "The Thousand Sunny is the Straw Hats' second ship, built by Franky using wood from the legendary Adam Tree to replace the Going Merry."
@@ -100,7 +100,7 @@
     "question_type": "multiple_choice",
     "difficulty": "easy",
     "options": [
-      { "text": "Edward Newgate", "isCorrect": false },
+      { "text": "Whitebeard", "isCorrect": false },
       { "text": "Monkey D. Dragon", "isCorrect": false },
       { "text": "Gol D. Roger", "isCorrect": true },
       { "text": "Silvers Rayleigh", "isCorrect": false }
@@ -136,7 +136,7 @@
     "question_type": "multiple_choice",
     "difficulty": "medium",
     "options": [
-      { "text": "Trafalgar Law", "isCorrect": false },
+      { "text": "Trafalgar D. Water Law", "isCorrect": false },
       { "text": "Tony Tony Chopper", "isCorrect": true },
       { "text": "Kureha", "isCorrect": false },
       { "text": "Hogback", "isCorrect": false }
@@ -175,7 +175,7 @@
       { "text": "Nitoryu (Two Sword Style)", "isCorrect": false },
       { "text": "Santoryu (Three Sword Style)", "isCorrect": true },
       { "text": "Ittoryu (One Sword Style)", "isCorrect": false },
-      { "text": "Yontoryu (Four Sword Style)", "isCorrect": false }
+      { "text": "Nanatoryu (Seven Sword Style)", "isCorrect": false }
     ],
     "explanation": "Santoryu (Three Sword Style) is Zoro's unique fighting style where he wields three swords simultaneously -- one in each hand and one in his mouth. He developed this style in honor of his childhood rival Kuina."
   },
@@ -232,7 +232,7 @@
     "question_type": "multiple_choice",
     "difficulty": "medium",
     "options": [
-      { "text": "Fishman Karate", "isCorrect": false },
+      { "text": "Fishman Karate (Jinbe's style)", "isCorrect": false },
       { "text": "Rokushiki", "isCorrect": false },
       { "text": "Black Leg Style", "isCorrect": true },
       { "text": "Okama Kenpo", "isCorrect": false }
@@ -258,7 +258,7 @@
     "options": [
       { "text": "A century when no pirates existed on the seas", "isCorrect": false },
       { "text": "A 100-year gap in recorded history that the World Government has erased", "isCorrect": true },
-      { "text": "The century during which all Devil Fruits were created", "isCorrect": false },
+      { "text": "The hundred-year period during which every Devil Fruit in the world was first created", "isCorrect": false },
       { "text": "A 100-year war between the Marines and the Yonko", "isCorrect": false }
     ],
     "explanation": "The Void Century is a 100-year period of history (approximately 800-900 years before the current storyline) that has been erased from public record by the World Government. Researching it is considered a capital crime, and the Poneglyphs contain the hidden truth about what happened."
@@ -271,7 +271,7 @@
       { "text": "The five strongest Marine Admirals", "isCorrect": false },
       { "text": "The five leaders of the Revolutionary Army's divisions", "isCorrect": false },
       { "text": "The five highest-ranking Celestial Dragons who rule the World Government", "isCorrect": true },
-      { "text": "The five legendary pirates who discovered the Grand Line", "isCorrect": false }
+      { "text": "The five legendary pirates who first discovered and fully charted the entire Grand Line", "isCorrect": false }
     ],
     "explanation": "The Five Elders (Gorosei) are the five highest-ranking Celestial Dragons who hold the greatest authority in the World Government, answering only to the mysterious Imu. They have ruled from Mary Geoise for centuries and possess immense power."
   },
@@ -280,7 +280,7 @@
     "question_type": "multiple_choice",
     "difficulty": "hard",
     "options": [
-      { "text": "To become the greatest archaeologist in the world", "isCorrect": false },
+      { "text": "To become the single most renowned and accomplished archaeologist in the world", "isCorrect": false },
       { "text": "To find and read the Rio Poneglyph to learn the True History", "isCorrect": true },
       { "text": "To destroy the World Government", "isCorrect": false },
       { "text": "To avenge the scholars of Ohara", "isCorrect": false }
@@ -294,7 +294,7 @@
     "options": [
       { "text": "Ryu Ryu no Mi, Model: Pteranodon -- Ancient Zoan", "isCorrect": false },
       { "text": "Uo Uo no Mi, Model: Seiryu -- Mythical Zoan (Fish-Fish Fruit, Azure Dragon)", "isCorrect": true },
-      { "text": "Hebi Hebi no Mi, Model: Yamata no Orochi -- Mythical Zoan", "isCorrect": false },
+      { "text": "Hebi Hebi no Mi, Model: Yamata no Orochi -- Mythical Zoan (Snake-Snake Fruit, Eight-Headed Serpent)", "isCorrect": false },
       { "text": "Tatsu Tatsu no Mi -- Logia Dragon type", "isCorrect": false }
     ],
     "explanation": "Kaido's Devil Fruit is the Uo Uo no Mi, Model: Seiryu (Fish-Fish Fruit, Mythical Zoan type, Azure Dragon model). Despite being a Fish-Fish Fruit, it allows him to transform into a massive Eastern dragon, referencing the legend of a carp climbing a waterfall to become a dragon."
@@ -307,7 +307,7 @@
       { "text": "Enma", "isCorrect": false },
       { "text": "Ace", "isCorrect": false },
       { "text": "Gryphon", "isCorrect": true },
-      { "text": "Shusui", "isCorrect": false }
+      { "text": "Shusui (Ryuma's black blade)", "isCorrect": false }
     ],
     "explanation": "Shanks wields a saber named Gryphon. Despite losing his left arm to a Sea King while saving young Luffy, Shanks remains one of the most powerful swordsmen in the world with this blade."
   },
@@ -319,7 +319,7 @@
       { "text": "It grants the bearer immunity to Devil Fruit powers", "isCorrect": false },
       { "text": "It marks descendants of the original Marine heroes", "isCorrect": false },
       { "text": "People with D. in their name carry an inherited will and are called 'God's Natural Enemy'", "isCorrect": true },
-      { "text": "It is a tattoo given to members of the Revolutionary Army", "isCorrect": false }
+      { "text": "It is a secret tattoo given only to the highest-ranking members of the Revolutionary Army's inner circle", "isCorrect": false }
     ],
     "explanation": "The Will of D. refers to a mysterious inherited will carried by those with the initial 'D.' in their name (such as Monkey D. Luffy, Gol D. Roger, and Portgas D. Ace). They are known as 'God's Natural Enemy' by the Celestial Dragons, and they tend to cause great upheavals in the world."
   },
@@ -328,7 +328,7 @@
     "question_type": "multiple_choice",
     "difficulty": "hard",
     "options": [
-      { "text": "A form that combines all three types of Haki into Luffy's rubber body", "isCorrect": false },
+      { "text": "A form that combines all three types of Haki into Luffy's rubber body to vastly amplify his strength and speed", "isCorrect": false },
       { "text": "Luffy's awakened Devil Fruit form based on the Sun God Nika, granting cartoonish reality-bending powers", "isCorrect": true },
       { "text": "A technique that permanently enlarges Luffy's body to giant size", "isCorrect": false },
       { "text": "A Haki-only transformation that turns Luffy's body into pure energy", "isCorrect": false }
@@ -340,7 +340,7 @@
     "question_type": "multiple_choice",
     "difficulty": "hard",
     "options": [
-      { "text": "Joyboy was Roger's first mate, and Luffy inherited his Devil Fruit", "isCorrect": false },
+      { "text": "Joyboy was Gol D. Roger's first mate during his final voyage, and Luffy directly inherited both his Devil Fruit and his sword", "isCorrect": false },
       { "text": "A figure from the Void Century who left a promise on Fish-Man Island; Luffy is called the second coming of Joyboy", "isCorrect": true },
       { "text": "The original creator of the Devil Fruits who cursed the seas", "isCorrect": false },
       { "text": "A legendary Marine who defected and formed the first pirate crew", "isCorrect": false }
@@ -352,7 +352,7 @@
     "question_type": "multiple_choice",
     "difficulty": "hard",
     "options": [
-      { "text": "Ancient maps carved in stone that show the locations of all Devil Fruits", "isCorrect": false },
+      { "text": "Ancient maps carved in stone that reveal the locations of every known Devil Fruit across the four seas", "isCorrect": false },
       { "text": "Stone tablets that contain the blueprints for the Ancient Weapons", "isCorrect": false },
       { "text": "Four special red Poneglyphs whose combined information reveals the location of Laugh Tale", "isCorrect": true },
       { "text": "Sacred stones that grant the ability to read all written languages", "isCorrect": false }
