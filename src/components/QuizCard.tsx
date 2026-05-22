@@ -44,7 +44,7 @@ const QuizCard = ({
         <div className="bg-surface rounded-card border border-white/10 p-5 md:p-6">
           {/* Top bar */}
           <div className="flex items-center justify-between mb-4">
-            <span className="text-sm text-white/50">
+            <span className="text-sm text-white/50 tabular-nums">
               {questionNumber}/{totalQuestions}
             </span>
             <Pill
