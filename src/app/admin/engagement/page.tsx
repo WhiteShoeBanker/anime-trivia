@@ -13,6 +13,7 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import { getEngagementData, type EngagementData } from "../actions";
+import { adminChartChrome, tooltipStyle } from "@/themes";
 
 type RangeOption = 7 | 14 | 30;
 
@@ -305,24 +306,18 @@ const AdminEngagementPage = () => {
                     <XAxis
                       dataKey="date"
                       tickFormatter={formatDateTick}
-                      tick={{ fill: "#94a3b8", fontSize: 12 }}
-                      axisLine={{ stroke: "#334155" }}
+                      tick={{ fill: adminChartChrome.axisTick, fontSize: 12 }}
+                      axisLine={{ stroke: adminChartChrome.axisLine }}
                       tickLine={false}
                     />
                     <YAxis
-                      tick={{ fill: "#94a3b8", fontSize: 12 }}
+                      tick={{ fill: adminChartChrome.axisTick, fontSize: 12 }}
                       axisLine={false}
                       tickLine={false}
                       allowDecimals={false}
                     />
                     <Tooltip
-                      contentStyle={{
-                        backgroundColor: "#1e293b",
-                        border: "1px solid #334155",
-                        borderRadius: "0.5rem",
-                        color: "#f1f5f9",
-                        fontSize: "0.875rem",
-                      }}
+                      contentStyle={{ ...tooltipStyle, fontSize: "0.875rem" }}
                       labelFormatter={formatDateLabel}
                     />
                     <Area
@@ -353,24 +348,18 @@ const AdminEngagementPage = () => {
                     <XAxis
                       dataKey="date"
                       tickFormatter={formatDateTick}
-                      tick={{ fill: "#94a3b8", fontSize: 12 }}
-                      axisLine={{ stroke: "#334155" }}
+                      tick={{ fill: adminChartChrome.axisTick, fontSize: 12 }}
+                      axisLine={{ stroke: adminChartChrome.axisLine }}
                       tickLine={false}
                     />
                     <YAxis
-                      tick={{ fill: "#94a3b8", fontSize: 12 }}
+                      tick={{ fill: adminChartChrome.axisTick, fontSize: 12 }}
                       axisLine={false}
                       tickLine={false}
                       allowDecimals={false}
                     />
                     <Tooltip
-                      contentStyle={{
-                        backgroundColor: "#1e293b",
-                        border: "1px solid #334155",
-                        borderRadius: "0.5rem",
-                        color: "#f1f5f9",
-                        fontSize: "0.875rem",
-                      }}
+                      contentStyle={{ ...tooltipStyle, fontSize: "0.875rem" }}
                       labelFormatter={formatDateLabel}
                     />
                     <Bar
