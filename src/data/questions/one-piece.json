@@ -305,7 +305,7 @@
     "difficulty": "hard",
     "options": [
       { "text": "Enma", "isCorrect": false },
-      { "text": "Ace", "isCorrect": false },
+      { "text": "Yoru", "isCorrect": false },
       { "text": "Gryphon", "isCorrect": true },
       { "text": "Shusui (Ryuma's black blade)", "isCorrect": false }
     ],

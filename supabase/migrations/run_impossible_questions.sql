@@ -297,7 +297,7 @@ VALUES (
   'multiple_choice',
   'impossible',
   '[{"text":"Trost District","isCorrect":false},{"text":"Karanes District","isCorrect":false},{"text":"Shiganshina District","isCorrect":true},{"text":"Stohess District","isCorrect":false}]'::jsonb,
-  'Shiganshina District, on the southern edge of Wall Maria, was the first district breached by the Colossal and Armored Titans in 845. Trost is a district of Wall Rose, and Stohess is a district of Wall Sheena.'
+  'Shiganshina District, on the southern edge of Wall Maria, was the first district breached by the Colossal and Armored Titans in 845. Trost is a district of Wall Rose, and Stohess is a district of Wall Sina.'
 )
 ON CONFLICT (anime_id, question_text) DO NOTHING;
 
@@ -421,7 +421,7 @@ VALUES (
   'What is the name of the Shinigami who originally owned the Death Note before Ryuk dropped it in the human world?',
   'multiple_choice',
   'impossible',
-  '[{"text":"Gelus","isCorrect":false},{"text":"Ryuk always owned it — he stole a second notebook","isCorrect":true},{"text":"Sidoh","isCorrect":false},{"text":"Nu","isCorrect":false}]'::jsonb,
+  '[{"text":"Gelus","isCorrect":false},{"text":"Ryuk always owned it — he stole a second notebook","isCorrect":false},{"text":"Sidoh","isCorrect":true},{"text":"Nu","isCorrect":false}]'::jsonb,
   'Ryuk actually stole the second Death Note from Sidoh, another Shinigami who was too lazy to retrieve it. Ryuk tricked the Shinigami King into giving him a second notebook, but it was actually Sidoh''s stolen one that he dropped to Earth.'
 )
 ON CONFLICT (anime_id, question_text) DO NOTHING;
@@ -509,7 +509,7 @@ VALUES (
   'Who directed the Death Note anime series?',
   'multiple_choice',
   'impossible',
-  '[{"text":"Tetsurou Araki","isCorrect":true},{"text":"Mamoru Hosoda","isCorrect":false},{"text":"Satoshi Kon","isCorrect":false},{"text":"Takeshi Obata","isCorrect":false}]'::jsonb,
+  '[{"text":"Tetsurō Araki","isCorrect":true},{"text":"Mamoru Hosoda","isCorrect":false},{"text":"Satoshi Kon","isCorrect":false},{"text":"Takeshi Obata","isCorrect":false}]'::jsonb,
   'Tetsurō Araki directed the Death Note anime at Madhouse. He later went on to direct Attack on Titan at WIT Studio. Takeshi Obata is the manga artist, not the anime director.'
 )
 ON CONFLICT (anime_id, question_text) DO NOTHING;
