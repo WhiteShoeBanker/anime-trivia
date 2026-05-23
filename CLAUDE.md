@@ -98,12 +98,12 @@ See `docs/design-workflow.md` for the audit-and-refactor workflow.
 
 ---
 
-## Workflow plugins (mandatory for non-trivial work)
+## Workflow (mandatory)
 
-- **Superpowers** — For any non-trivial change, brainstorm → plan → execute → verify. Use /brainstorming before feature work. Use /writing-plans once design is settled.
-- **Code Review** — Run on the diff after any phase that touches more than a single file. Resolve all high-confidence findings before commit.
-- **Security Guidance** — Mandatory on any phase touching auth, API routes, env vars, DB writes, external input, or third-party integrations.
-- **Claude-Mem** — Memory captured automatically. Scan injected context at session start before asking the user to re-explain.
+- Superpowers loop for any non-trivial work: brainstorm → spec → plan → subagent-driven execution → finish branch. Never jump straight to code.
+- /code-review on every multi-file diff before commit.
+- /security-guidance on any work touching auth, API routes, env vars, DB writes, or external/user input.
+- Claude-Mem runs passively (user-level hooks already wired). Wrap secrets/PII in <private>...</private> tags so they don't persist.
 
 ## Skill discovery
 
@@ -146,11 +146,18 @@ across 8 per-anime batches (DBZ 18, DS 37, JJK 36, naruto 33, MHA 32, DN 31,
 AoT 27, OP 26). The burn-down allowlist was removed at closeout; the validator
 now runs strict — every new or edited question must comply on its own.
 
-## Test gates (must pass before any commit)
+## Test gates (before any commit)
 
-- pnpm typecheck
-- pnpm lint
-- pnpm vitest run
-- pnpm build
+- `pnpm typecheck` — TypeScript typecheck (7 pre-existing errors in badges.test.ts + league-xp.test.ts are known baseline; gate is "no new errors")
+- `pnpm lint` — ESLint (28 errors baseline; gate is "no new errors" until baseline is burned down)
+- `pnpm test` — Vitest unit suite (`vitest run`)
+- `pnpm build` — Next.js production build
+- `pnpm vitest run src/lib/__tests__/length-bias-corpus` — strict length-bias symmetric-invariant validator (project-specific gate per Content authoring section)
 
 A11y must stay at 1.0. Test count grows toward ≥730 as the suite expands — treat it as a growth target, not a per-commit blocker (Phase 5 #7 currently sits at ~710).
+
+Test count must hold or grow with each commit.
+
+## Restricted scope
+
+Add .env* and .claude/settings.local.json to CC-denied files if not already excluded. As of this commit, both are explicitly denied in .claude/settings.local.json's permissions.deny block.
