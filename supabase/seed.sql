@@ -48,8 +48,8 @@ VALUES (
   'What protects humanity from the Titans at the start of the series?',
   'multiple_choice',
   'easy',
-  '[{"text":"A vast ocean surrounding the land","isCorrect":false},{"text":"An army of elite soldiers","isCorrect":false},{"text":"Three massive walls — Wall Maria, Wall Rose, and Wall Sheena","isCorrect":true},{"text":"A magical barrier conjured by the king using ancient royal sorcery","isCorrect":false}]'::jsonb,
-  'Humanity lives within three concentric walls: Wall Maria (outermost), Wall Rose (middle), and Wall Sheena (innermost). These walls are 50 meters tall and have protected humanity for over a century.'
+  '[{"text":"A vast ocean surrounding the land","isCorrect":false},{"text":"An army of elite soldiers","isCorrect":false},{"text":"Three massive walls — Wall Maria, Wall Rose, and Wall Sina","isCorrect":true},{"text":"A magical barrier conjured by the king using ancient royal sorcery","isCorrect":false}]'::jsonb,
+  'Humanity lives within three concentric walls: Wall Maria (outermost), Wall Rose (middle), and Wall Sina (innermost). These walls are 50 meters tall and have protected humanity for over a century.'
 );
 
 INSERT INTO questions (anime_id, question_text, question_type, difficulty, options, explanation)
@@ -108,7 +108,7 @@ VALUES (
   'Which wall falls first at the very beginning of the series?',
   'multiple_choice',
   'easy',
-  '[{"text":"Wall Rose","isCorrect":false},{"text":"Wall Sheena","isCorrect":false},{"text":"Wall Maria","isCorrect":true},{"text":"All three walls fall at once","isCorrect":false}]'::jsonb,
+  '[{"text":"Wall Rose","isCorrect":false},{"text":"Wall Sina","isCorrect":false},{"text":"Wall Maria","isCorrect":true},{"text":"All three walls fall at once","isCorrect":false}]'::jsonb,
   'Wall Maria, the outermost wall, is breached in the very first episode when the Colossal Titan kicks a hole in the gate of Shiganshina District. This forces humanity to retreat behind Wall Rose.'
 );
 
