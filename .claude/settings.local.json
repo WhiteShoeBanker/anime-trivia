@@ -1,7 +1,16 @@
 {
   "permissions": {
     "allow": [
-      "Bash(pnpm lint *)"
+      "Bash(pnpm lint *)",
+      "Bash(node *)"
+    ],
+    "deny": [
+      "Read(./.env*)",
+      "Read(./.claude/settings.local.json)",
+      "Edit(./.env*)",
+      "Edit(./.claude/settings.local.json)",
+      "Write(./.env*)",
+      "Write(./.claude/settings.local.json)"
     ]
   }
 }
