@@ -303,7 +303,11 @@ const LandingContent = ({ topAnime, stats }: LandingContentProps) => {
 
         {/* Character art flanks — decorative, xl+ only */}
         <div
-          className="pointer-events-none select-none absolute inset-y-0 left-0 hidden xl:block w-[360px] 2xl:w-[460px]"
+          className="pointer-events-none select-none absolute inset-y-0 left-0 hidden xl:block w-[45%] max-w-[640px]"
+          style={{
+            WebkitMaskImage: "linear-gradient(to right, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 55%, rgba(0,0,0,0) 100%)",
+            maskImage: "linear-gradient(to right, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 55%, rgba(0,0,0,0) 100%)",
+          }}
           aria-hidden="true"
         >
           <Image
@@ -311,12 +315,16 @@ const LandingContent = ({ topAnime, stats }: LandingContentProps) => {
             alt=""
             fill
             priority
-            sizes="(min-width: 1536px) 460px, 360px"
+            sizes="(min-width: 1536px) 640px, 45vw"
             className="object-cover object-left"
           />
         </div>
         <div
-          className="pointer-events-none select-none absolute inset-y-0 right-0 hidden xl:block w-[320px] 2xl:w-[400px]"
+          className="pointer-events-none select-none absolute inset-y-0 right-0 hidden xl:block w-[42%] max-w-[600px]"
+          style={{
+            WebkitMaskImage: "linear-gradient(to left, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 55%, rgba(0,0,0,0) 100%)",
+            maskImage: "linear-gradient(to left, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 55%, rgba(0,0,0,0) 100%)",
+          }}
           aria-hidden="true"
         >
           <Image
@@ -324,7 +332,7 @@ const LandingContent = ({ topAnime, stats }: LandingContentProps) => {
             alt=""
             fill
             priority
-            sizes="(min-width: 1536px) 400px, 320px"
+            sizes="(min-width: 1536px) 600px, 42vw"
             className="object-cover object-right"
           />
         </div>
