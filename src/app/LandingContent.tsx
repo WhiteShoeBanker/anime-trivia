@@ -306,10 +306,10 @@ const LandingContent = ({ topAnime, stats }: LandingContentProps) => {
           className="pointer-events-none select-none absolute inset-y-0 left-0 hidden xl:block w-[45%] max-w-[640px]"
           style={{
             WebkitMaskImage:
-              "linear-gradient(to right, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 55%, rgba(0,0,0,0) 100%), " +
+              "linear-gradient(to right, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 75%, rgba(0,0,0,0) 100%), " +
               "linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 80%, rgba(0,0,0,0) 100%)",
             maskImage:
-              "linear-gradient(to right, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 55%, rgba(0,0,0,0) 100%), " +
+              "linear-gradient(to right, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 75%, rgba(0,0,0,0) 100%), " +
               "linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 80%, rgba(0,0,0,0) 100%)",
             WebkitMaskComposite: "source-in",
             maskComposite: "intersect",
@@ -321,7 +321,7 @@ const LandingContent = ({ topAnime, stats }: LandingContentProps) => {
             alt=""
             fill
             priority
-            sizes="(min-width: 1536px) 640px, 45vw"
+            sizes="(min-width: 1536px) 1600px, 1200px"
             className="object-cover object-left"
           />
         </div>
