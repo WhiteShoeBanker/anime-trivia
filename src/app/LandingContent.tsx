@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import {
@@ -297,6 +298,34 @@ const LandingContent = ({ topAnime, stats }: LandingContentProps) => {
           <div
             className="absolute w-32 h-32 rounded-full bg-success/5 bottom-10 left-1/4"
             style={{ animation: "float 7s ease-in-out infinite 1s" }}
+          />
+        </div>
+
+        {/* Character art flanks — decorative, xl+ only */}
+        <div
+          className="pointer-events-none select-none absolute inset-y-0 left-0 hidden xl:block w-[360px] 2xl:w-[460px]"
+          aria-hidden="true"
+        >
+          <Image
+            src="/images/hero/hero-left.png"
+            alt=""
+            fill
+            priority
+            sizes="(min-width: 1536px) 460px, 360px"
+            className="object-cover object-left"
+          />
+        </div>
+        <div
+          className="pointer-events-none select-none absolute inset-y-0 right-0 hidden xl:block w-[320px] 2xl:w-[400px]"
+          aria-hidden="true"
+        >
+          <Image
+            src="/images/hero/hero-right.png"
+            alt=""
+            fill
+            priority
+            sizes="(min-width: 1536px) 400px, 320px"
+            className="object-cover object-right"
           />
         </div>
 
