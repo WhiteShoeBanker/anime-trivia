@@ -32,8 +32,9 @@ export const tierColors: TierColor[] = [
 //
 // TODO(theming): admin Recharts pages (admin/page.tsx, admin/duels/page.tsx,
 // admin/engagement/page.tsx, admin/leagues/page.tsx, admin/retention/page.tsx,
-// admin/revenue/page.tsx) still hardcode their own slate/orange palettes.
-// Phase 0 leaves them alone — refactor in a follow-up session.
+// admin/revenue/page.tsx) still hardcode their own series + DIFFICULTY palettes.
+// A1 landed chart-chrome + tooltipStyle migration; A2 will land semantic
+// palette consumption (difficultyPalette, chartPalette, audiencePalette).
 export const chartPalette: string[] = [
   palette.primary,
   palette.success,
@@ -102,6 +103,30 @@ export const difficultyPalette = {
   hard: audiencePalette.mature,
   impossible: "#a855f7",
   mixed: "#60a5fa",
+} as const;
+
+// Admin Recharts chart chrome. Slate-palette values used for axis ticks,
+// axis lines, and tooltip frames across all 6 admin chart pages. Previously
+// these hexes were copy-pasted inline at every chart instance; A1 hoisted
+// them here so the dark-shell chrome contract is single-sourced.
+//
+// Not part of palette: these are chart-internal chrome, not brand colors.
+export const adminChartChrome = {
+  axisTick: "#94a3b8",
+  axisLine: "#475569",
+  tooltipBg: "#1e293b",
+  tooltipBorder: "#334155",
+  tooltipText: "#f1f5f9",
+} as const;
+
+// Canonical Recharts <Tooltip contentStyle={...}> object. Derives from
+// adminChartChrome so any chrome change propagates. Consumers needing extra
+// keys (fontSize, etc.) should spread: `contentStyle={{ ...tooltipStyle, fontSize: "0.875rem" }}`.
+export const tooltipStyle = {
+  backgroundColor: adminChartChrome.tooltipBg,
+  border: `1px solid ${adminChartChrome.tooltipBorder}`,
+  borderRadius: "0.5rem",
+  color: adminChartChrome.tooltipText,
 } as const;
 
 // DifficultyTone aliases the canonical @/types DuelDifficulty (= Difficulty |

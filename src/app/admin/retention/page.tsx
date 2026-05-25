@@ -20,6 +20,7 @@ import {
 } from "lucide-react";
 import { getRetentionData, type RetentionData } from "../actions";
 import { getUsersList, type UsersListResult } from "../actions";
+import { adminChartChrome, tooltipStyle } from "@/themes";
 
 // ── Types ──────────────────────────────────────────────────
 
@@ -270,24 +271,18 @@ const AdminRetentionPage = () => {
             >
               <XAxis
                 dataKey="label"
-                tick={{ fill: "#94a3b8", fontSize: 13 }}
-                axisLine={{ stroke: "#334155" }}
-                tickLine={{ stroke: "#334155" }}
+                tick={{ fill: adminChartChrome.axisTick, fontSize: 13 }}
+                axisLine={{ stroke: adminChartChrome.axisLine }}
+                tickLine={{ stroke: adminChartChrome.axisLine }}
               />
               <YAxis
-                tick={{ fill: "#94a3b8", fontSize: 13 }}
-                axisLine={{ stroke: "#334155" }}
-                tickLine={{ stroke: "#334155" }}
+                tick={{ fill: adminChartChrome.axisTick, fontSize: 13 }}
+                axisLine={{ stroke: adminChartChrome.axisLine }}
+                tickLine={{ stroke: adminChartChrome.axisLine }}
                 allowDecimals={false}
               />
               <Tooltip
-                contentStyle={{
-                  backgroundColor: "#1e293b",
-                  border: "1px solid #334155",
-                  borderRadius: "0.5rem",
-                  color: "#e2e8f0",
-                  fontSize: 13,
-                }}
+                contentStyle={{ ...tooltipStyle, fontSize: 13 }}
                 cursor={{ fill: "rgba(148,163,184,0.1)" }}
                 formatter={(value: number | undefined) => [value ?? 0, "Users"]}
                 labelFormatter={(label: ReactNode) => `Streak: ${String(label)} days`}

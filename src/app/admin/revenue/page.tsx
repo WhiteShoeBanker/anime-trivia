@@ -26,6 +26,7 @@ import {
 } from "lucide-react";
 import { getRevenueData, generatePromoCode } from "../actions";
 import type { RevenueData } from "../actions";
+import { adminChartChrome, tooltipStyle } from "@/themes";
 
 const PRO_PRICE = 4.99;
 
@@ -236,13 +237,7 @@ const RevenuePage = () => {
                     ))}
                   </Pie>
                   <Tooltip
-                    contentStyle={{
-                      backgroundColor: "#1e293b",
-                      border: "1px solid #334155",
-                      borderRadius: "0.5rem",
-                      color: "#f1f5f9",
-                      fontSize: "0.875rem",
-                    }}
+                    contentStyle={{ ...tooltipStyle, fontSize: "0.875rem" }}
                     formatter={(value: number | undefined, name: string | undefined) => [
                       value ?? 0,
                       PIE_LABELS[name ?? ""] ?? name ?? "",
@@ -285,24 +280,18 @@ const RevenuePage = () => {
                 <XAxis
                   dataKey="date"
                   tickFormatter={formatDateTick}
-                  tick={{ fill: "#94a3b8", fontSize: 12 }}
-                  axisLine={{ stroke: "#334155" }}
+                  tick={{ fill: adminChartChrome.axisTick, fontSize: 12 }}
+                  axisLine={{ stroke: adminChartChrome.axisLine }}
                   tickLine={false}
                 />
                 <YAxis
-                  tick={{ fill: "#94a3b8", fontSize: 12 }}
+                  tick={{ fill: adminChartChrome.axisTick, fontSize: 12 }}
                   axisLine={false}
                   tickLine={false}
                   allowDecimals={false}
                 />
                 <Tooltip
-                  contentStyle={{
-                    backgroundColor: "#1e293b",
-                    border: "1px solid #334155",
-                    borderRadius: "0.5rem",
-                    color: "#f1f5f9",
-                    fontSize: "0.875rem",
-                  }}
+                  contentStyle={{ ...tooltipStyle, fontSize: "0.875rem" }}
                   labelFormatter={formatDateLabel}
                 />
                 <Bar

@@ -13,7 +13,7 @@ import {
 } from "recharts";
 import { getLeagueDistribution } from "../actions";
 import type { LeagueData } from "../actions";
-import { tierColors } from "@/themes";
+import { tierColors, adminChartChrome, tooltipStyle } from "@/themes";
 
 const RANK_THRESHOLDS = [
   { name: "Genin", threshold: 0 },
@@ -171,21 +171,16 @@ const LeaguesPage = () => {
         <div className="h-80">
           <ResponsiveContainer width="100%" height="100%">
             <BarChart data={chartData} layout="vertical" margin={{ left: 20, right: 30 }}>
-              <XAxis type="number" stroke="#64748b" fontSize={12} />
+              <XAxis type="number" stroke={adminChartChrome.axisLine} fontSize={12} />
               <YAxis
                 type="category"
                 dataKey="name"
-                stroke="#64748b"
+                stroke={adminChartChrome.axisLine}
                 fontSize={13}
                 width={70}
               />
               <Tooltip
-                contentStyle={{
-                  backgroundColor: "#1e293b",
-                  border: "1px solid #334155",
-                  borderRadius: "8px",
-                  color: "#f1f5f9",
-                }}
+                contentStyle={{ ...tooltipStyle, borderRadius: "8px" }}
                 cursor={{ fill: "rgba(148, 163, 184, 0.1)" }}
               />
               <Bar dataKey="count" radius={[0, 6, 6, 0]} barSize={28}>

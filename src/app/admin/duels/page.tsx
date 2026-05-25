@@ -22,6 +22,7 @@ import {
   AlertTriangle,
   Loader2,
 } from "lucide-react";
+import { adminChartChrome, tooltipStyle } from "@/themes";
 
 const DIFFICULTY_COLORS: Record<string, string> = {
   easy: "#4ade80",
@@ -33,13 +34,7 @@ const DIFFICULTY_COLORS: Record<string, string> = {
 
 const PIE_COLORS = ["#fb923c", "#34d399"];
 
-const tooltipStyle = {
-  backgroundColor: "#1e293b",
-  border: "1px solid #334155",
-  borderRadius: "0.5rem",
-  color: "#f1f5f9",
-  fontSize: "0.875rem",
-};
+const duelsTooltipStyle = { ...tooltipStyle, fontSize: "0.875rem" };
 
 const AdminDuelsPage = () => {
   const [data, setData] = useState<DuelsData | null>(null);
@@ -189,9 +184,9 @@ const AdminDuelsPage = () => {
                     />
                   ))}
                 </Pie>
-                <Tooltip contentStyle={tooltipStyle} />
+                <Tooltip contentStyle={duelsTooltipStyle} />
                 <Legend
-                  wrapperStyle={{ color: "#94a3b8", fontSize: "0.875rem" }}
+                  wrapperStyle={{ color: adminChartChrome.axisTick, fontSize: "0.875rem" }}
                 />
               </PieChart>
             </ResponsiveContainer>
@@ -216,20 +211,20 @@ const AdminDuelsPage = () => {
               >
                 <XAxis
                   type="number"
-                  tick={{ fill: "#94a3b8", fontSize: 12 }}
-                  axisLine={{ stroke: "#334155" }}
+                  tick={{ fill: adminChartChrome.axisTick, fontSize: 12 }}
+                  axisLine={{ stroke: adminChartChrome.axisLine }}
                   tickLine={false}
                   allowDecimals={false}
                 />
                 <YAxis
                   type="category"
                   dataKey="anime_title"
-                  tick={{ fill: "#94a3b8", fontSize: 12 }}
+                  tick={{ fill: adminChartChrome.axisTick, fontSize: 12 }}
                   axisLine={false}
                   tickLine={false}
                   width={120}
                 />
-                <Tooltip contentStyle={tooltipStyle} />
+                <Tooltip contentStyle={duelsTooltipStyle} />
                 <Bar
                   dataKey="count"
                   fill="#fb923c"
@@ -258,17 +253,17 @@ const AdminDuelsPage = () => {
               <BarChart data={difficultyData}>
                 <XAxis
                   dataKey="difficulty"
-                  tick={{ fill: "#94a3b8", fontSize: 12 }}
-                  axisLine={{ stroke: "#334155" }}
+                  tick={{ fill: adminChartChrome.axisTick, fontSize: 12 }}
+                  axisLine={{ stroke: adminChartChrome.axisLine }}
                   tickLine={false}
                 />
                 <YAxis
-                  tick={{ fill: "#94a3b8", fontSize: 12 }}
+                  tick={{ fill: adminChartChrome.axisTick, fontSize: 12 }}
                   axisLine={false}
                   tickLine={false}
                   allowDecimals={false}
                 />
-                <Tooltip contentStyle={tooltipStyle} />
+                <Tooltip contentStyle={duelsTooltipStyle} />
                 <Bar dataKey="count" radius={[4, 4, 0, 0]} name="Duels">
                   {difficultyData.map((entry, index) => (
                     <Cell key={`diff-${index}`} fill={entry.fill} />

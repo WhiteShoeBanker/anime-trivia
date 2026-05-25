@@ -32,6 +32,7 @@ import {
   type OverviewStats,
   type CronStatusInfo,
 } from "./actions";
+import { adminChartChrome, tooltipStyle } from "@/themes";
 
 const RANK_COLORS: Record<string, string> = {
   Genin: "bg-gray-500",
@@ -231,30 +232,25 @@ const AdminOverview = () => {
                 <XAxis
                   dataKey="date"
                   tickFormatter={formatDateTick}
-                  tick={{ fill: "#94a3b8", fontSize: 12 }}
-                  axisLine={{ stroke: "#475569" }}
+                  tick={{ fill: adminChartChrome.axisTick, fontSize: 12 }}
+                  axisLine={{ stroke: adminChartChrome.axisLine }}
                   tickLine={false}
                 />
                 <YAxis
                   allowDecimals={false}
-                  tick={{ fill: "#94a3b8", fontSize: 12 }}
-                  axisLine={{ stroke: "#475569" }}
+                  tick={{ fill: adminChartChrome.axisTick, fontSize: 12 }}
+                  axisLine={{ stroke: adminChartChrome.axisLine }}
                   tickLine={false}
                 />
                 <Tooltip
-                  contentStyle={{
-                    backgroundColor: "#1e293b",
-                    border: "1px solid #334155",
-                    borderRadius: "0.5rem",
-                    color: "#f1f5f9",
-                  }}
+                  contentStyle={tooltipStyle}
                   labelFormatter={(label) => {
                     if (typeof label !== "string") return String(label ?? "");
                     return formatDateTick(label);
                   }}
                 />
                 <Legend
-                  wrapperStyle={{ color: "#94a3b8", fontSize: "0.875rem" }}
+                  wrapperStyle={{ color: adminChartChrome.axisTick, fontSize: "0.875rem" }}
                 />
                 <Line
                   type="monotone"
@@ -288,30 +284,25 @@ const AdminOverview = () => {
                 <XAxis
                   dataKey="date"
                   tickFormatter={formatDateTick}
-                  tick={{ fill: "#94a3b8", fontSize: 12 }}
-                  axisLine={{ stroke: "#475569" }}
+                  tick={{ fill: adminChartChrome.axisTick, fontSize: 12 }}
+                  axisLine={{ stroke: adminChartChrome.axisLine }}
                   tickLine={false}
                 />
                 <YAxis
                   allowDecimals={false}
-                  tick={{ fill: "#94a3b8", fontSize: 12 }}
-                  axisLine={{ stroke: "#475569" }}
+                  tick={{ fill: adminChartChrome.axisTick, fontSize: 12 }}
+                  axisLine={{ stroke: adminChartChrome.axisLine }}
                   tickLine={false}
                 />
                 <Tooltip
-                  contentStyle={{
-                    backgroundColor: "#1e293b",
-                    border: "1px solid #334155",
-                    borderRadius: "0.5rem",
-                    color: "#f1f5f9",
-                  }}
+                  contentStyle={tooltipStyle}
                   labelFormatter={(label) => {
                     if (typeof label !== "string") return String(label ?? "");
                     return formatDateTick(label);
                   }}
                 />
                 <Legend
-                  wrapperStyle={{ color: "#94a3b8", fontSize: "0.875rem" }}
+                  wrapperStyle={{ color: adminChartChrome.axisTick, fontSize: "0.875rem" }}
                 />
                 <Bar
                   dataKey="junior"
