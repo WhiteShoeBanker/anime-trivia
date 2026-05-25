@@ -284,7 +284,7 @@ const LandingContent = ({ topAnime, stats }: LandingContentProps) => {
   return (
     <div>
       {/* ── HERO ─────────────────────────────────────────────── */}
-      <section className="relative flex flex-col items-center justify-center px-4 py-20 md:py-28 text-center overflow-hidden">
+      <section className="relative flex flex-col items-center justify-center px-4 pt-20 md:pt-28 pb-32 md:pb-40 text-center overflow-hidden">
         {/* Background floating shapes */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           <div
@@ -305,8 +305,14 @@ const LandingContent = ({ topAnime, stats }: LandingContentProps) => {
         <div
           className="pointer-events-none select-none absolute inset-y-0 left-0 hidden xl:block w-[45%] max-w-[640px]"
           style={{
-            WebkitMaskImage: "linear-gradient(to right, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 55%, rgba(0,0,0,0) 100%)",
-            maskImage: "linear-gradient(to right, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 55%, rgba(0,0,0,0) 100%)",
+            WebkitMaskImage:
+              "linear-gradient(to right, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 55%, rgba(0,0,0,0) 100%), " +
+              "linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 80%, rgba(0,0,0,0) 100%)",
+            maskImage:
+              "linear-gradient(to right, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 55%, rgba(0,0,0,0) 100%), " +
+              "linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 80%, rgba(0,0,0,0) 100%)",
+            WebkitMaskComposite: "source-in",
+            maskComposite: "intersect",
           }}
           aria-hidden="true"
         >
@@ -322,8 +328,14 @@ const LandingContent = ({ topAnime, stats }: LandingContentProps) => {
         <div
           className="pointer-events-none select-none absolute inset-y-0 right-0 hidden xl:block w-[42%] max-w-[600px]"
           style={{
-            WebkitMaskImage: "linear-gradient(to left, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 55%, rgba(0,0,0,0) 100%)",
-            maskImage: "linear-gradient(to left, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 55%, rgba(0,0,0,0) 100%)",
+            WebkitMaskImage:
+              "linear-gradient(to left, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 55%, rgba(0,0,0,0) 100%), " +
+              "linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 80%, rgba(0,0,0,0) 100%)",
+            maskImage:
+              "linear-gradient(to left, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 55%, rgba(0,0,0,0) 100%), " +
+              "linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 80%, rgba(0,0,0,0) 100%)",
+            WebkitMaskComposite: "source-in",
+            maskComposite: "intersect",
           }}
           aria-hidden="true"
         >
