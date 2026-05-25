@@ -32,7 +32,7 @@ import {
   type OverviewStats,
   type CronStatusInfo,
 } from "./actions";
-import { adminChartChrome, tooltipStyle } from "@/themes";
+import { adminChartChrome, tooltipStyle, chartPalette, audiencePalette } from "@/themes";
 
 const RANK_COLORS: Record<string, string> = {
   Genin: "bg-gray-500",
@@ -256,7 +256,7 @@ const AdminOverview = () => {
                   type="monotone"
                   dataKey="dau"
                   name="DAU"
-                  stroke="#fb923c"
+                  stroke={chartPalette[0]}
                   strokeWidth={2}
                   dot={false}
                 />
@@ -264,7 +264,7 @@ const AdminOverview = () => {
                   type="monotone"
                   dataKey="mau"
                   name="MAU"
-                  stroke="#34d399"
+                  stroke={chartPalette[1]}
                   strokeWidth={2}
                   dot={false}
                 />
@@ -308,21 +308,21 @@ const AdminOverview = () => {
                   dataKey="junior"
                   name="Junior"
                   stackId="signups"
-                  fill="#3b82f6"
+                  fill={audiencePalette.junior}
                   radius={[0, 0, 0, 0]}
                 />
                 <Bar
                   dataKey="teen"
                   name="Teen"
                   stackId="signups"
-                  fill="#a855f7"
+                  fill={audiencePalette.teen}
                   radius={[0, 0, 0, 0]}
                 />
                 <Bar
                   dataKey="full"
                   name="Full"
                   stackId="signups"
-                  fill="#fb923c"
+                  fill={audiencePalette.mature}
                   radius={[4, 4, 0, 0]}
                 />
               </BarChart>

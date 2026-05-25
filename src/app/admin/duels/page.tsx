@@ -22,17 +22,17 @@ import {
   AlertTriangle,
   Loader2,
 } from "lucide-react";
-import { adminChartChrome, tooltipStyle } from "@/themes";
+import { adminChartChrome, tooltipStyle, chartPalette, difficultyPalette } from "@/themes";
 
 const DIFFICULTY_COLORS: Record<string, string> = {
-  easy: "#4ade80",
-  medium: "#facc15",
-  hard: "#ef4444",
-  impossible: "#a855f7",
-  mixed: "#60a5fa",
+  easy: difficultyPalette.easy,
+  medium: difficultyPalette.medium,
+  hard: difficultyPalette.hard,
+  impossible: difficultyPalette.impossible,
+  mixed: difficultyPalette.mixed,
 };
 
-const PIE_COLORS = ["#fb923c", "#34d399"];
+const PIE_COLORS = [chartPalette[0], chartPalette[1]];
 
 const duelsTooltipStyle = { ...tooltipStyle, fontSize: "0.875rem" };
 
@@ -79,7 +79,7 @@ const AdminDuelsPage = () => {
   const difficultyData = data.duelsByDifficulty.map((d) => ({
     difficulty: d.difficulty.charAt(0).toUpperCase() + d.difficulty.slice(1),
     count: d.count,
-    fill: DIFFICULTY_COLORS[d.difficulty] ?? "#94a3b8",
+    fill: DIFFICULTY_COLORS[d.difficulty] ?? chartPalette[6],
   }));
 
   return (
@@ -227,7 +227,7 @@ const AdminDuelsPage = () => {
                 <Tooltip contentStyle={duelsTooltipStyle} />
                 <Bar
                   dataKey="count"
-                  fill="#fb923c"
+                  fill={chartPalette[0]}
                   radius={[0, 4, 4, 0]}
                   name="Duels"
                 />

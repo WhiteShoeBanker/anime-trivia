@@ -26,14 +26,14 @@ import {
 } from "lucide-react";
 import { getRevenueData, generatePromoCode } from "../actions";
 import type { RevenueData } from "../actions";
-import { adminChartChrome, tooltipStyle } from "@/themes";
+import { adminChartChrome, tooltipStyle, chartPalette, audiencePalette } from "@/themes";
 
 const PRO_PRICE = 4.99;
 
 const PIE_COLORS: Record<string, string> = {
-  paid: "#fb923c",
-  promo_code: "#a855f7",
-  admin_grant: "#34d399",
+  paid: chartPalette[0],
+  promo_code: chartPalette[1],
+  admin_grant: chartPalette[2],
 };
 
 const PIE_LABELS: Record<string, string> = {
@@ -232,7 +232,7 @@ const RevenuePage = () => {
                     {pieData.map((entry) => (
                       <Cell
                         key={entry.name}
-                        fill={PIE_COLORS[entry.name] ?? "#64748b"}
+                        fill={PIE_COLORS[entry.name] ?? chartPalette[6]}
                       />
                     ))}
                   </Pie>
@@ -252,7 +252,7 @@ const RevenuePage = () => {
                       className="w-3 h-3 rounded-full"
                       style={{
                         backgroundColor:
-                          PIE_COLORS[entry.name] ?? "#64748b",
+                          PIE_COLORS[entry.name] ?? chartPalette[6],
                       }}
                     />
                     <span className="text-sm text-slate-300">
@@ -296,7 +296,7 @@ const RevenuePage = () => {
                 />
                 <Bar
                   dataKey="count"
-                  fill="#ef4444"
+                  fill={audiencePalette.mature}
                   radius={[4, 4, 0, 0]}
                   name="Limit Hits"
                 />
