@@ -13,7 +13,7 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import { getEngagementData, type EngagementData } from "../actions";
-import { adminChartChrome, tooltipStyle } from "@/themes";
+import { adminChartChrome, tooltipStyle, chartPalette } from "@/themes";
 
 type RangeOption = 7 | 14 | 30;
 
@@ -293,12 +293,12 @@ const AdminEngagementPage = () => {
                       >
                         <stop
                           offset="5%"
-                          stopColor="#fb923c"
+                          stopColor={chartPalette[0]}
                           stopOpacity={0.3}
                         />
                         <stop
                           offset="95%"
-                          stopColor="#fb923c"
+                          stopColor={chartPalette[0]}
                           stopOpacity={0}
                         />
                       </linearGradient>
@@ -323,7 +323,7 @@ const AdminEngagementPage = () => {
                     <Area
                       type="monotone"
                       dataKey="dau"
-                      stroke="#fb923c"
+                      stroke={chartPalette[0]}
                       strokeWidth={2}
                       fill="url(#dauGradient)"
                       name="Active Users"
@@ -364,7 +364,7 @@ const AdminEngagementPage = () => {
                     />
                     <Bar
                       dataKey="quizzes"
-                      fill="#fb923c"
+                      fill={chartPalette[0]}
                       radius={[4, 4, 0, 0]}
                       name="Quizzes"
                     />

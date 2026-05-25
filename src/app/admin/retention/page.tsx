@@ -20,7 +20,7 @@ import {
 } from "lucide-react";
 import { getRetentionData, type RetentionData } from "../actions";
 import { getUsersList, type UsersListResult } from "../actions";
-import { adminChartChrome, tooltipStyle } from "@/themes";
+import { adminChartChrome, tooltipStyle, chartPalette } from "@/themes";
 
 // ── Types ──────────────────────────────────────────────────
 
@@ -289,7 +289,7 @@ const AdminRetentionPage = () => {
               />
               <Bar
                 dataKey="count"
-                fill="#34d399"
+                fill={chartPalette[1]}
                 radius={[6, 6, 0, 0]}
                 maxBarSize={64}
               />
