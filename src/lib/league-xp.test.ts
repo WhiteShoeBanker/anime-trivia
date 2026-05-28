@@ -376,7 +376,7 @@ describe("resolveMemberFate — hard/impossible gates (league-bug-1)", () => {
       uniqueAnimeCount: 6,
       impossiblePlays: 1, // one short of the gate
       league: DIAMOND,
-      nextLeague: { id: "L-champion", tier: 6, promotion_slots: 0, demotion_slots: 5 },
+      nextLeague: { id: "L-champion", tier: 6 },
       prevLeague: PLATINUM,
       promotionReqs: DIAMOND_GATE,
     });
@@ -391,7 +391,7 @@ describe("resolveMemberFate — hard/impossible gates (league-bug-1)", () => {
       uniqueAnimeCount: 6,
       impossiblePlays: 2,
       league: DIAMOND,
-      nextLeague: { id: "L-champion", tier: 6, promotion_slots: 0, demotion_slots: 5 },
+      nextLeague: { id: "L-champion", tier: 6 },
       prevLeague: PLATINUM,
       promotionReqs: DIAMOND_GATE,
     });
