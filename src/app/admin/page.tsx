@@ -25,13 +25,8 @@ import {
   ResponsiveContainer,
   Legend,
 } from "recharts";
-import {
-  getOverviewStats,
-  getCronStatuses,
-  retryCronJob,
-  type OverviewStats,
-  type CronStatusInfo,
-} from "./actions";
+import { getOverviewStats, type OverviewStats } from "./actions/overview";
+import { getCronStatuses, retryCronJob, type CronStatusInfo } from "./actions/cron";
 import { adminChartChrome, tooltipStyle, chartPalette, audiencePalette } from "@/themes";
 
 const RANK_COLORS: Record<string, string> = {

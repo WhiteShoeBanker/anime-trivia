@@ -18,8 +18,8 @@ import {
   TrendingUp,
   AlertTriangle,
 } from "lucide-react";
-import { getRetentionData, type RetentionData } from "../actions";
-import { getUsersList, type UsersListResult } from "../actions";
+import { getRetentionData, type RetentionData } from "../actions/retention";
+import { getUsersList, type UsersListResult } from "../actions/users";
 import { adminChartChrome, tooltipStyle, chartPalette } from "@/themes";
 
 // ── Types ──────────────────────────────────────────────────

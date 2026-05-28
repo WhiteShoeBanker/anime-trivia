@@ -11,8 +11,8 @@ import {
   ResponsiveContainer,
   Cell,
 } from "recharts";
-import { getLeagueDistribution } from "../actions";
-import type { LeagueData } from "../actions";
+import { getLeagueDistribution } from "../actions/leagues";
+import type { LeagueData } from "../actions/leagues";
 import { tierColors, adminChartChrome, tooltipStyle } from "@/themes";
 
 const RANK_THRESHOLDS = [

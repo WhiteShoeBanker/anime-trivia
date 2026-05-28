@@ -20,7 +20,7 @@ import {
   getAdminSettings,
   updateAdminSetting,
   type AdminSettings,
-} from "../actions";
+} from "../actions/settings";
 
 // ── Types ──────────────────────────────────────────────────
 
