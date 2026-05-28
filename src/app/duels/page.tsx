@@ -662,6 +662,7 @@ const DuelsPage = () => {
                   const fp = friend.user_profiles;
                   const isOnline =
                     fp.last_played_at &&
+                    // eslint-disable-next-line react-hooks/purity -- render-time online-status check (15-minute window); recomputing per render is intentional
                     Date.now() - new Date(fp.last_played_at).getTime() <
                       15 * 60 * 1000;
                   const h2h = h2hMap[fp.id];

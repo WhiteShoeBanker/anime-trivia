@@ -131,9 +131,7 @@ describe("quizStore", () => {
   // ── startQuiz ──────────────────────────────────────────────
 
   it("loads anime and questions on startQuiz", async () => {
-    let callNum = 0;
     mockFrom.mockImplementation((table: string) => {
-      callNum++;
       if (table === "anime_series") {
         return chain(mockAnime);
       }
@@ -167,9 +165,7 @@ describe("quizStore", () => {
 
   it("sets selected answer when not revealed", async () => {
     // First set up playing state
-    let callNum = 0;
     mockFrom.mockImplementation((table: string) => {
-      callNum++;
       if (table === "anime_series") return chain(mockAnime);
       if (table === "questions") return chain(mockQuestions);
       return chain(null);

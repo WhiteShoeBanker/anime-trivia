@@ -115,7 +115,7 @@ const getMemberProfile = (member: LeagueMember): LeagueMemberProfile => {
 // ── Main Page Component ─────────────────────────────────────
 
 const LeaguesPage = () => {
-  const { user, profile, isJunior } = useAuth();
+  const { user, isJunior } = useAuth();
   const [leagueInfo, setLeagueInfo] = useState<{
     membership: { group_id: string; weekly_xp: number; unique_anime_count: number };
     league: League;
@@ -211,6 +211,7 @@ const LeaguesPage = () => {
   }, [user]);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- standard data-fetching idiom; fetchData is useCallback-stable
     fetchData();
   }, [fetchData]);
 
@@ -317,7 +318,7 @@ const LeaguesPage = () => {
           <Trophy size={48} className="mx-auto text-primary mb-4" />
           <h1 className="text-3xl font-bold mb-3">Weekly Leagues</h1>
           <p className="text-white/50 max-w-md mx-auto mb-6">
-            Complete your first quiz to join a league! You'll be placed in a
+            Complete your first quiz to join a league! You&apos;ll be placed in a
             Bronze group with 30 other players.
           </p>
           <Button href="/browse">Start a Quiz</Button>
@@ -351,7 +352,7 @@ const LeaguesPage = () => {
                   Try Again Next Week!
                 </p>
                 <p className="text-sm text-white/60">
-                  Every week is a new adventure. You've got this!
+                  Every week is a new adventure. You&apos;ve got this!
                 </p>
               </div>
             ) : (

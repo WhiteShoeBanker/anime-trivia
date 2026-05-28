@@ -67,6 +67,7 @@ const Navbar = () => {
   // Fetch emblem when user/profile changes
   useEffect(() => {
     if (!user || !profile?.emblem_badge_id) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect -- clear emblem when prereqs absent
       setEmblem(null);
       return;
     }
@@ -76,6 +77,7 @@ const Navbar = () => {
   // Fetch pending duel challenge count
   useEffect(() => {
     if (!user) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect -- clear count when user signs out
       setPendingDuelCount(0);
       return;
     }
@@ -128,6 +130,7 @@ const Navbar = () => {
 
   // Close mobile menu on route change
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- pathname-driven side effect: close mobile menu on route change
     setMobileOpen(false);
   }, [pathname]);
 

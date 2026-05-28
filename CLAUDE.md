@@ -148,15 +148,19 @@ now runs strict — every new or edited question must comply on its own.
 
 ## Test gates (before any commit)
 
-- `pnpm typecheck` — TypeScript typecheck (7 pre-existing errors in badges.test.ts + league-xp.test.ts are known baseline; gate is "no new errors")
-- `pnpm lint` — ESLint (28 errors baseline; gate is "no new errors" until baseline is burned down)
-- `pnpm test` — Vitest unit suite (`vitest run`)
-- `pnpm build` — Next.js production build
-- `pnpm vitest run src/lib/__tests__/length-bias-corpus` — strict length-bias symmetric-invariant validator (project-specific gate per Content authoring section)
+- `pnpm typecheck` — TypeScript typecheck. **Baseline: 0 errors.** Gate is "no new errors".
+- `pnpm lint` — ESLint. **Baseline: 0 errors / 0 warnings**, with 22 inline `eslint-disable-next-line` suppressions for legitimate React patterns flagged by React 19's strict rules (`react-hooks/set-state-in-effect`, `react-hooks/purity`); each suppression carries a rationale comment. Gate is "no new errors / no new warnings".
+- `pnpm test` — Vitest unit suite (`vitest run`). **Baseline: 747 tests passing.**
+- `pnpm build` — Next.js production build.
+- `pnpm vitest run src/lib/__tests__/length-bias-corpus` — strict length-bias symmetric-invariant validator (project-specific gate per Content authoring section).
 
-A11y must stay at 1.0. Test count grows toward ≥730 as the suite expands — treat it as a growth target, not a per-commit blocker (Phase 5 #7 currently sits at ~710).
+A11y must stay at 1.0. Test count must hold or grow with each commit (currently 747).
 
-Test count must hold or grow with each commit.
+**History:** the Part 21 hot-items cleanup (2026-05-27) brought the project from
+the prior baseline of 7 typecheck errors / 28 lint errors / 17 lint warnings down
+to 0/0/0. The 22 react-hooks behavioral suppressions are intentional and were
+added with per-line rationale; the underlying refactors (useSyncExternalStore,
+derived state, `key`-prop overlay reset, etc.) are deferred to dedicated PRs.
 
 ## Restricted scope
 

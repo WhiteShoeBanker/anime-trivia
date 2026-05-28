@@ -10,7 +10,6 @@ import {
   Loader2,
   Crown,
   XCircle,
-  CheckCircle2,
 } from "lucide-react";
 import {
   getUsersList,

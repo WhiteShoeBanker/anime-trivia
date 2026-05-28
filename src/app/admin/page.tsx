@@ -6,7 +6,6 @@ import {
   Users,
   UserCheck,
   Zap,
-  Crown,
   DollarSign,
   TrendingUp,
   Swords,

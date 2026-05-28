@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { createClient } from "@/lib/supabase/client";
-import type { AnimeSeries, Question, Difficulty, AgeGroup, LeagueXpResult, Badge } from "@/types";
+import type { AnimeSeries, Question, Difficulty, AgeGroup, Badge } from "@/types";
 import { calculateQuestionXP } from "@/lib/scoring";
 import { calculateLeagueXp, updateLeagueMembershipXp } from "@/lib/league-xp";
 import { trackQuizStarted, trackQuizCompleted, trackBadgeEarned } from "@/lib/track-actions";

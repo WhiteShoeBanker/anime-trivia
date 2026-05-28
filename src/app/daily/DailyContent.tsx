@@ -21,7 +21,7 @@ const TIME_LIMITS: Record<string, number> = {
 };
 
 const DailyContent = () => {
-  const { user, profile, ageGroup, isLoading: authLoading } = useAuth();
+  const { user, ageGroup, isLoading: authLoading } = useAuth();
   const {
     questions,
     currentQuestionIndex,
@@ -43,6 +43,7 @@ const DailyContent = () => {
   const [previousScore, setPreviousScore] = useState<number | null>(null);
   const [checking, setChecking] = useState(true);
   const [timeLeft, setTimeLeft] = useState(20);
+  // eslint-disable-next-line react-hooks/purity -- useRef initializer runs once at mount; capturing mount-time wall clock for question-start timestamp is intentional
   const questionStartRef = useRef(Date.now());
 
   // Check if user already played today

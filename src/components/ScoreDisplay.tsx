@@ -30,6 +30,7 @@ const ScoreDisplay = ({
 
   useEffect(() => {
     if (reducedMotion) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect -- reduced-motion fallback: write final value instantly rather than animate
       setDisplayScore(score);
       return;
     }

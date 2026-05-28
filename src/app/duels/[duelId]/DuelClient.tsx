@@ -65,6 +65,7 @@ const DuelClient = ({
   const [newBadges, setNewBadges] = useState<Badge[]>([]);
   const [challengeOpen, setChallengeOpen] = useState(false);
   const [opponentTier, setOpponentTier] = useState<number | null>(null);
+  // eslint-disable-next-line react-hooks/purity -- useRef initializer runs once at mount; capturing mount-time wall clock for question-start timestamp is intentional
   const questionStartRef = useRef(Date.now());
 
   // Determine if user already played
