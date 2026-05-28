@@ -60,3 +60,9 @@ playwright/.cache/
 
 # local scratch (review dumps, ad-hoc notes)
 .scratch/
+
+# diagnostic / one-off verification scripts (ad-hoc; not part of the
+# tracked tooling surface — keep out of git so they don't accidentally
+# get committed alongside feature work)
+/scripts/verify-prod-middleware.ts
+/scripts/check-e2e-user.ts
