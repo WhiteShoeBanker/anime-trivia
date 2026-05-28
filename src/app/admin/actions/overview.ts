@@ -48,7 +48,7 @@ export async function getOverviewStats(): Promise<OverviewStats> {
     { data: recentSignups },
     { data: topPlayers },
     { data: allSessions30d },
-    { data: allUsers },
+    { data: _allUsers },
     { count: activeDuels },
     { data: signupsAll30d },
     incompleteProfiles24h,

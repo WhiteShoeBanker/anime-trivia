@@ -127,9 +127,9 @@ const StarLeaguePage = () => {
       >
         {submitted ? (
           <div className="text-center py-4">
-            <p className="text-success font-semibold mb-1">You're on the list!</p>
+            <p className="text-success font-semibold mb-1">You&apos;re on the list!</p>
             <p className="text-sm text-white/50">
-              We'll email you when Star League launches.
+              We&apos;ll email you when Star League launches.
             </p>
           </div>
         ) : (

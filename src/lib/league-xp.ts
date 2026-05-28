@@ -72,7 +72,7 @@ export const calculateLeagueXp = async (
 export const updateLeagueMembershipXp = async (
   userId: string,
   leagueXp: number,
-  animeId: string
+  _animeId: string
 ): Promise<{ previousRank: number; newRank: number } | null> => {
   const supabase = createClient();
   const weekStart = getCurrentWeekStart();

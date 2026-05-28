@@ -122,7 +122,6 @@ const AdminRetentionPage = () => {
       return { d1: 0, d7: 0, activeRate: 0, avgStreak: 0 };
 
     const { users, sessions } = retentionData;
-    const now = new Date();
 
     if (users.length === 0)
       return { d1: 0, d7: 0, activeRate: 0, avgStreak: 0 };

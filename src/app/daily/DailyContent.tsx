@@ -21,7 +21,7 @@ const TIME_LIMITS: Record<string, number> = {
 };
 
 const DailyContent = () => {
-  const { user, profile, ageGroup, isLoading: authLoading } = useAuth();
+  const { user, ageGroup, isLoading: authLoading } = useAuth();
   const {
     questions,
     currentQuestionIndex,

@@ -14,7 +14,6 @@ import {
   XCircle,
   Trophy,
   Swords,
-  Shield,
 } from "lucide-react";
 import {
   getAdminSettings,

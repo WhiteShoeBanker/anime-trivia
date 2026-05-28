@@ -134,7 +134,7 @@ const JuniorDemotionBanner = () => (
       Try Again Next Week!
     </h3>
     <p className="text-sm text-white/60">
-      Every week is a new adventure. You've got this!
+      Every week is a new adventure. You&apos;ve got this!
     </p>
   </motion.div>
 );

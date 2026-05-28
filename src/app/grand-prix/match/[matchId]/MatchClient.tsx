@@ -29,7 +29,6 @@ const MatchClient = ({
     currentQuestionIndex,
     selectedAnswer,
     isRevealed,
-    score,
     xpEarned,
     answers,
     timePerQuestion,

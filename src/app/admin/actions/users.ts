@@ -6,6 +6,7 @@ import { trackEvent } from "@/lib/analytics";
 // TODO: Supersede with Pro structured pricing config when §20.11
 // amendment lands (multi-SKU $4.99/$39.99 + trial + RevenueCat
 // entitlements). Single-constant placeholder until then.
+// eslint-disable-next-line @typescript-eslint/no-unused-vars -- canonical placeholder; actual consumer is overview.ts (estimatedMRR)
 const PRO_PRICE = 4.99;
 
 export interface UsersListResult {

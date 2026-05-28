@@ -44,7 +44,6 @@ import {
   findCall,
   findAllCalls,
   type Responder,
-  type Query,
   type QueryOp,
 } from "@/test/supabase-mock";
 
@@ -54,7 +53,6 @@ const CHALLENGER = "challenger-uuid";
 const OPPONENT = "opponent-uuid";
 const STRANGER = "stranger-uuid";
 const DUEL_ID = "duel-1";
-const ANIME_ID = "anime-1";
 
 type Difficulty = "easy" | "medium" | "hard" | "impossible" | "mixed";
 

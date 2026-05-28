@@ -44,7 +44,7 @@ export default function PrivacyPage() {
     <div className="max-w-3xl mx-auto px-4 py-12">
       <h1 className="text-3xl md:text-4xl font-bold mb-2">Privacy at OtakuQuiz</h1>
       <p className="text-white/50 mb-10">
-        Plain language, no legal jargon. Here's exactly how we handle your data.
+        Plain language, no legal jargon. Here&apos;s exactly how we handle your data.
       </p>
 
       <div className="space-y-6">
