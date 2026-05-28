@@ -159,6 +159,7 @@ const AnimatedCounter = ({ target, label }: { target: number; label: string }) =
 
   useEffect(() => {
     if (reducedMotion) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect -- reduced-motion fallback: write final value instantly rather than animate
       setCount(target);
       return;
     }

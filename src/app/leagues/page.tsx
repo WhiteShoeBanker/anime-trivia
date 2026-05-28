@@ -211,6 +211,7 @@ const LeaguesPage = () => {
   }, [user]);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- standard data-fetching idiom; fetchData is useCallback-stable
     fetchData();
   }, [fetchData]);
 

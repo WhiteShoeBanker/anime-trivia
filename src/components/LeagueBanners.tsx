@@ -19,12 +19,13 @@ const ConfettiParticle = ({ delay, x }: { delay: number; x: number }) => (
     style={{
       left: `${x}%`,
       top: "50%",
-      background:
-        confettiPalette[Math.floor(Math.random() * confettiPalette.length)],
+      // eslint-disable-next-line react-hooks/purity -- decorative confetti randomness; per-mount variation is intentional
+      background: confettiPalette[Math.floor(Math.random() * confettiPalette.length)],
     }}
     initial={{ y: 0, opacity: 1, scale: 1 }}
     animate={{
       y: [0, -60, -40],
+      // eslint-disable-next-line react-hooks/purity -- decorative confetti animation randomness
       x: [0, (Math.random() - 0.5) * 80],
       opacity: [1, 1, 0],
       scale: [1, 1.2, 0.5],

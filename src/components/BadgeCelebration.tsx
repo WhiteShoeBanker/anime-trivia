@@ -20,15 +20,17 @@ const ConfettiParticle = ({ delay, x }: { delay: number; x: number }) => (
     style={{
       left: `${x}%`,
       top: "40%",
-      background:
-        confettiPalette[Math.floor(Math.random() * confettiPalette.length)],
+      // eslint-disable-next-line react-hooks/purity -- decorative confetti randomness; per-mount variation is intentional
+      background: confettiPalette[Math.floor(Math.random() * confettiPalette.length)],
     }}
     initial={{ y: 0, opacity: 1, scale: 1 }}
     animate={{
       y: [0, -120, -80],
+      // eslint-disable-next-line react-hooks/purity -- decorative confetti animation randomness
       x: [0, (Math.random() - 0.5) * 200],
       opacity: [1, 1, 0],
       scale: [1, 1.5, 0.3],
+      // eslint-disable-next-line react-hooks/purity -- decorative confetti animation randomness
       rotate: [0, Math.random() * 360],
     }}
     transition={{
@@ -171,6 +173,7 @@ const BadgeCelebration = ({
   // second celebration starts from the first badge instead of
   // resuming mid-sequence.
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- intentional reset on overlay reopen (see comment above)
     if (isOpen) setCurrentIndex(0);
   }, [isOpen]);
 

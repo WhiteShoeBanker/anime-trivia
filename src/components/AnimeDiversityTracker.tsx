@@ -21,6 +21,7 @@ const AnimeDiversityTracker = () => {
 
   useEffect(() => {
     if (!user) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect -- reset to default when user is absent
       setLoading(false);
       return;
     }

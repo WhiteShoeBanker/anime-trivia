@@ -43,6 +43,7 @@ const DailyContent = () => {
   const [previousScore, setPreviousScore] = useState<number | null>(null);
   const [checking, setChecking] = useState(true);
   const [timeLeft, setTimeLeft] = useState(20);
+  // eslint-disable-next-line react-hooks/purity -- useRef initializer runs once at mount; capturing mount-time wall clock for question-start timestamp is intentional
   const questionStartRef = useRef(Date.now());
 
   // Check if user already played today

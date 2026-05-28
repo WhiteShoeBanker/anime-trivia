@@ -43,6 +43,7 @@ const MatchClient = ({
 
   const [timeLeft, setTimeLeft] = useState(15);
   const [latestMatch, setLatestMatch] = useState<GrandPrixMatch>(initialMatch);
+  // eslint-disable-next-line react-hooks/purity -- useRef initializer runs once at mount; capturing mount-time wall clock for question-start timestamp is intentional
   const questionStartRef = useRef(Date.now());
 
   // Check if user already played their part

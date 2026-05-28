@@ -7,6 +7,7 @@ const useReducedMotion = (): boolean => {
 
   useEffect(() => {
     const mql = window.matchMedia("(prefers-reduced-motion: reduce)");
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- initial matchMedia read at mount; subsequent updates flow through the change listener
     setPrefersReduced(mql.matches);
 
     const handler = (e: MediaQueryListEvent) => setPrefersReduced(e.matches);

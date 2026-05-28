@@ -108,6 +108,7 @@ const QuizClient = ({
   // UX hint only: starts from localStorage; overwritten by every server
   // start_quiz response (see handleStartQuiz). Never read for enforcement.
   const [quizzesUsedHint, setQuizzesUsedHint] = useState<number>(0);
+  // eslint-disable-next-line react-hooks/purity -- useRef initializer runs once at mount; capturing mount-time wall clock for question-start timestamp is intentional
   const questionStartRef = useRef(Date.now());
 
   // Hydrate the hint after mount so SSR markup matches the first render.
