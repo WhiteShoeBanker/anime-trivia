@@ -16,9 +16,9 @@ import {
   getUsersList,
   upgradeUserToPro,
   revokeUserPro,
-  getUserDuelStats,
   type UsersListResult,
-} from "../actions";
+} from "../actions/users";
+import { getUserDuelStats } from "../actions/duels";
 
 type UserRow = UsersListResult["users"][number];
 type SortKey = keyof Pick<

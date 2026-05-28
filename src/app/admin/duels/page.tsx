@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { getDuelsData, type DuelsData } from "../actions";
+import { getDuelsData, type DuelsData } from "../actions/duels";
 import {
   PieChart,
   Pie,

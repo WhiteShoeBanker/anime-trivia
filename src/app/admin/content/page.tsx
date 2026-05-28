@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useMemo } from "react";
 import { Loader2, BookOpen, BarChart3, Target } from "lucide-react";
-import { getContentStats, type ContentStats } from "../actions";
+import { getContentStats, type ContentStats } from "../actions/content";
 
 interface AnimePopularityRow {
   id: string;

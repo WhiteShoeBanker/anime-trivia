@@ -12,7 +12,7 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from "recharts";
-import { getEngagementData, type EngagementData } from "../actions";
+import { getEngagementData, type EngagementData } from "../actions/engagement";
 import { adminChartChrome, tooltipStyle, chartPalette } from "@/themes";
 
 type RangeOption = 7 | 14 | 30;

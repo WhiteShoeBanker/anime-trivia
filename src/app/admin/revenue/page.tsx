@@ -24,8 +24,8 @@ import {
   Gift,
   ShoppingBag,
 } from "lucide-react";
-import { getRevenueData, generatePromoCode } from "../actions";
-import type { RevenueData } from "../actions";
+import { getRevenueData, generatePromoCode } from "../actions/revenue";
+import type { RevenueData } from "../actions/revenue";
 import { adminChartChrome, tooltipStyle, chartPalette, audiencePalette } from "@/themes";
 
 const PRO_PRICE = 4.99;
