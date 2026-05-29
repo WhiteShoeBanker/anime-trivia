@@ -26,6 +26,7 @@ import { checkDailyChallengePlayed } from "@/lib/daily-challenge";
 import { getUserBadges } from "@/lib/badges";
 import { createClient } from "@/lib/supabase/client";
 import AnimeCard from "@/components/AnimeCard";
+import { findAnimeBySlug } from "@/data/anime/registry";
 import BadgeIcon from "@/components/BadgeIcon";
 import BadgeFoilCard from "@/components/BadgeFoilCard";
 import type { AnimeSeries, Badge } from "@/types";
@@ -531,11 +532,15 @@ const LandingContent = ({ topAnime, stats }: LandingContentProps) => {
             Popular Quizzes
           </h2>
           <div className="flex gap-4 overflow-x-auto pb-4 snap-x snap-mandatory scrollbar-hide md:grid md:grid-cols-4 md:overflow-visible">
-            {topAnime.map((anime, i) => (
-              <div key={anime.id} className="min-w-[280px] snap-start md:min-w-0">
-                <AnimeCard anime={anime} index={i} />
-              </div>
-            ))}
+            {topAnime.map((anime, i) => {
+              const entry = findAnimeBySlug(anime.slug);
+              if (!entry) return null;
+              return (
+                <div key={anime.slug} className="min-w-[280px] snap-start md:min-w-0">
+                  <AnimeCard anime={entry} index={i} />
+                </div>
+              );
+            })}
           </div>
           <div className="text-center mt-6">
             <Link

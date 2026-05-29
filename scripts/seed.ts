@@ -1,6 +1,7 @@
 import { createClient } from "@supabase/supabase-js";
 import { readFileSync, readdirSync } from "fs";
 import { join } from "path";
+import { ANIME_REGISTRY } from "../src/data/anime/registry";
 
 // ── Configuration ────────────────────────────────────────────
 
@@ -16,7 +17,7 @@ if (!SUPABASE_URL || !SUPABASE_SERVICE_ROLE_KEY) {
 
 const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY);
 
-// ── Anime metadata keyed by filename slug ────────────────────
+// ── Anime metadata derived from the runtime registry ────────────────
 
 interface AnimeMetadata {
   title: string;
@@ -24,56 +25,30 @@ interface AnimeMetadata {
   genre: string[];
 }
 
-const ANIME_METADATA: Record<string, AnimeMetadata> = {
-  naruto: {
-    title: "Naruto",
-    description:
-      "Follow Naruto Uzumaki, a young ninja who seeks recognition from his peers and dreams of becoming the Hokage, the leader of his village.",
-    genre: ["Shonen", "Action", "Adventure"],
-  },
-  "demon-slayer": {
-    title: "Demon Slayer: Kimetsu no Yaiba",
-    description:
-      "Tanjiro Kamado joins the Demon Slayer Corps to avenge his family and cure his sister Nezuko, who has been turned into a demon.",
-    genre: ["Shonen", "Action", "Supernatural"],
-  },
-  "my-hero-academia": {
-    title: "My Hero Academia",
-    description:
-      "In a world where most people have superpowers called Quirks, Izuku Midoriya dreams of becoming the greatest hero despite being born without one.",
-    genre: ["Shonen", "Action", "Superhero"],
-  },
-  "dragon-ball-z": {
-    title: "Dragon Ball Z",
-    description:
-      "Goku and his allies defend Earth against powerful villains, from Saiyans to gods, in the legendary martial arts anime.",
-    genre: ["Shonen", "Action", "Martial Arts"],
-  },
-  "one-piece": {
-    title: "One Piece",
-    description:
-      "Monkey D. Luffy and the Straw Hat Pirates sail the Grand Line in search of the legendary treasure One Piece to become King of the Pirates.",
-    genre: ["Shonen", "Action", "Adventure"],
-  },
-  "attack-on-titan": {
-    title: "Attack on Titan",
-    description:
-      "Humanity fights for survival against giant Titans behind massive walls, uncovering dark secrets about their world.",
-    genre: ["Shonen", "Action", "Dark Fantasy"],
-  },
-  "jujutsu-kaisen": {
-    title: "Jujutsu Kaisen",
-    description:
-      "Yuji Itadori joins a secret world of Jujutsu Sorcerers after swallowing a cursed finger of the King of Curses, Ryomen Sukuna.",
-    genre: ["Shonen", "Action", "Supernatural"],
-  },
-  "death-note": {
-    title: "Death Note",
-    description:
-      "A high school genius finds a supernatural notebook that kills anyone whose name is written in it, sparking a cat-and-mouse game with a legendary detective.",
-    genre: ["Shonen", "Thriller", "Psychological"],
-  },
+// Genre is seed-only metadata, not part of the runtime variant registry.
+const ANIME_GENRES: Record<string, string[]> = {
+  naruto: ["Shonen", "Action", "Adventure"],
+  "demon-slayer": ["Shonen", "Action", "Supernatural"],
+  "my-hero-academia": ["Shonen", "Action", "Superhero"],
+  "dragon-ball-z": ["Shonen", "Action", "Martial Arts"],
+  "one-piece": ["Shonen", "Action", "Adventure"],
+  "attack-on-titan": ["Shonen", "Action", "Dark Fantasy"],
+  "jujutsu-kaisen": ["Shonen", "Action", "Supernatural"],
+  "death-note": ["Shonen", "Thriller", "Psychological"],
+  "hunter-x-hunter": ["Shonen", "Action", "Adventure"],
+  "my-neighbor-totoro": ["Family", "Fantasy", "Slice of Life"],
 };
+
+const ANIME_METADATA: Record<string, AnimeMetadata> = Object.fromEntries(
+  ANIME_REGISTRY.map((entry) => [
+    entry.slug,
+    {
+      title: entry.displayName,
+      description: entry.description,
+      genre: ANIME_GENRES[entry.slug] ?? [],
+    },
+  ])
+);
 
 // ── Types ────────────────────────────────────────────────────
 

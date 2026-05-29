@@ -26,6 +26,45 @@ using Capacitor.
 - Mobile-first responsive design (min-width breakpoints)
 - Touch targets minimum 44px for mobile/tablet usability
 
+## Variant configuration
+
+Dual-variant support (`full` + `kids`) is gated through a single
+configuration module:
+
+- **Source of truth:** `src/config/variants.ts`. Exports `AppVariant`,
+  `APP_VARIANT`, `VariantConfig`, `VARIANT_CONFIG`, `variantConfig`,
+  and `isKidsVariant`.
+- **Selector:** `NEXT_PUBLIC_APP_VARIANT` env var (build-time). Valid
+  values: `full` or `kids`. Unset / invalid → defaults to `full`.
+  Add `NEXT_PUBLIC_APP_VARIANT=full` to `.env.local.example` and your
+  local `.env.local` if you need to override.
+- **`VariantConfig` field set (per Part 20 §20.1):**
+  - `displayName` — brand label (e.g., `OtakuQuiz`, `OtakuQuiz Kids`).
+  - `bundleId` / `domain` — Phase 5 Capacitor + Vercel project wiring.
+  - `enabledContentRatings: readonly ContentRating[]` — array (not a
+    single max) because §20.2's `getEnabledAnime()` filter calls
+    `.includes(a.contentRating)`.
+  - `enabledAgeGroups` / `showAgeGate` / `forcedAgeGroup` — Phase 2 age
+    filter + Phase 3 age-gate UI.
+  - `monetization: { ads, pro, trialDays }` — Phase 4+ monetization
+    gates; nested object, no Phase 1 consumer.
+  - `legalRoutes: { terms, privacy }` — object with named keys
+    referenced as `variantConfig.legalRoutes.terms` /
+    `.privacy` by Phase 4.
+  - `metadata: { title, description }` — feeds `next/head` SEO via
+    `app/layout.tsx` in a later phase.
+- **Usage rule:** all variant-aware decisions (anime registry, age
+  filter, age gate, monetization gates, legal routes, brand display
+  name, SEO metadata, Capacitor bundle wiring) must go through
+  `variantConfig` / `isKidsVariant`. **Never reference
+  `process.env.NEXT_PUBLIC_APP_VARIANT` directly outside
+  `src/config/variants.ts`.**
+- **Phase status:** Phase 1 (2026-05-28) landed the seam in isolation —
+  no consumers wired yet, app behaves identically to pre-variant master
+  with `APP_VARIANT === "full"`. Consumer migrations (anime registry,
+  age filter, age gate, monetization, legal, brand, SEO, Capacitor)
+  land in Phase 2+.
+
 ## Design system
 
 Visual design tokens (colors, typography, spacing, rounded, components) and design rationale live in **DESIGN.md** at the project root. This is the source of truth for all UI work. When implementing or refactoring components, read DESIGN.md first.

@@ -1,17 +1,31 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 
 // Integration test. We render BrowsePage (server component) for each of
-// the four session states and assert that the SSR payload does not
+// the five session states and assert that the SSR payload does not
 // include slugs/titles the session should not see. The test bypasses
 // the client-side filter in BrowseContent — we're checking what the
 // SERVER ships, not what the UI paints after hydration.
+//
+// Phase 2: browse is registry-driven. The supabase mock only stubs auth
+// (session lookup); the anime list comes from the real registry import.
+// Per-user age filtering is layered on top of getEnabledAnime() at SSR.
 
-const mockAnimeQuery = vi.fn();
+const mockGetUser = vi.fn();
+const mockProfileSingle = vi.fn();
 
 vi.mock("@/lib/supabase/server", () => ({
   createClient: vi.fn(async () => ({
+    auth: { getUser: mockGetUser },
     from: (table: string) => {
-      if (table === "anime_series") return mockAnimeQuery();
+      if (table === "user_profiles") {
+        return {
+          select: () => ({
+            eq: () => ({
+              single: mockProfileSingle,
+            }),
+          }),
+        };
+      }
       throw new Error(`unexpected table ${table}`);
     },
   })),
@@ -23,45 +37,35 @@ vi.mock("@/lib/supabase/service", () => ({
   },
 }));
 
-// BrowseContent is a client component that uses hooks. For SSR content
-// assertions we don't need it rendered — inspecting the React element
-// BrowsePage returns is equivalent to grepping the SSR HTML, because
-// the prop is what gets serialized into the RSC payload.
+// BrowseContent is a client component. For SSR content assertions we
+// don't need it rendered — inspecting the prop is equivalent to grepping
+// the SSR HTML, because the prop is what gets serialized into the RSC
+// payload.
 vi.mock("./BrowseContent", () => ({
   default: () => null,
 }));
 
 import BrowsePage from "./page";
 import type { ReactElement } from "react";
+import type { AnimeRegistryEntry } from "@/data/anime/registry";
 
 interface BrowseContentProps {
-  animeList: typeof ALL_ANIME;
+  animeList: readonly AnimeRegistryEntry[];
 }
 
-const ALL_ANIME = [
-  { id: "1", slug: "naruto", title: "Naruto", content_rating: "E", is_active: true },
-  { id: "2", slug: "one-piece", title: "One Piece", content_rating: "E", is_active: true },
-  { id: "3", slug: "demon-slayer", title: "Demon Slayer", content_rating: "T", is_active: true },
-  { id: "4", slug: "death-note", title: "Death Note", content_rating: "M", is_active: true },
-  { id: "5", slug: "attack-on-titan", title: "Attack on Titan", content_rating: "M", is_active: true },
-];
+type Session = "unauth" | "null" | "junior" | "teen" | "full";
 
-const rlsAllowedFor = (session: "unauth" | "null" | "junior" | "teen" | "full") => {
-  if (session === "unauth") return ALL_ANIME;
-  if (session === "null" || session === "junior")
-    return ALL_ANIME.filter((a) => a.content_rating === "E");
-  if (session === "teen")
-    return ALL_ANIME.filter((a) => a.content_rating === "E" || a.content_rating === "T");
-  return ALL_ANIME;
-};
-
-const primeRls = (session: "unauth" | "null" | "junior" | "teen" | "full") => {
-  const rows = rlsAllowedFor(session);
-  const chain: Record<string, unknown> = {};
-  chain.select = vi.fn(() => chain);
-  chain.eq = vi.fn(() => chain);
-  chain.order = vi.fn(async () => ({ data: rows, error: null }));
-  mockAnimeQuery.mockReturnValue(chain);
+const primeSession = (session: Session) => {
+  if (session === "unauth") {
+    mockGetUser.mockResolvedValue({ data: { user: null } });
+    return;
+  }
+  mockGetUser.mockResolvedValue({ data: { user: { id: "test-user" } } });
+  const ageGroup = session === "null" ? null : session;
+  mockProfileSingle.mockResolvedValue({
+    data: { age_group: ageGroup },
+    error: null,
+  });
 };
 
 const renderAndInspect = async () => {
@@ -77,16 +81,19 @@ describe("BrowsePage SSR — age-gated content never ships to unauthorized sessi
     vi.clearAllMocks();
   });
 
-  it("unauth: ships all anime (login prompt handles gate at click)", async () => {
-    primeRls("unauth");
-    const { props, payload } = await renderAndInspect();
+  it("unauth: ships all variant-enabled anime (login prompt handles gate at click)", async () => {
+    primeSession("unauth");
+    const { payload } = await renderAndInspect();
+    // Default variant is 'full' — all 10 registry entries visible
     expect(payload).toContain("death-note");
     expect(payload).toContain("Attack on Titan");
-    expect(props.animeList).toHaveLength(5);
+    expect(payload).toContain("naruto");
+    expect(payload).toContain("hunter-x-hunter");
+    expect(payload).toContain("my-neighbor-totoro");
   });
 
   it("null age_group: E-only in SSR — no M, no T titles or slugs", async () => {
-    primeRls("null");
+    primeSession("null");
     const { payload } = await renderAndInspect();
     expect(payload).not.toContain("death-note");
     expect(payload).not.toContain("Death Note");
@@ -94,34 +101,40 @@ describe("BrowsePage SSR — age-gated content never ships to unauthorized sessi
     expect(payload).not.toContain("Attack on Titan");
     expect(payload).not.toContain("demon-slayer");
     expect(payload).not.toContain("Demon Slayer");
+    expect(payload).not.toContain("hunter-x-hunter");
     expect(payload).toContain("naruto");
+    expect(payload).toContain("my-neighbor-totoro");
   });
 
   it("junior: E-only in SSR — no M, no T titles or slugs", async () => {
-    primeRls("junior");
+    primeSession("junior");
     const { payload } = await renderAndInspect();
     expect(payload).not.toContain("death-note");
     expect(payload).not.toContain("Death Note");
     expect(payload).not.toContain("demon-slayer");
     expect(payload).not.toContain("Demon Slayer");
+    expect(payload).not.toContain("hunter-x-hunter");
     expect(payload).toContain("naruto");
+    expect(payload).toContain("my-neighbor-totoro");
   });
 
   it("teen: E + T in SSR — no M titles or slugs", async () => {
-    primeRls("teen");
+    primeSession("teen");
     const { payload } = await renderAndInspect();
     expect(payload).not.toContain("death-note");
     expect(payload).not.toContain("Death Note");
     expect(payload).not.toContain("attack-on-titan");
     expect(payload).not.toContain("Attack on Titan");
     expect(payload).toContain("demon-slayer");
+    expect(payload).toContain("hunter-x-hunter");
   });
 
-  it("full: ships everything", async () => {
-    primeRls("full");
-    const { props, payload } = await renderAndInspect();
+  it("full: ships every variant-enabled anime", async () => {
+    primeSession("full");
+    const { payload } = await renderAndInspect();
     expect(payload).toContain("death-note");
     expect(payload).toContain("attack-on-titan");
-    expect(props.animeList).toHaveLength(5);
+    expect(payload).toContain("hunter-x-hunter");
+    expect(payload).toContain("my-neighbor-totoro");
   });
 });

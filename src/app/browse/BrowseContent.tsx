@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { Search, LogIn, X } from "lucide-react";
-import type { AnimeSeries } from "@/types";
+import type { AnimeRegistryEntry } from "@/data/anime/registry";
 import { useAuth } from "@/contexts/AuthContext";
 import AnimeCard from "@/components/AnimeCard";
 import { Button } from "@/components/ui/Button";
@@ -12,7 +12,7 @@ import { Modal } from "@/components/ui/Modal";
 import { Input } from "@/components/ui/Input";
 
 interface BrowseContentProps {
-  animeList: AnimeSeries[];
+  animeList: readonly AnimeRegistryEntry[];
 }
 
 const BrowseContent = ({ animeList }: BrowseContentProps) => {
@@ -21,26 +21,27 @@ const BrowseContent = ({ animeList }: BrowseContentProps) => {
   const [search, setSearch] = useState("");
   const [showSignInPrompt, setShowSignInPrompt] = useState(false);
 
-  // Age-based filtering for authenticated users
+  // Client-side defense-in-depth — server has already filtered, but the
+  // auth context may differ for hydration edge cases.
   const visibleAnime = animeList.filter((anime) => {
-    if (!user) return true; // Guests see all cards (with intercept on restricted)
-    if (ageGroup === "junior") return anime.content_rating === "E";
+    if (!user) return true;
+    if (ageGroup === "junior") return anime.contentRating === "E";
     if (ageGroup === "teen")
-      return anime.content_rating === "E" || anime.content_rating === "T";
-    return true; // full
+      return anime.contentRating === "E" || anime.contentRating === "T";
+    return true;
   });
 
   const filtered = visibleAnime.filter((anime) =>
-    anime.title.toLowerCase().includes(search.toLowerCase())
+    anime.displayName.toLowerCase().includes(search.toLowerCase())
   );
 
   const isRestricted = (rating: string) => {
-    if (user) return false; // Authenticated users only see what they're allowed
+    if (user) return false;
     return rating === "T" || rating === "M";
   };
 
-  const handleCardClick = (anime: AnimeSeries, e: React.MouseEvent) => {
-    if (isRestricted(anime.content_rating)) {
+  const handleCardClick = (anime: AnimeRegistryEntry, e: React.MouseEvent) => {
+    if (isRestricted(anime.contentRating)) {
       e.preventDefault();
       setShowSignInPrompt(true);
     }
@@ -83,16 +84,16 @@ const BrowseContent = ({ animeList }: BrowseContentProps) => {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {filtered.map((anime, i) => (
             <div
-              key={anime.id}
+              key={anime.slug}
               onClick={(e) => handleCardClick(anime, e)}
               className={
-                isRestricted(anime.content_rating) ? "cursor-pointer" : ""
+                isRestricted(anime.contentRating) ? "cursor-pointer" : ""
               }
             >
               <AnimeCard
                 anime={anime}
                 index={i}
-                restricted={isRestricted(anime.content_rating)}
+                restricted={isRestricted(anime.contentRating)}
               />
             </div>
           ))}
