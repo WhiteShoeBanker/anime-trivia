@@ -8,10 +8,12 @@ import {
 } from "../content-validation";
 
 /**
- * Corpus gate. On every commit this asserts the FULL question corpus
- * (240 JSON easy/medium/hard + 240 impossible-tier SQL) has no length
- * invariant violation — strictly, with no allowlist (Track B closed at
+ * Corpus gate. On every commit this asserts the FULL question corpus has no
+ * length invariant violation — strictly, with no allowlist (Track B closed at
  * T_final; the burn-down allowlist fixture was removed).
+ *
+ * Composition after Phase 2.5 (HxH + Totoro): 840 JSON questions (8 anime ×
+ * 30 + 2 anime × 400) + 440 impossible-tier SQL questions = 1280 total.
  *
  * The loader is duplicated from scripts/audit-question-lengths.ts on purpose:
  * the validator stays pure (no fs), so there is no shared fs module. The
@@ -85,8 +87,8 @@ describe("length-bias corpus gate", () => {
   const items = loadCorpus();
   const result = validateCorpus(items, EMPTY_ALLOWLIST);
 
-  it("loads the full 480-question corpus", () => {
-    expect(items.length).toBe(480);
+  it("loads the full 1280-question corpus", () => {
+    expect(items.length).toBe(1280);
   });
 
   it("has zero length-invariant violations (strict — no allowlist)", () => {

@@ -127,8 +127,7 @@ export const ANIME_REGISTRY: readonly AnimeRegistryEntry[] = [
     enabledInVariants: ["full"],
     description:
       "Gon Freecss sets out to become a Hunter and find his estranged father, journeying through worlds of mystery, combat, and the enigmatic art of Nen.",
-    questionCount: { easy: 0, medium: 0, hard: 0, impossible: 0 },
-    comingSoon: true,
+    questionCount: { easy: 100, medium: 100, hard: 100, impossible: 100 },
   },
   {
     slug: "my-neighbor-totoro",
@@ -140,8 +139,7 @@ export const ANIME_REGISTRY: readonly AnimeRegistryEntry[] = [
     enabledInVariants: ["full", "kids"],
     description:
       "Two young sisters discover the gentle forest spirit Totoro and his magical world in the Japanese countryside — a Studio Ghibli classic.",
-    questionCount: { easy: 0, medium: 0, hard: 0, impossible: 0 },
-    comingSoon: true,
+    questionCount: { easy: 100, medium: 100, hard: 100, impossible: 100 },
   },
 ];
 
