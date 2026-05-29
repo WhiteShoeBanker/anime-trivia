@@ -61,6 +61,6 @@ export const VARIANT_CONFIG = {
   },
 } as const satisfies Record<AppVariant, VariantConfig>;
 
-export const variantConfig = VARIANT_CONFIG[APP_VARIANT];
+export const variantConfig: VariantConfig = VARIANT_CONFIG[APP_VARIANT];
 
 export const isKidsVariant = (): boolean => APP_VARIANT === "kids";

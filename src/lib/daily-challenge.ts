@@ -3,6 +3,7 @@ import {
   getDailyChallengeMix,
   getDailyChallengeMixForAge,
 } from "@/lib/config-actions";
+import { getPlayableAnime } from "@/data/anime/registry";
 import type { Question, AgeGroup } from "@/types";
 
 /**
@@ -14,11 +15,17 @@ export const fetchDailyChallengeQuestions = async (
 ): Promise<Question[]> => {
   const supabase = createClient();
 
-  // Get all active anime
+  // Registry is the variant-level authority — only variant-enabled,
+  // non-coming-soon anime are eligible for the daily mix.
+  const playableSlugs = getPlayableAnime().map((a) => a.slug);
+  if (playableSlugs.length === 0) return [];
+
+  // DB query stays the runtime authority (is_active + per-user age filter).
   let animeQuery = supabase
     .from("anime_series")
     .select("id")
-    .eq("is_active", true);
+    .eq("is_active", true)
+    .in("slug", playableSlugs);
 
   if (ageGroup === "junior") {
     animeQuery = animeQuery.eq("content_rating", "E");

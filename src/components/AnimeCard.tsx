@@ -3,26 +3,16 @@
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import type { AnimeSeries, ContentRating } from "@/types";
+import type { ContentRating } from "@/types";
+import type { AnimeRegistryEntry } from "@/data/anime/registry";
 import useReducedMotion from "@/lib/use-reduced-motion";
 import { Pill, type PillTone } from "@/components/ui/Pill";
 
 interface AnimeCardProps {
-  anime: AnimeSeries;
+  anime: AnimeRegistryEntry;
   index?: number;
   restricted?: boolean;
 }
-
-const animeImages: Record<string, string> = {
-  "attack-on-titan": "/images/attack%20on%20titan.png",
-  "death-note": "/images/death%20note.png",
-  "demon-slayer": "/images/demon%20slayer.png",
-  "dragon-ball-z": "/images/dragon%20ball.png",
-  "jujutsu-kaisen": "/images/jiu%20jitsu.png",
-  "my-hero-academia": "/images/my%20hero.png",
-  naruto: "/images/naruto.png",
-  "one-piece": "/images/one%20piece%20.png",
-};
 
 // Content-rating → Pill tone + human label. The tone register is shared with
 // the audience-fit register (same emerald/yellow/red traffic light, different
@@ -40,17 +30,18 @@ const ratingLabel: Record<ContentRating, string> = {
 };
 
 const AnimeCard = ({ anime, index = 0, restricted }: AnimeCardProps) => {
-  const tone = ratingTone[anime.content_rating];
-  const label = ratingLabel[anime.content_rating];
+  const tone = ratingTone[anime.contentRating];
+  const label = ratingLabel[anime.contentRating];
   const reducedMotion = useReducedMotion();
-  const imageSrc = animeImages[anime.slug];
+  const imageSrc = anime.coverArt;
+  const comingSoon = anime.comingSoon === true;
 
   const cardContent = (
     <div className="relative h-[280px] bg-surface rounded-2xl border border-white/10 overflow-hidden transition-shadow hover:shadow-lg hover:shadow-primary/10">
       {imageSrc && (
         <Image
           src={imageSrc}
-          alt={anime.title}
+          alt={anime.displayName}
           fill
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
           className="object-cover"
@@ -67,8 +58,17 @@ const AnimeCard = ({ anime, index = 0, restricted }: AnimeCardProps) => {
         </Pill>
       )}
 
+      {/* Coming-soon overlay — anticipation framing, not greyed-out */}
+      {comingSoon && (
+        <div className="absolute inset-0 flex items-center justify-center">
+          <span className="px-3 py-1.5 rounded-full backdrop-blur-sm bg-black/60 text-white text-sm font-semibold tracking-wide uppercase">
+            Coming Soon
+          </span>
+        </div>
+      )}
+
       <h3 className="absolute bottom-4 left-4 right-4 text-xl font-bold text-white drop-shadow-lg">
-        {anime.title}
+        {anime.displayName}
       </h3>
     </div>
   );

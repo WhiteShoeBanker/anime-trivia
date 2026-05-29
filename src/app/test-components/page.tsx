@@ -1,7 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import type { Difficulty, AnimeSeries, Question } from "@/types";
+import type { Difficulty, Question } from "@/types";
+import type { AnimeRegistryEntry } from "@/data/anime/registry";
 import AnimeCard from "@/components/AnimeCard";
 import DifficultySelector from "@/components/DifficultySelector";
 import Timer from "@/components/Timer";
@@ -23,78 +24,74 @@ import { Search } from "lucide-react";
 
 // --- Mock Data ---
 
-const mockAnime: AnimeSeries[] = [
+const mockAnime: AnimeRegistryEntry[] = [
   {
-    id: "1",
-    title: "Naruto",
     slug: "naruto",
+    displayName: "Naruto",
+    contentRating: "E",
+    coverArt: "/images/naruto.png",
+    questionsFile: "src/data/questions/naruto.json",
+    impossibleMigration: "supabase/migrations/008d_impossible_naruto_op.sql",
+    enabledInVariants: ["full", "kids"],
     description: "Follow Naruto Uzumaki on his quest to become Hokage.",
-    image_url: null,
-    genre: ["Action", "Adventure", "Shonen"],
-    total_questions: 30,
-    is_active: true,
-    content_rating: "E",
-    created_at: "2024-01-01",
+    questionCount: { easy: 10, medium: 11, hard: 9, impossible: 30 },
   },
   {
-    id: "2",
-    title: "Attack on Titan",
     slug: "attack-on-titan",
+    displayName: "Attack on Titan",
+    contentRating: "M",
+    coverArt: "/images/attack%20on%20titan.png",
+    questionsFile: "src/data/questions/attack-on-titan.json",
+    impossibleMigration: "supabase/migrations/008a_impossible_aot_dn.sql",
+    enabledInVariants: ["full"],
     description: "Humanity fights for survival against Titans.",
-    image_url: null,
-    genre: ["Action", "Drama", "Dark Fantasy"],
-    total_questions: 30,
-    is_active: true,
-    content_rating: "E",
-    created_at: "2024-01-01",
+    questionCount: { easy: 10, medium: 11, hard: 9, impossible: 30 },
   },
   {
-    id: "3",
-    title: "One Piece",
     slug: "one-piece",
+    displayName: "One Piece",
+    contentRating: "E",
+    coverArt: "/images/one%20piece%20.png",
+    questionsFile: "src/data/questions/one-piece.json",
+    impossibleMigration: "supabase/migrations/008d_impossible_naruto_op.sql",
+    enabledInVariants: ["full", "kids"],
     description: "Luffy sets sail to find the One Piece.",
-    image_url: null,
-    genre: ["Action", "Adventure", "Comedy"],
-    total_questions: 30,
-    is_active: true,
-    content_rating: "E",
-    created_at: "2024-01-01",
+    questionCount: { easy: 10, medium: 11, hard: 9, impossible: 30 },
   },
   {
-    id: "4",
-    title: "Demon Slayer",
     slug: "demon-slayer",
+    displayName: "Demon Slayer",
+    contentRating: "T",
+    coverArt: "/images/demon%20slayer.png",
+    questionsFile: "src/data/questions/demon-slayer.json",
+    impossibleMigration: "supabase/migrations/008b_impossible_ds_dbz.sql",
+    enabledInVariants: ["full"],
     description: "Tanjiro fights demons to save his sister.",
-    image_url: null,
-    genre: ["Action", "Supernatural"],
-    total_questions: 30,
-    is_active: true,
-    content_rating: "E",
-    created_at: "2024-01-01",
+    questionCount: { easy: 10, medium: 11, hard: 9, impossible: 30 },
   },
   {
-    id: "5",
-    title: "Jujutsu Kaisen",
-    slug: "jujutsu-kaisen",
-    description: "Yuji Itadori enters the world of cursed energy.",
-    image_url: null,
-    genre: ["Action", "Supernatural", "Shonen"],
-    total_questions: 30,
-    is_active: true,
-    content_rating: "E",
-    created_at: "2024-01-01",
+    slug: "hunter-x-hunter",
+    displayName: "Hunter x Hunter",
+    contentRating: "T",
+    coverArt: "/images/hunter-x-hunter.svg",
+    questionsFile: "src/data/questions/hunter-x-hunter.json",
+    impossibleMigration: "",
+    enabledInVariants: ["full"],
+    description: "Gon sets out to become a Hunter and find his father.",
+    questionCount: { easy: 0, medium: 0, hard: 0, impossible: 0 },
+    comingSoon: true,
   },
   {
-    id: "6",
-    title: "My Hero Academia",
-    slug: "my-hero-academia",
-    description: "Deku pursues his dream of becoming a hero.",
-    image_url: null,
-    genre: ["Action", "Superhero", "Shonen"],
-    total_questions: 30,
-    is_active: true,
-    content_rating: "E",
-    created_at: "2024-01-01",
+    slug: "my-neighbor-totoro",
+    displayName: "My Neighbor Totoro",
+    contentRating: "E",
+    coverArt: "/images/my-neighbor-totoro.svg",
+    questionsFile: "src/data/questions/my-neighbor-totoro.json",
+    impossibleMigration: "",
+    enabledInVariants: ["full", "kids"],
+    description: "Two sisters meet the gentle forest spirit Totoro.",
+    questionCount: { easy: 0, medium: 0, hard: 0, impossible: 0 },
+    comingSoon: true,
   },
 ];
 
@@ -156,7 +153,7 @@ const TestComponentsPage = () => {
         <h2 className="text-xl font-semibold mb-4">AnimeCard</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {mockAnime.map((anime, i) => (
-            <AnimeCard key={anime.id} anime={anime} index={i} />
+            <AnimeCard key={anime.slug} anime={anime} index={i} />
           ))}
         </div>
       </section>
