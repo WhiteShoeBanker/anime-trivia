@@ -41,7 +41,6 @@ const ANIME_GENRES: Record<TargetSlug, string[]> = {
 };
 
 const DIFFICULTIES = ["easy", "medium", "hard", "impossible"] as const;
-type Difficulty = (typeof DIFFICULTIES)[number];
 
 // Expected per-anime content_rating value in the question JSON (corpus
 // integrity check). Note: content_rating is NOT a column on `questions`
